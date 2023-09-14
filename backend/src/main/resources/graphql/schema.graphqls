@@ -1,0 +1,28 @@
+type Query {
+    userAll: [UserEntity]
+    userById(id: ID): UserEntity
+}
+
+type Mutation {
+    createUser(userDto:UserDto): UserEntity
+}
+
+type UserEntity {
+    id: Int
+    email: String
+    fullName: String
+    presentAddress: String
+    permanentAddress: String
+    gender: String
+    dob: String
+}
+
+input UserDto {
+    id: Int
+    email: String
+    fullName: String
+    presentAddress: String
+    permanentAddress: String
+    gender: String
+    dob: String
+}
