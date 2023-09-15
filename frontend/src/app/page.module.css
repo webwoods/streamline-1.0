@@ -1,0 +1,69 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.container {
+  max-width: 900px;
+}
+
+.hero {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 10rem;
+  min-height: 5rem;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  background-color: var(--dark7);
+  color: var(--gray0);
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.floorPlanImageContainer {
+  object-fit: contain;
+}
+
+.queryContainer {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+/* Enable hover only on non-touch devices */
+/* @media (hover: hover) and (pointer: fine) {
+
+} */
+
+/* @media (prefers-reduced-motion) {
+
+} */
+
+/* Mobile */
+/* @media (max-width: 700px) {
+
+} */
+
+/* Tablet and Smaller Desktop */
+/* @media (min-width: 701px) and (max-width: 1120px) {
+
+} */
+
+/* @media (prefers-color-scheme: dark) {
+
+}
+
+@keyframes rotate {
+
+} */
