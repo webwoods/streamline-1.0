@@ -1,0 +1,59 @@
+
+type Query {
+    userAll: ResponseEntity
+    userById(id: ID!): ResponseEntity
+
+    #    postAll: [Post]!
+    #    postByPostId(id: ID!): Post
+    #    postByUserId(userId: ID!): [Post]
+}
+
+type Mutation {
+    createUser(userDto:UserDto!): ResponseEntity!
+    deleteUser(id :ID!): ResponseEntity
+    #    createPost(userId: Int!, title: String!, description: String!, publishedDate: String!): Post!
+    #    deletePostById(postId:ID):Boolean
+    #email: String,fullName: String,presentAddress: String,permanentAddress: String,gender: String,dob: String
+}
+
+
+type UserEntity {
+    id: Int
+    email: String
+    fullName: String
+    presentAddress: String
+    permanentAddress: String
+    gender: String
+    dob: String
+}
+
+input UserDto {
+    id: Int
+    email: String
+    fullName: String
+    presentAddress: String
+    permanentAddress: String
+    gender: String
+    dob: String
+}
+
+type StandardResponse {
+    code: Int!
+    message: String
+    data : UserEntity
+    datalist: [UserEntity]
+    cusMessage : String
+}
+
+type ResponseEntity{
+    body : StandardResponse
+    status : String
+}
+
+#type Post {
+#    id: Int!
+#    userByUserId: User!
+#    title: String!
+#    description: String!
+#    publishedDate: String!
+#}
