@@ -27,6 +27,10 @@ export class UserService {
     return await this.userRepository.findOne({ where: { username } });
   }
 
+  async findUsersByRoleId(roleId: string): Promise<User[]> {
+    return await this.userRepository.find({ where: { roleId } });
+  }
+
   async updateUser(id: string, input: Partial<User>): Promise<User> {
     await this.userRepository.update(id, input);
     return await this.userRepository.findOne({ where: { id } });

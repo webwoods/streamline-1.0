@@ -27,6 +27,7 @@ type Mutation {
   deleteRequestItem(id: String!): RequestItem!
   deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
+  softDeleteRole(id: String!): Role!
   updateRequestItem(id: String!, input: UpdateRequestItemInput!): RequestItem!
   updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
@@ -40,6 +41,7 @@ type Query {
   roles: [Role!]!
   user(id: String!): User!
   users: [User!]!
+  usersByRole(roleId: String!): [User!]!
 }
 
 type RequestItem {

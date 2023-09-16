@@ -3,10 +3,14 @@ import { CreateRoleInput } from 'src/dto/create.role';
 import { UpdateRoleInput } from 'src/dto/update.role';
 import { Role } from 'src/models/role.entity';
 import { RoleService } from 'src/services/role.service';
+import { UserService } from 'src/services/user.service';
 
 @Resolver(() => Role)
 export class RoleResolver {
-  constructor(private readonly roleService: RoleService) {}
+  constructor(
+    private readonly roleService: RoleService,
+    private readonly userService: UserService,
+  ) {}
 
   @Query(() => Role, { name: 'roleById' })
   async getRoleById(@Args('id') id: string): Promise<Role> {
@@ -38,6 +42,29 @@ export class RoleResolver {
 
   @Mutation(() => Role, { name: 'deleteRole' })
   async deleteRole(@Args('id') id: string): Promise<Role> {
+    /**
+     * fetch all users by roleId and delete them, because
+     * these users cannot exist without the roleId
+     */
+    const users = await this.userService.findUsersByRoleId(id);
+    users.forEach(async (user) => {
+      await this.userService.deleteUser(user.id);
+    });
+    return this.roleService.deleteRole(id);
+  }
+
+  @Mutation(() => Role, { name: 'softDeleteRole' })
+  async softDeleteRole(@Args('id') id: string): Promise<Role> {
+    /**
+     * fetch all users by roleId and set roleId null,
+     * without deleting the user
+     */
+    const users = await this.userService.findUsersByRoleId(id);
+    users.forEach(async (user) => {
+      user.roleId = null;
+      user.role = null;
+      await this.userService.updateUser(id, user);
+    });
     return this.roleService.deleteRole(id);
   }
 }

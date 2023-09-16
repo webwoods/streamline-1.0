@@ -3,7 +3,6 @@ import {
   Query,
   Mutation,
   Args,
-  ID,
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
@@ -35,7 +34,6 @@ export class UserResolver {
   async getUsers(): Promise<User[]> {
     const users = await this.userService.findAllUsers();
     const usersWithRoles: User[] = [];
-
     await Promise.all(
       users.map(async (user) => {
         const role = await this.roleService.findRoleById(user.roleId);
@@ -44,6 +42,20 @@ export class UserResolver {
       }),
     );
 
+    return usersWithRoles;
+  }
+
+  @Query(() => [User], { name: 'usersByRole' })
+  async getUsersByRoleId(@Args('roleId') roleId: string): Promise<User[]> {
+    const users = await this.userService.findUsersByRoleId(roleId);
+    const usersWithRoles: User[] = [];
+    const role = await this.roleService.findRoleById(roleId);
+    await Promise.all(
+      users.map(async (user) => {
+        user.role = role;
+        usersWithRoles.push(user);
+      }),
+    );
     return usersWithRoles;
   }
 
@@ -67,7 +79,13 @@ export class UserResolver {
     @Args('id') id: string,
     @Args('input') input: UpdateUserInput,
   ): Promise<User> {
-    return this.userService.updateUser(id, input);
+    const user = await this.getUserById(id);
+    if (input.roleId) {
+      const role = await this.roleService.findRoleById(input.roleId);
+      user.roleId = input.roleId;
+      user.role = role;
+    }
+    return this.userService.updateUser(id, user);
   }
 
   @Mutation(() => User, { name: 'deleteUser' })
