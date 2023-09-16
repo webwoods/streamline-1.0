@@ -1,14 +1,11 @@
-import { Company } from 'src/company/company.entity';
-import { Interview } from 'src/interview/interview.entity';
-import { Room } from 'src/room/room.entity';
-import { Stall } from 'src/stall/stall.entity';
-import { Student } from 'src/student/student.entity';
-import { User } from 'src/user/user.entity';
+import { RequestItem } from 'src/models/requestItem.entity';
+import { Role } from 'src/models/role.entity';
+import { User } from 'src/models/user.entity';
 import { DataSourceOptions } from 'typeorm';
 
 export function getDbConfig(db: string): DataSourceOptions {
   const dbType = db || process.env.DB || 'postgres';
-  const entities = [User, Company, Interview, Room, Stall, Student];
+  const entities = [User, Role, RequestItem];
 
   const commonConfig: DataSourceOptions = {
     synchronize: false,
@@ -17,7 +14,7 @@ export function getDbConfig(db: string): DataSourceOptions {
     port: Number(process.env.DB_PORT) || 5342,
     username: process.env.DB_USERNAME || 'postgres',
     password: process.env.DB_PASSWORD || 'pwd@kodi',
-    database: process.env.DB_NAME || 'jobjunction',
+    database: process.env.DB_NAME || 'streamline',
     migrationsRun: false,
     migrations: [__dirname + '/migrations/*{.js,.ts}'],
     subscribers: [],

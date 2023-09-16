@@ -2,47 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Company {
-  companyName: String!
-  id: ID!
-  stalls: [Stall!]
-  user: User!
-  userId: ID!
+input CreateRequestItemInput {
+  name: String!
+  type: String!
 }
 
-input CreateCompanyInput {
-  companyName: String!
-  userId: ID
-}
-
-input CreateInterviewInput {
-  interviewDate: DateTime!
-  interviewTime: String!
-  roomId: ID!
-  studentId: ID!
-}
-
-input CreateRoomInput {
-  currentStudent: String
-  interestedStudentIds: [ID!]
-  roomNumber: String!
-  roomStatus: String!
-  stallId: ID!
-}
-
-input CreateStallInput {
-  companyId: ID!
-  floorPlanLocation: String
-  roomId: ID!
-  stallNumber: String!
-}
-
-input CreateStudentInput {
-  interestedRoomIds: [ID!]
-  studentEmail: String!
-  studentId: String!
-  studentName: String!
-  userId: ID
+input CreateRoleInput {
+  division: String
+  name: String!
 }
 
 input CreateUserInput {
@@ -52,119 +19,48 @@ input CreateUserInput {
   username: String!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Interview {
-  id: ID!
-  interviewDate: DateTime!
-  interviewTime: String!
-  room: Room!
-  status: String
-  student: Student!
-}
-
 type Mutation {
-  createCompany(input: CreateCompanyInput!): Company!
-  createInterview(input: CreateInterviewInput!): Interview!
-  createRoom(input: CreateRoomInput!): Room!
-  createStall(input: CreateStallInput!): Stall!
-  createStudent(input: CreateStudentInput!): Student!
+  createRequestItem(input: CreateRequestItemInput!): RequestItem!
+  createRole(input: CreateRoleInput!): Role!
   createUser(input: CreateUserInput!): User!
-  deleteCompany(id: ID!): Company!
-  deleteInterview(id: ID!): Interview!
-  deleteRoom(id: ID!): Room!
-  deleteStall(id: ID!): Stall!
-  deleteStudent(id: ID!): Student!
+  deleteRequestItem(id: String!): RequestItem!
+  deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
-  updateCompany(id: ID!, input: UpdateCompanyInput!): Company!
-  updateInterview(id: ID!, input: UpdateInterviewInput!): Interview!
-  updateRoom(id: ID!, input: UpdateRoomInput!): Room!
-  updateStall(id: ID!, input: UpdateStallInput!): Stall!
-  updateStudent(id: ID!, input: UpdateStudentInput!): Student!
+  updateRequestItem(id: String!, input: UpdateRequestItemInput!): RequestItem!
+  updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
 }
 
 type Query {
-  companies: [Company!]!
-  company(id: ID!): Company!
-  interview(id: ID!): Interview!
-  interviews: [Interview!]!
-  room(id: ID!): Room!
-  rooms: [Room!]!
-  stall(id: ID!): Stall!
-  stalls: [Stall!]!
-  student(id: ID!): Student!
-  students: [Student!]!
+  requestItem(id: String!): RequestItem!
+  requestItems: [RequestItem!]!
+  roleById(id: String!): Role!
+  roleByRoleName(roleName: String!): Role!
+  roles: [Role!]!
   user(id: String!): User!
   users: [User!]!
 }
 
-type Room {
-  currentStudent: String
+type RequestItem {
   id: ID!
-  interestedStudents: Student
-  roomNumber: String!
-  roomStatus: String!
+  name: String!
+  type: String!
 }
 
-type Stall {
-  company: Company!
-  floorPlanLocation: String
+type Role {
+  division: String
   id: ID!
-  stallNumber: String!
+  name: String!
 }
 
-type Student {
-  id: ID!
-  interestedRooms: Room
-  interviews: Interview
-  studentEmail: String!
-  studentId: String!
-  studentName: String!
-  user: User!
-  userId: ID!
+input UpdateRequestItemInput {
+  name: String
+  typpe: String
 }
 
-input UpdateCompanyInput {
-  companyName: String
-  id: ID!
-}
-
-input UpdateInterviewInput {
-  id: ID!
-  interviewDate: DateTime
-  interviewTime: String
-  roomId: ID
-  status: String
-  studentId: ID
-}
-
-input UpdateRoomInput {
-  currentStudent: String
-  id: ID!
-  interestedStudentIds: [ID!]
-  roomNumber: String
-  roomStatus: String
-  stallId: ID
-}
-
-input UpdateStallInput {
-  companyId: ID
-  floorPlanLocation: String
-  id: ID!
-  roomId: ID
-  stallNumber: String
-}
-
-input UpdateStudentInput {
-  id: ID!
-  interestedRoomIds: [ID!]
-  studentEmail: String
-  studentId: String
-  studentName: String
+input UpdateRoleInput {
+  division: String
+  name: String!
 }
 
 input UpdateUserInput {
