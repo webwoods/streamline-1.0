@@ -8,8 +8,8 @@ import {
   Get,
   Request,
 } from '@nestjs/common';
-import { AuthService } from '../services/auth.service';
-import { AuthGuard } from '../guards/auth.guard';
+import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {

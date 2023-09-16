@@ -6,7 +6,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { File } from './file.entity';
+import { File } from 'src/files/file.entity';
+import { User } from 'src/users/user.entity';
 
 @Entity()
 @ObjectType()
@@ -27,4 +28,28 @@ export class Request {
   @JoinColumn({ name: 'file_id', referencedColumnName: 'id' })
   @Field(() => File, { nullable: true })
   file?: File;
+
+  @Column()
+  @Field()
+  requestType: string;
+
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
+  @Field(() => File, { nullable: true })
+  requestedUser: User;
+
+  @Column({ name: 'requested_by', nullable: true })
+  requestedUserId: string;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  description?: string;
+
+  @Column()
+  @Field({ nullable: true })
+  createdAt: Date;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  updatedAt: Date;
 }

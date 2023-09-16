@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { File } from '../models/file.entity';
-import { FileService } from 'src/services/file.service';
-import { CreateFileInput } from 'src/dto/create.file';
-import { UpdateFileInput } from 'src/dto/update.file';
+import { CreateFileInput } from './dto/create.file';
+import { UpdateFileInput } from './dto/update.file';
+import { FileService } from './file.service';
+import {File} from 'src/files/file.entity';
 
 @Resolver(() => File)
 export class FileResolver {

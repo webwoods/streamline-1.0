@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Role } from 'src/roles/role.entity';
 import {
   Column,
   Entity,
@@ -6,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Role } from './role.entity';
+
 
 @Entity()
 @ObjectType()

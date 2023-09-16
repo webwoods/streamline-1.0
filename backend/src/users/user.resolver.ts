@@ -6,12 +6,12 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { User } from '../models/user.entity';
-import { UserService } from '../services/user.service';
-import { CreateUserInput } from '../dto/create.user';
-import { UpdateUserInput } from '../dto/update.user';
-import { Role } from 'src/models/role.entity';
-import { RoleService } from 'src/services/role.service';
+import { User } from '../users/user.entity';
+import { UserService } from './user.service';
+import { CreateUserInput } from '../users/dto/create.user';
+import { UpdateUserInput } from '../users/dto/update.user';
+import { Role } from 'src/roles/role.entity';
+import { RoleService } from 'src/roles/role.service';
 
 @Resolver(() => User)
 export class UserResolver {

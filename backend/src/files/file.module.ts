@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { File } from 'src/models/file.entity';
-import { FileResolver } from 'src/resolvers/file.resolver';
-import { FileService } from 'src/services/file.service';
+import { FileResolver } from './file.resolver';
+import { FileService } from './file.service';
+import { File } from './file.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([File])],

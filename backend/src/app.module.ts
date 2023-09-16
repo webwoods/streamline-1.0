@@ -6,10 +6,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDbConfig } from './common/config/ormconfig';
-import { UserModule } from './modules/user.module';
-import { AuthModule } from './modules/auth.module';
-import { RoleModule } from './modules/role.module';
-import { FileModule } from './modules/file.module';
+import { UserModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
+import { RoleModule } from './roles/role.module';
+import { FileModule } from './files/file.module';
+import { RequestModule } from './requests/request.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { FileModule } from './modules/file.module';
     UserModule,
     RoleModule,
     FileModule,
+    RequestModule,
     // AuthModule,
   ],
   controllers: [AppController],
