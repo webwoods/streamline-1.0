@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, ID, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ID,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { User } from '../models/user.entity';
 import { UserService } from '../services/user.service';
 import { CreateUserInput } from '../dto/create.user';
@@ -8,7 +16,10 @@ import { RoleService } from 'src/services/role.service';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService, private readonly roleService: RoleService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly roleService: RoleService,
+  ) {}
 
   @ResolveField(() => Role, { nullable: true })
   async role(@Parent() user: User): Promise<Role | null> {
@@ -22,17 +33,33 @@ export class UserResolver {
 
   @Query(() => [User], { name: 'users' })
   async getUsers(): Promise<User[]> {
-    return this.userService.findAllUsers();
+    const users = await this.userService.findAllUsers();
+    const usersWithRoles: User[] = [];
+
+    await Promise.all(
+      users.map(async (user) => {
+        const role = await this.roleService.findRoleById(user.roleId);
+        user.role = role;
+        usersWithRoles.push(user);
+      }),
+    );
+
+    return usersWithRoles;
   }
 
   @Mutation(() => User, { name: 'createUser' })
   async createUser(@Args('input') input: CreateUserInput): Promise<User> {
-    const user = await this.userService.createUser(input);
+    const user = new User();
+    user.name = input?.name;
+    user.password = input?.password;
+    user.email = input?.email;
+    user.username = input?.username;
     if (input.roleId) {
       const role = await this.roleService.findRoleById(input.roleId);
+      user.roleId = input.roleId;
       user.role = role;
     }
-    return user;
+    return this.userService.createUser(user);
   }
 
   @Mutation(() => User, { name: 'updateUser' })

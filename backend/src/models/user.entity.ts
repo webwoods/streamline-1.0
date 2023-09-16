@@ -32,10 +32,10 @@ export class User {
   name: string;
 
   @Column({ name: 'role_id', nullable: true })
-  roleId: string;
+  roleId?: string;
 
   @ManyToOne(() => Role, (entity: Role) => entity.id, { nullable: true })
-  @JoinColumn({ name: 'role_id' })
+  @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   @Field(() => Role, { nullable: true })
   role?: Role;
 }
