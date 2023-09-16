@@ -2,9 +2,8 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateRequestItemInput {
-  name: String!
-  type: String!
+input CreateFileInput {
+  name: String
 }
 
 input CreateRoleInput {
@@ -20,22 +19,35 @@ input CreateUserInput {
   username: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type File {
+  created_at: DateTime!
+  id: ID!
+  name: String
+  updated_at: DateTime
+}
+
 type Mutation {
-  createRequestItem(input: CreateRequestItemInput!): RequestItem!
+  createFile(input: CreateFileInput!): File!
   createRole(input: CreateRoleInput!): Role!
   createUser(input: CreateUserInput!): User!
-  deleteRequestItem(id: String!): RequestItem!
+  deleteFile(id: String!): File!
   deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
   softDeleteRole(id: String!): Role!
-  updateRequestItem(id: String!, input: UpdateRequestItemInput!): RequestItem!
+  updateFile(id: String!, input: UpdateFileInput!): File!
   updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
 }
 
 type Query {
-  requestItem(id: String!): RequestItem!
-  requestItems: [RequestItem!]!
+  file(id: String!): File!
+  fileByName(name: String!): File!
+  files: [File!]!
   roleById(id: String!): Role!
   roleByRoleName(roleName: String!): Role!
   roles: [Role!]!
@@ -44,21 +56,14 @@ type Query {
   usersByRole(roleId: String!): [User!]!
 }
 
-type RequestItem {
-  id: ID!
-  name: String!
-  type: String!
-}
-
 type Role {
   division: String
   id: ID!
   name: String!
 }
 
-input UpdateRequestItemInput {
+input UpdateFileInput {
   name: String
-  typpe: String
 }
 
 input UpdateRoleInput {

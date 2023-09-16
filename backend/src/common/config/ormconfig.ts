@@ -1,11 +1,11 @@
-import { RequestItem } from 'src/models/requestItem.entity';
+import { File } from 'src/models/file.entity';
 import { Role } from 'src/models/role.entity';
 import { User } from 'src/models/user.entity';
 import { DataSourceOptions } from 'typeorm';
 
 export function getDbConfig(db: string): DataSourceOptions {
   const dbType = db || process.env.DB || 'postgres';
-  const entities = [User, Role, RequestItem];
+  const entities = [User, Role, File];
 
   const commonConfig: DataSourceOptions = {
     synchronize: false,

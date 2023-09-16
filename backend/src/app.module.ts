@@ -9,7 +9,7 @@ import { getDbConfig } from './common/config/ormconfig';
 import { UserModule } from './modules/user.module';
 import { AuthModule } from './modules/auth.module';
 import { RoleModule } from './modules/role.module';
-import { RequestItemModule } from './modules/requestItem.module';
+import { FileModule } from './modules/file.module';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { RequestItemModule } from './modules/requestItem.module';
 
     UserModule,
     RoleModule,
-    RequestItemModule,
+    FileModule,
     // AuthModule,
   ],
   controllers: [AppController],

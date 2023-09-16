@@ -1,6 +1,12 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { RequestDocument } from './requestDocument.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { File } from './file.entity';
 
 @Entity()
 @ObjectType()
@@ -9,27 +15,16 @@ export class Request {
   @Field(() => ID)
   id: string;
 
-  @Column()
-  @Field()
-  requestedDate: Date;
+  // a file is like a collection of requests
+  @Column({ name: 'file_id', nullable: true })
+  fileId: string;
 
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  description?: string;
-
-  // @Column()
-  // @Field()
-  // requestedBy: User;
-
-  // eg: dorector, labstore, procurement status
-  @Column()
-  @Field()
-  status: string[];
-
-  // document
-  // @Column()
-  // @Field()
-  // document: RequestDocument;
-
-  // tax
+  @ManyToOne(() => File, (entity: File) => entity.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'file_id', referencedColumnName: 'id' })
+  @Field(() => File, { nullable: true })
+  file?: File;
 }

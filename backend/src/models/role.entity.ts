@@ -22,5 +22,5 @@ export class Role {
     onUpdate: 'CASCADE',
     nullable: true,
   })
-  user?: User;
+  users?: User[];
 }
