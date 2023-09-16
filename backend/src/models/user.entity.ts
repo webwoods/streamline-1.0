@@ -34,7 +34,11 @@ export class User {
   @Column({ name: 'role_id', nullable: true })
   roleId?: string;
 
-  @ManyToOne(() => Role, (entity: Role) => entity.id, { onDelete: 'SET NULL', nullable: true })
+  @ManyToOne(() => Role, (entity: Role) => entity.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+    nullable: true,
+  })
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   @Field(() => Role, { nullable: true })
   role?: Role;

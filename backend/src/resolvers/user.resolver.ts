@@ -36,12 +36,12 @@ export class UserResolver {
     const usersWithRoles: User[] = [];
     await Promise.all(
       users.map(async (user) => {
-        const role = await this.roleService.findRoleById(user.roleId);
-        user.role = role;
+        if (user.roleId) {
+          user.role = await this.roleService.findRoleById(user.roleId);
+        }
         usersWithRoles.push(user);
       }),
     );
-
     return usersWithRoles;
   }
 

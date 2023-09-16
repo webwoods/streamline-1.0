@@ -17,6 +17,10 @@ export class Role {
   @Field({ nullable: true })
   division?: string;
 
-  @OneToMany(() => User, (entity: User) => entity.id, { onDelete: 'SET NULL', nullable: true })
-  role?: User;
+  @OneToMany(() => User, (entity: User) => entity.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+    nullable: true,
+  })
+  user?: User;
 }

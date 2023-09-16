@@ -37,6 +37,17 @@ export class RoleResolver {
     @Args('id') id: string,
     @Args('input') input: UpdateRoleInput,
   ): Promise<Role> {
+    /**
+     * fetch all users by roleId and
+     * update role info for these users
+     */
+    const users = await this.userService.findUsersByRoleId(id);
+    users.forEach(async (user) => {
+      user.role = await this.getRoleById(user.roleId);
+      user.role.name = input.name;
+      user.role.division = input.division;
+      await this.userService.updateUser(id, user);
+    });
     return this.roleService.updateRole(id, input);
   }
 
