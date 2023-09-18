@@ -24,6 +24,7 @@
     "@mantine/modals": "^6.0.20",
     "@mantine/notifications": "^6.0.20",
     "@mantine/nprogress": "^6.0.20",
+    "@mantine/prism": "^6.0.20",
     "@mui/icons-material": "^5.14.8",
     "@mui/material": "^5.14.8",
     "@tabler/icons-react": "^2.34.0",
