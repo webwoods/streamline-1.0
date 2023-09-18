@@ -23,6 +23,7 @@ export default function Home() {
           {/* <Users /> */}
           <Companies />
           <Students />
+          {/* <StatsSegments/> */}
         </div>
       </main>
     </>

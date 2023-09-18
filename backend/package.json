@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
+    "@emotion/react": "^11.11.1",
     "@nestjs-query/query-typeorm": "^0.30.0",
     "@nestjs/apollo": "^12.0.7",
     "@nestjs/common": "^10.2.5",
