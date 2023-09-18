@@ -7,6 +7,7 @@ import Header from '@/components/header/header'
 import Stalls from '@/components/stalls/stalls'
 import Students from '@/components/students/students'
 import Users from '@/components/users/users'
+import RectangularBox from './modal'
 
 export default function Home() {
 
@@ -21,8 +22,7 @@ export default function Home() {
           {/* <FloorPlan /> */}
           {/* <Stalls /> */}
           {/* <Users /> */}
-          <Companies />
-          <Students />
+          <RectangularBox />
         </div>
       </main>
     </>
