@@ -1,3 +1,6 @@
+![image](https://github.com/Web-Woods/streamline-procurement/assets/108385778/57fd409c-f4eb-46ff-9550-2e68289096eb)
+
+
 # streamline-procurement
 
 **Install Dependencies and Setup Project**
