@@ -41,6 +41,32 @@
   flex-wrap: wrap;
 }
 
+.stat-card {
+  background-color: rgb(237, 255, 189);
+  padding: 1rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 0.5rem;
+}
+
+.stat-collection {
+  width: 21rem;
+  height: 20.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-value {
+  font-size: 4rem;
+  font-weight: bolder;
+}
+
 /* Enable hover only on non-touch devices */
 /* @media (hover: hover) and (pointer: fine) {
 

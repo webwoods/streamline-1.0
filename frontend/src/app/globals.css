@@ -1,24 +1,50 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --blue8: #3B5BDB;
-  --blue3: #74C0FC;
-  --gray0: #F8F9FA;
-  --dark7: #1A1B1E;
+  --blue8: #3b5bdb;
+  --blue3: #74c0fc;
+  --gray0: #f8f9fa;
+  --dark7: #1a1b1e;
   --gray7: #495057;
+
+  --primary: #f5b22f;
+  --secondary: #ffffff;
+  --tertiary: #292929;
+  --accent-blue: #197dfd;
+  --accent-red: #f94144;
+  --accent-green: #93e409;
+  --accent-yellow: #fbffb7;
+  --accent-black: #f94144;
+  --neutral-light: #d9d9d9;
+  --neutral-mid: #f8f8f8;
+  --neutral-dark: #8e96a3;
+  --alert: #c10a0a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --blue8: #3B5BDB;
-    --blue3: #74C0FC;
-    --gray0: #F8F9FA;
-    --dark7: #1A1B1E;
+    --blue8: #3b5bdb;
+    --blue3: #74c0fc;
+    --gray0: #f8f9fa;
+    --dark7: #1a1b1e;
     --gray7: #495057;
+
+    --primary: #f5b22f;
+    --secondary: #ffffff;
+    --tertiary: #292929;
+    --accent-blue: #197dfd;
+    --accent-red: #f94144;
+    --accent-green: #93e409;
+    --accent-yellow: #fbffb7;
+    --accent-black: #f94144;
+    --neutral-light: #d9d9d9;
+    --neutral-mid: #f8f8f8;
+    --neutral-dark: #8e96a3;
+    --alert: #c10a0a;
   }
 }
 

@@ -2,53 +2,27 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Company {
-  companyName: String!
-  id: ID!
-  stalls: [Stall!]
-  user: User!
-  userId: ID!
+input CreateFileInput {
+  name: String
 }
 
-input CreateCompanyInput {
-  companyName: String!
-  userId: ID
+input CreateRequestInput {
+  description: String
+  fileId: String
+  requestType: String!
+  requestedUserId: String!
 }
 
-input CreateInterviewInput {
-  interviewDate: DateTime!
-  interviewTime: String!
-  roomId: ID!
-  studentId: ID!
-}
-
-input CreateRoomInput {
-  currentStudent: String
-  interestedStudentIds: [ID!]
-  roomNumber: String!
-  roomStatus: String!
-  stallId: ID!
-}
-
-input CreateStallInput {
-  companyId: ID!
-  floorPlanLocation: String
-  roomId: ID!
-  stallNumber: String!
-}
-
-input CreateStudentInput {
-  interestedRoomIds: [ID!]
-  studentEmail: String!
-  studentId: String!
-  studentName: String!
-  userId: ID
+input CreateRoleInput {
+  division: String
+  name: String!
 }
 
 input CreateUserInput {
   email: String!
   name: String
   password: String!
+  roleId: String
   username: String!
 }
 
@@ -57,120 +31,83 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Interview {
+type File {
+  createdAt: DateTime
   id: ID!
-  interviewDate: DateTime!
-  interviewTime: String!
-  room: Room!
-  status: String
-  student: Student!
+  name: String
+  updatedAt: DateTime
 }
 
 type Mutation {
-  createCompany(input: CreateCompanyInput!): Company!
-  createInterview(input: CreateInterviewInput!): Interview!
-  createRoom(input: CreateRoomInput!): Room!
-  createStall(input: CreateStallInput!): Stall!
-  createStudent(input: CreateStudentInput!): Student!
+  createFile(input: CreateFileInput!): File!
+  createRequest(input: CreateRequestInput!): Request!
+  createRole(input: CreateRoleInput!): Role!
   createUser(input: CreateUserInput!): User!
-  deleteCompany(id: ID!): Company!
-  deleteInterview(id: ID!): Interview!
-  deleteRoom(id: ID!): Room!
-  deleteStall(id: ID!): Stall!
-  deleteStudent(id: ID!): Student!
+  deleteFile(id: String!): File!
+  deleteRequest(id: String!): Request!
+  deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
-  updateCompany(id: ID!, input: UpdateCompanyInput!): Company!
-  updateInterview(id: ID!, input: UpdateInterviewInput!): Interview!
-  updateRoom(id: ID!, input: UpdateRoomInput!): Room!
-  updateStall(id: ID!, input: UpdateStallInput!): Stall!
-  updateStudent(id: ID!, input: UpdateStudentInput!): Student!
+  softDeleteRole(id: String!): Role!
+  updateFile(id: String!, input: UpdateFileInput!): File!
+  updateRequest(id: String!, input: UpdateRequestInput!): Request!
+  updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
 }
 
 type Query {
-  companies: [Company!]!
-  company(id: ID!): Company!
-  interview(id: ID!): Interview!
-  interviews: [Interview!]!
-  room(id: ID!): Room!
-  rooms: [Room!]!
-  stall(id: ID!): Stall!
-  stalls: [Stall!]!
-  student(id: ID!): Student!
-  students: [Student!]!
+  file(id: String!): File!
+  fileByName(name: String!): File!
+  files: [File!]!
+  request(id: String!): Request!
+  requestByFileId(fileId: String!): [Request!]!
+  requestByType(requestType: String!): [Request!]!
+  requests: [Request!]!
+  roleById(id: String!): Role!
+  roleByRoleName(roleName: String!): Role!
+  roles: [Role!]!
   user(id: String!): User!
   users: [User!]!
+  usersByRole(roleId: String!): [User!]!
 }
 
-type Room {
-  currentStudent: String
+type Request {
+  createdAt: DateTime
+  description: String
+  file: File
   id: ID!
-  interestedStudents: Student
-  roomNumber: String!
-  roomStatus: String!
+  requestType: String!
+  requestedUser: File
+  updatedAt: DateTime
 }
 
-type Stall {
-  company: Company!
-  floorPlanLocation: String
+type Role {
+  division: String
   id: ID!
-  stallNumber: String!
+  name: String!
 }
 
-type Student {
-  id: ID!
-  interestedRooms: Room
-  interviews: Interview
-  studentEmail: String!
-  studentId: String!
-  studentName: String!
-  user: User!
-  userId: ID!
+input UpdateFileInput {
+  name: String
 }
 
-input UpdateCompanyInput {
-  companyName: String
-  id: ID!
+input UpdateRequestInput {
+  description: String
+  fileId: String
+  requestType: String
+  requestedDate: DateTime
+  requestedUserId: String
 }
 
-input UpdateInterviewInput {
-  id: ID!
-  interviewDate: DateTime
-  interviewTime: String
-  roomId: ID
-  status: String
-  studentId: ID
-}
-
-input UpdateRoomInput {
-  currentStudent: String
-  id: ID!
-  interestedStudentIds: [ID!]
-  roomNumber: String
-  roomStatus: String
-  stallId: ID
-}
-
-input UpdateStallInput {
-  companyId: ID
-  floorPlanLocation: String
-  id: ID!
-  roomId: ID
-  stallNumber: String
-}
-
-input UpdateStudentInput {
-  id: ID!
-  interestedRoomIds: [ID!]
-  studentEmail: String
-  studentId: String
-  studentName: String
+input UpdateRoleInput {
+  division: String
+  name: String!
 }
 
 input UpdateUserInput {
   email: String
   name: String
   password: String
+  roleId: String
   username: String
 }
 
@@ -179,5 +116,6 @@ type User {
   id: ID!
   name: String
   password: String!
+  role: Role
   username: String!
 }
