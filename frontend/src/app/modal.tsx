@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-//import DatePicker from 'react-datepicker';
-//import 'react-datepicker/dist/react-datepicker.css';
 import styles from '@/app/page.module.css'
+import { Input, Select } from '@mantine/core';
+import { DatePicker } from '@mantine/dates';
 
-import { Global } from '@mantine/core';
+
 const RectangularBox = () => {
   const [formData, setFormData] = useState({
     id: '',
-    createdDate: '',
+    createdDate:  '',
     expectedDate: '',
     supplier: '',
     status: '',
     otherField: '',
   });
 
+  const [isCreatedDateOpen, setIsCreatedDateOpen] = useState(false);
+  const [isExpectedDateOpen, setIsExpectedDateOpen] = useState(false);
+  
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
@@ -32,6 +35,14 @@ const RectangularBox = () => {
     // You can access form data using the `formData` state
     console.log(formData);
   };
+  const handleDateChange = (date: any, name: any) => {
+    setFormData({
+      ...formData,
+      [name]: date,
+    });
+  };
+  
+
   return (
     <div className="rectangular-box">
       <div className={styles['modal-header']}>
@@ -43,14 +54,17 @@ const RectangularBox = () => {
         <label className={styles['modal-label']}>Id</label>
         <input type="text" name="id" value={formData.id} onChange={handleChange} />
       </div>
+      
       <div>
-        <label className={styles['modal-label']}>Created Date</label>
-        <input type="text" name="createdDate" value={formData.createdDate} onChange={handleChange} />
+       <label className={styles['modal-label']}>Created Date</label>
+       <input type="text" name="createdDate" value={formData.createdDate} onChange={handleChange} />
       </div>
       <div>
         <label className={styles['modal-label']}>Expected Date</label>
-        <input type="text" name="expectedDate" value={formData.expectedDate} onChange={handleChange} />
-      </div>
+       <input type="text" name="expectedDate" value={formData.expectedDate} onChange={handleChange} />
+       </div> 
+      
+     
       <div>
         <label className={styles['modal-label']}>Supplier</label>
         <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} />
