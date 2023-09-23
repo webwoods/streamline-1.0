@@ -22,7 +22,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: primary,
+    backgroundColor: "var(--accent-blue)",
   },
 
   button: {
