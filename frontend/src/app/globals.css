@@ -11,18 +11,18 @@
   --dark7: #1a1b1e;
   --gray7: #495057;
 
-  --primary: #f5b22f;
-  --secondary: #ffffff;
+  --primary: #F5B22F;
+  --secondary: #FFFFFF; 
   --tertiary: #292929;
-  --accent-blue: #197dfd;
-  --accent-red: #f94144;
-  --accent-green: #93e409;
-  --accent-yellow: #fbffb7;
-  --accent-black: #f94144;
-  --neutral-light: #d9d9d9;
-  --neutral-mid: #f8f8f8;
-  --neutral-dark: #8e96a3;
-  --alert: #c10a0a;
+  --accent-blue: #197DFD;
+  --accent-red: #F94144;
+  --accent-green: #93E409;
+  --accent-yellow: #FBFFB7;
+  --accent-black: #F94144;
+  --neutral-light: #D9D9D9;
+  --neutral-mid: #F8F8F8;
+  --neutral-dark: #8E96A3;
+  --alert: #C10A0A;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,18 +33,18 @@
     --dark7: #1a1b1e;
     --gray7: #495057;
 
-    --primary: #f5b22f;
-    --secondary: #ffffff;
-    --tertiary: #292929;
-    --accent-blue: #197dfd;
-    --accent-red: #f94144;
-    --accent-green: #93e409;
-    --accent-yellow: #fbffb7;
-    --accent-black: #f94144;
-    --neutral-light: #d9d9d9;
-    --neutral-mid: #f8f8f8;
-    --neutral-dark: #8e96a3;
-    --alert: #c10a0a;
+    --primary: #F5B22F;
+  --secondary: #FFFFFF; 
+  --tertiary: #292929;
+  --accent-blue: #197DFD;
+  --accent-red: #F94144;
+  --accent-green: #93E409;
+  --accent-yellow: #FBFFB7;
+  --accent-black: #F94144;
+  --neutral-light: #D9D9D9;
+  --neutral-mid: #F8F8F8;
+  --neutral-dark: #8E96A3;
+  --alert: #C10A0A;
   }
 }
 
@@ -70,3 +70,77 @@ a {
     color-scheme: dark;
   }
 }
+/* RectangularBox.css */
+.rectangular-box {
+  background-color: var(--secondary);
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.rectangular-box h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.rectangular-box div {
+  margin-bottom: 10px;
+}
+
+.rectangular-box label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--dark7);
+
+}
+
+.rectangular-box input[type="text"],
+.rectangular-box select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--neutral-mid);
+  color: var(--dark7);
+}
+
+.rectangular-box select {
+  height: 35px;
+}
+
+/* Styles for the "Cancel" button */
+.rectangular-box button.cancel-button {
+  background-color: var(--neutral-light); /* Red color for Cancel button */
+  color: var(--dark7);
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rectangular-box button.cancel-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+/* Styles for the "Save" button */
+.rectangular-box button.save-button {
+  background-color: var(--dark7); /* Green color for Save button */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rectangular-box button.save-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Add additional CSS styles as needed */
+
+/* Add additional CSS styles as needed for your specific requirements */
+
