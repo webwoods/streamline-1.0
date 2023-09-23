@@ -67,6 +67,21 @@
   font-weight: bolder;
 }
 
+.modal-header{
+  text-align: center;
+}
+
+.modal-header h1{
+  font-size:large;
+}
+.modal-header h2{
+  font-size:small;
+  color: var(--neutral-dark);
+}
+
+.modal-label{
+  font-size: small;
+}
 /* Enable hover only on non-touch devices */
 /* @media (hover: hover) and (pointer: fine) {
 
