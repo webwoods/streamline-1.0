@@ -17,15 +17,24 @@
 
 .row {
     display: flex;
-    justify-content: space-between;
+
+    /* justify-content: space-between; */
     /* Adjust as needed */
     align-items: center;
     /* Adjust as needed */
 }
 
-.component {
-    flex: 1;
-    margin: 10px;
-    /* Adjust as needed */
-    /* Add additional styles for each component as needed */
+.chart-container {
+    background-color: #197DFD;
+    width: 100%;
+    height: 500px;
+}
+
+.custom-container {
+    border-radius: 10px;
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+    width: 500px;
+    height: 400px;
 }

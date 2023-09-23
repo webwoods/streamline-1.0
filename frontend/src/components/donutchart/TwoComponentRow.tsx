@@ -5,9 +5,13 @@ import DonutChart from './dounutchart';
 
 const TwoComponentRow = () => {
     return (
-        <div className={styles.row}>
-            <DonutChart />
-            <StatCollection />
+        <div className={styles['chart-container']}>
+            <div className={styles.row}>
+                <div className={styles['custom-container']}>
+                    <DonutChart />
+                </div>
+                <StatCollection />
+            </div>
         </div>
     );
 };
