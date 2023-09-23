@@ -14,3 +14,18 @@
     font-size: 16px;
     /* Font size */
 }
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    /* Adjust as needed */
+    align-items: center;
+    /* Adjust as needed */
+}
+
+.component {
+    flex: 1;
+    margin: 10px;
+    /* Adjust as needed */
+    /* Add additional styles for each component as needed */
+}

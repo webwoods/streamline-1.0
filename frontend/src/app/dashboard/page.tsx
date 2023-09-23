@@ -1,6 +1,7 @@
 import styles from '@/app/page.module.css'
 import StatCollection from '@/components/dashboard/statCollection'
 import { StatsSegments } from '@/components/dashboard/statsSegments'
+import TwoComponentRow from '@/components/donutchart/TwoComponentRow'
 import DonutChart from '@/components/donutchart/dounutchart'
 
 export default function Dashboard() {
@@ -15,8 +16,7 @@ export default function Dashboard() {
           color: 'string',
         }]} /> */}
 
-        <StatCollection />
-        <DonutChart />
+        <TwoComponentRow/>
       </main>
     </>
   )
