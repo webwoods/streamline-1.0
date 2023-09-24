@@ -31,6 +31,8 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
     "class-transformer": "^0.5.1",
+    "gql-generator": "^1.0.19",
+    "gql-query-builder": "^3.8.0",
     "graphql": "^16.8.0",
     "mysql2": "^3.6.1",
     "pg": "^8.11.3",
