@@ -25,8 +25,8 @@ import { RequestModule } from './requests/request.module';
 
     UserModule,
     RoleModule,
-    FileModule,
-    RequestModule,
+    // FileModule,
+    // RequestModule,
     // AuthModule,
   ],
   controllers: [AppController],

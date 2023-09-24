@@ -6,7 +6,7 @@ import { RoleResolver } from './role.resolver';
 import { RoleService } from './role.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Role]), forwardRef(() => UserModule)],
+  imports: [TypeOrmModule.forFeature([Role])],
   providers: [RoleResolver, RoleService],
   exports: [RoleService],
 })

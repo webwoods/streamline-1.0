@@ -10,34 +10,62 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser(input: Partial<User>): Promise<User> {
-    const user = this.userRepository.create(input);
-    return await this.userRepository.save(user);
-  }
-
   async findAllUsers(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      relations: {
+        role: true,
+      },
+    });
   }
 
   async findUserById(id: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOne({
+      relations: {
+        role: true,
+      },
+      where: { id },
+    });
   }
 
   async findUserByUsername(username: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { username } });
+    return await this.userRepository.findOne({
+      relations: {
+        role: true,
+      },
+      where: { username },
+    });
   }
 
-  async findUsersByRoleId(roleId: string): Promise<User[]> {
-    return await this.userRepository.find({ where: { roleId } });
+  async createUser(input: Partial<User>): Promise<User> {
+    console.log(input);
+    const user = this.userRepository.create(input);
+    console.log(user);
+    const createdUser = await this.userRepository.save(user);
+    return await this.userRepository.findOne({
+      relations: {
+        role: true,
+      },
+      where: { id: createdUser.id },
+    });
   }
 
   async updateUser(id: string, input: Partial<User>): Promise<User> {
     await this.userRepository.update(id, input);
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOne({
+      relations: {
+        role: true,
+      },
+      where: { id },
+    });
   }
 
   async deleteUser(id: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { id } });
+    const user = await this.userRepository.findOne({
+      relations: {
+        role: true,
+      },
+      where: { id },
+    });
     await this.userRepository.delete(id);
     return user;
   }

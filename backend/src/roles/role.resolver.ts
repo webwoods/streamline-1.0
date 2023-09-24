@@ -1,17 +1,14 @@
-import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 import { RoleService } from 'src/roles/role.service';
-import { UserService } from 'src/users/user.service';
-import { CreateRoleInput } from './dto/create.role';
+import { CreateRoleInput, CreateRolesInput } from './dto/create.role';
 import { UpdateRoleInput } from './dto/update.role';
 import { Role } from './role.entity';
+import { UserRoles } from './enum/role';
 
 @Resolver(() => Role)
 export class RoleResolver {
-  constructor(
-    private readonly roleService: RoleService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly roleService: RoleService) {}
 
   @Query(() => Role, { name: 'roleById' })
   async getRoleById(@Args('id') id: string): Promise<Role> {
@@ -19,7 +16,9 @@ export class RoleResolver {
   }
 
   @Query(() => Role, { name: 'roleByRoleName' })
-  async getRoleByRoleName(@Args('roleName') roleName: string): Promise<Role> {
+  async getRoleByRoleName(
+    @Args('roleName') roleName: UserRoles,
+  ): Promise<Role> {
     return this.roleService.findRoleByRolename(roleName);
   }
 
@@ -33,50 +32,31 @@ export class RoleResolver {
     return this.roleService.createRole(input);
   }
 
+  @Mutation(() => [Role], { name: 'createRoles' })
+  async createRoles(@Args('inputs') input: CreateRolesInput): Promise<Role[]> {
+    const roles: Role[] = [];
+
+    // Use `Promise.all` to run multiple asynchronous operations concurrently
+    await Promise.all(
+      input.roles.map(async (roleData) => {
+        const createdRole = await this.roleService.createRole(roleData);
+        roles.push(createdRole); // Push the created role into the roles array
+      }),
+    );
+
+    return roles;
+  }
+
   @Mutation(() => Role, { name: 'updateRole' })
   async updateRole(
     @Args('id') id: string,
     @Args('input') input: UpdateRoleInput,
   ): Promise<Role> {
-    /**
-     * fetch all users by roleId and
-     * update role info for these users
-     */
-    const users = await this.userService.findUsersByRoleId(id);
-    users.forEach(async (user) => {
-      user.role = await this.getRoleById(user.roleId);
-      user.role.name = input.name;
-      user.role.division = input.division;
-      await this.userService.updateUser(id, user);
-    });
     return this.roleService.updateRole(id, input);
   }
 
   @Mutation(() => Role, { name: 'deleteRole' })
   async deleteRole(@Args('id') id: string): Promise<Role> {
-    /**
-     * fetch all users by roleId and delete them, because
-     * these users cannot exist without the roleId
-     */
-    const users = await this.userService.findUsersByRoleId(id);
-    users.forEach(async (user) => {
-      await this.userService.deleteUser(user.id);
-    });
-    return this.roleService.deleteRole(id);
-  }
-
-  @Mutation(() => Role, { name: 'softDeleteRole' })
-  async softDeleteRole(@Args('id') id: string): Promise<Role> {
-    /**
-     * fetch all users by roleId and set roleId null,
-     * without deleting the user
-     */
-    const users = await this.userService.findUsersByRoleId(id);
-    users.forEach(async (user) => {
-      user.roleId = null;
-      user.role = null;
-      await this.userService.updateUser(id, user);
-    });
     return this.roleService.deleteRole(id);
   }
 }
