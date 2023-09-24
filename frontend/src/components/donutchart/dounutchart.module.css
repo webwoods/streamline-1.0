@@ -17,7 +17,6 @@
 
 .row {
     display: flex;
-
     /* justify-content: space-between; */
     /* Adjust as needed */
     align-items: center;
@@ -43,7 +42,7 @@
     background-color: white;
     padding: 20px;
     margin: 20px;
-    width: 50%;
+    width: 60%;
     height: 400px;
 }
 
@@ -58,7 +57,7 @@
 
 .text-dounut-chart-48 {
     color: black;
-    font-size: 100;
+    font-size: 48px;
     font-weight: bold;
 
 }
