@@ -8,7 +8,7 @@ import {
 } from '@nestjs/graphql';
 import { User } from '../users/user.entity';
 import { UserService } from './user.service';
-import { CreateUserInput } from '../users/dto/create.user';
+import { CreateUserInput, CreateUsersInput } from '../users/dto/create.user';
 import { UpdateUserInput } from '../users/dto/update.user';
 import { Role } from 'src/roles/role.entity';
 import { RoleService } from 'src/roles/role.service';
@@ -27,51 +27,48 @@ export class UserResolver {
 
   @Query(() => User, { name: 'user' })
   async getUserById(@Args('id') id: string): Promise<User> {
-    return this.userService.findUserById(id);
+    try {
+      const user = await this.userService.findUserById(id);
+      if (!user) {
+        throw new Error(`User with ID ${id} not found`);
+      }
+      return user;
+    } catch (error) {
+      throw new Error(`Error fetching user: ${error.message}`);
+    }
   }
 
   @Query(() => [User], { name: 'users' })
   async getUsers(): Promise<User[]> {
-    const users = await this.userService.findAllUsers();
-    const usersWithRoles: User[] = [];
-    await Promise.all(
-      users.map(async (user) => {
-        if (user.roleId) {
-          user.role = await this.roleService.findRoleById(user.roleId);
-        }
-        usersWithRoles.push(user);
-      }),
-    );
-    return usersWithRoles;
-  }
-
-  @Query(() => [User], { name: 'usersByRole' })
-  async getUsersByRoleId(@Args('roleId') roleId: string): Promise<User[]> {
-    const users = await this.userService.findUsersByRoleId(roleId);
-    const usersWithRoles: User[] = [];
-    const role = await this.roleService.findRoleById(roleId);
-    await Promise.all(
-      users.map(async (user) => {
-        user.role = role;
-        usersWithRoles.push(user);
-      }),
-    );
-    return usersWithRoles;
+    try {
+      return await this.userService.findAllUsers();
+    } catch (error) {
+      throw new Error(`Error fetching users: ${error.message}`);
+    }
   }
 
   @Mutation(() => User, { name: 'createUser' })
   async createUser(@Args('input') input: CreateUserInput): Promise<User> {
-    const user = new User();
-    user.name = input?.name;
-    user.password = input?.password;
-    user.email = input?.email;
-    user.username = input?.username;
-    if (input.roleId) {
-      const role = await this.roleService.findRoleById(input.roleId);
-      user.roleId = input.roleId;
-      user.role = role;
+    try {
+      return await this.userService.createUser(input);
+    } catch (error) {
+      throw new Error(`Error creating user: ${error.message}`);
     }
-    return this.userService.createUser(user);
+  }
+
+  @Mutation(() => [User], { name: 'createUsers' })
+  async createUsers(@Args('inputs') input: CreateUsersInput): Promise<User[]> {
+    try {
+      const users: User[] = await Promise.all(
+        input.users.map(async (userData) => {
+          const createdUser = await this.userService.createUser(userData);
+          return createdUser;
+        }),
+      );
+      return users;
+    } catch (error) {
+      throw new Error(`Error creating users: ${error.message}`);
+    }
   }
 
   @Mutation(() => User, { name: 'updateUser' })
@@ -79,17 +76,19 @@ export class UserResolver {
     @Args('id') id: string,
     @Args('input') input: UpdateUserInput,
   ): Promise<User> {
-    const user = await this.getUserById(id);
-    if (input.roleId) {
-      const role = await this.roleService.findRoleById(input.roleId);
-      user.roleId = input.roleId;
-      user.role = role;
+    try {
+      return await this.userService.updateUser(id, input);
+    } catch (error) {
+      throw new Error(`Error updating user: ${error.message}`);
     }
-    return this.userService.updateUser(id, user);
   }
 
   @Mutation(() => User, { name: 'deleteUser' })
   async deleteUser(@Args('id') id: string): Promise<User> {
-    return this.userService.deleteUser(id);
+    try {
+      return await this.userService.deleteUser(id);
+    } catch (error) {
+      throw new Error(`Error deleting user: ${error.message}`);
+    }
   }
 }
