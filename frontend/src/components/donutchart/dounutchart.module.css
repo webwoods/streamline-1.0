@@ -24,10 +24,18 @@
     /* Adjust as needed */
 }
 
+.chart-donut {
+    width: 400px;
+    height: 400px;
+    align-items: center;
+    padding-left: 20%;
+}
+
 .chart-container {
     background-color: #197DFD;
     width: 100%;
-    height: 500px;
+    height: 600px;
+
 }
 
 .custom-container {
@@ -35,6 +43,22 @@
     background-color: white;
     padding: 20px;
     margin: 20px;
-    width: 500px;
+    width: 50%;
     height: 400px;
+}
+
+.text-dounut-chart {
+    color: black;
+    font-weight: bold;
+}
+
+.text-dounut-chart-subtitle {
+    color: black;
+}
+
+.text-dounut-chart-48 {
+    color: black;
+    font-size: 100;
+    font-weight: bold;
+
 }

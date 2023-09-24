@@ -1,7 +1,11 @@
 'use client'
+
+
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement } from 'chart.js';
+import { styled } from '@mui/material';
+import styles from './dounutchart.module.css'
 
 Chart.register(ArcElement);
 
@@ -28,7 +32,7 @@ function DonutChart() {
   };
 
   return (
-    <div>
+    <div className={styles['chart-donut']}>
       <Doughnut options={options} data={data} />
     </div>
   );
