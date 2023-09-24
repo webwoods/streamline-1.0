@@ -7,8 +7,9 @@
   "author": "kodiidok <sahan.crkodituwakku@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "chart.js": "^4.4.0",
-    "react-chartjs-2": "^5.2.0",
+    "react-icon": "^1.0.0",
+    "react-icons": "^4.11.0",
+    "react-sf-building-blocks": "^1.0.87",
     "typescript": "^5.2.2"
   }
 }
