@@ -1,0 +1,14 @@
+{
+  "name": "streamline",
+  "version": "1.0.0",
+  "description": "erp",
+  "main": "index.js",
+  "repository": "https://github.com/Web-Woods/streamline-procurement.git",
+  "author": "kodiidok <sahan.crkodituwakku@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "react-chartjs-2": "^5.2.0",
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,0 +1,121 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateFileInput {
+  name: String
+}
+
+input CreateRequestInput {
+  description: String
+  fileId: String
+  requestType: String!
+  requestedUserId: String!
+}
+
+input CreateRoleInput {
+  division: String
+  name: String!
+}
+
+input CreateUserInput {
+  email: String!
+  name: String
+  password: String!
+  roleId: String
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type File {
+  createdAt: DateTime
+  id: ID!
+  name: String
+  updatedAt: DateTime
+}
+
+type Mutation {
+  createFile(input: CreateFileInput!): File!
+  createRequest(input: CreateRequestInput!): Request!
+  createRole(input: CreateRoleInput!): Role!
+  createUser(input: CreateUserInput!): User!
+  deleteFile(id: String!): File!
+  deleteRequest(id: String!): Request!
+  deleteRole(id: String!): Role!
+  deleteUser(id: String!): User!
+  softDeleteRole(id: String!): Role!
+  updateFile(id: String!, input: UpdateFileInput!): File!
+  updateRequest(id: String!, input: UpdateRequestInput!): Request!
+  updateRole(id: String!, input: UpdateRoleInput!): Role!
+  updateUser(id: String!, input: UpdateUserInput!): User!
+}
+
+type Query {
+  file(id: String!): File!
+  fileByName(name: String!): File!
+  files: [File!]!
+  request(id: String!): Request!
+  requestByFileId(fileId: String!): [Request!]!
+  requestByType(requestType: String!): [Request!]!
+  requests: [Request!]!
+  roleById(id: String!): Role!
+  roleByRoleName(roleName: String!): Role!
+  roles: [Role!]!
+  user(id: String!): User!
+  users: [User!]!
+  usersByRole(roleId: String!): [User!]!
+}
+
+type Request {
+  createdAt: DateTime
+  description: String
+  file: File
+  id: ID!
+  requestType: String!
+  requestedUser: File
+  updatedAt: DateTime
+}
+
+type Role {
+  division: String
+  id: ID!
+  name: String!
+}
+
+input UpdateFileInput {
+  name: String
+}
+
+input UpdateRequestInput {
+  description: String
+  fileId: String
+  requestType: String
+  requestedDate: DateTime
+  requestedUserId: String
+}
+
+input UpdateRoleInput {
+  division: String
+  name: String!
+}
+
+input UpdateUserInput {
+  email: String
+  name: String
+  password: String
+  roleId: String
+  username: String
+}
+
+type User {
+  email: String!
+  id: ID!
+  name: String
+  password: String!
+  role: Role
+  username: String!
+}
