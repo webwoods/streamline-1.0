@@ -2,6 +2,7 @@
 import { CacheProvider } from "@emotion/react";
 import { useEmotionCache, MantineProvider } from "@mantine/core";
 import { useServerInsertedHTML } from "next/navigation";
+import { NextUIProvider } from "@nextui-org/react";
 
 export default function RootStyleRegistry({
   children
@@ -24,9 +25,11 @@ export default function RootStyleRegistry({
 
   return (
     <CacheProvider value={cache}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        {children}
-      </MantineProvider>
+      <NextUIProvider>
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+          {children}
+        </MantineProvider>
+      </NextUIProvider>
     </CacheProvider>
   )
 }
