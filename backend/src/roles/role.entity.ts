@@ -16,7 +16,7 @@ export class Role {
   id: string;
 
   @Column({ unique: true })
-  @Field((type) => UserRoles)
+  @Field(type => UserRoles)
   name: UserRoles;
 
   @Column({ nullable: true })

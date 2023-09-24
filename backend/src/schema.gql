@@ -16,7 +16,6 @@ input CreateUserInput {
   name: String
   password: String!
   roleId: String
-  roleName: UserRoles
   username: String!
 }
 
@@ -59,6 +58,7 @@ type Role {
   division: String
   id: ID!
   name: UserRoles!
+  users: [User!]
 }
 
 input UpdateRoleInput {
@@ -71,7 +71,6 @@ input UpdateUserInput {
   name: String
   password: String
   roleId: String
-  roleName: UserRoles
   username: String
 }
 

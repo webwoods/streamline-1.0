@@ -17,28 +17,43 @@ export class RoleService {
   }
 
   async findAllRoles(): Promise<Role[]> {
-    return await this.roleRepository.find();
+    return await this.roleRepository.find({ relations: { users: true } });
   }
 
   async findRoleById(id: string): Promise<Role> {
-    return await this.roleRepository.findOne({ where: { id } });
+    return await this.roleRepository.findOne({
+      relations: { users: true },
+      where: { id },
+    });
   }
 
   async findRolesByDivision(division: string): Promise<Role[]> {
-    return await this.roleRepository.find({ where: { division } });
+    return await this.roleRepository.find({
+      relations: { users: true },
+      where: { division },
+    });
   }
 
   async findRoleByRolename(name: UserRoles): Promise<Role> {
-    return await this.roleRepository.findOne({ where: { name } });
+    return await this.roleRepository.findOne({
+      relations: { users: true },
+      where: { name },
+    });
   }
 
   async updateRole(id: string, input: Partial<Role>): Promise<Role> {
     await this.roleRepository.update(id, input);
-    return await this.roleRepository.findOne({ where: { id } });
+    return await this.roleRepository.findOne({
+      relations: { users: true },
+      where: { id },
+    });
   }
 
   async deleteRole(id: string): Promise<Role> {
-    const role = await this.roleRepository.findOne({ where: { id } });
+    const role = await this.roleRepository.findOne({
+      relations: { users: true },
+      where: { id },
+    });
     await this.roleRepository.delete(id);
     return role;
   }
