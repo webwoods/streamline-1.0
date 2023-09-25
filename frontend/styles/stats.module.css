@@ -1,0 +1,55 @@
+.stat-card {
+  background-color: var(--secondary);
+  padding: 1rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-card:hover {
+  background-color: var(--accent-yellow);
+}
+
+.stat-card:hover .icon-circle {
+  background-color: var(--secondary);
+  color: var(--primary);
+}
+
+.stat-card:hover .stat-value {
+  color: var(--primary);
+}
+
+.stat-collection {
+  max-width: 30.1rem;
+  width: 100%;
+  height: 30.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.05rem;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat h5 {
+  max-width: 5rem;
+  font-size: large;
+  line-height: 1.2rem;
+}
+
+.stat-value {
+  font-size: 6rem;
+  font-weight: 500;
+}
+
+.icon-circle {
+  background-color: var(--accent-blue);
+  padding: 0.5rem;
+  border-radius: 100%;
+}
