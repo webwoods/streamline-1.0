@@ -1,18 +1,24 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Role } from 'src/roles/role.entity';
 import {
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
+import { v4 as uuidv4 } from 'uuid';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 @ObjectType()
 export class User {
-  @PrimaryGeneratedColumn()
+  constructor() {
+    this.id = uuidv4();
+  }
+
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string;
 
@@ -28,19 +34,19 @@ export class User {
   @Field()
   password: string;
 
+  @BeforeInsert() async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
   @Column({ nullable: true })
   @Field({ nullable: true })
   name: string;
 
-  @Column({ name: 'role_id', nullable: true })
-  roleId?: string;
+  @ManyToOne(type => Role)
+  @JoinColumn({ name: 'roleId', referencedColumnName: 'id' })
+  @Field(type => Role, { nullable: true })
+  role: Role;
 
-  @ManyToOne(() => Role, (entity: Role) => entity.id, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-    nullable: true,
-  })
-  @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
-  @Field(() => Role, { nullable: true })
-  role?: Role;
+  @Column({ nullable: true })
+  roleId: string;
 }
