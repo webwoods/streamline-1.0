@@ -38,3 +38,10 @@ yarn start:dev
 # go to frontend folder and run
 yarn dev:new
 ```
+
+
+yarn add chart.js react-chartjs-2
+yarn add @mantine/core @mantine/hooks @mantine/form @mantine/dates dayjs @mantine/notifications @mantine/code-highlight @mantine/tiptap @tabler/icons-react @tiptap/react @tiptap/extension-link @tiptap/starter-kit @mantine/dropzone @mantine/carousel embla-carousel-react @mantine/spotlight @mantine/modals @mantine/nprogress
+
+
+yarn add @mui/icons-material

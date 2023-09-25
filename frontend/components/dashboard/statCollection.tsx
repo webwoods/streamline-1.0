@@ -1,4 +1,4 @@
-import styles from '@/app/page.module.css'
+import styles from '@/styles/page.module.css'
 import Stat from './stat'
 
 export default function StatCollection() {

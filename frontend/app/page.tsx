@@ -6,6 +6,7 @@ import { button as buttonStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
+import TwoComponentRow from "@/components/donutchart/TwoComponentRow";
 
 export default function Home() {
 	return (
@@ -49,6 +50,8 @@ export default function Home() {
 					</span>
 				</Snippet>
 			</div>
+			<TwoComponentRow />
+
 		</section>
 	);
 }
