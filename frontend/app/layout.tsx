@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "@/styles/fonts.module.css";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { Providers } from "./providers";
@@ -28,11 +29,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head>
-				<style>
-					@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
-				</style>
-			</head>
+			<head/>
 			<body style={{
 				fontFamily: 'Readex Pro'
 			}}>

@@ -4,8 +4,7 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement } from 'chart.js';
-import { styled } from '@mui/material';
-import styles from './dounutchart.module.css'
+import styles from '@/styles/dounutchart.module.css';
 
 Chart.register(ArcElement);
 
@@ -26,7 +25,6 @@ function DonutChart() {
   };
 
   const options = {
-    // maintainAspectRatio: false,
     circumference: 180,
     rotation: -90,
   };

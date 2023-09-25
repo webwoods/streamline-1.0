@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './dounutchart.module.css'
+import styles from '@/styles/dounutchart.module.css'
 import DonutChart from './dounutchart'
 
 function DounutChartandFull() {
