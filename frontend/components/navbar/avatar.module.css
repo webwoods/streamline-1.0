@@ -1,0 +1,79 @@
+.userProfileButton {
+    display: inline-block;
+    position: relative;
+    flex-direction: row;
+  }
+
+  .userProfileButton .avatarButton{
+    display: flex;
+    background-color: #f0f0f0;
+    border: none;
+    color: black;
+    padding: 3px;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 40px;
+  }
+
+  .expanded.avatarButton {
+    flex-direction: row;
+    display: flex;   
+    padding: 4px;
+    gap: 10px;
+  } 
+
+  .infoContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: row; 
+    gap: 10px;
+  }
+
+  .profileButton,
+  .logoutButton {
+    background-color: transparent;
+    color: gray;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px 0;
+    cursor: pointer;
+  }
+
+  .avatar {
+    width: 45px;
+    height: 45px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .logo{
+    width: 65px;
+    height: 40px;
+    padding-right: 10px;
+  }
+
+  .profileButton:hover,
+  .logoutButton:hover {
+    background-color: transparent;
+    color: black;
+  }
+
+  .namePosition{
+    padding-right: 7px;
+  }
+
+  .name{
+    font-size: smaller;
+    font-weight: bold;
+  }
+
+  .position{
+    font-size: x-small;
+  }
+
+  .buttonsContainer{
+    display: flex;
+    align-items: center;
+    color: gray;
+  }
