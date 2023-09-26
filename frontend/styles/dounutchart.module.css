@@ -18,7 +18,7 @@
 }
 
 .chart-donut {
-    width: 300px;
+    width: 400px;
 }
 
 .chart-container {
@@ -27,6 +27,7 @@
 
 .chart-outer-container {
     position: relative;
+    padding-left: 20%; 
 }
 
 .custom-container {
@@ -34,7 +35,8 @@
     width: 100%;
     border-radius: 1rem;
     background-color: white;
-    padding: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
     height: 30.2rem;
 }
 

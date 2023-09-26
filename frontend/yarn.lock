@@ -645,7 +645,7 @@
     "@react-types/button" "^3.7.4"
     "@react-types/shared" "^3.19.0"
 
-"@nextui-org/button@2.0.21":
+"@nextui-org/button@2.0.21", "@nextui-org/button@^2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@nextui-org/button/-/button-2.0.21.tgz#bdaa2c31b4dd6962e6c0daef3adff4d33a56dfe6"
   integrity sha512-Y0iSrRdyALe0paImTwhtkLSbdXBhxJxqUUcIxUK20DQiG2ZFO+UL4DsrshOox7D7HpDpbf7Pn/5Lwm04skrc3Q==
@@ -1323,7 +1323,7 @@
     clsx "^1.2.1"
     tailwind-variants "^0.1.14"
 
-"@nextui-org/system@2.0.10":
+"@nextui-org/system@2.0.10", "@nextui-org/system@^2.0.10":
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/@nextui-org/system/-/system-2.0.10.tgz#70eb3f0435013234bcc5257c3331d194fe88d867"
   integrity sha512-5F6739zMOYSYR5CM/N8FQsRlQn8yCKiU5VNNPFkk022P5cA2NZXrhZ08mQSmFw2BU7OWxa/ieLivjDptKcRozQ==
@@ -1409,7 +1409,7 @@
     tailwind-variants "^0.1.14"
     tailwindcss "^3.2.7"
 
-"@nextui-org/theme@2.1.9":
+"@nextui-org/theme@2.1.9", "@nextui-org/theme@^2.1.9":
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/@nextui-org/theme/-/theme-2.1.9.tgz#509da2e47bff35fafc974e675a3210caae7deab7"
   integrity sha512-DmSv6yWb8zp3dQ4ic5XDWGc1rNjEOPphrfc5E4tzUZqgsLisNjr2Gm3bMzM51Kquepv8OzYojoaB2nO2zmI6mw==
@@ -3542,7 +3542,7 @@ fraction.js@^4.2.0:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.6.tgz#e9e3acec6c9a28cf7bc36cbe35eea4ceb2c5c92d"
   integrity sha512-n2aZ9tNfYDwaHhvFTkhFErqOMIb8uyzSQ+vGJBjZyanAKZVbGUQ1sngfk9FdkBw7G26O7AgNjLcecLffD1c7eg==
 
-framer-motion@^10.16.2:
+framer-motion@^10.16.4:
   version "10.16.4"
   resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.16.4.tgz#30279ef5499b8d85db3a298ee25c83429933e9f8"
   integrity sha512-p9V9nGomS3m6/CALXqv6nFGMuFOxbWsmaOrdmhyQimMIlLl3LC7h7l86wge/Js/8cRu5ktutS/zlzgR7eBOtFA==

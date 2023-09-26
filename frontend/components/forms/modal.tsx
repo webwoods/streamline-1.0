@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styles from '@/app/page.module.css'
-import { Input, Select } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
 
 
 const RectangularBox = () => {

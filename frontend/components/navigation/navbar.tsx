@@ -1,6 +1,5 @@
 import UserProfileButton from "@/components/navigation/userProfileButton"
 import styles from '@/styles/navigation.module.css'
-import { Notification } from "./notification";
 
 export default function Navbar() {
   const tabs = ['Dashboard', 'Request', 'Files'];
