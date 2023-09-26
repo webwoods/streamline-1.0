@@ -12,6 +12,7 @@ import { CreateUserInput, CreateUsersInput } from '../users/dto/create.user';
 import { UpdateUserInput } from '../users/dto/update.user';
 import { Role } from 'src/roles/role.entity';
 import { RoleService } from 'src/roles/role.service';
+import { UsersWithCount } from './dto/read.user';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -38,10 +39,13 @@ export class UserResolver {
     }
   }
 
-  @Query(() => [User], { name: 'users' })
-  async getUsers(): Promise<User[]> {
+  @Query(() => UsersWithCount, { name: 'users' })
+  async getUsers(): Promise<UsersWithCount> {
     try {
-      return await this.userService.findAllUsers();
+      const queryResult = new UsersWithCount();
+      queryResult.data = await this.userService.findAllUsers();
+      queryResult.totalItems = queryResult.data.length;
+      return queryResult;
     } catch (error) {
       throw new Error(`Error fetching users: ${error.message}`);
     }

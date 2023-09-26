@@ -37,9 +37,7 @@ export class UserService {
   }
 
   async createUser(input: Partial<User>): Promise<User> {
-    console.log(input);
     const user = this.userRepository.create(input);
-    console.log(user);
     const createdUser = await this.userRepository.save(user);
     return await this.userRepository.findOne({
       relations: {

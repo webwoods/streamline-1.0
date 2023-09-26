@@ -51,7 +51,7 @@ type Query {
   roleByRoleName(roleName: String!): Role!
   roles: [Role!]!
   user(id: String!): User!
-  users: [User!]!
+  users: UsersWithCount!
 }
 
 type Role {
@@ -89,4 +89,9 @@ enum UserRoles {
   EMPLOYEE
   PROCUREMENT_STAFF
   STORE_STAFF
+}
+
+type UsersWithCount {
+  data: [User!]
+  totalItems: Float!
 }
