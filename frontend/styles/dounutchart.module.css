@@ -1,5 +1,6 @@
 .chartcontainer {
-    position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .top-left-text {
@@ -14,7 +15,10 @@
     justify-content: space-between;
     gap: 0.5rem;
     align-items: center;
-    padding: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .chart-donut {
@@ -23,6 +27,8 @@
 
 .chart-container {
     background-color: #197DFD;
+    display: flex;
+    justify-content: center;
 }
 
 .chart-outer-container {

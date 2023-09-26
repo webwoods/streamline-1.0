@@ -17,7 +17,6 @@
   background-color: var(--secondary);
   color: var(--primary);
 }
-
 .stat-card:hover .stat-value {
   color: var(--primary);
 }
