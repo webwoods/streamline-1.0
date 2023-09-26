@@ -25,7 +25,14 @@ function DonutChart() {
 
   const options = {
     circumference: 180,
-    rotation: -90,
+    rotation: -90, plugins: {
+      legend: {
+        display: true,
+        labels: {
+          color: 'rgb(255, 99, 132)'
+        }
+      }
+    }
   };
 
   return (
