@@ -1,0 +1,112 @@
+.userProfileButton {
+  display: inline-block;
+  position: relative;
+  flex-direction: row;
+}
+
+.userProfileButton .avatarButton {
+  display: flex;
+  border: none;
+  color: black;
+  padding: 3px;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 40px;
+  background-color: var(--secondary);
+}
+
+.expanded.avatarButton {
+  flex-direction: row;
+  display: flex;
+  padding: 4px;
+  gap: 10px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: 0.5rem;
+}
+
+.user-info .name {
+  font-weight: bold;
+  font-size: medium;
+  line-height: 1.4;
+}
+
+.user-info .position {
+  font-size: smaller;  
+  font-weight: 500;
+  line-height: 1;
+}
+
+.profileButton,
+.logoutButton {
+  background-color: transparent;
+  color: gray;
+  border: none;
+  padding: 5px 10px;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.ww-navbar {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: var(--accent-blue);
+}
+
+.ww-navbar-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ww-navbar-item {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 2rem;
+  background-color: var(--secondary);
+}
+
+.ww-navbar-item:hover {
+  background-color: var(--tertiary);
+  color: var(--secondary);
+}
+
+.logo {
+  padding-right: 0.2rem;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+  padding: 0.2rem;
+}
+.profileButton:hover,
+.logoutButton:hover {
+  background-color: transparent;
+  color: black;
+}
+
+.buttonsContainer {
+  display: flex;
+  align-items: center;
+  color: gray;
+}
