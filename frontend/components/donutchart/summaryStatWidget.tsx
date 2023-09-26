@@ -6,7 +6,7 @@ import DounutChartandFull from './dounutchartandfull';
 const SummaryStatWidget = () => {
     return (
         <div className={styles['chart-container']}>
-            <div className={styles['row']}>
+            <div className={styles['row-chart-and-stats']}>
                 <div className={styles['custom-container']}>
                     <DounutChartandFull />
                 </div>
