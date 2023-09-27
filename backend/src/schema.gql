@@ -51,7 +51,7 @@ type Query {
   roleByRoleName(roleName: String!): Role!
   roles: [Role!]!
   user(id: String!): User!
-  users: UsersWithCount!
+  users(page: Int! = 1, pageSize: Int! = 10): UsersWithCount!
 }
 
 type Role {
