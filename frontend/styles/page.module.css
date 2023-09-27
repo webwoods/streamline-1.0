@@ -1,13 +1,18 @@
-.main {
+.layout {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
 }
 
 .container {
   max-width: 900px;
+}
+
+.page-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .hero {

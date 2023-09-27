@@ -60,11 +60,18 @@
 
 .ww-navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding-top: 30px;
   padding-left: 30px;
   padding-right: 30px;
   background-color: var(--accent-blue);
+}
+
+.ww-navbar-layout {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
 }
 
 .ww-navbar-items {

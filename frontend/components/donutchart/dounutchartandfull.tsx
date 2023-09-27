@@ -4,17 +4,9 @@ import DonutChart from './dounutchart'
 
 function DounutChartandFull() {
     return (
-        <div>
-            <div>
-                <div className={styles['text-dounut-chart']}>All Time Requests</div>
-                <div className={styles['text-dounut-chart-subtitle']}>Gas, Lab Euipment and Equipment Maintanance</div>
-                <div className={styles['text-dounut-chart-48']}>331</div>
-            </div>
-            <div className={styles['chart-outer-container']}>
-                <DonutChart />
-            </div>
+        <div className={styles['chart-outer-container']}>
+            <DonutChart />
         </div>
-
     )
 }
 
