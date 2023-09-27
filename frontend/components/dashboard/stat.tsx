@@ -12,14 +12,27 @@ export interface StatProps {
 export default function Stat({ props }: StatProps) {
 
   return (
-    <div className={styles['stat-card']}>
-      <div className={styles['stat']}>
-        <h5>{props.title}</h5>
-        <div className={styles['icon-circle']}>
-        <ThumbsUp size={36} />
+    <div className={styles['stat-container']}>
+      <div className={styles['stat-card']}>
+        <div className={styles['stat']}>
+          <h5>{props.title}</h5>
+          <div className={styles['icon-circle']}>
+            <ThumbsUp size={36} />
+          </div>
         </div>
+        <span className={styles['stat-value']}>{props.value}</span>
       </div>
-      <span className={styles['stat-value']}>{props.value}</span>
+
+      {/* mobile only */}
+      <div className={styles['stat-card-mobile']}>
+        <div className={styles['stat-mobile']}>
+          <h5>{props.title}</h5>
+          <div className={styles['icon-circle']}>
+            <ThumbsUp size={20} />
+          </div>
+        </div>
+        <span className={styles['stat-value']}>{props.value}</span>
+      </div>
     </div>
   )
 }
