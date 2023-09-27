@@ -55,7 +55,7 @@
 
 @media (max-width: 1200px) {
   .stat-card {
-    height: 10rem;
+    height: 15rem;
   }
   .stat-collection {
     max-width: none;
