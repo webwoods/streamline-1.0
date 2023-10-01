@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './roles/role.module';
 import { FileModule } from './files/file.module';
 import { RequestModule } from './requests/request.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { RequestModule } from './requests/request.module';
 
     UserModule,
     RoleModule,
+    FileModule,
     // FileModule,
     // RequestModule,
     // AuthModule,
