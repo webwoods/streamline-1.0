@@ -5,20 +5,18 @@ import {
   Args,
   ResolveField,
   Parent,
+  Int,
 } from '@nestjs/graphql';
 import { User } from '../users/user.entity';
 import { UserService } from './user.service';
 import { CreateUserInput, CreateUsersInput } from '../users/dto/create.user';
 import { UpdateUserInput } from '../users/dto/update.user';
 import { Role } from 'src/roles/role.entity';
-import { RoleService } from 'src/roles/role.service';
+import { UsersWithCount } from 'src/users/dto/read.user';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(
-    private readonly userService: UserService,
-    private readonly roleService: RoleService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @ResolveField(() => Role, { nullable: true })
   async role(@Parent() user: User): Promise<Role | null> {
@@ -38,10 +36,15 @@ export class UserResolver {
     }
   }
 
-  @Query(() => [User], { name: 'users' })
-  async getUsers(): Promise<User[]> {
+  @Query(() => UsersWithCount, { name: 'users' })
+  async getUsers(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<UsersWithCount> {
     try {
-      return await this.userService.findAllUsers();
+      const skip = (page - 1) * pageSize;
+      const [data, _] = await this.userService.findAllUsers(skip, pageSize); // data is queried as [User[], number]
+      return { data, totalItems: data.length }
     } catch (error) {
       throw new Error(`Error fetching users: ${error.message}`);
     }

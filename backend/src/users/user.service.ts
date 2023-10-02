@@ -10,12 +10,15 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAllUsers(): Promise<User[]> {
-    return await this.userRepository.find({
+  async findAllUsers(skip: number, take: number): Promise<[User[], number]> {
+    const [data, total] = await this.userRepository.findAndCount({
+      skip,
+      take,
       relations: {
         role: true,
       },
     });
+    return [data, total];
   }
 
   async findUserById(id: string): Promise<User> {
@@ -37,9 +40,7 @@ export class UserService {
   }
 
   async createUser(input: Partial<User>): Promise<User> {
-    console.log(input);
     const user = this.userRepository.create(input);
-    console.log(user);
     const createdUser = await this.userRepository.save(user);
     return await this.userRepository.findOne({
       relations: {

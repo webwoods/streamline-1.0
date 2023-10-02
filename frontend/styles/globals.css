@@ -1,3 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  /* --font-mono: "Cascadia Mono", ui-monospace, Menlo, Monaco, "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace; */
+
+  --blue8: #3b5bdb;
+  --blue3: #74c0fc;
+  --gray0: #f8f9fa;
+  --dark7: #1a1b1e;
+  --gray7: #495057;
+  --green7: #009776;
+  --primary: #f5b22f;
+  --primary-trans: #f5b32f2a;
+  --secondary: #ffffff;
+  --tertiary: #292929;
+  --accent-blue: #197dfd;
+  --accent-blue-trans: #197cfd18;
+  --accent-red: #f94144;
+  --accent-green: #93e409;
+  --accent-green-trans: #94e40960;
+  --accent-yellow: #fbffb7;
+  --accent-black: #f94144;
+  --neutral-light: #d9d9d9;
+  --neutral-mid: #f8f8f8;
+  --neutral-dark: #8e96a3;
+  --alert: #c10a0a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --blue8: #3b5bdb;
+    --blue3: #74c0fc;
+    --gray0: #f8f9fa;
+    --dark7: #1a1b1e;
+    --gray7: #495057;
+    --primary: #f5b22f;
+    --secondary: #ffffff;
+    --tertiary: #292929;
+    --accent-blue: #197dfd;
+    --accent-red: #f94144;
+    --accent-green: #93e409;
+    --accent-yellow: #fbffb7;
+    --accent-black: #f94144;
+    --neutral-light: #d9d9d9;
+    --neutral-mid: #f8f8f8;
+    --neutral-dark: #8e96a3;
+    --alert: #c10a0a;
+  }
+}
