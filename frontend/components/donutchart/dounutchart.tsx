@@ -1,5 +1,6 @@
 'use client'
 
+
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement } from 'chart.js';
@@ -25,14 +26,7 @@ function DonutChart() {
 
   const options = {
     circumference: 180,
-    rotation: -90, plugins: {
-      legend: {
-        display: true,
-        labels: {
-          color: 'rgb(255, 99, 132)'
-        }
-      }
-    }
+    rotation: -90,
   };
 
   return (

@@ -38,8 +38,3 @@ yarn start:dev
 # go to frontend folder and run
 yarn dev:new
 ```
-
-yarn add chart.js react-chartjs-2
-yarn add @nextui-org/react framer-motion
-yarn add @nextui-org/react
-

@@ -9,6 +9,17 @@
   justify-content: center;
 }
 
+.stat-card-mobile {
+  background-color: var(--secondary);
+  padding: 1rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .stat-card:hover {
   background-color: var(--accent-yellow);
 }
@@ -17,8 +28,19 @@
   background-color: var(--secondary);
   color: var(--primary);
 }
-
 .stat-card:hover .stat-value {
+  color: var(--primary);
+}
+
+.stat-card-mobile:hover {
+  background-color: var(--accent-yellow);
+}
+
+.stat-card-mobile:hover .icon-circle {
+  background-color: var(--secondary);
+  color: var(--primary);
+}
+.stat-card-mobile:hover .stat-value {
   color: var(--primary);
 }
 
@@ -52,4 +74,77 @@
   background-color: var(--accent-blue);
   padding: 0.5rem;
   border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* phone */
+@media screen and (max-width: 767px) {
+  .stat-card-mobile {
+    height: 5rem;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+  }
+  .stat-card {
+    display: none;
+  }
+  .stat-collection {
+    max-width: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 20.2rem;
+    gap: 0.1rem;
+  }
+  .stat {
+    justify-content: flex-start;
+  }
+  .stat h5 {
+    font-size: medium;
+    line-height: 1rem;
+  }
+  .stat-value {
+    font-size: 3rem;
+    font-weight: 500;
+    line-height: 2.1rem;
+  }
+  .stat-container {
+    width: 100%;
+  }
+  .icon-circle {
+    max-width: 35px;
+  }
+}
+
+/* tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .stat-card {
+    height: 15rem;
+    width: 99%;
+  }
+  .stat-collection {
+    max-width: none;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 14.0rem;
+  }
+  .stat-card-mobile {
+    display: none;
+  }
+  .stat {
+    width: 100%;
+  }
+  .stat-container {
+    width: 100%;
+  }
+}
+
+/* desktop */
+@media screen and (min-width: 1024px) {
+  .stat-card-mobile {
+    display: none;
+  }
 }

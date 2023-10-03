@@ -7,13 +7,6 @@
   "author": "kodiidok <sahan.crkodituwakku@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@nextui-org/button": "^2.0.21",
-    "@nextui-org/react": "^2.1.13",
-    "@nextui-org/system": "^2.0.10",
-    "@nextui-org/theme": "^2.1.9",
-    "chart.js": "^4.4.0",
-    "framer-motion": "^10.16.4",
-    "react-chartjs-2": "^5.2.0",
     "react-icon": "^1.0.0",
     "react-icons": "^4.11.0",
     "react-sf-building-blocks": "^1.0.87",

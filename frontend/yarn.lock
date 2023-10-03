@@ -312,32 +312,6 @@
   dependencies:
     tslib "^2.4.0"
 
-"@fortawesome/fontawesome-common-types@6.4.2":
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.4.2.tgz#1766039cad33f8ad87f9467b98e0d18fbc8f01c5"
-  integrity sha512-1DgP7f+XQIJbLFCTX1V2QnxVmpLdKdzzo2k8EmvDOePfchaIGQ9eCHj2up3/jNEbZuBqel5OxiaOJf37TWauRA==
-
-"@fortawesome/fontawesome-svg-core@^6.4.2":
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.4.2.tgz#37f4507d5ec645c8b50df6db14eced32a6f9be09"
-  integrity sha512-gjYDSKv3TrM2sLTOKBc5rH9ckje8Wrwgx1CxAPbN5N3Fm4prfi7NsJVWd1jklp7i5uSCVwhZS5qlhMXqLrpAIg==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "6.4.2"
-
-"@fortawesome/free-solid-svg-icons@^6.4.2":
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.4.2.tgz#33a02c4cb6aa28abea7bc082a9626b7922099df4"
-  integrity sha512-sYwXurXUEQS32fZz9hVCUUv/xu49PEJEyUOsA51l6PU/qVgfbTb2glsTEaJngVVT8VqBATRIdh7XVgV1JF1LkA==
-  dependencies:
-    "@fortawesome/fontawesome-common-types" "6.4.2"
-
-"@fortawesome/react-fontawesome@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.2.0.tgz#d90dd8a9211830b4e3c08e94b63a0ba7291ddcf4"
-  integrity sha512-uHg75Rb/XORTtVt7OS9WoK8uM276Ufi7gCzshVWkUJbHhh3svsUUeqXerrM96Wm7fRiDzfKRwSoahhMIkGAYHw==
-  dependencies:
-    prop-types "^15.8.1"
-
 "@graphql-typed-document-node/core@^3.1.1":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
@@ -671,7 +645,7 @@
     "@react-types/button" "^3.7.4"
     "@react-types/shared" "^3.19.0"
 
-"@nextui-org/button@2.0.21", "@nextui-org/button@^2.0.21":
+"@nextui-org/button@2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@nextui-org/button/-/button-2.0.21.tgz#bdaa2c31b4dd6962e6c0daef3adff4d33a56dfe6"
   integrity sha512-Y0iSrRdyALe0paImTwhtkLSbdXBhxJxqUUcIxUK20DQiG2ZFO+UL4DsrshOox7D7HpDpbf7Pn/5Lwm04skrc3Q==
@@ -1349,7 +1323,7 @@
     clsx "^1.2.1"
     tailwind-variants "^0.1.14"
 
-"@nextui-org/system@2.0.10", "@nextui-org/system@^2.0.10":
+"@nextui-org/system@2.0.10":
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/@nextui-org/system/-/system-2.0.10.tgz#70eb3f0435013234bcc5257c3331d194fe88d867"
   integrity sha512-5F6739zMOYSYR5CM/N8FQsRlQn8yCKiU5VNNPFkk022P5cA2NZXrhZ08mQSmFw2BU7OWxa/ieLivjDptKcRozQ==
@@ -1435,7 +1409,7 @@
     tailwind-variants "^0.1.14"
     tailwindcss "^3.2.7"
 
-"@nextui-org/theme@2.1.9", "@nextui-org/theme@^2.1.9":
+"@nextui-org/theme@2.1.9":
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/@nextui-org/theme/-/theme-2.1.9.tgz#509da2e47bff35fafc974e675a3210caae7deab7"
   integrity sha512-DmSv6yWb8zp3dQ4ic5XDWGc1rNjEOPphrfc5E4tzUZqgsLisNjr2Gm3bMzM51Kquepv8OzYojoaB2nO2zmI6mw==
@@ -2470,9 +2444,9 @@
   integrity sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==
 
 "@types/node@*":
-  version "20.6.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.6.4.tgz#7882cb8b8adc3106c352dac9c02d4d3ebb95cf3e"
-  integrity sha512-nU6d9MPY0NBUMiE/nXd2IIoC4OLvsLpwAjheoAeuzgvDZA1Cb10QYg+91AF6zQiKWRN5i1m07x6sMe0niBznoQ==
+  version "20.6.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.6.5.tgz#4c6a79adf59a8e8193ac87a0e522605b16587258"
+  integrity sha512-2qGq5LAOTh9izcc0+F+dToFigBWiK1phKPt7rNhOqJSr35y8rlIBjDwGtFSgAI6MGIhjwOVNSQZVdJsZJ2uR1w==
 
 "@types/node@20.5.7":
   version "20.5.7"
@@ -2485,9 +2459,9 @@
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
 "@types/prop-types@*":
-  version "15.7.6"
-  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.6.tgz#bbf819813d6be21011b8f5801058498bec555572"
-  integrity sha512-RK/kBbYOQQHLYj9Z95eh7S6t7gq4Ojt/NT8HTk8bWVhA5DaF+5SMnxHKkP4gPNN3wAZkKP+VjAf0ebtYzf+fxg==
+  version "15.7.7"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.7.tgz#f9361f7b87fd5d8188b2c998db0a1f47e9fb391a"
+  integrity sha512-FbtmBWCcSa2J4zL781Zf1p5YUBXQomPEcep9QZCfRfQgTxz3pJWiDFLebohZ9fFntX5ibzOkSsrJ0TEew8cAog==
 
 "@types/prop-types@^15.7.5":
   version "15.7.7"
@@ -2873,9 +2847,9 @@ camelcase-css@^2.0.1:
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
 caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001520, caniuse-lite@^1.0.30001538:
-  version "1.0.30001538"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001538.tgz#9dbc6b9af1ff06b5eb12350c2012b3af56744f3f"
-  integrity sha512-HWJnhnID+0YMtGlzcp3T9drmBJUVDchPJ08tpUGFLs9CYlwWPH2uLgpHn8fND5pCgXVtnGS3H4QR9XLMHVNkHw==
+  version "1.0.30001539"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001539.tgz#325a387ab1ed236df2c12dc6cd43a4fff9903a44"
+  integrity sha512-hfS5tE8bnNiNvEOEkm8HElUHroYwlqMMENEzELymy77+tJ6m+gA2krtHl5hxJaj71OlpC2cHZbdSMX1/YEqEkA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -3568,7 +3542,7 @@ fraction.js@^4.2.0:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.6.tgz#e9e3acec6c9a28cf7bc36cbe35eea4ceb2c5c92d"
   integrity sha512-n2aZ9tNfYDwaHhvFTkhFErqOMIb8uyzSQ+vGJBjZyanAKZVbGUQ1sngfk9FdkBw7G26O7AgNjLcecLffD1c7eg==
 
-framer-motion@^10.16.4:
+framer-motion@^10.16.2:
   version "10.16.4"
   resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.16.4.tgz#30279ef5499b8d85db3a298ee25c83429933e9f8"
   integrity sha512-p9V9nGomS3m6/CALXqv6nFGMuFOxbWsmaOrdmhyQimMIlLl3LC7h7l86wge/Js/8cRu5ktutS/zlzgR7eBOtFA==
