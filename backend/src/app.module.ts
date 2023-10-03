@@ -9,7 +9,7 @@ import { getDbConfig } from './common/config/ormconfig';
 import { UserModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './roles/role.module';
-import { FileModule } from './files/file.module';
+// import { FileModule } from './files/file.module';
 import { RequestModule } from './requests/request.module';
 import { FileModule } from './file/file.module';
 
