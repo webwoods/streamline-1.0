@@ -5,7 +5,7 @@ import {Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, Navba
 import UserProfileButton from "./userProfileButton";
 import ModalNotification from "./modalNotification";
 
-export function NavTest() {
+export function MainNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const tabs = ['Dashboard', 'Request', 'Files'];
   const menuItems = ['Dashboard', 'Request', 'Files'];
