@@ -61,6 +61,41 @@
 .modal-label{
   font-size: small;
 }
+
+/* Styling for the form container */
+.form-container {
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Styling for the components */
+.component {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* Styling for labels and dropdowns */
+.label, .select {
+  margin-right: 10px;
+}
+
+/* Styling for the button */
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
 /* Enable hover only on non-touch devices */
 /* @media (hover: hover) and (pointer: fine) {
 
