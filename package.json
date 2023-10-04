@@ -7,9 +7,17 @@
   "author": "kodiidok <sahan.crkodituwakku@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@apollo/federation": "^0.38.1",
+    "@apollo/subgraph": "^2.5.5",
+    "@nestjs/common": "^10.2.6",
+    "@nestjs/graphql": "^12.0.9",
+    "@nestjs/microservices": "^10.2.6",
+    "@types/amqplib": "^0.10.2",
+    "amqplib": "^0.10.3",
     "react-icon": "^1.0.0",
     "react-icons": "^4.11.0",
     "react-sf-building-blocks": "^1.0.87",
+    "typeorm": "^0.3.17",
     "typescript": "^5.2.2"
   }
 }

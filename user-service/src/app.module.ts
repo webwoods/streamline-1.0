@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDbConfig } from './common/config/ormconfig';
 import { UserModule } from './users/user.module';
 import { RoleModule } from './roles/role.module';
+import { AuthModule } from './auth/auth.module';
+import { VerificationCodesModule } from './verification-codes/verification-codes.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { RoleModule } from './roles/role.module';
 
     UserModule,
     RoleModule,
+    AuthModule,
+    VerificationCodesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

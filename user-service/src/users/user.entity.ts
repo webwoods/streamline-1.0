@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { Role } from 'src/roles/role.entity';
 import {
   BeforeInsert,
@@ -6,23 +6,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
-import { StreamLineEntity } from 'src/core/streamline.entity';
+import { StreamLineEntity } from '../../../libs/core/src/entities/streamline.entity';
+import { VerificationCode } from 'src/verification-codes/verification-codes.entity';
 
 @Entity()
 @ObjectType()
 export class User extends StreamLineEntity {
-  // constructor() {
-  //   this.id = uuidv4();
-  // }
-
-  // @PrimaryGeneratedColumn('uuid')
-  // @Field(() => ID)
-  // id: string;
-
   @Column()
   @Field()
   username: string;
@@ -32,7 +24,7 @@ export class User extends StreamLineEntity {
   email: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   password: string;
 
   @BeforeInsert() async hashPassword() {
@@ -50,4 +42,15 @@ export class User extends StreamLineEntity {
 
   @Column({ nullable: true })
   roleId: string;
+
+  @Column({ type: 'boolean', default: false })
+  @Field({ defaultValue: false })
+  verified: boolean;
+
+  @OneToMany(
+    (type) => VerificationCode,
+    (verificationCode) => verificationCode.user,
+  )
+  @Field((type) => [VerificationCode])
+  verificationCodes: VerificationCode[];
 }
