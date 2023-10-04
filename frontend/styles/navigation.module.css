@@ -2,7 +2,7 @@
   display: inline-block;
   position: relative;
   flex-direction: row;
-  padding-right: 5px;
+  padding-right: 0px;
 }
 
 .userProfileButton .avatarButton {
@@ -68,6 +68,10 @@
   background-color: var(--accent-blue);
 }
 
+.ww-navbar-test {
+  background-color: blueviolet;
+}
+
 .ww-navbar-layout {
   display: flex;
   justify-content: space-between;
@@ -82,6 +86,15 @@
   gap: 0.5rem;
 }
 
+.ww-navbar-items-mobile {
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-start; */
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
 .ww-navbar-item {
   padding-top: 0.3rem;
   padding-bottom: 0.3rem;
@@ -91,7 +104,22 @@
   background-color: var(--secondary);
 }
 
+.ww-navbar-item-mobile {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 2rem;
+  background-color: var(--secondary);
+  width: 10rem;
+}
+
 .ww-navbar-item:hover {
+  background-color: var(--tertiary);
+  color: var(--secondary);
+}
+
+.ww-navbar-item-mobile:hover {
   background-color: var(--tertiary);
   color: var(--secondary);
 }
@@ -113,25 +141,29 @@
   color: black;
 }
 
+.menu-icon {
+  display: none;
+}
+
 .buttonsContainer {
   display: flex;
   align-items: center;
   color: gray;
 }
 
-.notificationButton {
+.notification-button {
   position: relative;
   display: flex; 
 }
 
-.notificationIcon {
+.notification-icon {
   background-color: transparent;
   border: none;
   cursor: pointer;
   color: aliceblue;
 }
 
-.notificationCount {
+.notification-count {
   background-color: red;
   color: white;
   border-radius: 50%;
@@ -142,7 +174,7 @@
   font-size: 12px;
 }
 
-.notificationDropdown {
+.notification-dropdown {
   position: absolute;
   top: 100%;
   right: 0;
@@ -158,3 +190,52 @@
   display: flex;
 }
 
+
+/* phone */
+@media screen and (max-width: 767px) {
+  .user-info {
+    display: none;
+  }
+  .logo {
+    display: none;
+    padding-right: 0;
+  }
+  .avatar {
+    margin-right: 0;
+  }
+  .ww-navbar-items {
+    display: none;
+  }
+  .menu-icon {
+    display: block;
+    align-items: center;
+  }
+  /* .notification-navbar{
+    display : flex;
+    align-items: center;
+  }
+  .notification-icon{
+    display: flex;
+  } */
+  /* .notification-button{
+    display: none;
+  } */
+}
+
+/* tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .ww-navbar-items {
+    display: none;
+  }
+  .menu-icon {
+    display: block;
+    align-self: center;
+  }
+}
+
+/* desktop */
+@media screen and (min-width: 1024px) {
+  .ww-navbar-items-mobile {
+    display: none;
+  }
+}

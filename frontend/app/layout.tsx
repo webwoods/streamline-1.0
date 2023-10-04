@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { Providers } from "./providers";
 import Navbar from "@/components/navigation/navbar";
+import { NavTest } from "@/components/navigation/navbartest";
 
 export const metadata: Metadata = {
 	title: {
@@ -35,7 +36,8 @@ export default function RootLayout({
 			}}>
 				<Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
 					<div className="relative flex flex-col h-screen">
-						<Navbar />
+						{/* <Navbar /> */}
+						<NavTest/>
 						<main>
 							{children}
 						</main>

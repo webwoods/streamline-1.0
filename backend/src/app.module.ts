@@ -12,6 +12,7 @@ import { RoleModule } from './roles/role.module';
 import { FileModule } from './files/file.module';
 import { RequestModule } from './requests/request.module';
 
+
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -25,6 +26,7 @@ import { RequestModule } from './requests/request.module';
 
     UserModule,
     RoleModule,
+    FileModule,
     // FileModule,
     // RequestModule,
     // AuthModule,

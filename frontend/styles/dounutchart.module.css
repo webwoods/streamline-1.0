@@ -12,6 +12,19 @@
 
 .row {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.row-mobile {
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 0.5rem;
   align-items: center;
@@ -28,6 +41,7 @@
 .chart-container {
   background-color: #197dfd;
   display: flex;
+  padding: 2rem;
   justify-content: center;
 }
 
@@ -67,12 +81,55 @@
   font-weight: bold;
 }
 
-@media (max-width: 1200px) {
+/* phone */
+@media screen and (max-width: 767px) {
+  .row-mobile{
+    flex-direction: column;
+    width: 100%;
+  }
+  .row {
+    display: none;
+  }
+  .chart-container {
+    padding: 2rem;
+    height: auto;
+  }
+  .chart-donut {
+    width: 250px;
+  }
+  .custom-container {
+    height: 10rem;
+  }
+}
+
+/* tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
   .row {
     flex-direction: column;
     width: 100%;
   }
   .chart-container {
     padding: 2rem;
+  }
+  .chart-donut {
+    margin-top: -5rem;
+    width: 400px;
+  }
+  .row-mobile {
+    display: none;
+  }
+}
+
+/* desktop */
+@media screen and (min-width: 1024px) {
+  .row {
+    flex-direction: row;
+  }
+  .chart-donut {
+    width: 500px;
+    margin-top: -8rem;
+  }
+  .row-mobile {
+    display: none;
   }
 }
