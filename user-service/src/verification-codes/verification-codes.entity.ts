@@ -21,7 +21,10 @@ export class VerificationCode extends StreamLineEntity {
   @Field()
   userId: string;
 
-  @ManyToOne(() => User, (user) => user.verificationCodes)
+  @ManyToOne(() => User, (user) => user.verificationCodes, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 

@@ -29,9 +29,9 @@ export class VerificationCodesService {
     });
   }
 
-  async findVerificationCodeByUserId(userId: string): Promise<VerificationCode> {
+  async findVerificationCodesByUserId(userId: string): Promise<VerificationCode[]> {
     try {
-      return await this.verificationCodeRepository.findOne({
+      return await this.verificationCodeRepository.find({
         relations: { user: true },
         where: { userId },
         order: {

@@ -17,4 +17,7 @@ export class UpdateUserInput {
 
   @Field({ nullable: true })
   roleId?: string;
+
+  @Field({ nullable: true })
+  verified: boolean;
 }

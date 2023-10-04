@@ -44,7 +44,6 @@ export class AuthResolver {
   async registerNewUser(@Args('input') input: CreateUserInput): Promise<any> {
     try {
       const result = await this.authService.registerNewUser(input);
-      console.log(result);
       const success = new RegisterNewUserSuccess(result.newUser, result.verificationToken);
       return success;
     } catch (error) {

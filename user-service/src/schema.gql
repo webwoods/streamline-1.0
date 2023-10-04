@@ -93,6 +93,7 @@ input UpdateUserInput {
   password: String
   roleId: String
   username: String
+  verified: Boolean
 }
 
 type User {

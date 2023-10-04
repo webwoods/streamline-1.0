@@ -91,6 +91,7 @@ export class AuthService {
       return new NotFoundException();
     }
 
+
     // check if the current user data exists in the database
     const user = await this.userService.findUserByUsername(input.username);
     if (!user) {
@@ -99,13 +100,12 @@ export class AuthService {
     // verification codes are sorted when the user is queried
     // the latest verification code for a particular user
     // can be obtained from the first verification code
-    if (!user.verificationCodes[0]) {
+    if (!user.verificationCodes) {
       throw new Error('No verification codes saved for this user!');
     }
 
     // check if verification codes match
-    const match = bcrypt.compare(input.verificationToken, user.verificationCodes[0].code);
-    if (!match) {
+    if (user.verificationCodes[0].code !== input.verificationToken) {
       throw new Error('Invalid verification code! Try again.');
     }
 
