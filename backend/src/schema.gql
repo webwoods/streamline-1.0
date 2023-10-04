@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateFileInput {
+  name: String
+}
+
 input CreateRoleInput {
   division: String
   name: UserRoles!
@@ -36,17 +40,23 @@ type File {
 }
 
 type Mutation {
+  createFile(input: CreateFileInput!): File!
   createRole(input: CreateRoleInput!): Role!
   createRoles(inputs: CreateRolesInput!): [Role!]!
   createUser(input: CreateUserInput!): User!
   createUsers(inputs: CreateUsersInput!): [User!]!
+  deleteFile(id: String!): File!
   deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
+  updateFile(id: String!, input: UpdateFileInput!): File!
   updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
 }
 
 type Query {
+  file(id: String!): File!
+  fileByName(name: String!): File!
+  files: [File!]!
   roleById(id: String!): Role!
   roleByRoleName(roleName: String!): Role!
   roles: [Role!]!
@@ -61,6 +71,10 @@ type Role {
   name: UserRoles!
   updatedAt: DateTime
   users: [User!]
+}
+
+input UpdateFileInput {
+  name: String
 }
 
 input UpdateRoleInput {
