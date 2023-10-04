@@ -2,6 +2,7 @@
   display: inline-block;
   position: relative;
   flex-direction: row;
+  padding-right: 0px;
 }
 
 .userProfileButton .avatarButton {
@@ -67,6 +68,10 @@
   background-color: var(--accent-blue);
 }
 
+.ww-navbar-test {
+  background-color: blueviolet;
+}
+
 .ww-navbar-layout {
   display: flex;
   justify-content: space-between;
@@ -84,7 +89,7 @@
 .ww-navbar-items-mobile {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   justify-content: space-between;
   gap: 0.5rem;
   margin-top: 0.5rem;
@@ -146,6 +151,46 @@
   color: gray;
 }
 
+.notification-button {
+  position: relative;
+  display: flex; 
+}
+
+.notification-icon {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: aliceblue;
+}
+
+.notification-count {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 8px;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 12px;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+  padding: 8px;
+  min-width: 200px;
+  z-index: 1;
+}
+
+.notification-navbar{
+  display: flex;
+}
+
+
 /* phone */
 @media screen and (max-width: 767px) {
   .user-info {
@@ -165,6 +210,16 @@
     display: block;
     align-items: center;
   }
+  /* .notification-navbar{
+    display : flex;
+    align-items: center;
+  }
+  .notification-icon{
+    display: flex;
+  } */
+  /* .notification-button{
+    display: none;
+  } */
 }
 
 /* tablet */
