@@ -67,4 +67,8 @@ export class AuthResolver {
       return new Error(`Error verifying user: ${error}`);
     }
   }
+
+  // implement a method to issue refresh tokens
+
+  // implement a method to issue session tokens
 }

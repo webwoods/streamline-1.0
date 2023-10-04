@@ -35,11 +35,7 @@ const REGISTER_NEW_USER = gql`
     $password: string
   ) {
     registerNewUser(
-      input: {
-        email: $email
-        password: $password
-        username: $user
-      }
+      input: { email: $email, password: $password, username: $user }
     ) {
       __typename
       ... on RegisterNewUserSuccess {
@@ -60,6 +56,33 @@ const REGISTER_NEW_USER = gql`
       }
       ... on PasswordMismatchError {
         message
+      }
+    }
+  }
+`;
+
+const VERIFY_USER = gql`
+  mutation VerifyUser($username: string, $token: string) {
+    verifyUser(input: { username: $string, verificationToken: $token }) {
+      __typename
+      ... on VerificationSuccess {
+        me {
+          email
+          id
+          name
+          role {
+            division
+            id
+            name
+          }
+          updatedAt
+          username
+          verificationCodes {
+            code
+            id
+          }
+          verified
+        }
       }
     }
   }
