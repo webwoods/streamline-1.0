@@ -4,8 +4,8 @@ import { User } from '../../users/user.entity';
 @ObjectType()
 export class UsersWithCount {
   @Field()
-  totalItems: number;
+  totalItems?: number;
 
   @Field(() => [User], { nullable: true })
-  data: User[];
+  data?: User[];
 }

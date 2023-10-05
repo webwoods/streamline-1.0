@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, OneToMany } from 'typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 import { UserRoles } from './enum/role';
 import { StreamLineEntity } from '../entities/streamline.entity';
 
@@ -9,7 +9,7 @@ import { StreamLineEntity } from '../entities/streamline.entity';
 export class Role extends StreamLineEntity {
   @Column({ unique: true })
   @Field(type => UserRoles)
-  name: UserRoles;
+  name!: UserRoles;
 
   @Column({ nullable: true })
   @Field({ nullable: true })

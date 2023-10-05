@@ -1,10 +1,10 @@
 import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql';
-import { RoleService } from 'src/roles/role.service';
+import { RoleService } from '../roles/role.service';
 import { CreateRoleInput, CreateRolesInput } from './dto/create.role';
 import { UpdateRoleInput } from './dto/update.role';
 import { Role } from './role.entity';
 import { UserRoles } from './enum/role';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -12,7 +12,7 @@ export class RoleResolver {
 
   @ResolveField(() => [User], { nullable: true })
   async users(@Parent() role: Role): Promise<User[] | null> {
-    return role.users || null;
+    return role.users ?? null;
   }
 
   @Query(() => Role, { name: 'roleById' })
@@ -23,7 +23,7 @@ export class RoleResolver {
         throw new Error(`Role with ID ${id} not found`);
       }
       return role;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error fetching role: ${error.message}`);
     }
   }
@@ -38,7 +38,7 @@ export class RoleResolver {
         throw new Error(`Role with roleName ${roleName} not found`);
       }
       return role;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error fetching role: ${error.message}`);
     }
   }
@@ -47,7 +47,7 @@ export class RoleResolver {
   async getRoles(): Promise<Role[]> {
     try {
       return await this.roleService.findAllRoles();
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error fetching roles: ${error.message}`);
     }
   }
@@ -56,7 +56,7 @@ export class RoleResolver {
   async createRole(@Args('input') input: CreateRoleInput): Promise<Role> {
     try {
       return await this.roleService.createRole(input);
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error creating role: ${error.message}`);
     }
   }
@@ -71,7 +71,7 @@ export class RoleResolver {
         }),
       );
       return roles;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error creating roles: ${error.message}`);
     }
   }
@@ -83,7 +83,7 @@ export class RoleResolver {
   ): Promise<Role> {
     try {
       return await this.roleService.updateRole(id, input);
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error updating role: ${error.message}`);
     }
   }
@@ -92,7 +92,7 @@ export class RoleResolver {
   async deleteRole(@Args('id') id: string): Promise<Role> {
     try {
       return await this.roleService.deleteRole(id);
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error deleting role: ${error.message}`);
     }
   }

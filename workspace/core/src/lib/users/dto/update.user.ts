@@ -1,5 +1,4 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { UserRoles } from 'src/roles/enum/role';
 
 @InputType()
 export class UpdateUserInput {
@@ -19,5 +18,5 @@ export class UpdateUserInput {
   roleId?: string;
 
   @Field({ nullable: true })
-  verified: boolean;
+  verified?: boolean;
 }

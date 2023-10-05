@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Role } from 'src/roles/role.entity';
+import { Role } from '../roles/role.entity';
 import { Repository } from 'typeorm';
 import { UserRoles } from './enum/role';
 
@@ -8,7 +8,7 @@ import { UserRoles } from './enum/role';
 export class RoleService {
   constructor(
     @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
+    private readonly roleRepository: Repository<Role>
   ) {}
 
   async createRole(input: Partial<Role>): Promise<Role> {
@@ -20,7 +20,7 @@ export class RoleService {
     return await this.roleRepository.find({ relations: { users: true } });
   }
 
-  async findRoleById(id: string): Promise<Role> {
+  async findRoleById(id: string): Promise<Role | null> {
     return await this.roleRepository.findOne({
       relations: { users: true },
       where: { id },
@@ -34,14 +34,14 @@ export class RoleService {
     });
   }
 
-  async findRoleByRolename(name: UserRoles): Promise<Role> {
+  async findRoleByRolename(name: UserRoles): Promise<Role | null> {
     return await this.roleRepository.findOne({
       relations: { users: true },
       where: { name },
     });
   }
 
-  async updateRole(id: string, input: Partial<Role>): Promise<Role> {
+  async updateRole(id: string, input: Partial<Role>): Promise<Role | null> {
     await this.roleRepository.update(id, input);
     return await this.roleRepository.findOne({
       relations: { users: true },
@@ -49,7 +49,7 @@ export class RoleService {
     });
   }
 
-  async deleteRole(id: string): Promise<Role> {
+  async deleteRole(id: string): Promise<Role | null> {
     const role = await this.roleRepository.findOne({
       relations: { users: true },
       where: { id },

@@ -1,7 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { StreamLineEntity } from '../entities/streamline.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 
 /**
  * implement a task scheduler to automatically remove
@@ -19,9 +19,9 @@ export class VerificationCode extends StreamLineEntity {
 
   @Column({ name: 'user_id' })
   @Field()
-  userId: string;
+  userId!: string;
 
-  @ManyToOne(() => User, (user) => user.verificationCodes, {
+  @ManyToOne(() => User, (user: User) => user.verificationCodes, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
