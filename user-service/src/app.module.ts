@@ -5,11 +5,14 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getDbConfig } from './common/config/ormconfig';
+import { getDbConfig } from '../../libs/core/src/config/orm.config';
 import { UserModule } from './users/user.module';
 import { RoleModule } from './roles/role.module';
 import { AuthModule } from './auth/auth.module';
 import { VerificationCodesModule } from './verification-codes/verification-codes.module';
+import { User } from './users/user.entity';
+import { Role } from './roles/role.entity';
+import { VerificationCode } from './verification-codes/verification-codes.entity';
 
 @Module({
   imports: [
@@ -21,7 +24,12 @@ import { VerificationCodesModule } from './verification-codes/verification-codes
       context: ({ req, res }) => ({ req, res }),
     }),
 
-    TypeOrmModule.forRoot(getDbConfig('postgres')),
+    TypeOrmModule.forRoot(
+      getDbConfig({
+        db: 'postgres',
+        entities: [User, Role, VerificationCode],
+      }),
+    ),
 
     UserModule,
     RoleModule,
