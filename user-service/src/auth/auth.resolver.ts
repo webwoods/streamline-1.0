@@ -15,7 +15,7 @@ import {
   VerificationSuccess,
 } from './union/success';
 import { VerifyUserInput } from './dto/verifyUser.input';
-import { CreateUserInput } from '@webwoods/streamline/dist/users/dto/create.user';
+import { CreateUserInput } from '../users/dto/create.user';
 
 @Resolver()
 export class AuthResolver {

@@ -3,8 +3,8 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthResolver } from './auth.resolver';
 import { jwtConstants } from '@webwoods/streamline/dist/constants/constants';
-import { VerificationCodesModule } from '@webwoods/streamline/dist/verification-codes/verification-codes.module';
-import { UserModule } from '@webwoods/streamline/dist/users/user.module';
+import { VerificationCodesModule } from '../verification-codes/verification-codes.module';
+import { UserModule } from '../users/user.module';
 
 @Module({
   imports: [
