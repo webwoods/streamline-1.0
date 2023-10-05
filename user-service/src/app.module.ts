@@ -18,8 +18,9 @@ import { VerificationCodesModule } from './verification-codes/verification-codes
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: true,
+      context: ({ req, res }) => ({ req, res }),
     }),
-    
+
     TypeOrmModule.forRoot(getDbConfig('postgres')),
 
     UserModule,

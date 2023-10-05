@@ -5,9 +5,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { jwtConstants } from '../../common/constants/constants';
+import { jwtConstants } from '../../constants/constants';
 import { Request } from 'express';
-import { IS_PUBLIC_KEY } from 'src/common/decorators/public.decorator';
+import { IS_PUBLIC_KEY } from '../../decorators/public.decorator';
 import { Reflector } from '@nestjs/core';
 
 @Injectable()
@@ -20,21 +20,30 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
     if (isPublic) {
-      // 💡 See this condition
+      /**
+       * checks whether the route or method is marked as public using a custom decorator IS_PUBLIC_KEY. If marked as public, it allows access without further checks.
+       */
       return true;
     }
 
+    /**
+     * If not public, it retrieves the request object from the execution context and extracts the JWT token from the Authorization header.
+     */
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException();
     }
     try {
+      /**
+       * If a token is found, it attempts to verify the token using the JwtService. If the verification fails, it also throws an UnauthorizedException.
+       */
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
+      /**
+       * Assigning the payload to the request object here in order to access it in our route handlers
+       */
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
@@ -43,6 +52,9 @@ export class AuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
+    /**
+     * This is a helper method that takes a Request object and extracts the JWT token from the Authorization header.
+     */
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }

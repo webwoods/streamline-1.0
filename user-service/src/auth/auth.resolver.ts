@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
 import {
@@ -16,19 +16,22 @@ import {
 } from './union/success';
 import { CreateUserInput } from 'src/users/dto/create.user';
 import { VerifyUserInput } from './dto/verifyUser.input';
-import { VerificationCodesService } from 'src/verification-codes/verification-codes.service';
 
 @Resolver()
 export class AuthResolver {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly verificationCodesService: VerificationCodesService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => LoginResultUnion)
-  async login(@Args('input') input: LoginInput): Promise<any> {
+  async login(
+    @Args('input') input: LoginInput,
+    @Context() context: any,
+  ): Promise<any> {
     try {
       const result = await this.authService.signIn(input);
+
+      // Set the bearer token in the response header
+      context.res.header('Authorization', `Bearer ${result.access_token}`);
+
       const success = new LoginSuccess(result.me, result.accessToken);
       return success;
     } catch (error) {
@@ -44,7 +47,10 @@ export class AuthResolver {
   async registerNewUser(@Args('input') input: CreateUserInput): Promise<any> {
     try {
       const result = await this.authService.registerNewUser(input);
-      const success = new RegisterNewUserSuccess(result.newUser, result.verificationToken);
+      const success = new RegisterNewUserSuccess(
+        result.newUser,
+        result.verificationToken,
+      );
       return success;
     } catch (error) {
       // properly handle registration errors
