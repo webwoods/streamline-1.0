@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserModule } from 'src/users/user.module';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from '../../../libs/core/src/constants/constants';
 import { AuthResolver } from './auth.resolver';
-import { VerificationCodesModule } from 'src/verification-codes/verification-codes.module';
+import { jwtConstants } from '@webwoods/streamline/dist/constants/constants';
+import { VerificationCodesModule } from '@webwoods/streamline/dist/verification-codes/verification-codes.module';
+import { UserModule } from '@webwoods/streamline/dist/users/user.module';
 
 @Module({
   imports: [

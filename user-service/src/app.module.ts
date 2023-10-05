@@ -5,14 +5,14 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getDbConfig } from '../../libs/core/src/config/orm.config';
-import { UserModule } from './users/user.module';
-import { RoleModule } from './roles/role.module';
+import { getDbConfig } from '@webwoods/streamline/dist/config/orm.config';
+import { UserModule } from '@webwoods/streamline/dist/users/user.module';
+import { RoleModule } from '@webwoods/streamline/dist/roles/role.module';
 import { AuthModule } from './auth/auth.module';
-import { VerificationCodesModule } from './verification-codes/verification-codes.module';
-import { User } from './users/user.entity';
-import { Role } from './roles/role.entity';
-import { VerificationCode } from './verification-codes/verification-codes.entity';
+import { VerificationCodesModule } from '@webwoods/streamline/dist/verification-codes/verification-codes.module';
+import { User } from '@webwoods/streamline/dist/users/user.entity';
+import { Role } from '@webwoods/streamline/dist/roles/role.entity';
+import { VerificationCode } from '@webwoods/streamline/dist/verification-codes/verification-codes.entity';
 
 @Module({
   imports: [

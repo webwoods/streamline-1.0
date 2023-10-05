@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from 'src/users/user.entity';
+import { User } from '@webwoods/streamline/dist/users/user.entity';
 
 @ObjectType()
 export class LoginSuccess {

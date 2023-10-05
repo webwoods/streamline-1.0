@@ -3,13 +3,13 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserService } from '../users/user.service';
+import { UserService } from '@webwoods/streamline/dist/users/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginInput } from './dto/login.input';
-import { VerificationCodesService } from 'src/verification-codes/verification-codes.service';
-import { VerificationCode } from 'src/verification-codes/verification-codes.entity';
-import { CreateUserInput } from 'src/users/dto/create.user';
+import { VerificationCodesService } from '@webwoods/streamline/dist/verification-codes/verification-codes.service';
+import { VerificationCode } from '@webwoods/streamline/dist/verification-codes/verification-codes.entity';
+import { CreateUserInput } from '@webwoods/streamline/dist/users/dto/create.user';
 import { VerifyUserInput } from './dto/verifyUser.input';
 
 @Injectable()
