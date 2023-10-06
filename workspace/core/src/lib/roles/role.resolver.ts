@@ -30,7 +30,7 @@ export class RoleResolver {
 
   @Query(() => Role, { name: 'roleByRoleName' })
   async getRoleByRoleName(
-    @Args('roleName') roleName: UserRoles,
+    @Args('roleName', { type: () => UserRoles }) roleName: UserRoles,
   ): Promise<Role> {
     try {
       const role = await this.roleService.findRoleByRolename(roleName);
@@ -80,7 +80,7 @@ export class RoleResolver {
   async updateRole(
     @Args('id') id: string,
     @Args('input') input: UpdateRoleInput,
-  ): Promise<Role> {
+  ): Promise<Role | null> {
     try {
       return await this.roleService.updateRole(id, input);
     } catch (error: any) {
@@ -89,7 +89,7 @@ export class RoleResolver {
   }
 
   @Mutation(() => Role, { name: 'deleteRole' })
-  async deleteRole(@Args('id') id: string): Promise<Role> {
+  async deleteRole(@Args('id') id: string): Promise<Role | null> {
     try {
       return await this.roleService.deleteRole(id);
     } catch (error: any) {

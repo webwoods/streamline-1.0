@@ -11,8 +11,8 @@ import { User } from '../users/user.entity';
 import { UserService } from './user.service';
 import { CreateUserInput, CreateUsersInput } from '../users/dto/create.user';
 import { UpdateUserInput } from '../users/dto/update.user';
-import { Role } from 'src/roles/role.entity';
-import { UsersWithCount } from 'src/users/dto/read.user';
+import { Role } from '../roles/role.entity';
+import { UsersWithCount } from '../users/dto/read.user';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -20,7 +20,7 @@ export class UserResolver {
 
   @ResolveField(() => Role, { nullable: true })
   async role(@Parent() user: User): Promise<Role | null> {
-    return user.role || null;
+    return user.role ?? null;
   }
 
   @Query(() => User, { name: 'user' })
@@ -31,7 +31,7 @@ export class UserResolver {
         throw new Error(`User with ID ${id} not found`);
       }
       return user;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error fetching user: ${error.message}`);
     }
   }
@@ -45,31 +45,31 @@ export class UserResolver {
       const skip = (page - 1) * pageSize;
       const [data, _] = await this.userService.findAllUsers(skip, pageSize); // data is queried as [User[], number]
       return { data, totalItems: data.length }
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error fetching users: ${error.message}`);
     }
   }
 
   @Mutation(() => User, { name: 'createUser' })
-  async createUser(@Args('input') input: CreateUserInput): Promise<User> {
+  async createUser(@Args('input') input: CreateUserInput): Promise<User | null> {
     try {
       return await this.userService.createUser(input);
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error creating user: ${error.message}`);
     }
   }
 
   @Mutation(() => [User], { name: 'createUsers' })
-  async createUsers(@Args('inputs') input: CreateUsersInput): Promise<User[]> {
+  async createUsers(@Args('inputs') input: CreateUsersInput): Promise<(User | null)[]> {
     try {
-      const users: User[] = await Promise.all(
+      const users: (User | null)[] = await Promise.all(
         input.users.map(async (userData) => {
           const createdUser = await this.userService.createUser(userData);
           return createdUser;
         }),
       );
       return users;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error creating users: ${error.message}`);
     }
   }
@@ -78,19 +78,19 @@ export class UserResolver {
   async updateUser(
     @Args('id') id: string,
     @Args('input') input: UpdateUserInput,
-  ): Promise<User> {
+  ): Promise<User | null> {
     try {
       return await this.userService.updateUser(id, input);
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error updating user: ${error.message}`);
     }
   }
 
   @Mutation(() => User, { name: 'deleteUser' })
-  async deleteUser(@Args('id') id: string): Promise<User> {
+  async deleteUser(@Args('id') id: string): Promise<User | null> {
     try {
       return await this.userService.deleteUser(id);
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Error deleting user: ${error.message}`);
     }
   }

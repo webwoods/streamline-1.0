@@ -7,7 +7,7 @@ import { StreamLineEntity } from '../entities/streamline.entity';
 @Entity()
 @ObjectType()
 export class Role extends StreamLineEntity {
-  @Column({ unique: true })
+  @Column({ type: 'text', unique: true })
   @Field(type => UserRoles)
   name!: UserRoles;
 

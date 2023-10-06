@@ -1,0 +1,19 @@
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/my-project/tsconfig.app.json"
+  },
+  "projects": {
+    "auth-plugin": {
+      "type": "application",
+      "root": "apps/auth-plugin",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth-plugin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth-plugin/tsconfig.app.json"
+      }
+    }
+  }
+}

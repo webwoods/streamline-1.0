@@ -22,7 +22,7 @@ export class UserService {
     return [data, total];
   }
 
-  async findUserById(id: string): Promise<User> {
+  async findUserById(id: string): Promise<User | null> {
     return await this.userRepository.findOne({
       relations: {
         role: true,
@@ -32,7 +32,7 @@ export class UserService {
     });
   }
 
-  async findUserByUsername(username: string): Promise<User> {
+  async findUserByUsername(username: string): Promise<User | null> {
     return await this.userRepository.findOne({
       relations: {
         role: true,
@@ -42,7 +42,7 @@ export class UserService {
     });
   }
 
-  async createUser(input: Partial<User>): Promise<User> {
+  async createUser(input: Partial<User>): Promise<User | null> {
     const user = this.userRepository.create(input);
     const createdUser = await this.userRepository.save(user);
     return await this.userRepository.findOne({
@@ -54,7 +54,7 @@ export class UserService {
     });
   }
 
-  async updateUser(id: string, input: Partial<User>): Promise<User> {
+  async updateUser(id: string, input: Partial<User>): Promise<User | null> {
     const user = await this.userRepository.findOne({
       relations: { role: true, verificationCodes: true },
       where: { id },
@@ -71,7 +71,7 @@ export class UserService {
     return await this.findUserById(id);
   }
 
-  async deleteUser(id: string): Promise<User> {
+  async deleteUser(id: string): Promise<User | null> {
     const user = await this.userRepository.findOne({
       relations: {
         role: true,

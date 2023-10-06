@@ -21,5 +21,5 @@ export class CreateUserInput {
 @InputType()
 export class CreateUsersInput {
   @Field((type) => [CreateUserInput])
-  users?: CreateUserInput[];
+  users!: CreateUserInput[];
 }

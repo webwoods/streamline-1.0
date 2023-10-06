@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@streamline/core": ["core/src/index.ts"],
+      "@workspace/core": ["core/src/index.ts"],
       "@workspace/lib": ["lib/src/index.ts"]
     }
   },
