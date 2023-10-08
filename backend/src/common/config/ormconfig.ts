@@ -1,5 +1,5 @@
 import { File } from 'src/files/file.entity';
-import { Request } from 'src/requests/request.entity';
+import { Request } from 'src/request/request.entity';
 import { Role } from 'src/roles/role.entity';
 import { User } from 'src/users/user.entity';
 import { DataSourceOptions } from 'typeorm';

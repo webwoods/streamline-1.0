@@ -9,7 +9,7 @@ import { getDbConfig } from './common/config/ormconfig';
 import { UserModule } from './users/user.module';
 import { RoleModule } from './roles/role.module';
 import { FileModule } from './files/file.module';
-import { RequestModule } from './requests/request.module';
+import { RequestModule } from './request/request.module';
 
 
 @Module({
@@ -26,6 +26,7 @@ import { RequestModule } from './requests/request.module';
     UserModule,
     RoleModule,
     FileModule,
+    RequestModule,
     // FileModule,
     // RequestModule,
     // AuthModule,
