@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { Properties } from '../propertie';
 
 @InputType()
 export class UpdateRequestItemsInput {
@@ -16,5 +17,5 @@ export class UpdateRequestItemsInput {
   name?: string;
   
   @Field({ nullable: true })
-  properties?: string;
+  properties?: Properties;
 }
