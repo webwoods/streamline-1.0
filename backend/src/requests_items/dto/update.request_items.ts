@@ -2,18 +2,19 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateRequestItemsInput {
-  @Field({ nullable: true })
-  fileId?: string;
 
   @Field({ nullable: true })
-  requestType?: string;
+  type?: string;
 
   @Field({ nullable: true })
-  requestedUserId?: string;
+  skn: string;
 
   @Field({ nullable: true })
-  requestedDate?: Date;
+  request: Request;
 
   @Field({ nullable: true })
-  description?: string;
+  name?: string;
+  
+  @Field({ nullable: true })
+  properties?: string;
 }

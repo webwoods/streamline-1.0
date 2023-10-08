@@ -2,15 +2,19 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateRequestItemsInput {
-  @Field({ nullable: true })
-  fileId?: string;
-
-  @Field()
-  requestType: string;
-
-  @Field()
-  requestedUserId: string;
 
   @Field({ nullable: true })
-  description?: string;
+  type?: string;
+
+  @Field()
+  skn: string;
+
+  @Field()
+  request: Request;
+
+  @Field({ nullable: true })
+  name?: string;
+
+  @Field({ nullable: true })
+  properties?: string;
 }

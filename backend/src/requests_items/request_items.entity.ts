@@ -18,7 +18,7 @@ export class RequestItems {
 
   // a file is like a collection of requests
   @Column({ name: 'file_id', nullable: true })
-  fileId: string;
+  type?: string;
 
   @ManyToOne(() => File, (entity: File) => entity.id, {
     onDelete: 'SET NULL',
