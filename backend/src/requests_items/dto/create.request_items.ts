@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { Properties } from '../propertie';
 
 @InputType()
 export class CreateRequestItemsInput {
@@ -16,5 +17,5 @@ export class CreateRequestItemsInput {
   name?: string;
 
   @Field({ nullable: true })
-  properties?: string;
+  properties?: Properties;
 }

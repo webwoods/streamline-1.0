@@ -4,10 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { File } from 'src/files/file.entity';
 import { User } from 'src/users/user.entity';
+import { Properties } from './propertie';
 
 @Entity()
 @ObjectType()
@@ -20,30 +22,30 @@ export class RequestItems {
   @Column({ name: 'file_id', nullable: true })
   type?: string;
 
-  @ManyToOne(() => File, (entity: File) => entity.id, {
+  @Column({ name: 'file_id', nullable: true })
+  skn: string;
+
+  @OneToMany(() => Request, (entity: Request) => entity.mode, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
     nullable: true,
   })
   @JoinColumn({ name: 'file_id', referencedColumnName: 'id' })
+  @Field(() => Request, { nullable: true })
+  request: Request;
+
+  @Column({ name: 'file_id', nullable: true })
+  name?: string;
+
+  @ManyToOne(() => Properties, (entity: Properties) => entity.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+    nullable: true,
+  })
+
+  @JoinColumn({ name: 'file_id', referencedColumnName: 'id' })
   @Field(() => File, { nullable: true })
-  file?: File;
-
-  @Column()
-  @Field()
-  requestType: string;
-
-  @ManyToOne(() => User, (user) => user.id)
-  @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
-  @Field(() => File, { nullable: true })
-  requestedUser: User;
-
-  @Column({ name: 'requested_by', nullable: true })
-  requestedUserId: string;
-
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  description?: string;
+  properties?: Properties;
 
   @Column()
   @Field({ nullable: true })
