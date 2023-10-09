@@ -1,6 +1,0 @@
-https://stackoverflow.com/questions/67212239/typeorm-update-entity-column-with-relation-joincolumn-via-repository
-
-https://stackoverflow.com/questions/64293388/store-array-of-string-in-typeorm-postgres-database
-
-https://stackoverflow.com/questions/65504376/how-do-i-store-an-array-of-json-objects-with-typeorm-on-postgresql
-

@@ -11,7 +11,7 @@ export function getDbConfig({
   db,
   entities,
 }: DbConfigOptions): DataSourceOptions {
-  const dbType = db || process.env.DB || 'postgres';
+  const dbType = db ?? process.env['DB'] ?? 'postgres';
 
   const commonConfig: any = {
     type: 'postgres',
@@ -24,20 +24,20 @@ export function getDbConfig({
 
   const pgConfig: PostgresConnectionOptions = {
     type: 'postgres',
-    host: process.env.DB_HOST || 'localhost',
-    port: Number(process.env.DB_PORT) || 5432,
-    username: process.env.DB_USERNAME || 'postgres',
-    password: process.env.DB_PASSWORD || 'pwd@kodi',
-    database: process.env.DB_NAME || 'streamline',
+    host: process.env['DB_HOST'] ?? 'localhost',
+    port: Number(process.env['DB_PORT']) || 5432,
+    username: process.env['DB_USERNAME'] ?? 'postgres',
+    password: process.env['DB_PASSWORD'] ?? 'pwd@kodi',
+    database: process.env['DB_NAME'] ?? 'streamline',
   };
 
   const mysqlConfig: MysqlConnectionOptions = {
     type: 'mysql',
-    host: process.env.DB_HOST || 'localhost',
-    port: Number(process.env.DB_PORT) || 3306,
-    username: process.env.DB_USERNAME || 'root',
-    password: process.env.DB_PASSWORD || 'pwd@kodi',
-    database: process.env.DB_NAME || 'streamline',
+    host: process.env['DB_HOST'] ?? 'localhost',
+    port: Number(process.env['DB_PORT']) || 3306,
+    username: process.env['DB_USERNAME'] ?? 'root',
+    password: process.env['DB_PASSWORD'] ?? 'pwd@kodi',
+    database: process.env['DB_NAME'] ?? 'streamline',
   };
 
   switch (dbType) {

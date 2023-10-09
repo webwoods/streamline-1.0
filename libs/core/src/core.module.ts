@@ -1,8 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { CoreService } from './core.service';
+import { UserResolver } from './users/user.resolver';
+import { RoleResolver } from './roles/role.resolver';
 
+@Global()
 @Module({
-  providers: [CoreService],
-  exports: [CoreService],
+  providers: [CoreService, UserResolver, RoleResolver],
+  exports: [CoreService, UserResolver, RoleResolver],
 })
 export class CoreModule {}

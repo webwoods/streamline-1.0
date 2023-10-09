@@ -20,9 +20,9 @@ export class StreamLineEntity {
 
   @CreateDateColumn()
   @Field({ nullable: true })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ nullable: true })
   @Field({ nullable: true })
-  updatedAt: Date;
+  updatedAt!: Date;
 }
