@@ -2,6 +2,7 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Role } from 'src/roles/role.entity';
 import {
   BeforeInsert,
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -34,6 +35,10 @@ export class User extends StreamLineEntity {
   @Column()
   @Field()
   password: string;
+
+  @BeforeInsert() async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
   @BeforeInsert() async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
