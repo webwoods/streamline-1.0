@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CreateFileInput } from './dto/create.file';
 import { UpdateFileInput } from './dto/update.file';
 import { FileService } from './file.service';
-import {File} from 'src/files/file.entity';
+import { File } from 'src/files/file.entity';
 
 @Resolver(() => File)
 export class FileResolver {
