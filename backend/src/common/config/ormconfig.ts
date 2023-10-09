@@ -1,5 +1,5 @@
 import { File } from 'src/files/file.entity';
-import { Request } from 'src/requests/request.entity';
+import { Request } from 'src/request/request.entity';
 import { Role } from 'src/roles/role.entity';
 import { User } from 'src/users/user.entity';
 import { DataSourceOptions } from 'typeorm';
@@ -14,7 +14,7 @@ export function getDbConfig(db: string): DataSourceOptions {
     host: process.env.DB_HOST || 'localhost',
     port: Number(process.env.DB_PORT) || 5342,
     username: process.env.DB_USERNAME || 'postgres',
-    password: process.env.DB_PASSWORD || 'pwd@kodi',
+    password: process.env.DB_PASSWORD || '1234',
     database: process.env.DB_NAME || 'streamline',
     migrationsRun: false,
     migrations: [__dirname + '/migrations/*{.js,.ts}'],

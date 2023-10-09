@@ -3,17 +3,18 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { UserRoles } from './enum/role';
 import { v4 as uuidv4 } from 'uuid';
+import { StreamLineEntity } from 'src/core/streamline.entity';
 
 @Entity()
 @ObjectType()
-export class Role {
-  constructor() {
-    this.id = uuidv4();
-  }
+export class Role extends StreamLineEntity {
+  // constructor() {
+  //   this.id = uuidv4();
+  // }
 
-  @PrimaryGeneratedColumn('uuid')
-  @Field(() => ID)
-  id: string;
+  // @PrimaryGeneratedColumn('uuid')
+  // @Field(() => ID)
+  // id: string;
 
   @Column({ unique: true })
   @Field(type => UserRoles)

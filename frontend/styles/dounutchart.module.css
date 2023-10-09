@@ -1,0 +1,135 @@
+.chartcontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.top-left-text {
+  position: absolute;
+  top: 10px;
+  color: white;
+  font-size: 16px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.row-mobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.chart-donut {
+  width: 300px;
+}
+
+.chart-container {
+  background-color: #197dfd;
+  display: flex;
+  padding: 2rem;
+  justify-content: center;
+}
+
+.chart-outer-container {
+  position: relative;
+}
+
+.custom-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border-radius: 1rem;
+  background-color: white;
+  padding: 20px;
+  height: 30.2rem;
+}
+
+.chart-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-dounut-chart {
+  color: black;
+  font-weight: bold;
+}
+
+.text-dounut-chart-subtitle {
+  color: black;
+}
+
+.text-dounut-chart-48 {
+  color: black;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* phone */
+@media screen and (max-width: 767px) {
+  .row-mobile{
+    flex-direction: column;
+    width: 100%;
+  }
+  .row {
+    display: none;
+  }
+  .chart-container {
+    padding: 2rem;
+    height: auto;
+  }
+  .chart-donut {
+    width: 250px;
+  }
+  .custom-container {
+    height: 10rem;
+  }
+}
+
+/* tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .row {
+    flex-direction: column;
+    width: 100%;
+  }
+  .chart-container {
+    padding: 2rem;
+  }
+  .chart-donut {
+    margin-top: -5rem;
+    width: 400px;
+  }
+  .row-mobile {
+    display: none;
+  }
+}
+
+/* desktop */
+@media screen and (min-width: 1024px) {
+  .row {
+    flex-direction: row;
+  }
+  .chart-donut {
+    width: 500px;
+    margin-top: -8rem;
+  }
+  .row-mobile {
+    display: none;
+  }
+}

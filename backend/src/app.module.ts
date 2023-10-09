@@ -7,10 +7,11 @@ import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDbConfig } from './common/config/ormconfig';
 import { UserModule } from './users/user.module';
-import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './roles/role.module';
 import { FileModule } from './files/file.module';
-import { RequestModule } from './requests/request.module';
+import { RequestModule } from './request/request.module';
+import { PropertiesModule } from './properties/properties.module';
+
 
 @Module({
   imports: [
@@ -25,6 +26,9 @@ import { RequestModule } from './requests/request.module';
 
     UserModule,
     RoleModule,
+    FileModule,
+    RequestModule,
+    PropertiesModule,
     // FileModule,
     // RequestModule,
     // AuthModule,

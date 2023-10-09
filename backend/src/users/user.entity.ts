@@ -10,17 +10,18 @@ import {
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
+import { StreamLineEntity } from 'src/core/streamline.entity';
 
 @Entity()
 @ObjectType()
-export class User {
-  constructor() {
-    this.id = uuidv4();
-  }
+export class User extends StreamLineEntity {
+  // constructor() {
+  //   this.id = uuidv4();
+  // }
 
-  @PrimaryGeneratedColumn('uuid')
-  @Field(() => ID)
-  id: string;
+  // @PrimaryGeneratedColumn('uuid')
+  // @Field(() => ID)
+  // id: string;
 
   @Column()
   @Field()
@@ -42,9 +43,9 @@ export class User {
   @Field({ nullable: true })
   name: string;
 
-  @ManyToOne(type => Role)
+  @ManyToOne((type) => Role)
   @JoinColumn({ name: 'roleId', referencedColumnName: 'id' })
-  @Field(type => Role, { nullable: true })
+  @Field((type) => Role, { nullable: true })
   role: Role;
 
   @Column({ nullable: true })

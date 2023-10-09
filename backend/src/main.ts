@@ -3,7 +3,8 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
- 
+  // app.setGlobalPrefix('procurement');
+
   const beHost = process.env.BE_HOST ?? 'localhost';
   const bePort = process.env.BE_PORT ?? 3333;
 
