@@ -18,11 +18,15 @@ gi{
     "titleBar.inactiveBackground": "#007fff99",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
+<<<<<<< HEAD
   "peacock.color": "#007fff",
   "cSpell.words": [
     "typeorm",
     "uuidv"
   ]
+=======
+  "peacock.color": "#007fff"
+>>>>>>> d8c9362628334c1ee1bb19b4fbb28895712369bf
 } // {
 //   "workbench.colorCustomizations": {
 //     "activityBar.activeBackground": "#3399ff",
