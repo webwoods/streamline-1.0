@@ -10,6 +10,7 @@ import { UserModule } from './users/user.module';
 import { RoleModule } from './roles/role.module';
 import { FileModule } from './files/file.module';
 import { RequestModule } from './requests/request.module';
+import { PropertyModule } from './property/property.module';
 
 
 @Module({
@@ -26,6 +27,7 @@ import { RequestModule } from './requests/request.module';
     UserModule,
     RoleModule,
     FileModule,
+    PropertyModule,
     // FileModule,
     // RequestModule,
     // AuthModule,
