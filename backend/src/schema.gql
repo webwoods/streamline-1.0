@@ -6,6 +6,13 @@ input CreateFileInput {
   name: String
 }
 
+input CreateRequestInput {
+  description: String
+  fileId: String
+  requestType: String!
+  requestedUserId: String!
+}
+
 input CreateRoleInput {
   division: String
   name: UserRoles!
@@ -41,14 +48,17 @@ type File {
 
 type Mutation {
   createFile(input: CreateFileInput!): File!
+  createRequest(input: CreateRequestInput!): Request!
   createRole(input: CreateRoleInput!): Role!
   createRoles(inputs: CreateRolesInput!): [Role!]!
   createUser(input: CreateUserInput!): User!
   createUsers(inputs: CreateUsersInput!): [User!]!
   deleteFile(id: String!): File!
+  deleteRequest(id: String!): Request!
   deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
   updateFile(id: String!, input: UpdateFileInput!): File!
+  updateRequest(id: String!, input: UpdateRequestInput!): Request!
   updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
 }
@@ -57,11 +67,24 @@ type Query {
   file(id: String!): File!
   fileByName(name: String!): File!
   files: [File!]!
+  request(id: String!): Request!
+  requestByFileId(fileId: String!): [Request!]!
+  requests: [Request!]!
   roleById(id: String!): Role!
   roleByRoleName(roleName: String!): Role!
   roles: [Role!]!
   user(id: String!): User!
   users(page: Int! = 1, pageSize: Int! = 10): UsersWithCount!
+}
+
+type Request {
+  createdAt: DateTime
+  description: String
+  file: File
+  id: ID!
+  requestType: String!
+  requestedUser: User
+  updatedAt: DateTime
 }
 
 type Role {
@@ -75,6 +98,14 @@ type Role {
 
 input UpdateFileInput {
   name: String
+}
+
+input UpdateRequestInput {
+  description: String
+  fileId: String
+  requestType: String
+  requestedDate: DateTime
+  requestedUserId: String
 }
 
 input UpdateRoleInput {
