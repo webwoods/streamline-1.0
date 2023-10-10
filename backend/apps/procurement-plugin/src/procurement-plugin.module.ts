@@ -6,9 +6,15 @@ import { getDbConfig } from '@libs/core/config/orm.config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { RequestModule } from './requests/request.module';
+import { FileModule } from './files/file.module';
+import { UserResolver } from './user/user.resolver';
 
 @Module({
   imports: [
+    RequestModule,
+    FileModule,
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), '/apps/procurement-plugin/src/procurement-schema.gql'),
@@ -24,6 +30,6 @@ import { join } from 'path';
     })),
   ],
   controllers: [ProcurementPluginController],
-  providers: [ProcurementPluginService],
+  providers: [ProcurementPluginService, UserResolver],
 })
 export class ProcurementPluginModule {}
