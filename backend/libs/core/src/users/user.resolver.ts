@@ -6,6 +6,7 @@ import {
   ResolveField,
   Parent,
   Int,
+  ResolveReference
 } from '@nestjs/graphql';
 import { User } from '../users/user.entity';
 import { UserService } from './user.service';
@@ -93,5 +94,13 @@ export class UserResolver {
     } catch (error: any) {
       throw new Error(`Error deleting user: ${error.message}`);
     }
+  }
+
+  /**
+   * required by graphql federation
+   */
+  @ResolveReference()
+  resolveReference(reference: { __typename: string; id: string }) {
+    return this.userService.findUserById(reference.id);
   }
 }

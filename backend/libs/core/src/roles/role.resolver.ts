@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+  ResolveReference,
+} from '@nestjs/graphql';
 import { RoleService } from '../roles/role.service';
 import { CreateRoleInput, CreateRolesInput } from './dto/create.role';
 import { UpdateRoleInput } from './dto/update.role';
@@ -95,5 +103,13 @@ export class RoleResolver {
     } catch (error: any) {
       throw new Error(`Error deleting role: ${error.message}`);
     }
+  }
+
+  /**
+   * required by graphql federation
+   */
+  @ResolveReference()
+  resolveReference(reference: { __typename: string; id: string }) {
+    return this.roleService.findRoleById(reference.id);
   }
 }

@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(ProcurementPluginModule);
-  const globalPrefix = 'api';
+  const globalPrefix = 'procurement';
   const graphqlEndpoint = 'procurement';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3333;

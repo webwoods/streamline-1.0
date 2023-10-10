@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Directive } from '@nestjs/graphql';
 import { Role } from '../roles/role.entity';
 import {
   BeforeInsert,
@@ -14,6 +14,7 @@ import { VerificationCode } from '../verification-codes/verification-codes.entit
 
 @Entity()
 @ObjectType()
+@Directive('@key(fields: "id")')
 export class User extends StreamLineEntity {
   @Column()
   @Field()

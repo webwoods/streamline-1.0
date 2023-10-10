@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Directive } from '@nestjs/graphql';
 import { StreamLineEntity } from '../entities/streamline.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '../users/user.entity';
@@ -10,6 +10,7 @@ import { User } from '../users/user.entity';
 
 @Entity()
 @ObjectType()
+@Directive('@key(fields: "id")')
 export class VerificationCode extends StreamLineEntity {
   constructor(user: User, code: string) {
     super();
