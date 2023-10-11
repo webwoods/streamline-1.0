@@ -10,24 +10,26 @@ import { AuthModule } from './auth/auth.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { AUTH_APP } from '@libs/core/constants/appInfo';
 
 @Module({
   imports: [
     AuthModule,
-    
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), '/apps/auth-plugin/src/auth-schema.gql'),
+      autoSchemaFile: join(process.cwd(), AUTH_APP.schema),
       sortSchema: true,
-      include: [AuthModule],
       playground: true,
-      path: '/auth',
+      path: AUTH_APP.graphqlEndpoint,
     }),
 
-    TypeOrmModule.forRoot(getDbConfig({
-      db: 'postgres',
-      entities: [User, Role, VerificationCode]
-    })),
+    TypeOrmModule.forRoot(
+      getDbConfig({
+        db: { type: 'postgres' },
+        entities: [User, Role, VerificationCode],
+      }),
+    ),
   ],
   controllers: [AuthPluginController],
   providers: [AuthPluginService],

@@ -21,31 +21,24 @@ import { VerificationCodesModule } from '@libs/core/verification-codes/verificat
 import { RequestItemsModule } from './request-items/request-items.module';
 import { RequestItem } from './request-items/request-items.entity';
 import { AuthModule } from 'apps/auth-plugin/src/auth/auth.module';
+import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
 
 @Module({
   imports: [
     FileModule,
     RequestModule,
-    // RoleModule,
-    // UserModule,
-    // ProcurementUserModule,
-    // VerificationCodesModule,
-    // RequestItemsModule,
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(
-        process.cwd(),
-        '/apps/procurement-plugin/src/procurement-schema.gql',
-      ),
+      autoSchemaFile: join(process.cwd(), PROCUREMENT_APP.schema),
       sortSchema: true,
       playground: true,
-      path: '/procurement',
+      path: PROCUREMENT_APP.graphqlEndpoint,
     }),
 
     TypeOrmModule.forRoot(
       getDbConfig({
-        db: 'postgres',
+        db: { type: 'postgres' },
         entities: [
           File,
           Request,

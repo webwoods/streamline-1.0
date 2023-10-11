@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./apps/streamline/test/jest-e2e.json"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.5",
     "@apollo/federation": "^0.38.1",
     "@apollo/server": "^4.9.4",
     "@apollo/subgraph": "^2.5.5",
