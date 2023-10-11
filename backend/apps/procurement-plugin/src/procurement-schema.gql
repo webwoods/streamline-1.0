@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateFileInput {
+  name: String
+}
+
 input CreateRequestInput {
   description: String
   fileId: String
@@ -28,9 +32,12 @@ type FilePage {
 }
 
 type Mutation {
-  createUser(input: CreateRequestInput!): Request!
-  deleteFile(id: String!): Request!
-  updateFile(id: String!, input: UpdateRequestInput!): Request!
+  createFile(input: CreateFileInput!): File!
+  createRequest(input: CreateRequestInput!): Request!
+  deleteFile(id: String!): File!
+  deleteRequest(id: String!): Request!
+  updateFile(id: String!, input: UpdateFileInput!): File!
+  updateRequest(id: String!, input: UpdateRequestInput!): Request!
 }
 
 type ProcurementUser {
@@ -40,10 +47,26 @@ type ProcurementUser {
   name: String
   password: String
   role: Role
+  type: ProcurementUserType!
   updatedAt: DateTime
   username: String!
   verificationCodes: [VerificationCode!]!
   verified: Boolean!
+}
+
+enum ProcurementUserType {
+  APPROVING_USER
+  REQUESTING_USER
+  REVIEWING_USER
+}
+
+type Property {
+  createdAt: DateTime
+  id: ID!
+  key: String!
+  type: String!
+  updatedAt: DateTime
+  value: String!
 }
 
 type Query {
@@ -69,6 +92,7 @@ type RequestItem {
   id: ID!
   name: String!
   price: Float
+  properties: [Property!]!
   quantity: Float
   requests: [Request!]!
   sku: String!
@@ -86,6 +110,10 @@ type Role {
   id: ID!
   name: UserRoles!
   updatedAt: DateTime
+}
+
+input UpdateFileInput {
+  name: String
 }
 
 input UpdateRequestInput {

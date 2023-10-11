@@ -3,12 +3,13 @@ import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
 import {
   Entity,
   Column,
-  ManyToMany
+  ManyToMany,
 } from 'typeorm';
+import { RequestItem } from '../request-items/request-items.entity';
 
 @Entity()
 @ObjectType()
-export class Properties extends StreamLineEntity {
+export class Property extends StreamLineEntity {
   @Column()
   @Field()
   key: string;
@@ -20,4 +21,7 @@ export class Properties extends StreamLineEntity {
   @Column()
   @Field()
   type: string;
+
+  @ManyToMany(()=>RequestItem, requestItem => requestItem.properties)
+  requestItems?: RequestItem[];
 }

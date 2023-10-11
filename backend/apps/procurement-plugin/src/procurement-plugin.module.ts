@@ -22,6 +22,7 @@ import { RequestItemsModule } from './request-items/request-items.module';
 import { RequestItem } from './request-items/request-items.entity';
 import { AuthModule } from 'apps/auth-plugin/src/auth/auth.module';
 import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
+import { Property } from './properties/property.entity';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
           ProcurementUser,
           User,
           VerificationCode,
+          Property,
         ],
       }),
     ),
