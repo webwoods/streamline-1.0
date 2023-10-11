@@ -10,13 +10,13 @@ export class FileService {
     private readonly fileRepository: Repository<File>,
   ) {}
 
-  async findAllFiles(skip: number, take: number): Promise<[File[], number]> {
-    const [data, total] = await this.fileRepository.findAndCount({
+  async findAllFiles(skip: number, take: number): Promise<File[]> {
+    const data = await this.fileRepository.find({
       skip,
       take,
       relations: {},
     });
-    return [data, total];
+    return data;
   }
 
   async findFileById(id: string): Promise<File | null> {

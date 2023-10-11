@@ -8,7 +8,7 @@ import { UserRoles } from './enum/role';
 export class RoleService {
   constructor(
     @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>
+    private readonly roleRepository: Repository<Role>,
   ) {}
 
   async createRole(input: Partial<Role>): Promise<Role> {
@@ -16,8 +16,13 @@ export class RoleService {
     return await this.roleRepository.save(role);
   }
 
-  async findAllRoles(): Promise<Role[]> {
-    return await this.roleRepository.find({ relations: { users: true } });
+  async findAllRoles(skip: number, take: number): Promise<Role[]> {
+    const data = await this.roleRepository.find({
+      skip,
+      take,
+      relations: { users: true },
+    });
+    return data;
   }
 
   async findRoleById(id: string): Promise<Role | null> {
