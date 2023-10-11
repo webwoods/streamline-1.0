@@ -10,7 +10,7 @@ export class UpdateRequestItemsInput {
   skn: string;
 
   @Field({ nullable: true })
-  request: Request;
+  requestId: string;
 
   @Field({ nullable: true })
   name?: string;

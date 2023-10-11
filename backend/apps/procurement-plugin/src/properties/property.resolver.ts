@@ -15,12 +15,14 @@ import { UpdatePropertyInput } from './dto/update.property';
 import { PropertyPage } from './dto/propertyPage.dto';
 import { RequestItem } from '../request-items/request-items.entity';
 
-@Resolver()
+@Resolver(() => Property)
 export class PropertyResolver {
   constructor(private readonly propertyService: PropertyService) {}
 
   @ResolveField(() => RequestItem, { nullable: true })
-  async requestItems(@Parent() property: Property): Promise<RequestItem[] | null> {
+  async requestItems(
+    @Parent() property: Property,
+  ): Promise<RequestItem[] | null> {
     return property.requestItems ?? null;
   }
 
@@ -37,23 +39,31 @@ export class PropertyResolver {
     }
   }
 
-  @Query(() => PropertyPage, { name: 'Properties' })
+  @Query(() => PropertyPage, { name: 'properties' })
   async getProperties(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
   ): Promise<PropertyPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const properties = await this.propertyService.findAllPropertys(skip, pageSize);
-      const propertyPage: PropertyPage = { data: properties, totalItems: properties.length };
+      const properties = await this.propertyService.findAllPropertys(
+        skip,
+        pageSize,
+      );
+      const propertyPage: PropertyPage = {
+        data: properties,
+        totalItems: properties.length,
+      };
       return propertyPage;
     } catch (error: any) {
       throw new Error(`Error fetching Properties: ${error.message}`);
     }
   }
 
-  @Mutation(() => Property, { name: 'createFile' })
-  async createProperty(@Args('input') input: CreatePropertyInput): Promise<Property | null> {
+  @Mutation(() => Property, { name: 'createProperty' })
+  async createProperty(
+    @Args('input') input: CreatePropertyInput,
+  ): Promise<Property | null> {
     try {
       return await this.propertyService.createProperty(input);
     } catch (error: any) {
@@ -61,7 +71,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'updateFile' })
+  @Mutation(() => Property, { name: 'updateProperty' })
   async updateProperty(
     @Args('id') id: string,
     @Args('input') input: UpdatePropertyInput,
@@ -73,7 +83,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'deleteFile' })
+  @Mutation(() => Property, { name: 'deleteProperty' })
   async deleteProperty(@Args('id') id: string): Promise<Property | null> {
     try {
       return await this.propertyService.deleteProperty(id);

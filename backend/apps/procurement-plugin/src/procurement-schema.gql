@@ -6,11 +6,24 @@ input CreateFileInput {
   name: String
 }
 
+input CreatePropertyInput {
+  key: String!
+  type: String!
+  value: String!
+}
+
 input CreateRequestInput {
   description: String
   fileId: String
   requestType: String!
   requestedUserId: String!
+}
+
+input CreateRequestItemsInput {
+  name: String
+  requestId: String!
+  skn: String!
+  type: String
 }
 
 """
@@ -33,11 +46,17 @@ type FilePage {
 
 type Mutation {
   createFile(input: CreateFileInput!): File!
+  createProperty(input: CreatePropertyInput!): Property!
   createRequest(input: CreateRequestInput!): Request!
+  createRequestItem(input: CreateRequestItemsInput!): RequestItem!
   deleteFile(id: String!): File!
+  deleteProperty(id: String!): Property!
   deleteRequest(id: String!): Request!
+  deleteRequestItem(id: String!): RequestItem!
   updateFile(id: String!, input: UpdateFileInput!): File!
+  updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
+  updateRequestItem(id: String!, input: UpdateRequestItemsInput!): RequestItem!
 }
 
 type ProcurementUser {
@@ -64,15 +83,25 @@ type Property {
   createdAt: DateTime
   id: ID!
   key: String!
+  requestItems: RequestItem
   type: String!
   updatedAt: DateTime
   value: String!
 }
 
+type PropertyPage {
+  data: [Property!]!
+  totalPages: Int!
+}
+
 type Query {
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
+  properties(page: Int! = 1, pageSize: Int! = 10): PropertyPage!
+  property(id: String!): Property!
   request(id: String!): Request!
+  requestItem(id: String!): RequestItem!
+  requestItems(page: Int! = 1, pageSize: Int! = 10): RequestItemPage!
   requests(page: Int! = 1, pageSize: Int! = 10): RequestPage!
 }
 
@@ -99,6 +128,11 @@ type RequestItem {
   updatedAt: DateTime
 }
 
+type RequestItemPage {
+  data: [RequestItem!]!
+  totalPages: Int!
+}
+
 type RequestPage {
   data: [Request!]!
   totalPages: Int!
@@ -116,12 +150,25 @@ input UpdateFileInput {
   name: String
 }
 
+input UpdatePropertyInput {
+  key: String
+  type: String
+  value: String
+}
+
 input UpdateRequestInput {
   description: String
   fileId: String
   requestType: String
   requestedDate: DateTime
   requestedUserId: String
+}
+
+input UpdateRequestItemsInput {
+  name: String
+  requestId: String
+  skn: String
+  type: String
 }
 
 enum UserRoles {

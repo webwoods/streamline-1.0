@@ -23,11 +23,14 @@ import { RequestItem } from './request-items/request-items.entity';
 import { AuthModule } from 'apps/auth-plugin/src/auth/auth.module';
 import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
 import { Property } from './properties/property.entity';
+import { PropertiesModule } from './properties/property.module';
 
 @Module({
   imports: [
     FileModule,
     RequestModule,
+    RequestItemsModule,
+    PropertiesModule,
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
