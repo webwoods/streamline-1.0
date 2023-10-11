@@ -47,7 +47,7 @@ type PasswordMismatchError {
 
 type Query {
   user(id: String!): User!
-  users(page: Int! = 1, pageSize: Int! = 10): UsersWithCount!
+  users(page: Int! = 1, pageSize: Int! = 10): UserPage!
 }
 
 type RegisterNewUserSuccess {
@@ -91,17 +91,17 @@ type UserNotExistError {
   message: String!
 }
 
+type UserPage {
+  data: [User!]!
+  totalPages: Int!
+}
+
 enum UserRoles {
   ADMIN
   DIRECTOR
   EMPLOYEE
   PROCUREMENT_STAFF
   STORE_STAFF
-}
-
-type UsersWithCount {
-  data: [User!]
-  totalItems: Float!
 }
 
 type VerificationCode {
