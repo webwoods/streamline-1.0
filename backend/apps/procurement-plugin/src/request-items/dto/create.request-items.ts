@@ -14,7 +14,4 @@ export class CreateRequestItemsInput {
 
   @Field({ nullable: true })
   name?: string;
-
-  @Field({ nullable: true })
-  properties?: Properties;
 }

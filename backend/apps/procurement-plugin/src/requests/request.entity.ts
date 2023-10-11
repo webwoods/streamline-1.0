@@ -1,13 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
 import { File } from '../files/file.entity';
-import { User } from '@libs/core/users/user.entity';
-import {
-  Entity,
-  Column,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
+import { RequestItem } from '../request-items/request-items.entity';
+import { ProcurementUser } from '../procurement-user/procurement-user.entity';
 
 @Entity()
 @ObjectType()
@@ -32,11 +28,18 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'file_id', nullable: true })
   fileId: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(
+    () => ProcurementUser,
+    (procurementUser) => procurementUser.requests,
+  )
   @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
-  @Field(() => User, { nullable: true })
-  requestedUser: User;
+  @Field(() => ProcurementUser, { nullable: true })
+  requestedUser: ProcurementUser;
 
   @Column({ name: 'requested_by', nullable: true })
   requestedUserId: string;
+
+  @ManyToMany(() => RequestItem, (requestItem) => requestItem.requests)
+  @Field(() => [RequestItem], { nullable: true })
+  requestItems: RequestItem[];
 }

@@ -8,28 +8,56 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { RequestModule } from './requests/request.module';
 import { FileModule } from './files/file.module';
-import { UserResolver } from './user/user.resolver';
+import { Request } from './requests/request.entity';
+import { Role } from '@libs/core/roles/role.entity';
+import { RoleModule } from '@libs/core/roles/role.module';
+import { File } from './files/file.entity';
+import { UserModule } from '@libs/core/users/user.module';
+import { ProcurementUserModule } from './procurement-user/procurement-user.module';
+import { ProcurementUser } from './procurement-user/procurement-user.entity';
+import { User } from '@libs/core/users/user.entity';
+import { VerificationCode } from '@libs/core/verification-codes/verification-codes.entity';
+import { VerificationCodesModule } from '@libs/core/verification-codes/verification-codes.module';
+import { RequestItemsModule } from './request-items/request-items.module';
+import { RequestItem } from './request-items/request-items.entity';
 
 @Module({
   imports: [
-    RequestModule,
     FileModule,
+    // RequestModule,
+    // RoleModule,
+    // UserModule,
+    // ProcurementUserModule,
+    // VerificationCodesModule,
+    // RequestItemsModule,
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), '/apps/procurement-plugin/src/procurement-schema.gql'),
+      autoSchemaFile: join(
+        process.cwd(),
+        '/apps/procurement-plugin/src/procurement-schema.gql',
+      ),
       sortSchema: true,
-      include: [],
       playground: true,
       path: '/procurement',
     }),
 
-    TypeOrmModule.forRoot(getDbConfig({
-      db: 'postgres',
-      entities: []
-    })),
+    TypeOrmModule.forRoot(
+      getDbConfig({
+        db: 'postgres',
+        entities: [
+          File,
+          Request,
+          RequestItem,
+          Role,
+          ProcurementUser,
+          User,
+          VerificationCode,
+        ],
+      }),
+    ),
   ],
   controllers: [ProcurementPluginController],
-  providers: [ProcurementPluginService, UserResolver],
+  providers: [ProcurementPluginService],
 })
 export class ProcurementPluginModule {}

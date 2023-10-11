@@ -1,42 +1,34 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
-import { File } from '../files/file.entity';
-import { User } from '@libs/core/users/user.entity';
-import {
-  Entity,
-  Column,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Request } from '../requests/request.entity';
 
 @Entity()
 @ObjectType()
 export class RequestItem extends StreamLineEntity {
+
   @Column()
   @Field()
-  requestType: string;
+  name: string;
 
-  @Column({ nullable: true })
+  @Column()
+  @Field()
+  sku: string;
+
+  @Column({ type: 'bigint', nullable: true })
   @Field({ nullable: true })
-  description?: string;
+  quantity: number;
 
-  @ManyToOne(() => File, (entity: File) => entity.id, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-    nullable: true,
+  @Column({ type: 'float', nullable: true })
+  @Field({ nullable: true })
+  price: number;
+
+  @ManyToMany(() => Request, (request) => request.requestItems)
+  @JoinTable({
+    name: 'request_request_items',
+    joinColumn: { name: 'request_item_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'request_id', referencedColumnName: 'id' },
   })
-  @JoinColumn({ name: 'file_id', referencedColumnName: 'id' })
-  @Field(() => File, { nullable: true })
-  file?: File;
-
-  @Column({ name: 'file_id', nullable: true })
-  fileId: string;
-
-  @ManyToOne(() => User, (user) => user.id)
-  @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
-  @Field(() => User, { nullable: true })
-  requestedUser: User;
-
-  @Column({ name: 'requested_by', nullable: true })
-  requestedUserId: string;
+  @Field(() => [Request])
+  requests: Request[];
 }
