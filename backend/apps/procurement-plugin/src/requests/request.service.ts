@@ -30,10 +30,10 @@ export class RequestService {
 
   async createRequest(input: Partial<Request>): Promise<Request | null> {
     const request = this.requestRepository.create(input);
-    const createdUser = await this.requestRepository.save(request);
+    const createdRequest = await this.requestRepository.save(request);
     return await this.requestRepository.findOne({
       relations: { file: true },
-      where: { id: createdUser.id },
+      where: { id: createdRequest.id },
     });
   }
 

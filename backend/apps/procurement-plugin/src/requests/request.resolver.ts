@@ -25,7 +25,7 @@ export class RequestResolver {
   }
 
   @Query(() => Request, { name: 'request' })
-  async getFileById(@Args('id') id: string): Promise<Request> {
+  async getRequestById(@Args('id') id: string): Promise<Request> {
     try {
       const request = this.requestService.findRequestById(id);
       if (!request) {
@@ -38,7 +38,7 @@ export class RequestResolver {
   }
 
   @Query(() => RequestPage, { name: 'requests' })
-  async getUsers(
+  async getRequests(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
   ): Promise<RequestPage> {
@@ -52,7 +52,7 @@ export class RequestResolver {
     }
   }
 
-  @Mutation(() => Request, { name: 'createUser' })
+  @Mutation(() => Request, { name: 'createRequest' })
   async createFile(@Args('input') input: CreateRequestInput): Promise<Request | null> {
     try {
       return await this.requestService.createRequest(input);
@@ -61,7 +61,7 @@ export class RequestResolver {
     }
   }
 
-  @Mutation(() => Request, { name: 'updateFile' })
+  @Mutation(() => Request, { name: 'updateRequest' })
   async updateFile(
     @Args('id') id: string,
     @Args('input') input: UpdateRequestInput,
@@ -73,7 +73,7 @@ export class RequestResolver {
     }
   }
 
-  @Mutation(() => Request, { name: 'deleteFile' })
+  @Mutation(() => Request, { name: 'deleteRequest' })
   async deleteFile(@Args('id') id: string): Promise<Request | null> {
     try {
       return await this.requestService.deleteRequest(id);

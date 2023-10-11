@@ -1,9 +1,9 @@
 export const MAIN_APP = {
-  host: 'localhost',
-  port: 3333,
-  name: 'streamline',
-  graphqlEndpoint: '/graphql',
-  ssl: false,
+  host: process.env.MAIN_APP_HOST || 'localhost',
+  port: process.env.MAIN_APP_PORT || 3333,
+  name: process.env.MAIN_APP_NAME || 'streamline',
+  graphqlEndpoint: process.env.MAIN_APP_GRAPHQL || '/graphql',
+  ssl: process.env.SSL || false,
 }
 
 export const AUTH_APP = {

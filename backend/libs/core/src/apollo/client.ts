@@ -16,8 +16,7 @@ export const createApolloClient = (
   });
 };
 
-export const authApolloClient =
-  process.env.AUTH_APP_URI || createApolloClient(createURI(AUTH_APP));
-export const procurementApolloClient =
-  process.env.PROCUREMENT_APP_URI ||
-  createApolloClient(createURI(PROCUREMENT_APP));
+export const authApolloClient = createApolloClient(createURI(AUTH_APP));
+export const procurementApolloClient = createApolloClient(
+  createURI(PROCUREMENT_APP),
+);

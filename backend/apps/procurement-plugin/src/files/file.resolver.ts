@@ -52,7 +52,7 @@ export class FileResolver {
     }
   }
 
-  @Mutation(() => File, { name: 'createUser' })
+  @Mutation(() => File, { name: 'createFile' })
   async createFile(@Args('input') input: CreateFileInput): Promise<File | null> {
     try {
       return await this.fileService.createFile(input);
