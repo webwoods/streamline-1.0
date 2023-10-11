@@ -19,5 +19,5 @@ export class Properties extends StreamLineEntity {
 
   @Column()
   @Field()
-  list: string;
+  type: string;
 }
