@@ -2,8 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateFileInput {
-  name: String
+input CreateRequestInput {
+  description: String
+  fileId: String
+  requestType: String!
+  requestedUserId: String!
 }
 
 """
@@ -25,9 +28,9 @@ type FilePage {
 }
 
 type Mutation {
-  createUser(input: CreateFileInput!): File!
-  deleteFile(id: String!): File!
-  updateFile(id: String!, input: UpdateFileInput!): File!
+  createUser(input: CreateRequestInput!): Request!
+  deleteFile(id: String!): Request!
+  updateFile(id: String!, input: UpdateRequestInput!): Request!
 }
 
 type ProcurementUser {
@@ -46,6 +49,8 @@ type ProcurementUser {
 type Query {
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
+  request(id: String!): Request!
+  requests(page: Int! = 1, pageSize: Int! = 10): RequestPage!
 }
 
 type Request {
@@ -70,6 +75,11 @@ type RequestItem {
   updatedAt: DateTime
 }
 
+type RequestPage {
+  data: [Request!]!
+  totalPages: Int!
+}
+
 type Role {
   createdAt: DateTime
   division: String
@@ -78,8 +88,12 @@ type Role {
   updatedAt: DateTime
 }
 
-input UpdateFileInput {
-  name: String
+input UpdateRequestInput {
+  description: String
+  fileId: String
+  requestType: String
+  requestedDate: DateTime
+  requestedUserId: String
 }
 
 enum UserRoles {

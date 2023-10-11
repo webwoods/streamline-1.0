@@ -14,14 +14,14 @@ export class FileService {
     const data = await this.fileRepository.find({
       skip,
       take,
-      relations: {},
+      relations: { requests: true },
     });
     return data;
   }
 
   async findFileById(id: string): Promise<File | null> {
     return await this.fileRepository.findOne({
-      relations: {},
+      relations: { requests: true },
       where: { id },
     });
   }
@@ -30,14 +30,14 @@ export class FileService {
     const file = this.fileRepository.create(input);
     const createdUser = await this.fileRepository.save(file);
     return await this.fileRepository.findOne({
-      relations: {},
+      relations: { requests: true },
       where: { id: createdUser.id },
     });
   }
 
   async updateFile(id: string, input: Partial<File>): Promise<File | null> {
     const file = await this.fileRepository.findOne({
-      relations: {},
+      relations: { requests: true },
       where: { id },
     });
 
@@ -52,7 +52,7 @@ export class FileService {
 
   async deleteFile(id: string): Promise<File | null> {
     const file = await this.fileRepository.findOne({
-      relations: {},
+      relations: { requests: true },
       where: { id },
     });
     await this.fileRepository.delete(id);

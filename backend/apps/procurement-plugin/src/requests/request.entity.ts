@@ -31,6 +31,11 @@ export class Request extends StreamLineEntity {
   @ManyToOne(
     () => ProcurementUser,
     (procurementUser) => procurementUser.requests,
+    {
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
+      nullable: true,
+    },
   )
   @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
   @Field(() => ProcurementUser, { nullable: true })

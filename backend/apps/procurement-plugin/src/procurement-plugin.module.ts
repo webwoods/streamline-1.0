@@ -20,11 +20,12 @@ import { VerificationCode } from '@libs/core/verification-codes/verification-cod
 import { VerificationCodesModule } from '@libs/core/verification-codes/verification-codes.module';
 import { RequestItemsModule } from './request-items/request-items.module';
 import { RequestItem } from './request-items/request-items.entity';
+import { AuthModule } from 'apps/auth-plugin/src/auth/auth.module';
 
 @Module({
   imports: [
     FileModule,
-    // RequestModule,
+    RequestModule,
     // RoleModule,
     // UserModule,
     // ProcurementUserModule,

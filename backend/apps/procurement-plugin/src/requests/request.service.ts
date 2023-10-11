@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository } from 'typeorm';
 import { Request } from './request.entity';
 
@@ -11,34 +10,56 @@ export class RequestService {
     private readonly requestRepository: Repository<Request>,
   ) {}
 
-  async createRequest(input: Partial<Request>): Promise<Request> {
+  async findAllRequests(skip: number, take: number): Promise<Request[]> {
+    const data = await this.requestRepository.find({
+      skip,
+      take,
+      relations: { file: true },
+    });
+    return data;
+  }
+
+  async findRequestById(id: string): Promise<Request | null> {
+    return await this.requestRepository.findOne({
+      relations: {
+        file: true,
+      },
+      where: { id },
+    });
+  }
+
+  async createRequest(input: Partial<Request>): Promise<Request | null> {
     const request = this.requestRepository.create(input);
-    return await this.requestRepository.save(request);
+    const createdUser = await this.requestRepository.save(request);
+    return await this.requestRepository.findOne({
+      relations: { file: true },
+      where: { id: createdUser.id },
+    });
   }
 
-  async findAllRequests(): Promise<Request[]> {
-    return await this.requestRepository.find();
+  async updateRequest(
+    id: string,
+    input: Partial<Request>,
+  ): Promise<Request | null> {
+    const request = await this.requestRepository.findOne({
+      relations: { file: true },
+      where: { id },
+    });
+
+    // If the request doesn't exist, throw NotFoundException
+    if (!request) {
+      throw new NotFoundException(`Request with id ${id} not found`);
+    }
+
+    await this.requestRepository.save(request);
+    return await this.findRequestById(id);
   }
 
-  async findRequestById(id: string): Promise<Request> {
-    return await this.requestRepository.findOne({ where: { id } });
-  }
-
-  async findRequestsByFileType(requestType: string): Promise<Request[]> {
-    return await this.requestRepository.find({ where: { requestType } });
-  }
-
-  async findRequestsByFileId(fileId: string): Promise<Request[]> {
-    return await this.requestRepository.find({ where: { fileId } });
-  }
-
-  async updateRequest(id: string, input: Partial<Request>): Promise<Request> {
-    await this.requestRepository.update(id, input);
-    return await this.requestRepository.findOne({ where: { id } });
-  }
-
-  async deleteRequest(id: string): Promise<Request> {
-    const request = await this.requestRepository.findOne({ where: { id } });
+  async deleteRequest(id: string): Promise<Request | null> {
+    const request = await this.requestRepository.findOne({
+      relations: { file: true },
+      where: { id },
+    });
     await this.requestRepository.delete(id);
     return request;
   }
