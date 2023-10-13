@@ -10,8 +10,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAllUsers(skip: number, take: number): Promise<[User[], number]> {
-    const [data, total] = await this.userRepository.findAndCount({
+  async findAllUsers(skip: number, take: number): Promise<User[]> {
+    const data = await this.userRepository.find({
       skip,
       take,
       relations: {
@@ -19,7 +19,7 @@ export class UserService {
         verificationCodes: true,
       },
     });
-    return [data, total];
+    return data;
   }
 
   async findUserById(id: string): Promise<User | null> {

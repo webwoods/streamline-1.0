@@ -1,10 +1,20 @@
-import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+  ResolveReference,
+  Int,
+} from '@nestjs/graphql';
 import { RoleService } from '../roles/role.service';
 import { CreateRoleInput, CreateRolesInput } from './dto/create.role';
 import { UpdateRoleInput } from './dto/update.role';
 import { Role } from './role.entity';
 import { UserRoles } from './enum/role';
 import { User } from '../users/user.entity';
+import { RolePage } from './dto/rolePage.dto';
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -43,10 +53,16 @@ export class RoleResolver {
     }
   }
 
-  @Query(() => [Role], { name: 'roles' })
-  async getRoles(): Promise<Role[]> {
+  @Query(() => RolePage, { name: 'users' })
+  async getUsers(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<RolePage> {
     try {
-      return await this.roleService.findAllRoles();
+      const skip = (page - 1) * pageSize;
+      const roles = await this.roleService.findAllRoles(skip, pageSize);
+      const rolePage: RolePage = { data: roles, totalItems: roles.length };
+      return rolePage;
     } catch (error: any) {
       throw new Error(`Error fetching roles: ${error.message}`);
     }
@@ -95,5 +111,13 @@ export class RoleResolver {
     } catch (error: any) {
       throw new Error(`Error deleting role: ${error.message}`);
     }
+  }
+
+  /**
+   * required by graphql federation
+   */
+  @ResolveReference()
+  resolveReference(reference: { __typename: string; id: string }) {
+    return this.roleService.findRoleById(reference.id);
   }
 }

@@ -3,7 +3,14 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 interface DbConfigOptions {
-  db: string;
+  db: {
+    type?: string;
+    host?: string;
+    port?: number;
+    username?: string;
+    password?: string;
+    database?: string;
+  };
   entities: any[];
 }
 
@@ -11,7 +18,7 @@ export function getDbConfig({
   db,
   entities,
 }: DbConfigOptions): DataSourceOptions {
-  const dbType = db ?? process.env['DB'] ?? 'postgres';
+  const dbType = db.type ?? process.env['DB'] ?? 'postgres';
 
   const commonConfig: any = {
     type: 'postgres',
@@ -57,7 +64,7 @@ export function getDbConfig({
       console.log('Using postgres connection');
       return {
         ...commonConfig,
-        ...pgConfig
+        ...pgConfig,
       };
   }
 }

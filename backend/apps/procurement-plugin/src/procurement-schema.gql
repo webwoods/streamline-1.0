@@ -2,25 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateRoleInput {
-  division: String
-  name: UserRoles!
-}
-
-input CreateRolesInput {
-  roles: [CreateRoleInput!]!
-}
-
-input CreateUserInput {
-  email: String!
+input CreateFileInput {
   name: String
-  password: String!
-  roleId: String
-  username: String!
 }
 
-input CreateUsersInput {
-  users: [CreateUserInput!]!
+input CreateRequestInput {
+  description: String
+  fileId: String
+  requestType: String!
+  requestedUserId: String!
 }
 
 """
@@ -28,50 +18,91 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-input LoginInput {
-  password: String!
-  username: String!
+type File {
+  createdAt: DateTime
+  id: ID!
+  name: String
+  requests: Request
+  updatedAt: DateTime
 }
 
-union LoginResultUnion = LoginSuccess | PasswordMismatchError | UserNotExistError
-
-type LoginSuccess {
-  accessToken: String!
-  me: User!
+type FilePage {
+  data: [File!]!
+  totalPages: Int!
 }
 
 type Mutation {
-  createRole(input: CreateRoleInput!): Role!
-  createRoles(inputs: CreateRolesInput!): [Role!]!
-  createUser(input: CreateUserInput!): User!
-  createUsers(inputs: CreateUsersInput!): [User!]!
-  deleteRole(id: String!): Role!
-  deleteUser(id: String!): User!
-  login(input: LoginInput!): LoginResultUnion!
-  registerNewUser(input: CreateUserInput!): RegisterResultUnion!
-  updateRole(id: String!, input: UpdateRoleInput!): Role!
-  updateUser(id: String!, input: UpdateUserInput!): User!
-  verifyUser(input: VerifyUserInput!): VerificationResultUnion!
+  createFile(input: CreateFileInput!): File!
+  createRequest(input: CreateRequestInput!): Request!
+  deleteFile(id: String!): File!
+  deleteRequest(id: String!): Request!
+  updateFile(id: String!, input: UpdateFileInput!): File!
+  updateRequest(id: String!, input: UpdateRequestInput!): Request!
 }
 
-type PasswordMismatchError {
-  message: String!
+type ProcurementUser {
+  createdAt: DateTime
+  email: String!
+  id: ID!
+  name: String
+  password: String
+  role: Role
+  type: ProcurementUserType!
+  updatedAt: DateTime
+  username: String!
+  verificationCodes: [VerificationCode!]!
+  verified: Boolean!
+}
+
+enum ProcurementUserType {
+  APPROVING_USER
+  REQUESTING_USER
+  REVIEWING_USER
+}
+
+type Property {
+  createdAt: DateTime
+  id: ID!
+  key: String!
+  type: String!
+  updatedAt: DateTime
+  value: String!
 }
 
 type Query {
-  roleById(id: String!): Role!
-  roleByRoleName(roleName: UserRoles!): Role!
-  roles: [Role!]!
-  user(id: String!): User!
-  users(page: Int! = 1, pageSize: Int! = 10): UsersWithCount!
+  file(id: String!): File!
+  files(page: Int! = 1, pageSize: Int! = 10): FilePage!
+  request(id: String!): Request!
+  requests(page: Int! = 1, pageSize: Int! = 10): RequestPage!
 }
 
-type RegisterNewUserSuccess {
-  me: User!
-  verificationToken: String!
+type Request {
+  createdAt: DateTime
+  description: String
+  file: File
+  id: ID!
+  requestItems: [RequestItem!]
+  requestType: String!
+  requestedUser: ProcurementUser
+  updatedAt: DateTime
 }
 
-union RegisterResultUnion = PasswordMismatchError | RegisterNewUserSuccess | UserNotExistError
+type RequestItem {
+  createdAt: DateTime
+  id: ID!
+  name: String!
+  price: Float
+  properties: [Property!]!
+  quantity: Float
+  requests: [Request!]!
+  sku: String!
+  updatedAt: DateTime
+}
+
+type RequestPage {
+  data: [Request!]!
+  totalPages: Int!
+}
 
 type Role {
   createdAt: DateTime
@@ -79,38 +110,18 @@ type Role {
   id: ID!
   name: UserRoles!
   updatedAt: DateTime
-  users: [User!]
 }
 
-input UpdateRoleInput {
-  division: String
-  name: UserRoles
-}
-
-input UpdateUserInput {
-  email: String
+input UpdateFileInput {
   name: String
-  password: String
-  roleId: String
-  username: String
-  verified: Boolean
 }
 
-type User {
-  createdAt: DateTime
-  email: String!
-  id: ID!
-  name: String
-  password: String
-  role: Role
-  updatedAt: DateTime
-  username: String!
-  verificationCodes: [VerificationCode!]!
-  verified: Boolean!
-}
-
-type UserNotExistError {
-  message: String!
+input UpdateRequestInput {
+  description: String
+  fileId: String
+  requestType: String
+  requestedDate: DateTime
+  requestedUserId: String
 }
 
 enum UserRoles {
@@ -121,27 +132,10 @@ enum UserRoles {
   STORE_STAFF
 }
 
-type UsersWithCount {
-  data: [User!]
-  totalItems: Float!
-}
-
 type VerificationCode {
   code: String!
   createdAt: DateTime
   id: ID!
   updatedAt: DateTime
   userId: String!
-}
-
-union VerificationResultUnion = PasswordMismatchError | UserNotExistError | VerificationSuccess
-
-type VerificationSuccess {
-  me: User!
-}
-
-input VerifyUserInput {
-  email: String
-  username: String!
-  verificationToken: String!
 }

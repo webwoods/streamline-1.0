@@ -6,13 +6,14 @@ import {
   ResolveField,
   Parent,
   Int,
+  ResolveReference
 } from '@nestjs/graphql';
 import { User } from '../users/user.entity';
 import { UserService } from './user.service';
 import { CreateUserInput, CreateUsersInput } from '../users/dto/create.user';
 import { UpdateUserInput } from '../users/dto/update.user';
 import { Role } from '../roles/role.entity';
-import { UsersWithCount } from '../users/dto/read.user';
+import { UserPage } from './dto/userPage.dto';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -36,15 +37,16 @@ export class UserResolver {
     }
   }
 
-  @Query(() => UsersWithCount, { name: 'users' })
+  @Query(() => UserPage, { name: 'users' })
   async getUsers(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
-  ): Promise<UsersWithCount> {
+  ): Promise<UserPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const [data, _] = await this.userService.findAllUsers(skip, pageSize); // data is queried as [User[], number]
-      return { data, totalItems: data.length }
+      const users = await this.userService.findAllUsers(skip, pageSize);
+      const userPage: UserPage = { data: users, totalItems: users.length };
+      return userPage;
     } catch (error: any) {
       throw new Error(`Error fetching users: ${error.message}`);
     }
@@ -93,5 +95,13 @@ export class UserResolver {
     } catch (error: any) {
       throw new Error(`Error deleting user: ${error.message}`);
     }
+  }
+
+  /**
+   * required by graphql federation
+   */
+  @ResolveReference()
+  resolveReference(reference: { __typename: string; id: string }) {
+    return this.userService.findUserById(reference.id);
   }
 }

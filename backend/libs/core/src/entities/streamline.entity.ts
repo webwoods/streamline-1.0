@@ -4,6 +4,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Column,
+  BeforeInsert,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -25,4 +27,22 @@ export class StreamLineEntity {
   @UpdateDateColumn({ nullable: true })
   @Field({ nullable: true })
   updatedAt!: Date;
+
+  // @Column()
+  // @Field()
+  // name: string;
+
+  // @Column()
+  // @Field()
+  // slug: string;
+
+  // @BeforeInsert()
+  // generateSlug() {
+  //   if (this.name) {
+  //     this.slug = this.name
+  //       .toLowerCase()
+  //       .replace(/[^a-z0-9]+/g, '-')
+  //       .replace(/(^-|-$)+/g, '');
+  //   }
+  // }
 }

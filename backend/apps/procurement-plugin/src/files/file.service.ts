@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { File } from 'src/files/file.entity';
+import { File } from './file.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -10,30 +10,51 @@ export class FileService {
     private readonly fileRepository: Repository<File>,
   ) {}
 
-  async createFile(input: Partial<File>): Promise<File> {
+  async findAllFiles(skip: number, take: number): Promise<File[]> {
+    const data = await this.fileRepository.find({
+      skip,
+      take,
+      relations: { requests: true },
+    });
+    return data;
+  }
+
+  async findFileById(id: string): Promise<File | null> {
+    return await this.fileRepository.findOne({
+      relations: { requests: true },
+      where: { id },
+    });
+  }
+
+  async createFile(input: Partial<File>): Promise<File | null> {
     const file = this.fileRepository.create(input);
-    return await this.fileRepository.save(file);
+    const createdUser = await this.fileRepository.save(file);
+    return await this.fileRepository.findOne({
+      relations: { requests: true },
+      where: { id: createdUser.id },
+    });
   }
 
-  async findAllFiles(): Promise<File[]> {
-    return await this.fileRepository.find();
+  async updateFile(id: string, input: Partial<File>): Promise<File | null> {
+    const file = await this.fileRepository.findOne({
+      relations: { requests: true },
+      where: { id },
+    });
+
+    // If the file doesn't exist, throw NotFoundException
+    if (!file) {
+      throw new NotFoundException(`File with id ${id} not found`);
+    }
+
+    await this.fileRepository.save(file);
+    return await this.findFileById(id);
   }
 
-  async findFileById(id: string): Promise<File> {
-    return await this.fileRepository.findOne({ where: { id } });
-  }
-
-  async findFileByFilename(filename: string): Promise<File> {
-    return await this.fileRepository.findOne({ where: { name: filename } });
-  }
-
-  async updateFile(id: string, input: Partial<File>): Promise<File> {
-    await this.fileRepository.update(id, input);
-    return await this.fileRepository.findOne({ where: { id } });
-  }
-
-  async deleteFile(id: string): Promise<File> {
-    const file = await this.fileRepository.findOne({ where: { id } });
+  async deleteFile(id: string): Promise<File | null> {
+    const file = await this.fileRepository.findOne({
+      relations: { requests: true },
+      where: { id },
+    });
     await this.fileRepository.delete(id);
     return file;
   }
