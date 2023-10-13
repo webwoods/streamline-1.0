@@ -3,11 +3,11 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class UpdatePropertyInput {
   @Field({ nullable: true })
-  key?: string;
+  key: string;
 
   @Field({ nullable: true })
-  value?: string;
+  value: string;
 
   @Field({ nullable: true })
-  type?: string;
+  type: string;
 }

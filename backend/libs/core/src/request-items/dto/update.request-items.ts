@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { Request } from '../../requests/request.entity';
 
 @InputType()
 export class UpdateRequestItemsInput {

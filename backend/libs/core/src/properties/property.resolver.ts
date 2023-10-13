@@ -39,7 +39,7 @@ export class PropertyResolver {
     }
   }
 
-  @Query(() => PropertyPage, { name: 'properties' })
+  @Query(() => PropertyPage, { name: 'Properties' })
   async getProperties(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
@@ -60,7 +60,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'createProperty' })
+  @Mutation(() => Property, { name: 'createFile' })
   async createProperty(
     @Args('input') input: CreatePropertyInput,
   ): Promise<Property | null> {
@@ -71,7 +71,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'updateProperty' })
+  @Mutation(() => Property, { name: 'updateFile' })
   async updateProperty(
     @Args('id') id: string,
     @Args('input') input: UpdatePropertyInput,
@@ -83,7 +83,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'deleteProperty' })
+  @Mutation(() => Property, { name: 'deleteFile' })
   async deleteProperty(@Args('id') id: string): Promise<Property | null> {
     try {
       return await this.propertyService.deleteProperty(id);
