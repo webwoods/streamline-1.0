@@ -9,7 +9,6 @@ import { RequestModule } from './requests/request.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { getDbConfig } from '@libs/core/config/orm.config';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MAIN_APP } from '@libs/core/constants/appInfo';
 import { Role } from '@libs/core/roles/role.entity';
 import { User } from '@libs/core/users/user.entity';
@@ -26,10 +25,10 @@ import { join } from 'path';
     RequestModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), AUTH_APP.schema),
+      autoSchemaFile: join(process.cwd(), MAIN_APP.schema),
       sortSchema: true,
       playground: true,
-      path: AUTH_APP.graphqlEndpoint,
+      path: MAIN_APP.graphqlEndpoint,
     }),
 
     TypeOrmModule.forRoot(
