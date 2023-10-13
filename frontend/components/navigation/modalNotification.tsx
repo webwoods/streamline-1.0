@@ -12,13 +12,14 @@ import {
 } from "@nextui-org/react";
 import { NotificationIcon } from "./notificationIcon";
 
-const CHARACTER_LIMIT = 100; // Define the character limit here
+const CHARACTER_LIMIT = 100;
 
 export default function ModalNotification() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [scrollBehavior, setScrollBehavior] = useState<ModalProps["scrollBehavior"]>("inside");
 
-  // Create a list of notifications
+  const BLUE_COLOR = "primary";
+
   const notifications = [
     "Notification 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "Notification 2: Nullam pulvinar risus non risus hendrerit venenatis.",
@@ -26,7 +27,6 @@ export default function ModalNotification() {
     // Add more notifications as needed
   ];
 
-  // Create a state to track expanded notifications
   const [expandedNotifications, setExpandedNotifications] = useState<number[]>([]);
 
   const toggleExpand = (index: number) => {
@@ -57,7 +57,7 @@ export default function ModalNotification() {
               <ModalHeader className="flex flex-col gap-1">Notifications</ModalHeader>
               <ModalBody>
                 {notifications.map((notification, index) => (
-                  <div key={index}>
+                  <div key={index} className="notification-container">
                     <div className={expandedNotifications.includes(index) ? "expanded" : "collapsed"}>
                       <p>
                         {notification.length > CHARACTER_LIMIT && !expandedNotifications.includes(index)
@@ -67,9 +67,10 @@ export default function ModalNotification() {
                     </div>
                     {notification.length > CHARACTER_LIMIT && (
                       <Button
-                        color="default"
+                        color={BLUE_COLOR}
                         variant="light"
                         onPress={() => toggleExpand(index)}
+                        className="see-more-button"
                       >
                         {expandedNotifications.includes(index) ? "See Less" : "See More"}
                       </Button>
@@ -87,13 +88,29 @@ export default function ModalNotification() {
         </ModalContent>
       </Modal>
       <style jsx>{`
+        .notification-container {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+          border: 1px solid black;
+          border-radius: 10px;
+          padding: 10px;
+        }
+
         .expanded {
           max-height: none;
           overflow: auto;
         }
+
         .collapsed {
           max-height: 50px;
           overflow: hidden;
+        }
+
+        .see-more-button {
+          position: absolute;
+          bottom: 0;
+          right: 0;
         }
       `}</style>
     </div>
