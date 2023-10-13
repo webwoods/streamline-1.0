@@ -1,119 +1,118 @@
-import React from "react";
-
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalProps, Button, useDisclosure, RadioGroup, Radio, Chip, Tooltip} from "@nextui-org/react";
+import React, { useState } from "react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalProps,
+  Button,
+  useDisclosure,
+  Tooltip,
+} from "@nextui-org/react";
 import { NotificationIcon } from "./notificationIcon";
 
+const CHARACTER_LIMIT = 100;
 
 export default function ModalNotification() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  const [scrollBehavior, setScrollBehavior] = React.useState<ModalProps["scrollBehavior"]>("inside");
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] = useState<ModalProps["scrollBehavior"]>("inside");
+
+  const BLUE_COLOR = "primary";
+
+  const notifications = [
+    "Notification 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "Notification 2: Nullam pulvinar risus non risus hendrerit venenatis.",
+    "Notification 3: Magna exercitation reprehenderit magna aute tempor cupidatat consequat Magna exercitation reprehenderit magna aute tempor cupidatat consequat...",
+    // Add more notifications as needed
+  ];
+
+  const [expandedNotifications, setExpandedNotifications] = useState<number[]>([]);
+
+  const toggleExpand = (index: number) => {
+    if (expandedNotifications.includes(index)) {
+      setExpandedNotifications(expandedNotifications.filter((item) => item !== index));
+    } else {
+      setExpandedNotifications([...expandedNotifications, index]);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2">
-        <Tooltip  color={'danger'} content={'20'} className="capitalize">
-            <Button isIconOnly onPress={onOpen} variant="flat" color={'default'} className="capitalize bg-transparent rounded-full">
-                <NotificationIcon size={40}/>
-            </Button>
-          </Tooltip>
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        scrollBehavior={scrollBehavior}
-      >
+      <Tooltip color={"danger"} content={"20"} className="capitalize">
+        <Button
+          isIconOnly
+          onPress={onOpen}
+          variant="flat"
+          color={"default"}
+          className="capitalize bg-transparent rounded-full"
+        >
+          <NotificationIcon size={40} />
+        </Button>
+      </Tooltip>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior={scrollBehavior}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Notifications
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Notifications</ModalHeader>
               <ModalBody>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Magna exercitation reprehenderit magna aute tempor cupidatat
-                  consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                  incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                  aliqua enim laboris do dolor eiusmod. Et mollit incididunt
-                  nisi consectetur esse laborum eiusmod pariatur proident Lorem
-                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                  Magna exercitation reprehenderit magna aute tempor cupidatat
-                  consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                  incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                  aliqua enim laboris do dolor eiusmod. Et mollit incididunt
-                  nisi consectetur esse laborum eiusmod pariatur proident Lorem
-                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                </p>
-                <p>
-                  Mollit dolor eiusmod sunt ex incididunt cillum quis. Velit
-                  duis sit officia eiusmod Lorem aliqua enim laboris do dolor
-                  eiusmod. Et mollit incididunt nisi consectetur esse laborum
-                  eiusmod pariatur proident Lorem eiusmod et. Culpa deserunt
-                  nostrud ad veniam. Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit. Nullam pulvinar risus non risus hendrerit
-                  venenatis. Pellentesque sit amet hendrerit risus, sed
-                  porttitor quam. Magna exercitation reprehenderit magna aute
-                  tempor cupidatat consequat elit dolor adipisicing. Mollit
-                  dolor eiusmod sunt ex incididunt cillum quis. Velit duis sit
-                  officia eiusmod Lorem aliqua enim laboris do dolor eiusmod. Et
-                  mollit incididunt nisi consectetur esse laborum eiusmod
-                  pariatur proident Lorem eiusmod et. Culpa deserunt nostrud ad
-                  veniam.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Magna exercitation reprehenderit magna aute tempor cupidatat
-                  consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                  incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                  aliqua enim laboris do dolor eiusmod. Et mollit incididunt
-                  nisi consectetur esse laborum eiusmod pariatur proident Lorem
-                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                </p>
-                <p>
-                  Mollit dolor eiusmod sunt ex incididunt cillum quis. Velit
-                  duis sit officia eiusmod Lorem aliqua enim laboris do dolor
-                  eiusmod. Et mollit incididunt nisi consectetur esse laborum
-                  eiusmod pariatur proident Lorem eiusmod et. Culpa deserunt
-                  nostrud ad veniam. Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit. Nullam pulvinar risus non risus hendrerit
-                  venenatis. Pellentesque sit amet hendrerit risus, sed
-                  porttitor quam. Magna exercitation reprehenderit magna aute
-                  tempor cupidatat consequat elit dolor adipisicing. Mollit
-                  dolor eiusmod sunt ex incididunt cillum quis. Velit duis sit
-                  officia eiusmod Lorem aliqua enim laboris do dolor eiusmod. Et
-                  mollit incididunt nisi consectetur esse laborum eiusmod
-                  pariatur proident Lorem eiusmod et. Culpa deserunt nostrud ad
-                  veniam.
-                </p>
+                {notifications.map((notification, index) => (
+                  <div key={index} className="notification-container">
+                    <div className={expandedNotifications.includes(index) ? "expanded" : "collapsed"}>
+                      <p>
+                        {notification.length > CHARACTER_LIMIT && !expandedNotifications.includes(index)
+                          ? `${notification.substring(0, 50)}...`
+                          : notification}
+                      </p>
+                    </div>
+                    {notification.length > CHARACTER_LIMIT && (
+                      <Button
+                        color={BLUE_COLOR}
+                        variant="light"
+                        onPress={() => toggleExpand(index)}
+                        className="see-more-button"
+                      >
+                        {expandedNotifications.includes(index) ? "See Less" : "See More"}
+                      </Button>
+                    )}
+                  </div>
+                ))}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
                 </Button>
               </ModalFooter>
             </>
           )}
         </ModalContent>
       </Modal>
+      <style jsx>{`
+        .notification-container {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+          border: 1px solid black;
+          border-radius: 10px;
+          padding: 10px;
+        }
+
+        .expanded {
+          max-height: none;
+          overflow: auto;
+        }
+
+        .collapsed {
+          max-height: 50px;
+          overflow: hidden;
+        }
+
+        .see-more-button {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      `}</style>
     </div>
   );
 }

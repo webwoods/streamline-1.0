@@ -38,3 +38,6 @@ yarn start:dev
 # go to frontend folder and run
 yarn dev:new
 ```
+yarn add @webwoods/streamline
+yarn add react-icons
+
