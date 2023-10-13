@@ -13,6 +13,7 @@ input CreateRequestInput {
   fileId: String
   requestType: String!
   requestedUserId: String!
+  status: RequestStatus! = AWAITING_APPROVAL
 }
 
 input CreateRequestItemsInput {
@@ -49,7 +50,7 @@ type File {
 
 type FilePage {
   data: [File!]!
-  totalPages: Int!
+  totalPages: Int
 }
 
 input LoginInput {
@@ -119,7 +120,7 @@ type Property {
 
 type PropertyPage {
   data: [Property!]!
-  totalPages: Int!
+  totalPages: Int
 }
 
 type Query {
@@ -150,6 +151,7 @@ type Request {
   requestItems: [RequestItem!]
   requestType: String!
   requestedUser: ProcurementUser
+  status: RequestStatus!
   updatedAt: DateTime
 }
 
@@ -167,12 +169,19 @@ type RequestItem {
 
 type RequestItemPage {
   data: [RequestItem!]!
-  totalPages: Int!
+  totalPages: Int
 }
 
 type RequestPage {
   data: [Request!]!
-  totalPages: Int!
+  totalPages: Int
+}
+
+enum RequestStatus {
+  APPROVED
+  AWAITING_APPROVAL
+  PROCESSING
+  REJECTED
 }
 
 type Role {
@@ -195,6 +204,7 @@ input UpdateRequestInput {
   requestType: String
   requestedDate: DateTime
   requestedUserId: String
+  status: RequestStatus = AWAITING_APPROVAL
 }
 
 input UpdateRequestItemsInput {
@@ -232,7 +242,7 @@ type UserNotExistError {
 
 type UserPage {
   data: [User!]!
-  totalPages: Int!
+  totalPages: Int
 }
 
 enum UserRoles {

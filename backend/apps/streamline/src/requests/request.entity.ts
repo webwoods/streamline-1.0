@@ -4,6 +4,7 @@ import { File } from '../files/file.entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { RequestItem } from '../request-items/request-items.entity';
 import { ProcurementUser } from '../procurement-user/procurement-user.entity';
+import { RequestStatus } from './enum/requestStatus';
 
 @Entity()
 @ObjectType()
@@ -47,4 +48,8 @@ export class Request extends StreamLineEntity {
   @ManyToMany(() => RequestItem, (requestItem) => requestItem.requests)
   @Field(() => [RequestItem], { nullable: true })
   requestItems: RequestItem[];
+
+  @Column({ name: 'status', type: 'text', nullable: true })
+  @Field(() => RequestStatus)
+  status: RequestStatus;
 }

@@ -7,7 +7,7 @@ export function PaginateResult<T>(ItemType: Type<T>): any {
     @Field(() => [ItemType])
     data: T[];
 
-    @Field(() => Int)
+    @Field(() => Int, { nullable: true })
     totalPages: number;
   }
 
