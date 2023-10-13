@@ -1,4 +1,13 @@
-import { Args, Int, Mutation, Parent, Query, ResolveField, ResolveReference, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  ResolveReference,
+  Resolver,
+} from '@nestjs/graphql';
 import { RequestItemsService } from './request-items.service';
 import { RequestItem } from './request-items.entity';
 import { Request } from '../requests/request.entity';
@@ -6,12 +15,14 @@ import { CreateRequestItemsInput } from './dto/create.request-items';
 import { UpdateRequestItemsInput } from './dto/update.request-items';
 import { RequestItemPage } from './dto/requestItemPage.dto';
 
-@Resolver()
+@Resolver(() => RequestItem)
 export class RequestItemsResolver {
   constructor(private readonly requestItemService: RequestItemsService) {}
 
   @ResolveField(() => Request, { nullable: true })
-  async requests(@Parent() requestItem: RequestItem): Promise<Request[] | null> {
+  async requests(
+    @Parent() requestItem: RequestItem,
+  ): Promise<Request[] | null> {
     return requestItem.requests ?? null;
   }
 
@@ -35,8 +46,14 @@ export class RequestItemsResolver {
   ): Promise<RequestItemPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const requestItems = await this.requestItemService.findAllRequestItems(skip, pageSize);
-      const requestsPage: RequestItemPage = { data: requestItems, totalItems: requestItems.length };
+      const requestItems = await this.requestItemService.findAllRequestItems(
+        skip,
+        pageSize,
+      );
+      const requestsPage: RequestItemPage = {
+        data: requestItems,
+        totalItems: requestItems.length,
+      };
       return requestsPage;
     } catch (error: any) {
       throw new Error(`Error fetching requests: ${error.message}`);
@@ -44,7 +61,9 @@ export class RequestItemsResolver {
   }
 
   @Mutation(() => RequestItem, { name: 'createRequestItem' })
-  async createFile(@Args('input') input: CreateRequestItemsInput): Promise<RequestItem | null> {
+  async createFile(
+    @Args('input') input: CreateRequestItemsInput,
+  ): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.createRequestItem(input);
     } catch (error: any) {

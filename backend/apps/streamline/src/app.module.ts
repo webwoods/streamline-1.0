@@ -15,6 +15,12 @@ import { User } from '@libs/core/users/user.entity';
 import { VerificationCode } from '@libs/core/verification-codes/verification-codes.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { PropertiesModule } from './properties/property.module';
+import { Request } from './requests/request.entity';
+import { RequestItem } from './request-items/request-items.entity';
+import { Property } from './properties/property.entity';
+import { File } from './files/file.entity';
+import { ProcurementUser } from './procurement-user/procurement-user.entity';
 
 @Module({
   imports: [
@@ -23,6 +29,8 @@ import { join } from 'path';
     FileModule,
     RequestItemsModule,
     RequestModule,
+    PropertiesModule,
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), MAIN_APP.schema),
@@ -34,7 +42,16 @@ import { join } from 'path';
     TypeOrmModule.forRoot(
       getDbConfig({
         db: { type: 'postgres' },
-        entities: [User, Role, VerificationCode],
+        entities: [
+          User,
+          Role,
+          VerificationCode,
+          Request,
+          RequestItem,
+          Property,
+          File,
+          ProcurementUser,
+        ],
       }),
     ),
   ],
