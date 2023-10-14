@@ -6,11 +6,11 @@ import { Role } from '@libs/core/roles/role.entity';
 import { VerificationCode } from '@libs/core/verification-codes/verification-codes.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDbConfig } from '@libs/core/config/orm.config';
-import { AuthModule } from './auth/auth.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AUTH_APP } from '@libs/core/constants/appInfo';
+import { AuthModule } from '@libs/core/auth/auth.module';
 
 @Module({
   imports: [

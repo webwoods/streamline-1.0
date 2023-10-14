@@ -1,10 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
-import {
-  Entity,
-  Column,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, Column, ManyToMany } from 'typeorm';
 import { RequestItem } from '../request-items/request-items.entity';
 
 @Entity()
@@ -22,6 +18,6 @@ export class Property extends StreamLineEntity {
   @Field()
   type: string;
 
-  @ManyToMany(()=>RequestItem, requestItem => requestItem.properties)
+  @ManyToMany(() => RequestItem, (requestItem) => requestItem.properties)
   requestItems?: RequestItem[];
 }

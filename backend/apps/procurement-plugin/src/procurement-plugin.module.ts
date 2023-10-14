@@ -6,28 +6,24 @@ import { getDbConfig } from '@libs/core/config/orm.config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { RequestModule } from './requests/request.module';
-import { FileModule } from './files/file.module';
-import { Request } from './requests/request.entity';
-import { Role } from '@libs/core/roles/role.entity';
-import { RoleModule } from '@libs/core/roles/role.module';
-import { File } from './files/file.entity';
-import { UserModule } from '@libs/core/users/user.module';
-import { ProcurementUserModule } from './procurement-user/procurement-user.module';
-import { ProcurementUser } from './procurement-user/procurement-user.entity';
 import { User } from '@libs/core/users/user.entity';
 import { VerificationCode } from '@libs/core/verification-codes/verification-codes.entity';
-import { VerificationCodesModule } from '@libs/core/verification-codes/verification-codes.module';
-import { RequestItemsModule } from './request-items/request-items.module';
-import { RequestItem } from './request-items/request-items.entity';
-import { AuthModule } from 'apps/auth-plugin/src/auth/auth.module';
 import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
-import { Property } from './properties/property.entity';
+import { FileModule } from '@libs/core/files/file.module';
+import { RequestModule } from '@libs/core/requests/request.module';
+import { RequestItemsModule } from '@libs/core/request-items/request-items.module';
+import { PropertiesModule } from '@libs/core/properties/property.module';
+import { RequestItem } from '@libs/core/request-items/request-items.entity';
+import { Role } from '@libs/core/roles/role.entity';
+import { ProcurementUser } from '@libs/core/procurement-user/procurement-user.entity';
+import { Property } from '@libs/core/properties/property.entity';
 
 @Module({
   imports: [
     FileModule,
     RequestModule,
+    RequestItemsModule,
+    PropertiesModule,
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -55,5 +51,6 @@ import { Property } from './properties/property.entity';
   ],
   controllers: [ProcurementPluginController],
   providers: [ProcurementPluginService],
+  exports: [ProcurementPluginService],
 })
 export class ProcurementPluginModule {}

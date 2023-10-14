@@ -1,16 +1,17 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { Request } from '../../requests/request.entity';
 
 @InputType()
-export class CreateRequestItemsInput {
+export class UpdateRequestItemsInput {
 
   @Field({ nullable: true })
   type?: string;
 
-  @Field()
+  @Field({ nullable: true })
   skn: string;
 
-  @Field()
-  request: Request;
+  @Field({ nullable: true })
+  requestId: string;
 
   @Field({ nullable: true })
   name?: string;

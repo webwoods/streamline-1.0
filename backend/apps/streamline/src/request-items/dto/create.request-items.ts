@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { Request } from '../../requests/request.entity';
 
 @InputType()
 export class CreateRequestItemsInput {
@@ -10,7 +11,7 @@ export class CreateRequestItemsInput {
   skn: string;
 
   @Field()
-  request: Request;
+  requestId: string;
 
   @Field({ nullable: true })
   name?: string;

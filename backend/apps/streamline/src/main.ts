@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MAIN_APP } from '@libs/core/constants/appInfo';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,7 @@ async function bootstrap() {
     🚀 Application is running on: http://localhost:${port}/${globalPrefix}
     🚀 Graphql Server is running on: http://localhost:${port}${graphqlEndpoint}
     🚀 Graphql Playground is running on: http://localhost:${port}${graphqlEndpoint}/playground
-    `
+    `,
   );
 }
 bootstrap();
