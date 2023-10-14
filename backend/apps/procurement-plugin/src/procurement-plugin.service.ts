@@ -53,18 +53,54 @@ export class ProcurementPluginService {
     return;
   }
 
+  /**
+   * This function lets the procurement user to add a request to 
+   * a file (request collection)
+   * @returns 
+   */
   async addRequestToFile(): Promise<any> {
     return;
   }
 
+  /**
+   * This function lets the procurement user to remov a request from 
+   * a file (request collection)
+   * @returns 
+   */
   async removeRequestFromFile(): Promise<any> {
     return;
   }
 
+  /**
+   * Lets the user to attach an existing property from teh database,
+   * to a request item
+   * @returns 
+   */
+  async addPropertyToRequestItem(): Promise<any> {
+    return;
+  }
+
+  /**
+   * Lets the user to attach a set of existing properties from teh database,
+   * to a request item
+   * @returns 
+   */
+  async addPropertiesToRequestItem(): Promise<any> {
+    return;
+  }
+
+  /**
+   * Lets the user to define a new property to a request item
+   * @returns 
+   */
   async addNewPropertyToRequestItem(): Promise<any> {
     return;
   }
 
+  /**
+   * Lets the user to define new set of properties to a request item
+   * @returns 
+   */
   async addNewPropertiesToRequestItem(): Promise<any> {
     return;
   }
