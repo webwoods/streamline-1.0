@@ -34,11 +34,17 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["name"];
 
 type User = typeof users[0];
 
-export default function TableSort() {
+type TableSortProps = {
+  type: string;
+  // visibleColumn: Set<string>;
+  // setVisibleColumn: (columns: Set<string>) => void;
+};
+
+export default function TableSort({ type }: TableSortProps) {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
@@ -48,6 +54,19 @@ export default function TableSort() {
     column: "age",
     direction: "ascending",
   });
+
+  React.useEffect(() => {
+    if (type === "requests") {
+      // Set the visible columns for the "requests" type
+      setVisibleColumns(new Set(["name", "role", "status", "actions","id"]));
+    } else if (type === "purchase") {
+      // Set the visible columns for the "purchase" type
+      setVisibleColumns(new Set(["name", "role", "actions"]));
+    } else if (type === "quotations") {
+      // Set the visible columns for the "quotations" type
+      setVisibleColumns(new Set(["name", "status", "actions"]));
+    }
+  }, [type, setVisibleColumns]);
 
   const [page, setPage] = React.useState(1);
 
