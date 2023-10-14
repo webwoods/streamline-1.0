@@ -3,7 +3,7 @@ import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject,
-} from '@apollo/client';
+} from '@apollo/client/core';
 import { createURI } from '../scripts/generate-uri';
 import { AUTH_APP, PROCUREMENT_APP } from '../constants/appInfo';
 

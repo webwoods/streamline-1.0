@@ -3,6 +3,7 @@ export const MAIN_APP = {
   port: process.env.MAIN_APP_PORT || 3333,
   name: process.env.MAIN_APP_NAME || 'streamline',
   graphqlEndpoint: process.env.MAIN_APP_GRAPHQL || '/graphql',
+  schema: '/apps/streamline/src/schema.gql',
   ssl: process.env.SSL || false,
 }
 
