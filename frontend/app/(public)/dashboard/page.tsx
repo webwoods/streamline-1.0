@@ -1,6 +1,7 @@
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import StatusModal from "@/components/formStatusModal/statusModal";
-import TableSort from "@/components/table/TableSort";
+import TableTabs from "@/components/tableTab/tab";
+
 
 /**
  * Dashboard Components visible to the Procurement Staff
@@ -22,8 +23,8 @@ export default function DashboardPage() {
 	return (
 		<>
 			<SummaryStatWidget />
-			<div className="flex content-center p-8 sm:px-28">
-				<TableSort/>
+			<div>
+				<TableTabs/>
 			</div>	
 			<div className="flex content-center p-8 sm:px-28">
 			<StatusModal/>
