@@ -22,8 +22,17 @@ export class ProcurementPluginService {
    * that is available in the database
    * @returns requestResultUnion
    */
-  async requestItem(): Promise<any> {
-    return;
+  async requestItem(itemId: string, userId: string): Promise<any> {
+    try {
+      if (!userId) {
+        throw new NotFoundException(
+          'User not found. The request is not permitted.',
+        );
+      }
+    } catch (error) {
+      console.error('Error requesting the Item:', error.message);
+      throw new Error('Failed to request item. Please try again.');
+    }
   }
 
   /**
@@ -54,18 +63,18 @@ export class ProcurementPluginService {
   }
 
   /**
-   * This function lets the procurement user to add a request to 
+   * This function lets the procurement user to add a request to
    * a file (request collection)
-   * @returns 
+   * @returns
    */
   async addRequestToFile(): Promise<any> {
     return;
   }
 
   /**
-   * This function lets the procurement user to remov a request from 
+   * This function lets the procurement user to remov a request from
    * a file (request collection)
-   * @returns 
+   * @returns
    */
   async removeRequestFromFile(): Promise<any> {
     return;
@@ -74,49 +83,79 @@ export class ProcurementPluginService {
   /**
    * Lets the user to attach an existing property from teh database,
    * to a request item
-   * @returns 
+   * @returns
    */
   async addPropertyToRequestItem(): Promise<any> {
     return;
   }
 
   /**
-   * Lets the user to attach a set of existing properties from teh database,
-   * to a request item
-   * @returns 
+   * Lets the user to attach a set of existing properties
+   * from the database, to a request item
+   * @returns
    */
   async addPropertiesToRequestItem(): Promise<any> {
     return;
   }
 
   /**
-   * Lets the user to define a new property to a request item
-   * @returns 
+   * Lets the user to define a new property and
+   * add to a request item
+   * @returns
    */
   async addNewPropertyToRequestItem(): Promise<any> {
     return;
   }
 
   /**
-   * Lets the user to define new set of properties to a request item
-   * @returns 
+   * Lets the user to define new set of properties and
+   * add to a request item
+   * @returns
    */
   async addNewPropertiesToRequestItem(): Promise<any> {
     return;
   }
 
+  /**
+   * Lets the user to remove a property
+   * from a request item
+   * @returns
+   */
   async removePropertyFromRequestItem(): Promise<any> {
     return;
   }
 
+  /**
+   * Lets the user to remove a set of properties
+   * from a request item
+   * @returns
+   */
+  async removePropertiesFromRequestItem(): Promise<any> {
+    return;
+  }
+
+  /**
+   * Lets authorized administrators to change the status
+   * of a request to 'Approved'
+   * @returns
+   */
   async approveRequest(): Promise<any> {
     return;
   }
 
+  /**
+   * Lets authorized administrators to change the status
+   * of a request to 'Rejected'
+   * @returns
+   */
   async rejectRequest(): Promise<any> {
     return;
   }
 
+  /**
+   * Lets a user to add a descriptive comment to a request
+   * @returns
+   */
   async addCommentToRequest(): Promise<any> {
     return;
   }

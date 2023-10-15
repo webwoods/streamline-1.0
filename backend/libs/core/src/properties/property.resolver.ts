@@ -39,7 +39,7 @@ export class PropertyResolver {
     }
   }
 
-  @Query(() => PropertyPage, { name: 'Properties' })
+  @Query(() => PropertyPage, { name: 'properties' })
   async getProperties(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,

@@ -23,6 +23,15 @@ input CreateRequestItemsInput {
   type: String
 }
 
+input CreateRoleInput {
+  division: String
+  name: UserRoles!
+}
+
+input CreateRolesInput {
+  roles: [CreateRoleInput!]!
+}
+
 input CreateUserInput {
   email: String!
   name: String
@@ -69,17 +78,21 @@ type Mutation {
   createFile(input: CreatePropertyInput!): Property!
   createRequest(input: CreateRequestInput!): Request!
   createRequestItem(input: CreateRequestItemsInput!): RequestItem!
+  createRole(input: CreateRoleInput!): Role!
+  createRoles(inputs: CreateRolesInput!): [Role!]!
   createUser(input: CreateUserInput!): User!
   createUsers(inputs: CreateUsersInput!): [User!]!
   deleteFile(id: String!): Property!
   deleteRequest(id: String!): Request!
   deleteRequestItem(id: String!): RequestItem!
+  deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
   login(input: LoginInput!): LoginResultUnion!
   registerNewUser(input: CreateUserInput!): RegisterResultUnion!
   updateFile(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
   updateRequestItem(id: String!, input: UpdateRequestItemsInput!): RequestItem!
+  updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
   verifyUser(input: VerifyUserInput!): VerificationResultUnion!
 }
@@ -124,16 +137,18 @@ type PropertyPage {
 }
 
 type Query {
-  Properties(page: Int! = 1, pageSize: Int! = 10): PropertyPage!
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
+  properties(page: Int! = 1, pageSize: Int! = 10): PropertyPage!
   property(id: String!): Property!
   request(id: String!): Request!
   requestItem(id: String!): RequestItem!
   requestItems(page: Int! = 1, pageSize: Int! = 10): RequestItemPage!
   requests(page: Int! = 1, pageSize: Int! = 10): RequestPage!
+  roleById(id: String!): Role!
+  roleByRoleName(roleName: UserRoles!): Role!
   user(id: String!): User!
-  users(page: Int! = 1, pageSize: Int! = 10): UserPage!
+  users(page: Int! = 1, pageSize: Int! = 10): RolePage!
 }
 
 type RegisterNewUserSuccess {
@@ -190,6 +205,12 @@ type Role {
   id: ID!
   name: UserRoles!
   updatedAt: DateTime
+  users: [User!]
+}
+
+type RolePage {
+  data: [Role!]!
+  totalPages: Int
 }
 
 input UpdatePropertyInput {
@@ -212,6 +233,11 @@ input UpdateRequestItemsInput {
   requestId: String
   skn: String
   type: String
+}
+
+input UpdateRoleInput {
+  division: String
+  name: UserRoles
 }
 
 input UpdateUserInput {
