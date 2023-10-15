@@ -12,6 +12,7 @@ export function MainNavbar() {
 
   return (
     <Navbar
+      position="sticky"
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
