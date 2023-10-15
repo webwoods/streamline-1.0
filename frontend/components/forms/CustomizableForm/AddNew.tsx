@@ -32,7 +32,6 @@ function AddNew() {
         {/* Add more options as needed */}
       </select>
       <button className="add-button" onClick={handleAddClick}>
-        
       </button>
     </div>
   );
