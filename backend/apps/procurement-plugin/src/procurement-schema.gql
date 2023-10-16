@@ -6,6 +6,12 @@ input CreateFileInput {
   name: String
 }
 
+input CreatePropertyInput {
+  key: String!
+  type: String!
+  value: String!
+}
+
 input CreateRequestInput {
   description: String
   fileId: String
@@ -52,16 +58,23 @@ type FilePage {
 }
 
 type Mutation {
+  addNewPropertiesToRequestItem(properties: [CreatePropertyInput!]!, requestItemId: String!): RequestItem!
+  addNewPropertyToRequestItem(property: CreatePropertyInput!, requestItemId: String!): RequestItem!
+  addPropertiesToRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
+  addPropertyToRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
   createFile(input: CreateFileInput!): File!
+  createProperty(input: CreatePropertyInput!): Property!
   createRequest(input: CreateRequestInput!): Request!
   createRequestItem(input: CreateRequestItemsInput!): RequestItem!
   createUser(input: CreateUserInput!): User!
   createUsers(inputs: CreateUsersInput!): [User!]!
   deleteFile(id: String!): File!
+  deleteProperty(id: String!): Property!
   deleteRequest(id: String!): Request!
   deleteRequestItem(id: String!): RequestItem!
   deleteUser(id: String!): User!
   updateFile(id: String!, input: UpdateFileInput!): File!
+  updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
   updateRequestItem(id: String!, input: UpdateRequestItemsInput!): RequestItem!
   updateUser(id: String!, input: UpdateUserInput!): User!
@@ -105,7 +118,6 @@ type PropertyPage {
 type Query {
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
-  getRequestItem(id: String!, userId: String!): Request!
   properties(page: Int! = 1, pageSize: Int! = 10): PropertyPage!
   property(id: String!): Property!
   request(id: String!): Request!
@@ -167,6 +179,12 @@ type Role {
 
 input UpdateFileInput {
   name: String
+}
+
+input UpdatePropertyInput {
+  key: String
+  type: String
+  value: String
 }
 
 input UpdateRequestInput {

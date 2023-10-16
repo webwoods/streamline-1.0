@@ -23,7 +23,10 @@ export class RequestItem extends StreamLineEntity {
   @Field({ nullable: true })
   price: number;
 
-  @ManyToMany(() => Request, (request) => request.requestItems)
+  @ManyToMany(() => Request, (request) => request.requestItems, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable({
     name: 'request_request_items',
     joinColumn: { name: 'request_item_id', referencedColumnName: 'id' },
@@ -34,6 +37,8 @@ export class RequestItem extends StreamLineEntity {
 
   @ManyToMany(() => Property, (property) => property.requestItems, {
     nullable: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   })
   @JoinTable({
     name: 'request-item-properties',

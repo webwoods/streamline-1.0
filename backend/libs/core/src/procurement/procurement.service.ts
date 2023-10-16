@@ -7,6 +7,8 @@ import { RequestService } from '@libs/core/requests/request.service';
 import { Role } from '@libs/core/roles/role.entity';
 import { User } from '@libs/core/users/user.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { RequestItem } from '../request-items/request-items.entity';
+import { Property } from '../properties/property.entity';
 
 @Injectable()
 export class ProcurementService {
@@ -16,51 +18,6 @@ export class ProcurementService {
     private readonly propertyService: PropertyService,
     private readonly fileService: FileService,
   ) {}
-
-  /**
-   * This function let a procument user to request a requestItem
-   * that is available in the database
-   * @returns requestResultUnion
-   */
-  async getRequestItem(itemId: string, userId: string): Promise<any> {
-    try {
-      if (!userId) {
-        throw new NotFoundException(
-          'User not found. The request is not permitted.',
-        );
-      }
-    } catch (error) {
-      console.error('Error requesting the Item:', error.message);
-      throw new Error('Failed to request item. Please try again.');
-    }
-  }
-
-  /**
-   * This function let a procument user to request a requestItem
-   * that is not available in the database
-   * @returns requestResultUnion
-   */
-  async getRequestNewItem(): Promise<any> {
-    return;
-  }
-
-  /**
-   * This function let a procument user to request a requestItem
-   * that is available in the database
-   * @returns requestResultUnion
-   */
-  async requestItems(): Promise<any[]> {
-    return;
-  }
-
-  /**
-   * This function let a procument user to request a requestItem
-   * that is not available in the database
-   * @returns requestResultUnion
-   */
-  async requestNewItems(): Promise<any[]> {
-    return;
-  }
 
   /**
    * This function lets the procurement user to add a request to
@@ -81,12 +38,27 @@ export class ProcurementService {
   }
 
   /**
-   * Lets the user to attach an existing property from teh database,
+   * Lets the user to attach an existing property from the database,
    * to a request item
    * @returns
    */
-  async addPropertyToRequestItem(): Promise<any> {
-    return;
+  async addPropertyToRequestItem(
+    propertyId: string,
+    requestItemId: string,
+  ): Promise<RequestItem> {
+    try {
+      const property = await this.propertyService.findPropertyById(propertyId);
+      const requestItem = await this.requestItemService.findRequestItemById(
+        requestItemId,
+      );
+      requestItem.properties.push(property);
+      return await this.requestItemService.updateRequestItem(
+        requestItemId,
+        requestItem,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
@@ -94,8 +66,29 @@ export class ProcurementService {
    * from the database, to a request item
    * @returns
    */
-  async addPropertiesToRequestItem(): Promise<any> {
-    return;
+  async addPropertiesToRequestItem(
+    propertyIds: string[],
+    requestItemId: string,
+  ): Promise<RequestItem> {
+    try {
+      const properties = await this.propertyService.findPropertiesByIds(
+        propertyIds,
+      );
+      const requestItem = await this.requestItemService.findRequestItemById(
+        requestItemId,
+      );
+
+      properties.forEach((property: Property) => {
+        requestItem.properties.push(property);
+      });
+
+      return await this.requestItemService.updateRequestItem(
+        requestItemId,
+        requestItem,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
@@ -103,8 +96,23 @@ export class ProcurementService {
    * add to a request item
    * @returns
    */
-  async addNewPropertyToRequestItem(): Promise<any> {
-    return;
+  async addNewPropertyToRequestItem(
+    input: Partial<Property>,
+    requestItemId: string,
+  ): Promise<RequestItem> {
+    try {
+      const property = await this.propertyService.createProperty(input);
+      const requestItem = await this.requestItemService.findRequestItemById(
+        requestItemId,
+      );
+      requestItem.properties.push(property);
+      return await this.requestItemService.updateRequestItem(
+        requestItemId,
+        requestItem,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
@@ -112,8 +120,28 @@ export class ProcurementService {
    * add to a request item
    * @returns
    */
-  async addNewPropertiesToRequestItem(): Promise<any> {
-    return;
+  async addNewPropertiesToRequestItem(
+    input: Partial<Property>[],
+    requestItemId: string,
+  ): Promise<any> {
+    try {
+      const requestItem = await this.requestItemService.findRequestItemById(
+        requestItemId,
+      );
+
+      input.forEach(async (property: Partial<Property>) => {
+        requestItem.properties.push(
+          await this.propertyService.createProperty(property),
+        );
+      });
+
+      return await this.requestItemService.updateRequestItem(
+        requestItemId,
+        requestItem,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
@@ -121,8 +149,31 @@ export class ProcurementService {
    * from a request item
    * @returns
    */
-  async removePropertyFromRequestItem(): Promise<any> {
-    return;
+  async removePropertyFromRequestItem(
+    propertyId: string,
+    requestItemId: string,
+  ): Promise<RequestItem> {
+    const requestItem = await this.requestItemService.findRequestItemById(
+      requestItemId,
+    );
+
+    const propertyToRemove = requestItem.properties.find(
+      (property: Property) => property.id === propertyId,
+    );
+
+    if (!propertyToRemove) {
+      throw new NotFoundException('Property not found in the request item.');
+    }
+
+    // Remove the property from the array
+    requestItem.properties = requestItem.properties.filter(
+      (property: Property) => property.id !== propertyId,
+    );
+
+    return await this.requestItemService.updateRequestItem(
+      requestItemId,
+      requestItem,
+    );
   }
 
   /**
