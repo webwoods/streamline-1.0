@@ -20,6 +20,7 @@ import { AuthModule } from '@libs/core/auth/auth.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), AUTH_APP.schema),
       sortSchema: true,
+      include: [AuthModule],
       playground: true,
       path: AUTH_APP.graphqlEndpoint,
     }),

@@ -13,7 +13,7 @@ import { Property } from './property.entity';
 import { CreatePropertyInput } from './dto/create.property';
 import { UpdatePropertyInput } from './dto/update.property';
 import { PropertyPage } from './dto/propertyPage.dto';
-import { RequestItem } from '../request-items/request-items.entity';
+import { RequestItem } from '@libs/core/request-items/request-items.entity';
 
 @Resolver(() => Property)
 export class PropertyResolver {

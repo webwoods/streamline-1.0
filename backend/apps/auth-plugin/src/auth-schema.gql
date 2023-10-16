@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateRoleInput {
+  division: String
+  name: UserRoles!
+}
+
+input CreateRolesInput {
+  roles: [CreateRoleInput!]!
+}
+
 input CreateUserInput {
   email: String!
   name: String
@@ -32,11 +41,15 @@ type LoginSuccess {
 }
 
 type Mutation {
+  createRole(input: CreateRoleInput!): Role!
+  createRoles(inputs: CreateRolesInput!): [Role!]!
   createUser(input: CreateUserInput!): User!
   createUsers(inputs: CreateUsersInput!): [User!]!
+  deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
   login(input: LoginInput!): LoginResultUnion!
   registerNewUser(input: CreateUserInput!): RegisterResultUnion!
+  updateRole(id: String!, input: UpdateRoleInput!): Role!
   updateUser(id: String!, input: UpdateUserInput!): User!
   verifyUser(input: VerifyUserInput!): VerificationResultUnion!
 }
@@ -46,6 +59,8 @@ type PasswordMismatchError {
 }
 
 type Query {
+  roleById(id: String!): Role!
+  roleByRoleName(roleName: UserRoles!): Role!
   user(id: String!): User!
   users(page: Int! = 1, pageSize: Int! = 10): UserPage!
 }
@@ -63,6 +78,17 @@ type Role {
   id: ID!
   name: UserRoles!
   updatedAt: DateTime
+  users: [User!]
+}
+
+type RolePage {
+  data: [Role!]!
+  totalPages: Int
+}
+
+input UpdateRoleInput {
+  division: String
+  name: UserRoles
 }
 
 input UpdateUserInput {

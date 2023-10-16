@@ -1,8 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
 import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
-import { Request } from '../requests/request.entity';
-import { Property } from '../properties/property.entity';
+import { Request } from '@libs/core/requests/request.entity';
+import { Property } from '@libs/core/properties/property.entity';
 
 @Entity()
 @ObjectType()
@@ -32,12 +32,14 @@ export class RequestItem extends StreamLineEntity {
   @Field(() => [Request])
   requests: Request[];
 
-  @ManyToMany(() => Property, (property) => property.requestItems)
+  @ManyToMany(() => Property, (property) => property.requestItems, {
+    nullable: true,
+  })
   @JoinTable({
     name: 'request-item-properties',
     joinColumn: { name: 'request-item-id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'property-id', referencedColumnName: 'id' },
   })
-  @Field(() => [Property])
+  @Field(() => [Property], { nullable: true })
   properties: Property[];
 }

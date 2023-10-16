@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
-import { File } from '../files/file.entity';
+import { File } from '@libs/core/files/file.entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
-import { RequestItem } from '../request-items/request-items.entity';
-import { ProcurementUser } from '../procurement-user/procurement-user.entity';
+import { RequestItem } from '@libs/core/request-items/request-items.entity';
+import { ProcurementUser } from '@libs/core/procurement-user/procurement-user.entity';
 import { RequestStatus } from './enum/requestStatus';
 
 @Entity()

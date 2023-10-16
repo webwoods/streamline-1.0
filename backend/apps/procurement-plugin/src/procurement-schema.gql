@@ -6,12 +6,6 @@ input CreateFileInput {
   name: String
 }
 
-input CreatePropertyInput {
-  key: String!
-  type: String!
-  value: String!
-}
-
 input CreateRequestInput {
   description: String
   fileId: String
@@ -23,8 +17,20 @@ input CreateRequestInput {
 input CreateRequestItemsInput {
   name: String
   requestId: String!
-  skn: String!
+  sku: String!
   type: String
+}
+
+input CreateUserInput {
+  email: String!
+  name: String
+  password: String!
+  roleId: String
+  username: String!
+}
+
+input CreateUsersInput {
+  users: [CreateUserInput!]!
 }
 
 """
@@ -47,17 +53,18 @@ type FilePage {
 
 type Mutation {
   createFile(input: CreateFileInput!): File!
-  createProperty(input: CreatePropertyInput!): Property!
   createRequest(input: CreateRequestInput!): Request!
   createRequestItem(input: CreateRequestItemsInput!): RequestItem!
+  createUser(input: CreateUserInput!): User!
+  createUsers(inputs: CreateUsersInput!): [User!]!
   deleteFile(id: String!): File!
-  deleteProperty(id: String!): Property!
   deleteRequest(id: String!): Request!
   deleteRequestItem(id: String!): RequestItem!
+  deleteUser(id: String!): User!
   updateFile(id: String!, input: UpdateFileInput!): File!
-  updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
   updateRequestItem(id: String!, input: UpdateRequestItemsInput!): RequestItem!
+  updateUser(id: String!, input: UpdateUserInput!): User!
 }
 
 type ProcurementUser {
@@ -98,12 +105,15 @@ type PropertyPage {
 type Query {
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
+  getRequestItem(id: String!, userId: String!): Request!
   properties(page: Int! = 1, pageSize: Int! = 10): PropertyPage!
   property(id: String!): Property!
   request(id: String!): Request!
   requestItem(id: String!): RequestItem!
   requestItems(page: Int! = 1, pageSize: Int! = 10): RequestItemPage!
   requests(page: Int! = 1, pageSize: Int! = 10): RequestPage!
+  user(id: String!): User!
+  users(page: Int! = 1, pageSize: Int! = 10): UserPage!
 }
 
 type Request {
@@ -123,7 +133,7 @@ type RequestItem {
   id: ID!
   name: String!
   price: Float
-  properties: [Property!]!
+  properties: [Property!]
   quantity: Float
   requests: [Request!]!
   sku: String!
@@ -159,12 +169,6 @@ input UpdateFileInput {
   name: String
 }
 
-input UpdatePropertyInput {
-  key: String
-  type: String
-  value: String
-}
-
 input UpdateRequestInput {
   description: String
   fileId: String
@@ -177,8 +181,35 @@ input UpdateRequestInput {
 input UpdateRequestItemsInput {
   name: String
   requestId: String
-  skn: String
+  sku: String
   type: String
+}
+
+input UpdateUserInput {
+  email: String
+  name: String
+  password: String
+  roleId: String
+  username: String
+  verified: Boolean
+}
+
+type User {
+  createdAt: DateTime
+  email: String!
+  id: ID!
+  name: String
+  password: String
+  role: Role
+  updatedAt: DateTime
+  username: String!
+  verificationCodes: [VerificationCode!]!
+  verified: Boolean!
+}
+
+type UserPage {
+  data: [User!]!
+  totalPages: Int
 }
 
 enum UserRoles {

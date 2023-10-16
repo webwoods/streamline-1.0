@@ -10,7 +10,7 @@ import {
 } from '@nestjs/graphql';
 import { Request } from '../requests/request.entity';
 import { RequestService } from './request.service';
-import { RequestItem } from '../request-items/request-items.entity';
+import { RequestItem } from '@libs/core/request-items/request-items.entity';
 import { RequestPage } from './dto/requestPage.dto';
 import { CreateRequestInput } from './dto/create.request';
 import { UpdateRequestInput } from './dto/update.request';

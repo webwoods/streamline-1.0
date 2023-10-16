@@ -19,7 +19,7 @@ input CreateRequestInput {
 input CreateRequestItemsInput {
   name: String
   requestId: String!
-  skn: String!
+  sku: String!
   type: String
 }
 
@@ -175,7 +175,7 @@ type RequestItem {
   id: ID!
   name: String!
   price: Float
-  properties: [Property!]!
+  properties: [Property!]
   quantity: Float
   requests: [Request!]!
   sku: String!
@@ -231,7 +231,7 @@ input UpdateRequestInput {
 input UpdateRequestItemsInput {
   name: String
   requestId: String
-  skn: String
+  sku: String
   type: String
 }
 
