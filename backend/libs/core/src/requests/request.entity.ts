@@ -29,18 +29,18 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'file_id', nullable: true })
   fileId: string;
 
-  @ManyToOne(
-    () => ProcurementUser,
-    (procurementUser) => procurementUser.requests,
-    {
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
-      nullable: true,
-    },
-  )
-  @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
-  @Field(() => ProcurementUser, { nullable: true })
-  requestedUser: ProcurementUser;
+  // @ManyToOne(
+  //   () => ProcurementUser,
+  //   (procurementUser) => procurementUser.requests,
+  //   {
+  //     onDelete: 'SET NULL',
+  //     onUpdate: 'CASCADE',
+  //     nullable: true,
+  //   },
+  // )
+  // @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
+  // @Field(() => ProcurementUser, { nullable: true })
+  // requestedUser: ProcurementUser;
 
   @Column({ name: 'requested_by', nullable: true })
   requestedUserId: string;
