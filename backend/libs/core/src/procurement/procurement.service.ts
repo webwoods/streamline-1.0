@@ -9,6 +9,9 @@ import { User } from '@libs/core/users/user.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { RequestItem } from '../request-items/request-items.entity';
 import { Property } from '../properties/property.entity';
+import { File } from '../files/file.entity';
+import { Request } from '../requests/request.entity';
+import { RequestStatus } from '../requests/enum/requestStatus';
 
 @Injectable()
 export class ProcurementService {
@@ -24,8 +27,15 @@ export class ProcurementService {
    * a file (request collection)
    * @returns
    */
-  async addRequestToFile(): Promise<any> {
-    return;
+  async addRequestToFile(requestId: string, fileId: string): Promise<File> {
+    try {
+      const file = await this.fileService.findFileById(fileId);
+      const request = await this.requestService.findRequestById(requestId);
+      file.requests.push(request);
+      return await this.fileService.updateFile(fileId, file);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
@@ -33,8 +43,15 @@ export class ProcurementService {
    * a file (request collection)
    * @returns
    */
-  async removeRequestFromFile(): Promise<any> {
-    return;
+  async removeRequestFromFile(
+    requestId: string,
+    fileId: string,
+  ): Promise<File> {
+    const file = await this.fileService.findFileById(fileId);
+    file.requests = file.requests.filter(
+      (request: Request) => request.id !== requestId,
+    );
+    return await this.fileService.updateFile(fileId, file);
   }
 
   /**
@@ -181,8 +198,37 @@ export class ProcurementService {
    * from a request item
    * @returns
    */
-  async removePropertiesFromRequestItem(): Promise<any> {
-    return;
+  async removePropertiesFromRequestItem(
+    propertyIds: string[],
+    requestItemId: string,
+  ): Promise<RequestItem> {
+    const requestItem = await this.requestItemService.findRequestItemById(
+      requestItemId,
+    );
+
+    const propertiesToRemove = await Promise.all(
+      propertyIds.map(async (propertyId: string) => {
+        return requestItem.properties.find(
+          (property: Property) => property.id === propertyId,
+        );
+      }),
+    );
+
+    if (!propertiesToRemove) {
+      throw new NotFoundException(
+        'One or pore properties not found in the request item.',
+      );
+    }
+
+    // Remove the properties from the array
+    requestItem.properties = requestItem.properties.filter(
+      (property) => !propertiesToRemove.includes(property),
+    );
+
+    return await this.requestItemService.updateRequestItem(
+      requestItemId,
+      requestItem,
+    );
   }
 
   /**
@@ -190,8 +236,10 @@ export class ProcurementService {
    * of a request to 'Approved'
    * @returns
    */
-  async approveRequest(): Promise<any> {
-    return;
+  async approveRequest(requestId: string): Promise<Request> {
+    const request = await this.requestService.findRequestById(requestId);
+    request.status = RequestStatus.APPROVED;
+    return await this.requestService.updateRequest(requestId, request);
   }
 
   /**
@@ -199,8 +247,10 @@ export class ProcurementService {
    * of a request to 'Rejected'
    * @returns
    */
-  async rejectRequest(): Promise<any> {
-    return;
+  async rejectRequest(requestId: string): Promise<Request> {
+    const request = await this.requestService.findRequestById(requestId);
+    request.status = RequestStatus.REJECTED;
+    return await this.requestService.updateRequest(requestId, request);
   }
 
   /**
@@ -240,7 +290,7 @@ export class ProcurementService {
         variables: { id },
       });
 
-      const userData: any = data.getUserByIdFromAuth;
+      const userData: any = data.user;
 
       if (!userData) {
         throw new NotFoundException();
@@ -250,7 +300,7 @@ export class ProcurementService {
       user.email = userData.email;
       user.id = userData.id;
       user.name = userData.name;
-      user.roleId = userData.role.id;
+      user.roleId = userData.role?.id;
       user.username = userData.username;
       user.verified = userData.verified;
 

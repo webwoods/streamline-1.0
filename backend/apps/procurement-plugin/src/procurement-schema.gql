@@ -62,6 +62,8 @@ type Mutation {
   addNewPropertyToRequestItem(property: CreatePropertyInput!, requestItemId: String!): RequestItem!
   addPropertiesToRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   addPropertyToRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
+  addRequestToFile: File!
+  approveRequest(requestId: String!): Request!
   createFile(input: CreateFileInput!): File!
   createProperty(input: CreatePropertyInput!): Property!
   createRequest(input: CreateRequestInput!): Request!
@@ -73,6 +75,10 @@ type Mutation {
   deleteRequest(id: String!): Request!
   deleteRequestItem(id: String!): RequestItem!
   deleteUser(id: String!): User!
+  rejectRequest(requestId: String!): Request!
+  removePropertiesFromRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
+  removePropertyFromRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
+  removeRequestFromFile: File!
   updateFile(id: String!, input: UpdateFileInput!): File!
   updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
@@ -90,7 +96,7 @@ type ProcurementUser {
   type: ProcurementUserType!
   updatedAt: DateTime
   username: String!
-  verificationCodes: [VerificationCode!]!
+  verificationCodes: [VerificationCode!]
   verified: Boolean!
 }
 
@@ -118,6 +124,12 @@ type PropertyPage {
 type Query {
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
+
+  """retrieves a role from the auth plugin when the roleId is given."""
+  getRoleByIdFromAuth(roleId: String!): Role!
+
+  """retrieves a user from the auth plugin when the userId is given."""
+  getUserByIdFromAuth(userId: String!): User!
   properties(page: Int! = 1, pageSize: Int! = 10): PropertyPage!
   property(id: String!): Property!
   request(id: String!): Request!
@@ -221,7 +233,7 @@ type User {
   role: Role
   updatedAt: DateTime
   username: String!
-  verificationCodes: [VerificationCode!]!
+  verificationCodes: [VerificationCode!]
   verified: Boolean!
 }
 
