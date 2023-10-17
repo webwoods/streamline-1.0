@@ -3,8 +3,8 @@ import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
 import { File } from '@libs/core/files/file.entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { RequestItem } from '@libs/core/request-items/request-items.entity';
-import { ProcurementUser } from '@libs/core/procurement-user/procurement-user.entity';
 import { RequestStatus } from './enum/requestStatus';
+import { User } from '../users/user.entity';
 
 @Entity()
 @ObjectType()
@@ -29,7 +29,11 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'file_id', nullable: true })
   fileId: string;
 
+  @Field({ nullable: true })
+  requestedUser: User;
+
   @Column({ name: 'requested_by', nullable: true })
+  @Field({ nullable: true })
   requestedUserId: string;
 
   @ManyToMany(() => RequestItem, (requestItem) => requestItem.requests)

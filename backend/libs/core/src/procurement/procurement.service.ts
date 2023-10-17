@@ -356,4 +356,43 @@ export class ProcurementService {
       throw new Error('Failed to fetch role from auth app');
     }
   }
+
+  async getRequestWithUser(requestId: string): Promise<Request> {
+    try {
+      const request = await this.requestService.findRequestById(requestId);
+      if (request.requestedUserId) {
+        request.requestedUser = await this.getUserByIdFromAuth(
+          request.requestedUserId,
+        );
+      }
+      return request;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getRequestsWithUser(skip?: number, take?: number): Promise<Request[]> {
+    try {
+      const requests = await this.requestService.findAllRequests();
+      requests.forEach(async (request: Request) => {
+        request.requestedUser = await this.getUserByIdFromAuth(
+          request.requestedUserId,
+        );
+      });
+      return requests;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getRequestsForUser(userId: string): Promise<Request[]> {
+    try {
+      const requests = await this.requestService.findAllRequestsByUserId(
+        userId,
+      );
+      return requests;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

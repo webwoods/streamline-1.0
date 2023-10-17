@@ -11,7 +11,6 @@ import { VerificationCode } from '@libs/core/verification-codes/verification-cod
 import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
 import { RequestItem } from '@libs/core/request-items/request-items.entity';
 import { Role } from '@libs/core/roles/role.entity';
-import { ProcurementUser } from '@libs/core/procurement-user/procurement-user.entity';
 import { Property } from '@libs/core/properties/property.entity';
 import { File } from '@libs/core/files/file.entity';
 import { Request } from '@libs/core/requests/request.entity';

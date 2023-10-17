@@ -88,6 +88,9 @@ type PropertyPage {
 type Query {
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
+  getRequestWithUser: Request!
+  getRequestsForUser: [Request!]!
+  getRequestsWithUser: [Request!]!
 
   """retrieves a role from the auth plugin when the roleId is given."""
   getRoleByIdFromAuth(roleId: String!): Role!
@@ -109,6 +112,8 @@ type Request {
   id: ID!
   requestItems: [RequestItem!]
   requestType: String!
+  requestedUser: User
+  requestedUserId: String
   status: RequestStatus!
   updatedAt: DateTime
 }

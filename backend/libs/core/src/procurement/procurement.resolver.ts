@@ -272,7 +272,7 @@ export class ProcurementResolver {
   async approveRequest(@Args('requestId') requestId: string): Promise<Request> {
     try {
       if (!requestId) {
-        throw new NotFoundException(requestId);
+        throw new NotFoundException('Request not found.');
       }
       return await this.procurementService.approveRequest(requestId);
     } catch (error) {
@@ -289,7 +289,7 @@ export class ProcurementResolver {
   async rejectRequest(@Args('requestId') requestId: string): Promise<Request> {
     try {
       if (!requestId) {
-        throw new NotFoundException(requestId);
+        throw new NotFoundException('Request not found.');
       }
       return await this.procurementService.rejectRequest(requestId);
     } catch (error) {
@@ -332,6 +332,39 @@ export class ProcurementResolver {
   async getRoleByIdFromAuth(@Args('roleId') roleId: string): Promise<Role> {
     try {
       return await this.procurementService.getRoleByIdFromAuth(roleId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  @Query(() => Request)
+  async getRequestWithUser(requestId: string): Promise<Request> {
+    try {
+      if (!requestId) {
+        throw new NotFoundException('Request not found.');
+      }
+      return await this.procurementService.getRequestWithUser(requestId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  @Query(() => [Request])
+  async getRequestsWithUser(skip?: number, take?: number): Promise<Request[]> {
+    try {
+      return await this.procurementService.getRequestsWithUser();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  @Query(() => [Request])
+  async getRequestsForUser(userId: string): Promise<Request[]> {
+    try {
+      if (!userId) {
+        throw new NotFoundException('User not found.');
+      }
+      return await this.procurementService.getRequestsForUser(userId);
     } catch (error) {
       throw new Error(error);
     }

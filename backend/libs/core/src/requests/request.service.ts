@@ -10,11 +10,27 @@ export class RequestService {
     private readonly requestRepository: Repository<Request>,
   ) {}
 
-  async findAllRequests(skip: number, take: number): Promise<Request[]> {
+  async findAllRequests(skip?: number, take?: number): Promise<Request[]> {
     const data = await this.requestRepository.find({
       skip,
       take,
       relations: { file: true },
+    });
+    return data;
+  }
+
+  async findAllRequestsByUserId(
+    userId: string,
+    skip?: number,
+    take?: number,
+  ): Promise<Request[]> {
+    const data = await this.requestRepository.find({
+      skip,
+      take,
+      relations: { file: true },
+      where: {
+        requestedUserId: userId,
+      },
     });
     return data;
   }
