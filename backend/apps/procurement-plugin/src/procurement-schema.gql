@@ -27,18 +27,6 @@ input CreateRequestItemsInput {
   type: String
 }
 
-input CreateUserInput {
-  email: String!
-  name: String
-  password: String!
-  roleId: String
-  username: String!
-}
-
-input CreateUsersInput {
-  users: [CreateUserInput!]!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -68,13 +56,10 @@ type Mutation {
   createProperty(input: CreatePropertyInput!): Property!
   createRequest(input: CreateRequestInput!): Request!
   createRequestItem(input: CreateRequestItemsInput!): RequestItem!
-  createUser(input: CreateUserInput!): User!
-  createUsers(inputs: CreateUsersInput!): [User!]!
   deleteFile(id: String!): File!
   deleteProperty(id: String!): Property!
   deleteRequest(id: String!): Request!
   deleteRequestItem(id: String!): RequestItem!
-  deleteUser(id: String!): User!
   rejectRequest(requestId: String!): Request!
   removePropertiesFromRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   removePropertyFromRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
@@ -83,27 +68,6 @@ type Mutation {
   updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
   updateRequestItem(id: String!, input: UpdateRequestItemsInput!): RequestItem!
-  updateUser(id: String!, input: UpdateUserInput!): User!
-}
-
-type ProcurementUser {
-  createdAt: DateTime
-  email: String!
-  id: ID!
-  name: String
-  password: String
-  role: Role
-  type: ProcurementUserType!
-  updatedAt: DateTime
-  username: String!
-  verificationCodes: [VerificationCode!]
-  verified: Boolean!
-}
-
-enum ProcurementUserType {
-  APPROVING_USER
-  REQUESTING_USER
-  REVIEWING_USER
 }
 
 type Property {
@@ -136,8 +100,6 @@ type Query {
   requestItem(id: String!): RequestItem!
   requestItems(page: Int! = 1, pageSize: Int! = 10): RequestItemPage!
   requests(page: Int! = 1, pageSize: Int! = 10): RequestPage!
-  user(id: String!): User!
-  users(page: Int! = 1, pageSize: Int! = 10): UserPage!
 }
 
 type Request {
@@ -147,7 +109,6 @@ type Request {
   id: ID!
   requestItems: [RequestItem!]
   requestType: String!
-  requestedUser: ProcurementUser
   status: RequestStatus!
   updatedAt: DateTime
 }
@@ -177,6 +138,7 @@ type RequestPage {
 enum RequestStatus {
   APPROVED
   AWAITING_APPROVAL
+  PENDING
   PROCESSING
   REJECTED
 }
@@ -215,15 +177,6 @@ input UpdateRequestItemsInput {
   type: String
 }
 
-input UpdateUserInput {
-  email: String
-  name: String
-  password: String
-  roleId: String
-  username: String
-  verified: Boolean
-}
-
 type User {
   createdAt: DateTime
   email: String!
@@ -235,11 +188,6 @@ type User {
   username: String!
   verificationCodes: [VerificationCode!]
   verified: Boolean!
-}
-
-type UserPage {
-  data: [User!]!
-  totalPages: Int
 }
 
 enum UserRoles {

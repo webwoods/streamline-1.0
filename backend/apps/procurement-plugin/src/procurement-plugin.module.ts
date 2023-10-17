@@ -27,7 +27,6 @@ import { ProcurementModule } from '@libs/core/procurement/procurement.module';
       sortSchema: true,
       playground: true,
       include: [ProcurementModule],
-      resolvers: [{}],
       path: PROCUREMENT_APP.graphqlEndpoint,
     }),
 
@@ -42,7 +41,6 @@ import { ProcurementModule } from '@libs/core/procurement/procurement.module';
           RequestItem,
           Property,
           File,
-          ProcurementUser,
         ],
       }),
     ),

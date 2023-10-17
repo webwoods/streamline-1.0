@@ -7,10 +7,10 @@ export class CreateRequestInput {
   fileId?: string;
 
   @Field()
-  requestType: string;
+  requestType!: string;
 
   @Field()
-  requestedUserId: string;
+  requestedUserId!: string;
 
   @Field({ nullable: true })
   description?: string;
