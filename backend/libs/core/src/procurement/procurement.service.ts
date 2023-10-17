@@ -12,6 +12,7 @@ import { Property } from '../properties/property.entity';
 import { File } from '../files/file.entity';
 import { Request } from '../requests/request.entity';
 import { RequestStatus } from '../requests/enum/requestStatus';
+import { UserRoles } from '../roles/enum/role';
 
 @Injectable()
 export class ProcurementService {
@@ -326,8 +327,8 @@ export class ProcurementService {
     try {
       const { data } = await authApolloClient.query({
         query: gql`
-          query role($id: String!) {
-            role(id: $id) {
+          query roleById($id: String!) {
+            roleById(id: $id) {
               id
               name
               division
@@ -337,7 +338,7 @@ export class ProcurementService {
         variables: { id },
       });
 
-      const roleData: any = data.getUserByIdFromAuth;
+      const roleData: any = data.roleById;
 
       if (!roleData) {
         throw new NotFoundException();
@@ -345,7 +346,8 @@ export class ProcurementService {
 
       const role = new Role();
       role.id = roleData.id;
-      role.name = roleData.name;
+      // Map the received string to the corresponding enum value
+      role.name = UserRoles[roleData.name as keyof typeof UserRoles];
       role.division = roleData.division;
 
       return role;

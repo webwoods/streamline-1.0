@@ -61,6 +61,7 @@ type PasswordMismatchError {
 type Query {
   roleById(id: String!): Role!
   roleByRoleName(roleName: UserRoles!): Role!
+  roles(page: Int! = 1, pageSize: Int! = 10): RolePage!
   user(id: String!): User!
   users(page: Int! = 1, pageSize: Int! = 10): UserPage!
 }
