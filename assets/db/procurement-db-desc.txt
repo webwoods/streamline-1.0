@@ -1,0 +1,102 @@
+streamline=# \d+ public.file;
+                                                            Table "public.file"
+  Column   |            Type             | Collation | Nullable |      Default       | Storage  | Compression | Stats target | Description
+-----------+-----------------------------+-----------+----------+--------------------+----------+-------------+--------------+-------------
+ id        | uuid                        |           | not null | uuid_generate_v4() | plain    |             |              |
+ createdAt | timestamp without time zone |           | not null | now()              | plain    |             |              |
+ updatedAt | timestamp without time zone |           |          | now()              | plain    |             |              |
+ name      | character varying           |           |          |                    | extended |             |              |
+Indexes:
+    "PK_36b46d232307066b3a2c9ea3a1d" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "request" CONSTRAINT "FK_ceb556b62d7a52cd8d689b4841b" FOREIGN KEY (file_id) REFERENCES file(id) ON UPDATE CASCADE ON DELETE SET NULL
+Access method: heap
+
+
+streamline=# \d+ public.property;
+                                                          Table "public.property"
+  Column   |            Type             | Collation | Nullable |      Default       | Storage  | Compression | Stats target | Description
+-----------+-----------------------------+-----------+----------+--------------------+----------+-------------+--------------+-------------
+ id        | uuid                        |           | not null | uuid_generate_v4() | plain    |             |              |
+ createdAt | timestamp without time zone |           | not null | now()              | plain    |             |              |
+ updatedAt | timestamp without time zone |           |          | now()              | plain    |             |              |
+ key       | character varying           |           | not null |                    | extended |             |              |
+ value     | character varying           |           | not null |                    | extended |             |              |
+ type      | character varying           |           | not null |                    | extended |             |              |
+Indexes:
+    "PK_d80743e6191258a5003d5843b4f" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE ""request-item-properties"" CONSTRAINT "FK_a566c0efc1b32b5ff56b149408d" FOREIGN KEY ("property-id") REFERENCES property(id) ON UPDATE CASCADE ON DELETE SET NULL
+Access method: heap
+
+
+streamline=# \d+ public.request;
+                                                            Table "public.request"
+    Column    |            Type             | Collation | Nullable |      Default       | Storage  | Compression | Stats target | Description
+--------------+-----------------------------+-----------+----------+--------------------+----------+-------------+--------------+-------------
+ id           | uuid                        |           | not null | uuid_generate_v4() | plain    |             |              |
+ createdAt    | timestamp without time zone |           | not null | now()              | plain    |             |              |
+ updatedAt    | timestamp without time zone |           |          | now()              | plain    |             |              |
+ requestType  | character varying           |           | not null |                    | extended |             |              |
+ description  | character varying           |           |          |                    | extended |             |              |
+ file_id      | uuid                        |           |          |                    | plain    |             |              |
+ status       | text                        |           |          |                    | extended |             |              |
+ requested_by | character varying           |           |          |                    | extended |             |              |
+Indexes:
+    "PK_167d324701e6867f189aed52e18" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "FK_ceb556b62d7a52cd8d689b4841b" FOREIGN KEY (file_id) REFERENCES file(id) ON UPDATE CASCADE ON DELETE SET NULL
+Referenced by:
+    TABLE "request_request_items" CONSTRAINT "FK_5a26be712c879d3cda39e40c525" FOREIGN KEY (request_id) REFERENCES request(id)
+Access method: heap
+
+
+streamline=# \d+ public.request-item-properties;
+                                    Table "public.request-item-properties"
+     Column      | Type | Collation | Nullable | Default | Storage | Compression | Stats target | Description
+-----------------+------+-----------+----------+---------+---------+-------------+--------------+-------------
+ request-item-id | uuid |           | not null |         | plain   |             |              |
+ property-id     | uuid |           | not null |         | plain   |             |              |
+Indexes:
+    "PK_a3c3bc0bd1428470511e7c8bc12" PRIMARY KEY, btree ("request-item-id", "property-id")
+    "IDX_81f2e775196cfa29b6b811b4bd" btree ("request-item-id")
+    "IDX_a566c0efc1b32b5ff56b149408" btree ("property-id")
+Foreign-key constraints:
+    "FK_81f2e775196cfa29b6b811b4bd5" FOREIGN KEY ("request-item-id") REFERENCES request_item(id) ON UPDATE CASCADE ON DELETE SET NULL
+    "FK_a566c0efc1b32b5ff56b149408d" FOREIGN KEY ("property-id") REFERENCES property(id) ON UPDATE CASCADE ON DELETE SET NULL
+Access method: heap
+
+
+streamline=# \d+ public.request_request_items;
+                                     Table "public.request_request_items"
+     Column      | Type | Collation | Nullable | Default | Storage | Compression | Stats target | Description
+-----------------+------+-----------+----------+---------+---------+-------------+--------------+-------------
+ request_item_id | uuid |           | not null |         | plain   |             |              |
+ request_id      | uuid |           | not null |         | plain   |             |              |
+Indexes:
+    "PK_511613c444759b7340fd58cc9f3" PRIMARY KEY, btree (request_item_id, request_id)
+    "IDX_5a26be712c879d3cda39e40c52" btree (request_id)
+    "IDX_e9f0e01483acc7b09abea3d227" btree (request_item_id)
+Foreign-key constraints:
+    "FK_5a26be712c879d3cda39e40c525" FOREIGN KEY (request_id) REFERENCES request(id)
+    "FK_e9f0e01483acc7b09abea3d227e" FOREIGN KEY (request_item_id) REFERENCES request_item(id) ON UPDATE CASCADE ON DELETE SET NULL
+Access method: heap
+
+
+streamline=# \d+ public.request_item;
+                                                        Table "public.request_item"
+  Column   |            Type             | Collation | Nullable |      Default       | Storage  | Compression | Stats target | Description
+-----------+-----------------------------+-----------+----------+--------------------+----------+-------------+--------------+-------------
+ id        | uuid                        |           | not null | uuid_generate_v4() | plain    |             |              |
+ createdAt | timestamp without time zone |           | not null | now()              | plain    |             |              |
+ updatedAt | timestamp without time zone |           |          | now()              | plain    |             |              |
+ quantity  | bigint                      |           |          |                    | plain    |             |              |
+ price     | double precision            |           |          |                    | plain    |             |              |
+ name      | character varying           |           | not null |                    | extended |             |              |
+ sku       | character varying           |           | not null |                    | extended |             |              |
+Indexes:
+    "PK_56dd6bc5f964de3ddbf8f75d63b" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE ""request-item-properties"" CONSTRAINT "FK_81f2e775196cfa29b6b811b4bd5" FOREIGN KEY ("request-item-id") REFERENCES request_item(id) ON UPDATE CASCADE ON DELETE SET NULL
+    TABLE "request_request_items" CONSTRAINT "FK_e9f0e01483acc7b09abea3d227e" FOREIGN KEY (request_item_id) REFERENCES request_item(id) ON UPDATE CASCADE ON DELETE SET NULL
+Access method: heap
