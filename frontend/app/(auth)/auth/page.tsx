@@ -1,4 +1,5 @@
 import LoginComponenet from "@/components/auth/LoginComponenet";
+import NewPassword from "@/components/auth/NewPassword";
 import PasswordChange from "@/components/auth/PasswordChange";
 import SignupComponent from "@/components/auth/SignupComponent";
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
@@ -12,7 +13,7 @@ export default function Home() {
 				<LoginComponenet />
 				<SignupComponent />
 				<PasswordChange />
-
+				<NewPassword />
 			</div>
 
 		</>
