@@ -40,6 +40,9 @@ function LoginComponent() {
         </form>
         <button className={styles.signInButton}>Sign In</button>
       </div>
+      <p className={styles.poweredBy}>
+        Powered by <span className={styles.boldText}>StreamLine</span>
+      </p>
     </div>
   );
 }

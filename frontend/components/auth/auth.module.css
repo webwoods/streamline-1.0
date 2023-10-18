@@ -3,7 +3,7 @@
 
 .centered {
   text-align: center;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -16,7 +16,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: blue;
+  /* background-color: blue; */
 }
 
 .loginContent {
@@ -111,5 +111,20 @@
 .inputFieldForm {
   padding-top: 20px;
   padding-bottom: 20px;
+
+}
+
+.poweredBy {
+  align-items: center;
+
+  color: white;
+}
+
+.boldText {
+  font-weight: bold;
+}
+
+.loginContainerFull {
+  background-color: blue;
 
 }
