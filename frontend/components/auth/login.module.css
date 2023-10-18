@@ -1,4 +1,4 @@
-/* pages/login.module.css */
+/* login.module.css */
 /* styles/center.module.css */
 
 .centered {
@@ -7,7 +7,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 20px 0;
+  /* margin-top: 10px; */
+  /* margin: 20px 0; */
 }
 
 .loginContainer {
@@ -28,4 +29,80 @@
 
 .blueText {
   color: blue;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  /* padding-top: 20px; */
+}
+
+/* Set the text-align property to "left" for labels */
+.inputContainer label {
+  font-weight: bold;
+  text-align: left;
+}
+
+.inputBox {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.checkboxAndForgotPassword {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxContainer label {
+  margin-left: 5px;
+}
+
+.forgotPassword {
+  padding-left: 20px;
+  text-align: right;
+  color: rgb(156, 156, 156);
+}
+
+/* component.module.css */
+
+.signInButton {
+  background-color: black;
+  color: white;
+  border: none;
+  width: 80%;
+  border-radius: 70px;
+  /* Rounded corners */
+  padding: 10px 20px;
+  /* margin-top: 20px; */
+  /* Adjust padding as needed */
+  cursor: pointer;
+}
+
+/* You can add additional styles, like hover effects, if desired */
+.signInButton:hover {
+  background-color: darkgray;
+  /* Change the color on hover */
+}
+
+.welcomeText {
+  padding-top: 40px;
+  font-weight: 700;
+  font-size: large;
+}
+
+.inputFieldForm{
+  padding-top: 20px;
+  padding-bottom: 20px;
+
 }

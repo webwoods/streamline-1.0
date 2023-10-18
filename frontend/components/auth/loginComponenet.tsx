@@ -13,22 +13,33 @@ function LoginComponenet() {
             width={150}
             height={150}
           />
-          <h2>Welcome back!</h2>
+          <h2 className={styles.welcomeText} >Welcome back!</h2>
           <p className={styles.centered}>
-            Not a member? <a href="#" className={styles.blueText}>Create your account <span className={styles.blueText}>now!</span></a>
+            Not a member? <a href="#" className={styles.blueText}>Create your account now!</a>
           </p>
         </div>
-        <form>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" />
+        <form className={styles.inputFieldForm}>
+          <div className={styles.inputContainer}>
+            <label htmlFor="username">Username:</label>
+            <input type="text" id="username" name="username" className={styles.inputBox} />
           </div>
-          <div>
+          <div className={styles.inputContainer}>
             <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" />
+            <input type="password" id="password" name="password" className={styles.inputBox} />
           </div>
-          <button type="submit">Login</button>
+          <div className={styles.checkboxAndForgotPassword}>
+            <div className={styles.checkboxContainer}>
+              <input type="checkbox" id="rememberMe" name="rememberMe" />
+              <label htmlFor="rememberMe">Remember me</label>
+            </div>
+
+            <div className={styles.forgotPassword}>
+              <a href="#">Forgot password?</a>
+            </div>
+          </div>
         </form>
+        <button className={styles.signInButton}>Sign In</button>
+
       </div>
     </div>
   );
