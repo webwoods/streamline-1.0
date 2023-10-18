@@ -21,7 +21,7 @@ export function getDbConfig({
   const dbType = db.type ?? process.env['DB'] ?? 'postgres';
 
   const commonConfig: any = {
-    type: 'postgres',
+    type: dbType,
     synchronize: true,
     migrationsRun: false,
     migrations: [__dirname + '/migrations/*{.js,.ts}'],
