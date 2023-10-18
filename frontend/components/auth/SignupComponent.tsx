@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './login.module.css';
+import styles from './auth.module.css';
 import Image from 'next/image';
 
 function SignupComponent() {
@@ -28,8 +28,8 @@ function SignupComponent() {
                         <input type="password" id="password" name="password" className={styles.inputBox} />
                     </div>
                     <div className={styles.inputContainer}>
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" className={styles.inputBox} />
+                        <label htmlFor="Confirm Password">Confirm Password:</label>
+                        <input type="ConfirmPassword" id="ConfirmPassword" name="Confirm Password" className={styles.inputBox} />
                     </div>
                     <div className={styles.checkboxAndForgotPassword}>
                         <div className={styles.checkboxContainer}>
@@ -38,7 +38,7 @@ function SignupComponent() {
                         </div>
                     </div>
                 </form>
-                <button className={styles.signInButton}>Sign In</button>
+                <button className={styles.signInButton}>Sign Up</button>
             </div>
         </div>
     )
