@@ -109,7 +109,7 @@
 }
 
 .inputFieldForm {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 20px;
 
 }
@@ -127,4 +127,25 @@
 .loginContainerFull {
   background-color: blue;
 
+}
+
+.errorMsgContainer {
+  padding: 5px;
+  color: #FE5858;
+  font-size: small;
+  margin-top: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--Accent-2, #FE5858);
+  background: var(--Accent-Transprent, rgba(249, 65, 68, 0.17));
+}
+
+.successMsgContainer {
+
+  padding: 5px;
+  color: #8FE81E;
+  font-size: small;
+  margin-top: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--Accent-5, #8FE81E);
+  background: rgba(147, 228, 9, 0.10);
 }

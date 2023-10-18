@@ -20,12 +20,15 @@ function PasswordChange() {
                             Not a member?<a href="#" className={styles.blueText}> Create your account now!</a>
                         </p>
                     </div>
+                    <div className={styles.errorMsgContainer}> Email doesn’t exist!</div>
+                    <div className={styles.successMsgContainer}>Email exists!</div>
+
                     <form className={styles.inputFieldForm}>
                         <div className={styles.inputContainer}>
                             <label htmlFor="Email">Email:</label>
                             <input type="text" id="Email" name="Email" placeholder="demouser@email.com" className={styles.inputBox} />
                         </div>
-                       
+
                     </form>
                     <button className={styles.signInButton}>Change</button>
                 </div>
