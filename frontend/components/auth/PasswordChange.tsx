@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './Auth.module.css';
 import Image from 'next/image';
 
-function SignupComponent() {
+
+function PasswordChange() {
     return (
-        <div className={styles.loginContainerFull} >
             <div className={styles.loginContainer}>
                 <div className={styles.loginContent}>
                     <div className={styles.centered}>
@@ -41,13 +41,11 @@ function SignupComponent() {
                     </form>
                     <button className={styles.signInButton}>Sign Up</button>
                 </div>
-
-            </div>
             <p className={styles.poweredBy}>
                 Powered by <span className={styles.boldText}>StreamLine</span>
             </p>
         </div>
-    );
+    )
 }
 
-export default SignupComponent;
+export default PasswordChange
