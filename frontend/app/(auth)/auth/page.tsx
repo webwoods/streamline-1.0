@@ -1,3 +1,4 @@
+import LoginComponenet from "@/components/auth/loginComponenet";
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import StatusModal from "@/components/formStatusModal/statusModal";
 import TableTabs from "@/components/tableTab/tab";
@@ -5,13 +6,10 @@ import TableTabs from "@/components/tableTab/tab";
 export default function Home() {
 	return (
 		<>
-			<SummaryStatWidget />
 			<div>
-				<TableTabs/>
-			</div>	
-			<div className="flex content-center p-8 sm:px-28">
-			<StatusModal/>
-			</div>	
+
+				<LoginComponenet/>
+			</div>
 			
 		</>
 	);
