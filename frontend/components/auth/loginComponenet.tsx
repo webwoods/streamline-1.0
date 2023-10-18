@@ -14,7 +14,7 @@ function LoginComponenet() {
             height={150}
           />
           <h2 className={styles.welcomeText} >Welcome back!</h2>
-          <p className={styles.centered}>
+          <p >
             Not a member? <a href="#" className={styles.blueText}>Create your account now!</a>
           </p>
         </div>
