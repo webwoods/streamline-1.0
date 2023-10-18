@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 function PasswordChange() {
     return (
+        <div className={styles.loginContainerFull} >
             <div className={styles.loginContainer}>
                 <div className={styles.loginContent}>
                     <div className={styles.centered}>
@@ -14,33 +15,22 @@ function PasswordChange() {
                             width={150}
                             height={150}
                         />
-                        <h2 className={styles.welcomeText}>Welcome back!</h2>
+                        <h2 className={styles.welcomeText}>Let’s change your password!</h2>
                         <p>
-                            Already a member?<a href="#" className={styles.blueText}> Sign in</a>
+                            Not a member?<a href="#" className={styles.blueText}> Create your account now!</a>
                         </p>
                     </div>
                     <form className={styles.inputFieldForm}>
                         <div className={styles.inputContainer}>
-                            <label htmlFor="username">Username:</label>
-                            <input type="text" id="username" name="username" className={styles.inputBox} />
+                            <label htmlFor="Email">Email:</label>
+                            <input type="text" id="Email" name="Email" className={styles.inputBox} />
                         </div>
-                        <div className={styles.inputContainer}>
-                            <label htmlFor="password">Password:</label>
-                            <input type="password" id="password" name="password" className={styles.inputBox} />
-                        </div>
-                        <div className={styles.inputContainer}>
-                            <label htmlFor="Confirm Password">Confirm Password:</label>
-                            <input type="ConfirmPassword" id="ConfirmPassword" name="Confirm Password" className={styles.inputBox} />
-                        </div>
-                        <div className={styles.checkboxAndForgotPassword}>
-                            <div className={styles.checkboxContainer}>
-                                <input type="checkbox" id="rememberMe" name="rememberMe" />
-                                <label htmlFor="rememberMe">Keep me signed in</label>
-                            </div>
-                        </div>
+                       
                     </form>
-                    <button className={styles.signInButton}>Sign Up</button>
+                    <button className={styles.signInButton}>Change</button>
                 </div>
+
+            </div>
             <p className={styles.poweredBy}>
                 Powered by <span className={styles.boldText}>StreamLine</span>
             </p>

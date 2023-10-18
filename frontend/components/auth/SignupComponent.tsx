@@ -14,15 +14,15 @@ function SignupComponent() {
                             width={150}
                             height={150}
                         />
-                        <h2 className={styles.welcomeText}>Welcome back!</h2>
+                        <h2 className={styles.welcomeText}>Become a member today!</h2>
                         <p>
                             Already a member?<a href="#" className={styles.blueText}> Sign in</a>
                         </p>
                     </div>
                     <form className={styles.inputFieldForm}>
                         <div className={styles.inputContainer}>
-                            <label htmlFor="username">Username:</label>
-                            <input type="text" id="username" name="username" className={styles.inputBox} />
+                            <label htmlFor="Email">Email:</label>
+                            <input type="text" id="Email" name="Email" className={styles.inputBox} />
                         </div>
                         <div className={styles.inputContainer}>
                             <label htmlFor="password">Password:</label>
