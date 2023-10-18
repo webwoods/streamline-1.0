@@ -5,10 +5,12 @@ import { AuthResolver } from './auth.resolver';
 import { UserModule } from '@libs/core/users/user.module';
 import { VerificationCodesModule } from '@libs/core/verification-codes/verification-codes.module';
 import { jwtConstants } from '@libs/core/constants/constants';
+import { RoleModule } from '../roles/role.module';
 
 @Module({
   imports: [
     UserModule,
+    RoleModule,
     VerificationCodesModule,
     JwtModule.register({
       global: true,

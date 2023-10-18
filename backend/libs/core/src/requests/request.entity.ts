@@ -1,10 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
-import { File } from '../files/file.entity';
+import { File } from '@libs/core/files/file.entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
-import { RequestItem } from '../request-items/request-items.entity';
-import { ProcurementUser } from '../procurement-user/procurement-user.entity';
+import { RequestItem } from '@libs/core/request-items/request-items.entity';
 import { RequestStatus } from './enum/requestStatus';
+import { User } from '../users/user.entity';
 
 @Entity()
 @ObjectType()
@@ -29,20 +29,11 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'file_id', nullable: true })
   fileId: string;
 
-  @ManyToOne(
-    () => ProcurementUser,
-    (procurementUser) => procurementUser.requests,
-    {
-      onDelete: 'SET NULL',
-      onUpdate: 'CASCADE',
-      nullable: true,
-    },
-  )
-  @JoinColumn({ name: 'requested_by', referencedColumnName: 'id' })
-  @Field(() => ProcurementUser, { nullable: true })
-  requestedUser: ProcurementUser;
+  @Field({ nullable: true })
+  requestedUser: User;
 
   @Column({ name: 'requested_by', nullable: true })
+  @Field({ nullable: true })
   requestedUserId: string;
 
   @ManyToMany(() => RequestItem, (requestItem) => requestItem.requests)

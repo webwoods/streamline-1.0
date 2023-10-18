@@ -1,0 +1,16 @@
+streamline=# \dt
+                  List of relations
+ Schema |          Name           | Type  |  Owner
+--------+-------------------------+-------+----------
+ public | file                    | table | postgres
+ public | migrations              | table | postgres
+ public | procurement_user        | table | postgres
+ public | property                | table | postgres
+ public | request                 | table | postgres
+ public | request-item-properties | table | postgres
+ public | request_item            | table | postgres
+ public | request_request_items   | table | postgres
+ public | role                    | table | postgres
+ public | user                    | table | postgres
+ public | verification_code       | table | postgres
+(11 rows)

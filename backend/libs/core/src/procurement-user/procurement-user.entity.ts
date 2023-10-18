@@ -15,6 +15,6 @@ export class ProcurementUser extends User {
   @Field(() => ProcurementUserType)
   type: ProcurementUserType;
 
-  @OneToMany(() => Request, (request) => request.requestedUser)
-  requests?: Request[];
+  // @OneToMany(() => Request, (request) => request.requestedUser)
+  // requests?: Request[];
 }

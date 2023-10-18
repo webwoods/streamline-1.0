@@ -13,7 +13,7 @@ import { Property } from './property.entity';
 import { CreatePropertyInput } from './dto/create.property';
 import { UpdatePropertyInput } from './dto/update.property';
 import { PropertyPage } from './dto/propertyPage.dto';
-import { RequestItem } from '../request-items/request-items.entity';
+import { RequestItem } from '@libs/core/request-items/request-items.entity';
 
 @Resolver(() => Property)
 export class PropertyResolver {
@@ -46,7 +46,7 @@ export class PropertyResolver {
   ): Promise<PropertyPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const properties = await this.propertyService.findAllPropertys(
+      const properties = await this.propertyService.findAllProperties(
         skip,
         pageSize,
       );
@@ -60,7 +60,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'createFile' })
+  @Mutation(() => Property, { name: 'createProperty' })
   async createProperty(
     @Args('input') input: CreatePropertyInput,
   ): Promise<Property | null> {
@@ -71,7 +71,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'updateFile' })
+  @Mutation(() => Property, { name: 'updateProperty' })
   async updateProperty(
     @Args('id') id: string,
     @Args('input') input: UpdatePropertyInput,
@@ -83,7 +83,7 @@ export class PropertyResolver {
     }
   }
 
-  @Mutation(() => Property, { name: 'deleteFile' })
+  @Mutation(() => Property, { name: 'deleteProperty' })
   async deleteProperty(@Args('id') id: string): Promise<Property | null> {
     try {
       return await this.propertyService.deleteProperty(id);

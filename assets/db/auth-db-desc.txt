@@ -1,0 +1,59 @@
+AUTH DB
+
+streamline=# \d+ public.role;
+                                                            Table "public.role"
+  Column   |            Type             | Collation | Nullable |      Default       | Storage  | Compression | Stats target | Description
+-----------+-----------------------------+-----------+----------+--------------------+----------+-------------+--------------+-------------
+ id        | uuid                        |           | not null | uuid_generate_v4() | plain    |             |              |
+ createdAt | timestamp without time zone |           | not null | now()              | plain    |             |              |
+ updatedAt | timestamp without time zone |           |          | now()              | plain    |             |              |
+ division  | character varying           |           |          |                    | extended |             |              |
+ name      | text                        |           | not null |                    | extended |             |              |
+Indexes:
+    "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY, btree (id)
+    "UQ_ae4578dcaed5adff96595e61660" UNIQUE CONSTRAINT, btree (name)
+Referenced by:
+    TABLE "procurement_user" CONSTRAINT "FK_8befb592fbbefbbd9b2a1249610" FOREIGN KEY ("roleId") REFERENCES role(id)
+    TABLE ""user"" CONSTRAINT "FK_c28e52f758e7bbc53828db92194" FOREIGN KEY ("roleId") REFERENCES role(id)
+Access method: heap
+
+
+streamline=# \d+ public.user;
+                                                            Table "public.user"
+  Column   |            Type             | Collation | Nullable |      Default       | Storage  | Compression | Stats target | Description
+-----------+-----------------------------+-----------+----------+--------------------+----------+-------------+--------------+-------------
+ id        | uuid                        |           | not null | uuid_generate_v4() | plain    |             |              |
+ createdAt | timestamp without time zone |           | not null | now()              | plain    |             |              |
+ updatedAt | timestamp without time zone |           |          | now()              | plain    |             |              |
+ username  | character varying           |           | not null |                    | extended |             |              |
+ email     | character varying           |           | not null |                    | extended |             |              |
+ password  | character varying           |           | not null |                    | extended |             |              |
+ name      | character varying           |           |          |                    | extended |             |              |
+ roleId    | uuid                        |           |          |                    | plain    |             |              |
+ verified  | boolean                     |           | not null | false              | plain    |             |              |
+Indexes:
+    "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "FK_c28e52f758e7bbc53828db92194" FOREIGN KEY ("roleId") REFERENCES role(id)
+Referenced by:
+    TABLE "verification_code" CONSTRAINT "FK_20dc9f8d86616620881be140833" FOREIGN KEY (user_id) REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE SET NULL
+Access method: heap
+
+
+streamline=# \d+ public.verification_code;
+                                                     Table "public.verification_code"
+  Column   |            Type             | Collation | Nullable |      Default       | Storage  | Compression | Stats target | Description
+-----------+-----------------------------+-----------+----------+--------------------+----------+-------------+--------------+-------------
+ id        | uuid                        |           | not null | uuid_generate_v4() | plain    |             |              |
+ createdAt | timestamp without time zone |           | not null | now()              | plain    |             |              |
+ updatedAt | timestamp without time zone |           |          | now()              | plain    |             |              |
+ user_id   | uuid                        |           | not null |                    | plain    |             |              |
+ code      | character varying           |           | not null |                    | extended |             |              |
+Indexes:
+    "PK_d702c086da466e5d25974512d46" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "FK_20dc9f8d86616620881be140833" FOREIGN KEY (user_id) REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE SET NULL
+Access method: heap
+
+
+streamline=#
