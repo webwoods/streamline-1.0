@@ -23,7 +23,7 @@ function PasswordChange() {
                     <form className={styles.inputFieldForm}>
                         <div className={styles.inputContainer}>
                             <label htmlFor="Email">Email:</label>
-                            <input type="text" id="Email" name="Email" className={styles.inputBox} />
+                            <input type="text" id="Email" name="Email" placeholder="demouser@email.com" className={styles.inputBox} />
                         </div>
                        
                     </form>

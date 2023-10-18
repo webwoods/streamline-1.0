@@ -22,7 +22,7 @@ function LoginComponent() {
           <form className={styles.inputFieldForm}>
             <div className={styles.inputContainer}>
               <label htmlFor="Email">Email:</label>
-              <input type="text" id="Email" name="Email" className={styles.inputBox} />
+              <input type="text" id="Email" placeholder="demouser@email.com" name="Email" className={styles.inputBox} />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="password">Password:</label>
