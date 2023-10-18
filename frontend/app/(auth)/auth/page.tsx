@@ -9,8 +9,8 @@ export default function Home() {
 	return (
 		<>
 			<div>
-				{/* <SignupComponent /> */}
-				{/* <LoginComponenet/> */}
+				<LoginComponenet />
+				<SignupComponent />
 				<PasswordChange />
 
 			</div>

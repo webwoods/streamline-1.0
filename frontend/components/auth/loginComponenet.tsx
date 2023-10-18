@@ -22,17 +22,19 @@ function LoginComponent() {
           <form className={styles.inputFieldForm}>
             <div className={styles.inputContainer}>
               <label htmlFor="Email">Email:</label>
-              <input type="text" id="Email" placeholder="demouser@email.com" name="Email" className={styles.inputBox} />
+              <input type="text" id="Email" placeholder="Enter Your Username here" name="Email" className={styles.inputBox} />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="password">Password:</label>
-              <input type="password" id="password" name="password" className={styles.inputBox} />
+              <input type="password" id="password" name="password" placeholder="Enter Your Password here" className={styles.inputBox} />
             </div>
-
             <div className={styles.checkboxAndForgotPassword}>
               <div className={styles.checkboxContainer}>
                 <input type="checkbox" id="rememberMe" name="rememberMe" />
-                <label htmlFor="rememberMe">Remember Me</label>
+                <label htmlFor="rememberMe">Remember me</label>
+              </div>
+              <div className={styles.forgotPassword}>
+                <a href="#">Forgot password?</a>
               </div>
             </div>
           </form>

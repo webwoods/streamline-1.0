@@ -29,7 +29,7 @@
 }
 
 .blueText {
-  color: blue;
+  color: var(--Accent-1, #197DFD);;
 }
 
 .inputContainer {
@@ -72,7 +72,7 @@
 .forgotPassword {
   padding-left: 20px;
   text-align: right;
-  color: rgb(156, 156, 156);
+  color: var(--Inactive, #8E96A3);
 }
 
 /* component.module.css */
@@ -116,7 +116,6 @@
 
 .poweredBy {
   align-items: center;
-
   color: white;
 }
 
@@ -125,8 +124,7 @@
 }
 
 .loginContainerFull {
-  background-color: blue;
-
+  background: var(--Accent-1, #197DFD);
 }
 
 .errorMsgContainer {

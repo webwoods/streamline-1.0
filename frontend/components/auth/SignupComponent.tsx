@@ -22,15 +22,15 @@ function SignupComponent() {
                     <form className={styles.inputFieldForm}>
                         <div className={styles.inputContainer}>
                             <label htmlFor="Email">Email:</label>
-                            <input type="text" id="Email" name="Email" placeholder="demouser@email.com" className={styles.inputBox} />
+                            <input type="text" id="Email" name="Email" placeholder="Enter Your Email here" className={styles.inputBox} />
                         </div>
                         <div className={styles.inputContainer}>
                             <label htmlFor="password">Password:</label>
-                            <input type="password" id="password" name="password" className={styles.inputBox} />
+                            <input placeholder="Enter Your Password here" type="password" id="password" name="password" className={styles.inputBox} />
                         </div>
                         <div className={styles.inputContainer}>
                             <label htmlFor="Confirm Password">Confirm Password:</label>
-                            <input type="ConfirmPassword" id="ConfirmPassword" name="Confirm Password" className={styles.inputBox} />
+                            <input placeholder="Enter Your Password again" type="ConfirmPassword" id="ConfirmPassword" name="Confirm Password" className={styles.inputBox} />
                         </div>
                         <div className={styles.checkboxAndForgotPassword}>
                             <div className={styles.checkboxContainer}>
