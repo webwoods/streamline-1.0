@@ -1,5 +1,6 @@
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import StatusModal from "@/components/formStatusModal/statusModal";
+import UpdatePurchase from "@/components/formsModal/upadtePurchase";
 import TableTabs from "@/components/tableTab/tab";
 
 
@@ -28,6 +29,7 @@ export default function DashboardPage() {
 			</div>	
 			<div className="flex content-center p-8 sm:px-28">
 			<StatusModal/>
+			<UpdatePurchase/>
 			</div>	
 			
 		</>
