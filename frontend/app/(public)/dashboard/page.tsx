@@ -1,7 +1,6 @@
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import StatusModal from "@/components/formStatusModal/statusModal";
-import UpdatePurchase from "@/components/fromsModal/upadtePurchase";
-import Update from "@/components/fromsModal/upadtePurchase";
+import UpdatePurchase from "@/components/formsModal/upadtePurchase";
 import TableTabs from "@/components/tableTab/tab";
 
 
