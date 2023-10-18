@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './login.module.css';
 import Image from 'next/image';
 
-function LoginComponenet() {
+function LoginComponent() {
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginContent}>
@@ -39,10 +39,9 @@ function LoginComponenet() {
           </div>
         </form>
         <button className={styles.signInButton}>Sign In</button>
-
       </div>
     </div>
   );
 }
 
-export default LoginComponenet;
+export default LoginComponent;

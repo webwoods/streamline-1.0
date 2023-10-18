@@ -87,11 +87,17 @@
   /* margin-top: 20px; */
   /* Adjust padding as needed */
   cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  /* Add transition properties */
+
 }
 
 /* You can add additional styles, like hover effects, if desired */
 .signInButton:hover {
-  background-color: darkgray;
+  background-color: var(--primary);
+  /* Change to yellow on hover */
+  color: darkyellow;
+  /* C
   /* Change the color on hover */
 }
 
@@ -101,7 +107,7 @@
   font-size: large;
 }
 
-.inputFieldForm{
+.inputFieldForm {
   padding-top: 20px;
   padding-bottom: 20px;
 
