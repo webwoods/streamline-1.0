@@ -1,29 +1,21 @@
 'use client'
 import React from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input} from "@nextui-org/react";
-import {ChevronDownIcon, MailIcon} from '../icons';
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Select, SelectItem} from "@nextui-org/react";
+import {animals} from "./data";
 
 
 export default function UpdatePurchase() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["text"]));
-
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-    [selectedKeys]
-  );
-
   return (
     <>
-      <Button onPress={onOpen} color="primary">Open Modal</Button>
+      <Button onPress={onOpen} color="primary">Open Purchase Oder form</Button>
       <Modal 
         isOpen={isOpen} 
         onOpenChange={onOpenChange}
         placement="top-center"
       >
-        <ModalContent>
+        <ModalContent> 
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 items-center">Update
@@ -53,28 +45,14 @@ export default function UpdatePurchase() {
                   placeholder="Heycarb Agro Pvt. Ltd."
                   variant="bordered"
                 />
-                  <Dropdown>
-                      <DropdownTrigger className="capitalize">
-                      <Input
-                      endContent={
-                      <ChevronDownIcon  />
-                      }
-                      label="Status"
-                      variant="bordered"
-                      value={selectedValue}
-                      />
-                      </DropdownTrigger>
-                      <DropdownMenu 
-                        disallowEmptySelection
-                        selectionMode="single"
-                        selectedKeys={selectedKeys}
-                        onSelectionChange={(keys: any) => setSelectedKeys(keys)}
-                        >
-                        <DropdownItem key="Pending">Pending</DropdownItem>
-                        <DropdownItem key="Active">Active</DropdownItem>
-                        <DropdownItem key="Paused">Paused</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                <Select
+                    items={animals}
+                    label="Status"
+                    placeholder="Status"
+                    className="flex"
+                    >
+                    {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
+                </Select>
                   <Input
                   label="Remarks"
                   size="lg"
