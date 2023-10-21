@@ -6,15 +6,15 @@ import { getDbConfig } from '@libs/core/config/orm.config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { User } from '@libs/core/users/user.entity';
-import { VerificationCode } from '@libs/core/verification-codes/verification-codes.entity';
+import { User } from '@libs/core/entities/user.entity';
+import { VerificationCode } from '@libs/core/entities/verification-codes.entity';
 import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
-import { RequestItem } from '@libs/core/request-items/request-items.entity';
-import { Role } from '@libs/core/roles/role.entity';
-import { Property } from '@libs/core/properties/property.entity';
-import { File } from '@libs/core/files/file.entity';
-import { Request } from '@libs/core/requests/request.entity';
-import { ProcurementModule } from '@libs/core/procurement/procurement.module';
+import { RequestItem } from '@libs/core/entities/request-items.entity';
+import { Role } from '@libs/core/entities/role.entity';
+import { Property } from '@libs/core/entities/property.entity';
+import { File } from '@libs/core/entities/file.entity';
+import { Request } from '@libs/core/entities/request.entity';
+import { ProcurementModule } from '@libs/core/modules/procurement.module';
 
 @Module({
   imports: [

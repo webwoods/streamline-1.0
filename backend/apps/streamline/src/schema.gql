@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateFileInput {
+  name: String
+}
+
 input CreatePropertyInput {
   key: String!
   type: String!
@@ -18,9 +22,11 @@ input CreateRequestInput {
 
 input CreateRequestItemsInput {
   name: String
-  requestId: String!
+  price: Float
+  quantity: Float
   sku: String!
   type: String
+  unit: String!
 }
 
 input CreateRoleInput {
@@ -53,7 +59,7 @@ type File {
   createdAt: DateTime
   id: ID!
   name: String
-  requests: Request
+  requests: [Request!]!
   updatedAt: DateTime
 }
 
@@ -75,21 +81,24 @@ type LoginSuccess {
 }
 
 type Mutation {
-  createFile(input: CreatePropertyInput!): Property!
+  createFile(input: CreateFileInput!): File!
+  createProperty(input: CreatePropertyInput!): Property!
   createRequest(input: CreateRequestInput!): Request!
   createRequestItem(input: CreateRequestItemsInput!): RequestItem!
   createRole(input: CreateRoleInput!): Role!
   createRoles(inputs: CreateRolesInput!): [Role!]!
   createUser(input: CreateUserInput!): User!
   createUsers(inputs: CreateUsersInput!): [User!]!
-  deleteFile(id: String!): Property!
+  deleteFile(id: String!): File!
+  deleteProperty(id: String!): Property!
   deleteRequest(id: String!): Request!
   deleteRequestItem(id: String!): RequestItem!
   deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
   login(input: LoginInput!): LoginResultUnion!
   registerNewUser(input: CreateUserInput!): RegisterResultUnion!
-  updateFile(id: String!, input: UpdatePropertyInput!): Property!
+  updateFile(id: String!, input: UpdateFileInput!): File!
+  updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
   updateRequestItem(id: String!, input: UpdateRequestItemsInput!): RequestItem!
   updateRole(id: String!, input: UpdateRoleInput!): Role!
@@ -99,26 +108,6 @@ type Mutation {
 
 type PasswordMismatchError {
   message: String!
-}
-
-type ProcurementUser {
-  createdAt: DateTime
-  email: String!
-  id: ID!
-  name: String
-  password: String
-  role: Role
-  type: ProcurementUserType!
-  updatedAt: DateTime
-  username: String!
-  verificationCodes: [VerificationCode!]!
-  verified: Boolean!
-}
-
-enum ProcurementUserType {
-  APPROVING_USER
-  REQUESTING_USER
-  REVIEWING_USER
 }
 
 type Property {
@@ -147,8 +136,9 @@ type Query {
   requests(page: Int! = 1, pageSize: Int! = 10): RequestPage!
   roleById(id: String!): Role!
   roleByRoleName(roleName: UserRoles!): Role!
+  roles(page: Int! = 1, pageSize: Int! = 10): RolePage!
   user(id: String!): User!
-  users(page: Int! = 1, pageSize: Int! = 10): RolePage!
+  users(page: Int! = 1, pageSize: Int! = 10): UserPage!
 }
 
 type RegisterNewUserSuccess {
@@ -165,7 +155,8 @@ type Request {
   id: ID!
   requestItems: [RequestItem!]
   requestType: String!
-  requestedUser: ProcurementUser
+  requestedUser: User
+  requestedUserId: String
   status: RequestStatus!
   updatedAt: DateTime
 }
@@ -179,6 +170,8 @@ type RequestItem {
   quantity: Float
   requests: [Request!]!
   sku: String!
+  type: String
+  unit: String
   updatedAt: DateTime
 }
 
@@ -195,6 +188,7 @@ type RequestPage {
 enum RequestStatus {
   APPROVED
   AWAITING_APPROVAL
+  PENDING
   PROCESSING
   REJECTED
 }
@@ -211,6 +205,10 @@ type Role {
 type RolePage {
   data: [Role!]!
   totalPages: Int
+}
+
+input UpdateFileInput {
+  name: String
 }
 
 input UpdatePropertyInput {
@@ -230,9 +228,11 @@ input UpdateRequestInput {
 
 input UpdateRequestItemsInput {
   name: String
-  requestId: String
+  price: Float
+  quantity: Float
   sku: String
   type: String
+  unit: String
 }
 
 input UpdateRoleInput {
@@ -258,7 +258,7 @@ type User {
   role: Role
   updatedAt: DateTime
   username: String!
-  verificationCodes: [VerificationCode!]!
+  verificationCodes: [VerificationCode!]
   verified: Boolean!
 }
 
@@ -275,8 +275,11 @@ enum UserRoles {
   ADMIN
   DIRECTOR
   EMPLOYEE
+  HOD
   PROCUREMENT_STAFF
   STORE_STAFF
+  SUPERADMIN
+  VENDOR
 }
 
 type VerificationCode {

@@ -211,6 +211,7 @@ enum UserRoles {
   PROCUREMENT_STAFF
   STORE_STAFF
   SUPERADMIN
+  VENDOR
 }
 
 type VerificationCode {
