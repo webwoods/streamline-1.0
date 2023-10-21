@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ProcurementService } from '../services/procurement.service';
 import { NotFoundException } from '@nestjs/common';
 import { RequestItem } from '../entities/request-items.entity';
@@ -6,6 +6,7 @@ import { CreatePropertyInput } from '../entities/dto/create.property';
 import { User } from '../entities/user.entity';
 import { Role } from '../entities/role.entity';
 import { Request } from '../entities/request.entity';
+import { RequestPage } from '../entities/dto/requestPage.dto';
 
 @Resolver()
 export class ProcurementResolver {
@@ -386,7 +387,9 @@ export class ProcurementResolver {
   }
 
   @Query(() => Request)
-  async getRequestWithUser(requestId: string): Promise<Request> {
+  async getRequestWithUser(
+    @Args('requestId') requestId: string,
+  ): Promise<Request> {
     try {
       if (!requestId) {
         throw new NotFoundException('Request not found.');
@@ -397,22 +400,48 @@ export class ProcurementResolver {
     }
   }
 
-  @Query(() => [Request])
-  async getRequestsWithUser(skip?: number, take?: number): Promise<Request[]> {
+  @Query(() => RequestPage)
+  async getRequestsWithUser(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<RequestPage> {
     try {
-      return await this.procurementService.getRequestsWithUser();
+      const skip = (page - 1) * pageSize;
+      const requests = await this.procurementService.getRequestsWithUser(
+        skip,
+        pageSize,
+      );
+      const requestPage: RequestPage = {
+        data: requests,
+        totalItems: requests.length,
+      };
+      return requestPage;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  @Query(() => [Request])
-  async getRequestsForUser(userId: string): Promise<Request[]> {
+  @Query(() => RequestPage)
+  async getRequestsForUser(
+    @Args('userId') userId: string,
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<RequestPage> {
     try {
       if (!userId) {
         throw new NotFoundException('User not found.');
       }
-      return await this.procurementService.getRequestsForUser(userId);
+      const skip = (page - 1) * pageSize;
+      const requests = await this.procurementService.getRequestsForUser(
+        userId,
+        skip,
+        pageSize,
+      );
+      const requestPage: RequestPage = {
+        data: requests,
+        totalItems: requests.length,
+      };
+      return requestPage;
     } catch (error) {
       throw new Error(error);
     }

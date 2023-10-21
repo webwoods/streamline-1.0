@@ -434,7 +434,7 @@ export class ProcurementService {
 
   async getRequestsWithUser(skip?: number, take?: number): Promise<Request[]> {
     try {
-      const requests = await this.requestService.findAllRequests();
+      const requests = await this.requestService.findAllRequests(skip, take);
       requests.forEach(async (request: Request) => {
         request.requestedUser = await this.getUserByIdFromAuth(
           request.requestedUserId,
@@ -446,10 +446,16 @@ export class ProcurementService {
     }
   }
 
-  async getRequestsForUser(userId: string): Promise<Request[]> {
+  async getRequestsForUser(
+    userId: string,
+    skip?: number,
+    take?: number,
+  ): Promise<Request[]> {
     try {
       const requests = await this.requestService.findAllRequestsByUserId(
         userId,
+        skip,
+        take,
       );
       return requests;
     } catch (error) {
