@@ -36,9 +36,13 @@ export class Request extends StreamLineEntity {
   @Field({ nullable: true })
   requestedUserId: string;
 
-  @ManyToMany(() => RequestItem, (requestItem) => requestItem.requests)
+  @ManyToMany(() => RequestItem, (requestItem) => requestItem.requests, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+    nullable: true,
+  })
   @Field(() => [RequestItem], { nullable: true })
-  requestItems: RequestItem[];
+  requestItems?: RequestItem[];
 
   @Column({ name: 'status', type: 'text', nullable: true })
   @Field(() => RequestStatus)

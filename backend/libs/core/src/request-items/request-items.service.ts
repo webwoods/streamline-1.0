@@ -51,6 +51,8 @@ export class RequestItemsService {
       throw new NotFoundException(`Request Item with id ${id} not found`);
     }
 
+    Object.assign(requestItem, input);
+
     await this.requestItemRepository.save(requestItem);
     return await this.findRequestItemById(id);
   }

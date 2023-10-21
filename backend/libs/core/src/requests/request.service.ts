@@ -14,7 +14,7 @@ export class RequestService {
     const data = await this.requestRepository.find({
       skip,
       take,
-      relations: { file: true },
+      relations: { file: true, requestItems: true },
     });
     return data;
   }
@@ -27,7 +27,7 @@ export class RequestService {
     const data = await this.requestRepository.find({
       skip,
       take,
-      relations: { file: true },
+      relations: { file: true, requestItems: true },
       where: {
         requestedUserId: userId,
       },
@@ -39,6 +39,7 @@ export class RequestService {
     return await this.requestRepository.findOne({
       relations: {
         file: true,
+        requestItems: true,
       },
       where: { id },
     });
@@ -48,7 +49,7 @@ export class RequestService {
     const request = this.requestRepository.create(input);
     const createdRequest = await this.requestRepository.save(request);
     return await this.requestRepository.findOne({
-      relations: { file: true },
+      relations: { file: true, requestItems: true },
       where: { id: createdRequest.id },
     });
   }
@@ -58,7 +59,7 @@ export class RequestService {
     input: Partial<Request>,
   ): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true },
+      relations: { file: true, requestItems: true },
       where: { id },
     });
 
@@ -69,14 +70,14 @@ export class RequestService {
 
     // Update the request object with the values from the input
     Object.assign(request, input);
-    console.log(request);
+
     await this.requestRepository.save(request);
     return await this.findRequestById(id);
   }
 
   async deleteRequest(id: string): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true },
+      relations: { file: true, requestItems: true },
       where: { id },
     });
     await this.requestRepository.delete(id);

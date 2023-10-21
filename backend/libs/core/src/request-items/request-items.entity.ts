@@ -19,6 +19,14 @@ export class RequestItem extends StreamLineEntity {
   @Field({ nullable: true })
   quantity: number;
 
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  type: string;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  unit: string;
+
   @Column({ type: 'float', nullable: true })
   @Field({ nullable: true })
   price: number;
@@ -41,9 +49,9 @@ export class RequestItem extends StreamLineEntity {
     onUpdate: 'CASCADE',
   })
   @JoinTable({
-    name: 'request-item-properties',
-    joinColumn: { name: 'request-item-id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'property-id', referencedColumnName: 'id' },
+    name: 'request_item_properties',
+    joinColumn: { name: 'request_item_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'property_id', referencedColumnName: 'id' },
   })
   @Field(() => [Property], { nullable: true })
   properties: Property[];

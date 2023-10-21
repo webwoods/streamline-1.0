@@ -24,6 +24,67 @@ export class ProcurementService {
   ) {}
 
   /**
+   * This function lets the procurement user to add request items to
+   * a request
+   * @returns
+   */
+  async addRequestItemsToRequest(
+    requestId: string,
+    requestItemIds: string[],
+  ): Promise<Request> {
+    try {
+      const request = await this.requestService.findRequestById(requestId);
+      requestItemIds.forEach(async (requestItemId: string) => {
+        const requestItem = await this.requestItemService.findRequestItemById(
+          requestItemId,
+        );
+        requestItem.requests.push(request);
+        await this.requestItemService.updateRequestItem(
+          requestItemId,
+          requestItem,
+        );
+      });
+      return await this.requestService.findRequestById(requestId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
+   * This function lets the procurement user to remove request items to
+   * a request
+   * @returns
+   */
+  async removeRequestItemsFromRequest(
+    requestId: string,
+    requestItemIds: string[],
+  ): Promise<Request> {
+    try {
+      const request = await this.requestService.findRequestById(requestId);
+      requestItemIds.forEach(async (requestItemId: string) => {
+        const requestItem = await this.requestItemService.findRequestItemById(
+          requestItemId,
+        );
+
+        requestItem.requests = requestItem.requests.filter(
+          (request: Request) => request.id !== requestId,
+        );
+        request.requestItems = request.requestItems.filter(
+          (requestItem: RequestItem) => requestItem.id !== requestItemId,
+        );
+
+        await this.requestItemService.updateRequestItem(
+          requestItemId,
+          requestItem,
+        );
+      });
+      return await this.requestService.updateRequest(requestId, request);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * This function lets the procurement user to add a request to
    * a file (request collection)
    * @returns

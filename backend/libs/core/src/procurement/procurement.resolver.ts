@@ -11,6 +11,52 @@ import { Request } from '../requests/request.entity';
 @Resolver()
 export class ProcurementResolver {
   constructor(private readonly procurementService: ProcurementService) {}
+  @Mutation(() => Request)
+  async addRequestItemsToRequest(
+    @Args('requestId') requestId: string,
+    @Args('requestItemIds', { type: () => [String] }) requestItemIds: string[],
+  ): Promise<Request> {
+    try {
+      if (!requestId) {
+        throw new NotFoundException('Request not found.');
+      }
+
+      if (!requestItemIds) {
+        throw new NotFoundException('Request items not found.');
+      }
+
+      return await this.procurementService.addRequestItemsToRequest(
+        requestId,
+        requestItemIds,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  @Mutation(() => Request)
+  async removeRequestItemsFromRequest(
+    @Args('requestId') requestId: string,
+    @Args('requestItemIds', { type: () => [String] }) requestItemIds: string[],
+  ): Promise<Request> {
+    try {
+      if (!requestId) {
+        throw new NotFoundException('Request not found.');
+      }
+
+      if (!requestItemIds) {
+        throw new NotFoundException('Request items not found.');
+      }
+
+      return await this.procurementService.removeRequestItemsFromRequest(
+        requestId,
+        requestItemIds,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   /**
    * This function lets the procurement user to add a request to
    * a file (request collection)

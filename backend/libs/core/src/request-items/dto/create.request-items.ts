@@ -9,8 +9,14 @@ export class CreateRequestItemsInput {
   sku: string;
 
   @Field()
-  requestId: string;
+  unit: string;
 
   @Field({ nullable: true })
   name?: string;
+
+  @Field({ nullable: true })
+  price?: number;
+
+  @Field({ nullable: true })
+  quantity?: number;
 }
