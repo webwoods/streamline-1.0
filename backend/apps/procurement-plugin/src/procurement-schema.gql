@@ -50,7 +50,7 @@ type Mutation {
   addNewPropertyToRequestItem(property: CreatePropertyInput!, requestItemId: String!): RequestItem!
   addPropertiesToRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   addPropertyToRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
-  addRequestToFile(fileId: String!, requestId: String!): File!
+  addRequestToFile(fileId: String!, requestId: String!): Request!
   approveRequest(requestId: String!): Request!
   createFile(input: CreateFileInput!): File!
   createProperty(input: CreatePropertyInput!): Property!
@@ -63,7 +63,7 @@ type Mutation {
   rejectRequest(requestId: String!): Request!
   removePropertiesFromRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   removePropertyFromRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
-  removeRequestFromFile(fileId: String!, requestId: String!): File!
+  removeRequestFromFile(fileId: String!, requestId: String!): Request!
   updateFile(id: String!, input: UpdateFileInput!): File!
   updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!

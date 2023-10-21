@@ -28,12 +28,11 @@ export class ProcurementService {
    * a file (request collection)
    * @returns
    */
-  async addRequestToFile(requestId: string, fileId: string): Promise<File> {
+  async addRequestToFile(requestId: string, fileId: string): Promise<Request> {
     try {
       const file = await this.fileService.findFileById(fileId);
       const request = await this.requestService.findRequestById(requestId);
       request.fileId = file.id;
-      console.log(request);
       return await this.requestService.updateRequest(requestId, request);
     } catch (error) {
       throw new Error(error);
@@ -48,12 +47,13 @@ export class ProcurementService {
   async removeRequestFromFile(
     requestId: string,
     fileId: string,
-  ): Promise<File> {
-    const file = await this.fileService.findFileById(fileId);
-    file.requests = file.requests.filter(
-      (request: Request) => request.id !== requestId,
-    );
-    return await this.fileService.updateFile(fileId, file);
+  ): Promise<Request> {
+    const request = await this.requestService.findRequestById(requestId);
+    if (request.fileId === fileId) {
+      request.file = null;
+      request.fileId = null;
+    }
+    return await this.requestService.updateRequest(requestId, request);
   }
 
   /**

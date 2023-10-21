@@ -69,7 +69,7 @@ export class RequestService {
 
     // Update the request object with the values from the input
     Object.assign(request, input);
-
+    console.log(request);
     await this.requestRepository.save(request);
     return await this.findRequestById(id);
   }
