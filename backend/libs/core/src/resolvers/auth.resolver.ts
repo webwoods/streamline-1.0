@@ -33,7 +33,7 @@ export class AuthResolver {
       // Set the bearer token in the response header
       // context.res.header('Authorization', `Bearer ${result.access_token}`);
 
-      const success = new LoginSuccess(result.me, result.accessToken);
+      const success = new LoginSuccess(result.me, result.access_token);
       return success;
     } catch (error) {
       if (error instanceof NotFoundException) {
