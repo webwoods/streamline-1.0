@@ -21,6 +21,8 @@ export class Property extends StreamLineEntity {
   @ManyToMany(() => RequestItem, (requestItem) => requestItem.properties, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
+    nullable: true,
   })
+  @Field(() => [RequestItem], { nullable: true })
   requestItems?: RequestItem[];
 }

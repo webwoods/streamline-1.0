@@ -78,7 +78,7 @@ type Property {
   createdAt: DateTime
   id: ID!
   key: String!
-  requestItems: RequestItem
+  requestItems: [RequestItem!]
   type: String!
   updatedAt: DateTime
   value: String!
@@ -92,9 +92,9 @@ type PropertyPage {
 type Query {
   file(id: String!): File!
   files(page: Int! = 1, pageSize: Int! = 10): FilePage!
-  getRequestWithUser: Request!
-  getRequestsForUser: [Request!]!
-  getRequestsWithUser: [Request!]!
+  getRequestWithUser(requestId: String!): Request!
+  getRequestsForUser(page: Int! = 1, pageSize: Int! = 10, userId: String!): RequestPage!
+  getRequestsWithUser(page: Int! = 1, pageSize: Int! = 10): RequestPage!
 
   """retrieves a role from the auth plugin when the roleId is given."""
   getRoleByIdFromAuth(roleId: String!): Role!
@@ -129,7 +129,7 @@ type RequestItem {
   price: Float
   properties: [Property!]
   quantity: Float
-  requests: [Request!]!
+  requests: [Request!]
   sku: String!
   type: String
   unit: String

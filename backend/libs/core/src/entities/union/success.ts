@@ -7,11 +7,11 @@ export class LoginSuccess {
     this.me = me;
     this.accessToken = accessToken;
   }
-  
-  @Field()
+
+  @Field({ nullable: true })
   me: User;
 
-  @Field()
+  @Field({ nullable: true })
   accessToken: string;
 }
 
@@ -22,10 +22,10 @@ export class RegisterNewUserSuccess {
     this.verificationToken = verificationToken;
   }
 
-  @Field()
+  @Field({ nullable: true })
   me: User;
 
-  @Field()
+  @Field({ nullable: true })
   verificationToken: string;
 }
 

@@ -10,11 +10,14 @@ export class RequestItemsService {
     private readonly requestItemRepository: Repository<RequestItem>,
   ) {}
 
-  async findAllRequestItems(skip: number, take: number): Promise<RequestItem[]> {
+  async findAllRequestItems(
+    skip: number,
+    take: number,
+  ): Promise<RequestItem[]> {
     const data = await this.requestItemRepository.find({
       skip,
       take,
-      relations: { requests: true },
+      relations: { requests: true, properties: true },
     });
     return data;
   }
@@ -23,16 +26,19 @@ export class RequestItemsService {
     return await this.requestItemRepository.findOne({
       relations: {
         requests: true,
+        properties: true,
       },
       where: { id },
     });
   }
 
-  async createRequestItem(input: Partial<RequestItem>): Promise<RequestItem | null> {
+  async createRequestItem(
+    input: Partial<RequestItem>,
+  ): Promise<RequestItem | null> {
     const requestItem = this.requestItemRepository.create(input);
     const createdRequest = await this.requestItemRepository.save(requestItem);
     return await this.requestItemRepository.findOne({
-      relations: { requests: true },
+      relations: { requests: true, properties: true },
       where: { id: createdRequest.id },
     });
   }
@@ -42,7 +48,7 @@ export class RequestItemsService {
     input: Partial<RequestItem>,
   ): Promise<RequestItem | null> {
     const requestItem = await this.requestItemRepository.findOne({
-      relations: { requests: true },
+      relations: { requests: true, properties: true },
       where: { id },
     });
 
@@ -59,7 +65,7 @@ export class RequestItemsService {
 
   async deleteRequestItem(id: string): Promise<RequestItem | null> {
     const requestItem = await this.requestItemRepository.findOne({
-      relations: { requests: true },
+      relations: { requests: true, properties: true },
       where: { id },
     });
     await this.requestItemRepository.delete(id);

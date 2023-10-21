@@ -36,8 +36,8 @@ input LoginInput {
 union LoginResultUnion = LoginSuccess | PasswordMismatchError | UserNotExistError
 
 type LoginSuccess {
-  accessToken: String!
-  me: User!
+  accessToken: String
+  me: User
 }
 
 type Mutation {
@@ -67,8 +67,8 @@ type Query {
 }
 
 type RegisterNewUserSuccess {
-  me: User!
-  verificationToken: String!
+  me: User
+  verificationToken: String
 }
 
 union RegisterResultUnion = PasswordMismatchError | RegisterNewUserSuccess | UserNotExistError
