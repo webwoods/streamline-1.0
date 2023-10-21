@@ -46,6 +46,8 @@ export class FileService {
       throw new NotFoundException(`File with id ${id} not found`);
     }
 
+    Object.assign(file, input);
+
     await this.fileRepository.save(file);
     return await this.findFileById(id);
   }

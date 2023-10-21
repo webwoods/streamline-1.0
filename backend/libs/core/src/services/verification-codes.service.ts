@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { VerificationCode } from '../entities/verification-codes.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -24,19 +24,21 @@ export class VerificationCodesService {
     return await this.verificationCodeRepository.find({
       relations: { user: true },
       order: {
-        updatedAt: 'DESC'
-      }
+        updatedAt: 'DESC',
+      },
     });
   }
 
-  async findVerificationCodesByUserId(userId: string): Promise<VerificationCode[]> {
+  async findVerificationCodesByUserId(
+    userId: string,
+  ): Promise<VerificationCode[]> {
     try {
       return await this.verificationCodeRepository.find({
         relations: { user: true },
         where: { userId },
         order: {
-          updatedAt: 'DESC'
-        }
+          updatedAt: 'DESC',
+        },
       });
     } catch (error) {
       throw new Error(`Error fetching verification code: ${error}`);
@@ -48,7 +50,16 @@ export class VerificationCodesService {
     input: Partial<VerificationCode>,
   ): Promise<any> {
     try {
-      await this.verificationCodeRepository.update(id, input);
+      const code = await this.verificationCodeRepository.findOne({
+        where: { id },
+      });
+
+      if (!code) {
+        throw new NotFoundException('Verification code not found.');
+      }
+
+      Object.assign(code, input);
+      await this.verificationCodeRepository.save(code);
       return 'verification code saved succesfully';
     } catch (error) {
       throw new Error(`Error updating verification code: ${error}`);
@@ -58,7 +69,7 @@ export class VerificationCodesService {
   async deleteVerificationCode(id: string): Promise<any> {
     try {
       await this.verificationCodeRepository.delete(id);
-      return 'verification code deleted succesfully';;
+      return 'verification code deleted succesfully';
     } catch (error) {
       throw new Error(`Error deleting verification code: ${error}`);
     }
