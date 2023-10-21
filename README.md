@@ -16,7 +16,7 @@
 
 This comprehensive solution is designed to streamline and optimize your business processes, providing a centralized platform to manage and coordinate various aspects of your enterprise. Whether you are a small business or a large corporation, our ERP software is tailored to meet your organizational needs and enhance overall efficiency.
 
-![System Acrchitecture](assets/system%20architecture.png)
+<img src="assets/system architecture.png" alt="system-architecture" width="100%">
 
 ### Modules under development
 1. Asset Server
@@ -46,8 +46,9 @@ yarn install
 ```
 
 **Database Configurations**
-Add database configurations in the `backend\libs\core\src\config\orm.config.ts` file.
-![ORM Config](assets/ormconfig.png)
+Add database configurations in the `backend\libs\core\src\config\orm.config.ts` file.  
+<br>
+<img src="assets/ormconfig.png" alt="orm-config" width="100%">
 
 **Run the Application**
 Run the application using the following commands.
@@ -64,11 +65,64 @@ yarn dev:new
 User Interface starts on `http://localhost:3000`  
 Auth app starts on `http://localhost:5001/auth`  
 Procurement app starts on `http://localhost:5002/procurement`  
-Use a graphql client like **Altair** or use the playgorund on `http://localhost:5001/auth/playground` and `http://localhost:5001/procurement/playground`
+Use a graphql client like **Altair** or use the playgorund on `http://localhost:5001/auth/playground` and `http://localhost:5002/procurement/playground`  
+<br>
+<img src="assets/playground.png" alt="graphql-playground" width="100%">
 
-# Structure of the project
+## Entities and Relationships
 
+The provided SQL script defines tables for an application dealing with procurement processes. Let's describe the entity relationships based on the script:
 
+1. **File Entity:**
+   - Represents a file used in the system.
+   - Used to store a collection of Requests.
+   - Related to the `Request` entity through the `file_id` foreign key.
+
+2. **Migrations Entity:**
+   - Represents information related to database migrations.
+   - No explicit relationships defined in this script.
+
+3. **ProcurementUser Entity:**
+   - Represents a user with roles related to procurement activities.
+   - Related to the `Role` entity through the `roleId` foreign key.
+
+4. **Property Entity:**
+   - Represents key-value pair properties.
+   - Used in a many-to-many relationship with the `RequestItem` entity through the `request-item-properties` junction table.
+   - Related to the `RequestItem` entity through the `request-item-properties` junction table.
+
+5. **Request Entity:**
+   - Represents a procurement request.
+   - Related to the `File` entity through the `file_id` foreign key.
+   - Has a many-to-many relationship with the `RequestItem` entity through the `request_request_items` junction table.
+
+6. **RequestItem Entity:**
+   - Represents an item within a procurement request.
+   - Has a many-to-many relationship with the `Property` entity through the `request-item-properties` junction table.
+   - Related to the `Request` entity through the `request_request_items` junction table.
+
+7. **Request-RequestItems Junction Table:**
+   - Represents the many-to-many relationship between the `Request` and `RequestItem` entities.
+
+8. **RequestItem-Properties Junction Table:**
+   - Represents the many-to-many relationship between the `RequestItem` and `Property` entities.
+
+9. **Role Entity:**
+   - Represents user roles, including those related to procurement activities.
+   - Related to the `ProcurementUser` and `User` entities through the `roleId` foreign key.
+
+10. **User Entity:**
+    - Represents a user in the system.
+    - Related to the `Role` entity through the `roleId` foreign key.
+    - Related to the `VerificationCode` entity through the `id` foreign key.
+
+11. **VerificationCode Entity:**
+    - Represents a verification code associated with a user.
+    - Related to the `User` entity through the `user_id` foreign key.
+
+These relationships provide a structure for handling procurement-related activities, including requests, items, users, roles, and associated properties. The script also includes foreign key constraints to maintain referential integrity between the tables.
+
+<img src="assets/erd.png" alt="erd" width="100%">
 
 
 
