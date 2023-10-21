@@ -22,9 +22,11 @@ input CreateRequestInput {
 
 input CreateRequestItemsInput {
   name: String
-  requestId: String!
+  price: Float
+  quantity: Float
   sku: String!
   type: String
+  unit: String!
 }
 
 """
@@ -36,7 +38,7 @@ type File {
   createdAt: DateTime
   id: ID!
   name: String
-  requests: Request
+  requests: [Request!]!
   updatedAt: DateTime
 }
 
@@ -50,7 +52,8 @@ type Mutation {
   addNewPropertyToRequestItem(property: CreatePropertyInput!, requestItemId: String!): RequestItem!
   addPropertiesToRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   addPropertyToRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
-  addRequestToFile: File!
+  addRequestItemsToRequest(requestId: String!, requestItemIds: [String!]!): Request!
+  addRequestToFile(fileId: String!, requestId: String!): Request!
   approveRequest(requestId: String!): Request!
   createFile(input: CreateFileInput!): File!
   createProperty(input: CreatePropertyInput!): Property!
@@ -63,7 +66,8 @@ type Mutation {
   rejectRequest(requestId: String!): Request!
   removePropertiesFromRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   removePropertyFromRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
-  removeRequestFromFile: File!
+  removeRequestFromFile(fileId: String!, requestId: String!): Request!
+  removeRequestItemsFromRequest(requestId: String!, requestItemIds: [String!]!): Request!
   updateFile(id: String!, input: UpdateFileInput!): File!
   updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
@@ -127,6 +131,8 @@ type RequestItem {
   quantity: Float
   requests: [Request!]!
   sku: String!
+  type: String
+  unit: String
   updatedAt: DateTime
 }
 
@@ -177,9 +183,11 @@ input UpdateRequestInput {
 
 input UpdateRequestItemsInput {
   name: String
-  requestId: String
+  price: Float
+  quantity: Float
   sku: String
   type: String
+  unit: String
 }
 
 type User {
@@ -199,8 +207,11 @@ enum UserRoles {
   ADMIN
   DIRECTOR
   EMPLOYEE
+  HOD
   PROCUREMENT_STAFF
   STORE_STAFF
+  SUPERADMIN
+  VENDOR
 }
 
 type VerificationCode {

@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AuthPluginController } from './auth-plugin.controller';
 import { AuthPluginService } from './auth-plugin.service';
-import { User } from '@libs/core/users/user.entity';
-import { Role } from '@libs/core/roles/role.entity';
-import { VerificationCode } from '@libs/core/verification-codes/verification-codes.entity';
+import { User } from '@libs/core/entities/user.entity';
+import { Role } from '@libs/core/entities/role.entity';
+import { VerificationCode } from '@libs/core/entities/verification-codes.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDbConfig } from '@libs/core/config/orm.config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AUTH_APP } from '@libs/core/constants/appInfo';
-import { AuthModule } from '@libs/core/auth/auth.module';
+import { AuthModule } from '@libs/core/modules/auth.module';
 
 @Module({
   imports: [

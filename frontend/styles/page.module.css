@@ -9,6 +9,23 @@
   max-width: 900px;
 }
 
+.allCenter {
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 100vh; /* Set height to 100% of the viewport height */
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.allCenter h1 {
+  font-size: x-large;
+  font-weight: 700;
+}
+
 .page-container {
   width: 100%;
   display: flex;
