@@ -53,8 +53,8 @@ export class RoleResolver {
     }
   }
 
-  @Query(() => RolePage, { name: 'users' })
-  async getUsers(
+  @Query(() => RolePage, { name: 'roles' })
+  async getRoles(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
   ): Promise<RolePage> {

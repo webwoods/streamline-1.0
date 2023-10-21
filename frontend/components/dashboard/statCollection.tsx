@@ -5,9 +5,9 @@ export default function StatCollection() {
 
   const mockdata = [
     { title: 'Awaiting Approval', icon: 'thumb-up', value: 3 },
-    { title: 'Awaiting Approval', icon: 'thumb-up', value: 3 },
-    { title: 'Awaiting Approval', icon: 'thumb-up', value: 3 },
-    { title: 'Awaiting Approval', icon: 'thumb-up', value: 3 }
+    { title: 'Pending Requisitions', icon: 'clipboard-text.svg', value: 12 },
+    { title: 'Purchase Orders', icon: 'thumb-up', value: 114 },
+    { title: 'Vendor Responses', icon: 'thumb-up', value: 20 }
   ]
 
   return (

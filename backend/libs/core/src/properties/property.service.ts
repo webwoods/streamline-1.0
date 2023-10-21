@@ -10,7 +10,7 @@ export class PropertyService {
     private readonly propertyRepository: Repository<Property>,
   ) {}
 
-  async findAllPropertys(skip: number, take: number): Promise<Property[]> {
+  async findAllProperties(skip: number, take: number): Promise<Property[]> {
     const data = await this.propertyRepository.find({
       skip,
       take,
@@ -26,16 +26,33 @@ export class PropertyService {
     });
   }
 
-  async createProperty(input: Partial<Property>): Promise<Property | null> {
-    const property = this.propertyRepository.create(input);
-    const createdProperty = await this.propertyRepository.save(property);
-    return await this.propertyRepository.findOne({
-      relations: { requestItems: true },
-      where: { id: createdProperty.id },
+  async findPropertiesByIds(ids: string[]): Promise<Property[] | null> {
+    const foundProperties = ids.map(async (id: string) => {
+      return await this.propertyRepository.findOne({
+        relations: { requestItems: true },
+        where: { id },
+      });
     });
+    return await Promise.all(foundProperties);
   }
 
-  async updateProperty(id: string, input: Partial<Property>): Promise<Property | null> {
+  async createProperty(input: Partial<Property>): Promise<Property | null> {
+    try {
+      const property = this.propertyRepository.create(input);
+      const createdProperty = await this.propertyRepository.save(property);
+      return await this.propertyRepository.findOne({
+        relations: { requestItems: true },
+        where: { id: createdProperty.id },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async updateProperty(
+    id: string,
+    input: Partial<Property>,
+  ): Promise<Property | null> {
     const property = await this.propertyRepository.findOne({
       relations: { requestItems: true },
       where: { id },

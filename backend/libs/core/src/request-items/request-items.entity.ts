@@ -1,8 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from '@libs/core/entities/streamline.entity';
 import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
-import { Request } from '../requests/request.entity';
-import { Property } from '../properties/property.entity';
+import { Request } from '@libs/core/requests/request.entity';
+import { Property } from '@libs/core/properties/property.entity';
 
 @Entity()
 @ObjectType()
@@ -23,7 +23,10 @@ export class RequestItem extends StreamLineEntity {
   @Field({ nullable: true })
   price: number;
 
-  @ManyToMany(() => Request, (request) => request.requestItems)
+  @ManyToMany(() => Request, (request) => request.requestItems, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable({
     name: 'request_request_items',
     joinColumn: { name: 'request_item_id', referencedColumnName: 'id' },
@@ -32,12 +35,16 @@ export class RequestItem extends StreamLineEntity {
   @Field(() => [Request])
   requests: Request[];
 
-  @ManyToMany(() => Property, (property) => property.requestItems)
+  @ManyToMany(() => Property, (property) => property.requestItems, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable({
     name: 'request-item-properties',
     joinColumn: { name: 'request-item-id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'property-id', referencedColumnName: 'id' },
   })
-  @Field(() => [Property])
+  @Field(() => [Property], { nullable: true })
   properties: Property[];
 }

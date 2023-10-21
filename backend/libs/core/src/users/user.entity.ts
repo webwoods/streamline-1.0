@@ -51,8 +51,8 @@ export class User extends StreamLineEntity {
   @OneToMany(
     (type) => VerificationCode,
     (verificationCode) => verificationCode.user,
-    { cascade: true },
+    { cascade: true, nullable: true },
   )
-  @Field((type) => [VerificationCode])
+  @Field((type) => [VerificationCode], { nullable: true })
   verificationCodes?: VerificationCode[];
 }
