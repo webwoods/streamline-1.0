@@ -35,7 +35,7 @@ export function getDbConfig({
     port: Number(process.env['DB_PORT']) || 5432,
     username: process.env['DB_USERNAME'] ?? 'postgres',
     password: process.env['DB_PASSWORD'] ?? '1234',
-    database: process.env['DB_NAME'] ?? 'streamline',
+    database: process.env['DB_NAME'] ?? 'streamlinetest',
   };
 
   const mysqlConfig: MysqlConnectionOptions = {

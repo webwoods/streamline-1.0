@@ -31,7 +31,7 @@ export class AuthResolver {
       const result = await this.authService.signIn(input);
 
       // Set the bearer token in the response header
-      context.res.header('Authorization', `Bearer ${result.access_token}`);
+      // context.res.header('Authorization', `Bearer ${result.access_token}`);
 
       const success = new LoginSuccess(result.me, result.accessToken);
       return success;
