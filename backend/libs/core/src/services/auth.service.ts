@@ -7,10 +7,10 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginInput } from '../entities/dto/login.input';
 import { VerifyUserInput } from '../entities/dto/verifyUser.input';
-import { UserService } from '@libs/core/users/user.service';
-import { VerificationCodesService } from '@libs/core/verification-codes/verification-codes.service';
-import { CreateUserInput } from '@libs/core/users/dto/create.user';
-import { VerificationCode } from '@libs/core/verification-codes/verification-codes.entity';
+import { UserService } from '@libs/core/services/user.service';
+import { VerificationCodesService } from '@libs/core/services/verification-codes.service';
+import { CreateUserInput } from '@libs/core/entities/dto/create.user';
+import { VerificationCode } from '@libs/core/entities/verification-codes.entity';
 @Injectable()
 export class AuthService {
   constructor(
