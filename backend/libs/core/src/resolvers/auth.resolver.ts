@@ -34,8 +34,7 @@ export class AuthResolver {
         'Authorization',
         `Bearer ${result.access_token}`,
       );
-
-      const success = new LoginSuccess(result.user, result.accessToken);
+      const success = new LoginSuccess(result.user, result.access_token);
       return success;
     } catch (error) {
       if (error instanceof NotFoundException) {
