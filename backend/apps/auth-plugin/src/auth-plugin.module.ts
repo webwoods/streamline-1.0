@@ -23,6 +23,7 @@ import { AuthModule } from '@libs/core/modules/auth.module';
       include: [AuthModule],
       playground: true,
       path: AUTH_APP.graphqlEndpoint,
+      context: ({ req, res }) => ({ request: req, response: res }),
     }),
 
     TypeOrmModule.forRoot(

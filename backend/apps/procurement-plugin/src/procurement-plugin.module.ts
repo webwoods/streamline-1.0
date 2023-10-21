@@ -27,6 +27,7 @@ import { ProcurementModule } from '@libs/core/modules/procurement.module';
       playground: true,
       include: [ProcurementModule],
       path: PROCUREMENT_APP.graphqlEndpoint,
+      context: ({ req, res }) => ({ request: req, response: res }),
     }),
 
     TypeOrmModule.forRoot(

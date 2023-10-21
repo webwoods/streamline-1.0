@@ -57,6 +57,10 @@ Run the application using the following commands.
 yarn start:dev auth-plugin
 yarn start:dev procurement-plugin
 
+# to run backend apps securely (using bash)
+DB_HOST=localhost DB_PASSWORD=password DB_USER=user DB_PORT=5432 DB=postgres DB_NAME=streamline yarn start:dev auth-plugin
+DB_HOST=localhost DB_PASSWORD=password DB_USER=user DB_PORT=5432 DB=postgres DB_NAME=streamline yarn start:dev procurement-plugin
+
 # go to frontend folder and run
 yarn dev:new
 ```
