@@ -1,0 +1,149 @@
+/* login.module.css */
+/* styles/center.module.css */
+
+.centered {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* margin-top: 10px; */
+  /* margin: 20px 0; */
+}
+
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background-color: blue; */
+}
+
+.loginContent {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 65vh;
+}
+
+.blueText {
+  color: var(--Accent-1, #197DFD);;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  /* padding-top: 20px; */
+}
+
+/* Set the text-align property to "left" for labels */
+.inputContainer label {
+  font-weight: bold;
+  text-align: left;
+}
+
+.inputBox {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.checkboxAndForgotPassword {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxContainer label {
+  margin-left: 5px;
+}
+
+.forgotPassword {
+  padding-left: 20px;
+  text-align: right;
+  color: var(--Inactive, #8E96A3);
+}
+
+/* component.module.css */
+
+.signInButton {
+  background-color: black;
+  color: white;
+  border: none;
+  width: 80%;
+  border-radius: 70px;
+  /* Rounded corners */
+  padding: 10px 20px;
+  /* margin-top: 20px; */
+  /* Adjust padding as needed */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  /* Add transition properties */
+
+}
+
+/* You can add additional styles, like hover effects, if desired */
+.signInButton:hover {
+  background-color: var(--primary);
+  /* Change to yellow on hover */
+  color: darkyellow;
+  /* C
+  /* Change the color on hover */
+}
+
+.welcomeText {
+  padding-top: 20px;
+  font-weight: 700;
+  font-size: large;
+}
+
+.inputFieldForm {
+  padding-top: 10px;
+  padding-bottom: 20px;
+
+}
+
+.poweredBy {
+  align-items: center;
+  color: white;
+}
+
+.boldText {
+  font-weight: bold;
+}
+
+.loginContainerFull {
+  background: var(--Accent-1, #197DFD);
+}
+
+.errorMsgContainer {
+  padding: 5px;
+  color: #FE5858;
+  font-size: small;
+  margin-top: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--Accent-2, #FE5858);
+  background: var(--Accent-Transprent, rgba(249, 65, 68, 0.17));
+}
+
+.successMsgContainer {
+
+  padding: 5px;
+  color: #8FE81E;
+  font-size: small;
+  margin-top: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--Accent-5, #8FE81E);
+  background: rgba(147, 228, 9, 0.10);
+}
