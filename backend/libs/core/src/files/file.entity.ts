@@ -11,5 +11,6 @@ export class File extends StreamLineEntity {
   name?: string;
 
   @OneToMany(() => Request, (request) => request.file)
+  @Field(() => [Request])
   requests?: Request[];
 }

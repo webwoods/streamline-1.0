@@ -67,6 +67,9 @@ export class RequestService {
       throw new NotFoundException(`Request with id ${id} not found`);
     }
 
+    // Update the request object with the values from the input
+    Object.assign(request, input);
+
     await this.requestRepository.save(request);
     return await this.findRequestById(id);
   }

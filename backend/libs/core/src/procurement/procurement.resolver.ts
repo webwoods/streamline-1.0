@@ -17,7 +17,10 @@ export class ProcurementResolver {
    * @returns
    */
   @Mutation(() => File)
-  async addRequestToFile(requestId: string, fileId: string): Promise<File> {
+  async addRequestToFile(
+    @Args('requestId') requestId: string,
+    @Args('fileId') fileId: string,
+  ): Promise<File> {
     try {
       if (!requestId) {
         throw new NotFoundException('Request not found.');
@@ -41,8 +44,8 @@ export class ProcurementResolver {
    */
   @Mutation(() => File)
   async removeRequestFromFile(
-    requestId: string,
-    fileId: string,
+    @Args('requestId') requestId: string,
+    @Args('fileId') fileId: string,
   ): Promise<File> {
     try {
       if (!requestId) {

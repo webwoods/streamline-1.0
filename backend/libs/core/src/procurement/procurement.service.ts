@@ -32,8 +32,9 @@ export class ProcurementService {
     try {
       const file = await this.fileService.findFileById(fileId);
       const request = await this.requestService.findRequestById(requestId);
-      file.requests.push(request);
-      return await this.fileService.updateFile(fileId, file);
+      request.fileId = file.id;
+      console.log(request);
+      return await this.requestService.updateRequest(requestId, request);
     } catch (error) {
       throw new Error(error);
     }

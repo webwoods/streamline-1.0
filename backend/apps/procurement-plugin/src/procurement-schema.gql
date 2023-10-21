@@ -36,7 +36,7 @@ type File {
   createdAt: DateTime
   id: ID!
   name: String
-  requests: Request
+  requests: [Request!]!
   updatedAt: DateTime
 }
 
@@ -50,7 +50,7 @@ type Mutation {
   addNewPropertyToRequestItem(property: CreatePropertyInput!, requestItemId: String!): RequestItem!
   addPropertiesToRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   addPropertyToRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
-  addRequestToFile: File!
+  addRequestToFile(fileId: String!, requestId: String!): File!
   approveRequest(requestId: String!): Request!
   createFile(input: CreateFileInput!): File!
   createProperty(input: CreatePropertyInput!): Property!
@@ -63,7 +63,7 @@ type Mutation {
   rejectRequest(requestId: String!): Request!
   removePropertiesFromRequestItem(propertyIds: [String!]!, requestItemId: String!): RequestItem!
   removePropertyFromRequestItem(propertyId: String!, requestItemId: String!): RequestItem!
-  removeRequestFromFile: File!
+  removeRequestFromFile(fileId: String!, requestId: String!): File!
   updateFile(id: String!, input: UpdateFileInput!): File!
   updateProperty(id: String!, input: UpdatePropertyInput!): Property!
   updateRequest(id: String!, input: UpdateRequestInput!): Request!
@@ -199,8 +199,10 @@ enum UserRoles {
   ADMIN
   DIRECTOR
   EMPLOYEE
+  HOD
   PROCUREMENT_STAFF
   STORE_STAFF
+  SUPERADMIN
 }
 
 type VerificationCode {

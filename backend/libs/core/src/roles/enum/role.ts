@@ -7,6 +7,7 @@ export enum UserRoles {
   PROCUREMENT_STAFF = 'procurement-staff',
   EMPLOYEE = 'employee',
   STORE_STAFF = 'store-staff',
+  HOD = 'hod',
 }
 
 registerEnumType(UserRoles, {

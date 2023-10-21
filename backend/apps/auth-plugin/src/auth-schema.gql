@@ -127,8 +127,10 @@ enum UserRoles {
   ADMIN
   DIRECTOR
   EMPLOYEE
+  HOD
   PROCUREMENT_STAFF
   STORE_STAFF
+  SUPERADMIN
 }
 
 type VerificationCode {

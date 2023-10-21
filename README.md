@@ -53,16 +53,22 @@ Add database configurations in the `backend\libs\core\src\config\orm.config.ts` 
 Run the application using the following commands.
 ```
 # go to backend folder and run
-yarn start:dev streamline
+yarn start:dev auth-plugin
+yarn start:dev procurement-plugin
 
 # go to frontend folder and run
 yarn dev:new
 ```
 
 ## Test the applications in dev mode
-Frontend app starts on `http://localhost:3000`  
-Backend app starts on `http://localhost:3333/graphql`  
-Use a graphql client like **Altair** or use hte playgorund on `http://localhost:3333/graphql/playground`
+User Interface starts on `http://localhost:3000`  
+Auth app starts on `http://localhost:5001/auth`  
+Procurement app starts on `http://localhost:5002/procurement`  
+Use a graphql client like **Altair** or use the playgorund on `http://localhost:5001/auth/playground` and `http://localhost:5001/procurement/playground`
+
+# Structure of the project
+
+
 
 
 
