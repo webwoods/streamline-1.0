@@ -63,6 +63,8 @@ export class PropertyService {
       throw new NotFoundException(`Property with id ${id} not found`);
     }
 
+    Object.assign(property, input);
+
     await this.propertyRepository.save(property);
     return await this.findPropertyById(id);
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from '../entities/role.entity';
 import { Repository } from 'typeorm';
@@ -47,11 +47,15 @@ export class RoleService {
   }
 
   async updateRole(id: string, input: Partial<Role>): Promise<Role | null> {
-    await this.roleRepository.update(id, input);
-    return await this.roleRepository.findOne({
-      relations: { users: true },
-      where: { id },
-    });
+    const role = await this.roleRepository.findOne({ where: { id } });
+
+    if (!role) {
+      throw new NotFoundException('Role not found.');
+    }
+
+    Object.assign(role, input);
+
+    return await this.roleRepository.save(role);
   }
 
   async deleteRole(id: string): Promise<Role | null> {

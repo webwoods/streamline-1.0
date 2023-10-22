@@ -16,7 +16,7 @@
 
 This comprehensive solution is designed to streamline and optimize your business processes, providing a centralized platform to manage and coordinate various aspects of your enterprise. Whether you are a small business or a large corporation, our ERP software is tailored to meet your organizational needs and enhance overall efficiency.
 
-<img src="assets/system architecture.png" alt="system-architecture" width="100%">
+<img src="assets/streamline_infographic.png" alt="infographic" width="100%">
 
 ### Modules under development
 1. Asset Server
@@ -57,6 +57,11 @@ Run the application using the following commands.
 yarn start:dev auth-plugin
 yarn start:dev procurement-plugin
 
+# to run backend apps securely (using bash)
+DB_HOST=localhost DB_PASSWORD=password DB_USER=user DB_PORT=5432 DB=postgres DB_NAME=streamline yarn start:dev auth-plugin
+
+DB_HOST=localhost DB_PASSWORD=password DB_USER=user DB_PORT=5432 DB=postgres DB_NAME=streamline yarn start:dev procurement-plugin
+
 # go to frontend folder and run
 yarn dev:new
 ```
@@ -69,8 +74,38 @@ Use a graphql client like **Altair** or use the playgorund on `http://localhost:
 <br>
 <img src="assets/playground.png" alt="graphql-playground" width="100%">
 
-## Entities and Relationships
+## Project Structure
 
+<img src="assets/system architecture.png" alt="system-architecture" width="100%">
+
+This solution is developed on top of the Nestjs, GraphQL and Nextjs. Each app is separated according to it's functionality and conneted via Apollo client instances. The solution itself is a monorepo including teh frontend and backend apps.
+
+<img src="assets/project structure.png" alt="project-structure" width="100%">
+
+### Backend Services
+The backend directory contains a Nestjs workspace which has been structured to include a shared library and share these resources with each individual app in the workspace.
+
+<img src="assets/backend.png" alt="backend" width="100%">
+<br>
+<br>
+
+The **apps** directory contains all the individual microserices. Each app can be run on there own and can connect to other services using an Apollo client.
+
+<img src="assets/microservices.png" alt="microservices" width="100%">
+<br>
+<br>
+
+The **libs** directory contains database configurations, apollo client configurations, shared modules, services and resolvers, guards, and sql script generators.
+
+<img src="assets/libs.png" alt="libs" width="100%">
+
+### User Interface
+The backend services are developed as a headless server system which can be integrated into any frontend application. This solution uses an instance of a NextJs server which will serve the ui.
+
+<img src="assets/frontend.png" alt="frontend" width="100%">
+
+
+## Entities and Relationships
 The provided SQL script defines tables for an application dealing with procurement processes. Let's describe the entity relationships based on the script:
 
 1. **File Entity:**

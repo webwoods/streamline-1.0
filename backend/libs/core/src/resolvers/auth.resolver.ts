@@ -17,7 +17,6 @@ import {
 import { VerifyUserInput } from '../entities/dto/verifyUser.input';
 import { CreateUserInput } from '../entities/dto/create.user';
 
-
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
@@ -25,21 +24,25 @@ export class AuthResolver {
   @Mutation(() => LoginResultUnion)
   async login(
     @Args('input') input: LoginInput,
-    @Context() context: any,
+    @Context() ctx: { request: Request; response: Response },
   ): Promise<any> {
     try {
       const result = await this.authService.signIn(input);
 
       // Set the bearer token in the response header
-      context.res.header('Authorization', `Bearer ${result.access_token}`);
-
-      const success = new LoginSuccess(result.me, result.accessToken);
+      ctx?.response?.headers?.set(
+        'Authorization',
+        `Bearer ${result.access_token}`,
+      );
+      const success = new LoginSuccess(result.user, result.access_token);
       return success;
     } catch (error) {
       if (error instanceof NotFoundException) {
         return new UserNotExistError();
       } else if (error instanceof ForbiddenException) {
         return new PasswordMismatchError();
+      } else {
+        throw new Error(error);
       }
     }
   }

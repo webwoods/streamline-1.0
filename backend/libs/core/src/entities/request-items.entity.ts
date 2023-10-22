@@ -40,7 +40,7 @@ export class RequestItem extends StreamLineEntity {
     joinColumn: { name: 'request_item_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'request_id', referencedColumnName: 'id' },
   })
-  @Field(() => [Request])
+  @Field(() => [Request], { nullable: true })
   requests: Request[];
 
   @ManyToMany(() => Property, (property) => property.requestItems, {
