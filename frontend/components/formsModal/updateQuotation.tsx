@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Select, SelectItem} from "@nextui-org/react";
-import { animals } from "./data";
+import { status } from "./data";
 
 
 export default function UpdateQuotation() {
@@ -46,12 +46,12 @@ export default function UpdateQuotation() {
                   variant="bordered"
                 />
                 <Select
-                    items={animals}
+                    items={status}
                     label="Status"
                     placeholder="Status"
                     className="flex"
                     >
-                    {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
+                    {(status) => <SelectItem key={status.value}>{status.label}</SelectItem>}
                 </Select>
                   <Input
                   label="Remarks"
