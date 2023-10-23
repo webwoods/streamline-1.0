@@ -229,7 +229,7 @@ export default function TableSort({ type }: TableSortProps) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Dropdown>
+            {/* <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
                   Columns
@@ -249,7 +249,7 @@ export default function TableSort({ type }: TableSortProps) {
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
         </div>
         <div className="flex justify-between items-center">
