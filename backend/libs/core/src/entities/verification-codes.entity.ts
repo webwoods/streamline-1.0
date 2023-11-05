@@ -12,10 +12,11 @@ import { User } from './user.entity';
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class VerificationCode extends StreamLineEntity {
-  constructor(user: User, code: string) {
+  constructor(user: User, code: string, date: Date) {
     super();
     this.user = user;
     this.code = code;
+    this.expirationDate = date;
   }
 
   @Column({ name: 'user_id' })
@@ -32,4 +33,8 @@ export class VerificationCode extends StreamLineEntity {
   @Column()
   @Field()
   code: string;
+
+  @Column({ type: 'date' })
+  @Field()
+  expirationDate: Date;
 }

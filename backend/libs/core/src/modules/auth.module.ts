@@ -7,12 +7,14 @@ import { VerificationCodesModule } from '../modules/verification-codes.module';
 import { jwtConstants } from '../constants/constants';
 import { RoleModule } from '../modules/role.module';
 import { PassportModule } from '@nestjs/passport';
+import { MailModule } from './mail.module';
 
 @Module({
   imports: [
     UserModule,
     RoleModule,
     VerificationCodesModule,
+    MailModule,
 
     PassportModule.register({
       defaultStrategy: 'jwt',

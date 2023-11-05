@@ -54,35 +54,35 @@ export class UserResolver {
     }
   }
 
-  @UseGuards(AuthGuard)
-  @Mutation(() => User, { name: 'createUser' })
-  async createUser(
-    @Args('input') input: CreateUserInput,
-  ): Promise<User | null> {
-    try {
-      return await this.userService.createUser(input);
-    } catch (error: any) {
-      throw new Error(`Error creating user: ${error.message}`);
-    }
-  }
+  // @UseGuards(AuthGuard)
+  // @Mutation(() => User, { name: 'createUser' })
+  // async createUser(
+  //   @Args('input') input: CreateUserInput,
+  // ): Promise<User | null> {
+  //   try {
+  //     return await this.userService.createUser(input);
+  //   } catch (error: any) {
+  //     throw new Error(`Error creating user: ${error.message}`);
+  //   }
+  // }
 
-  @UseGuards(AuthGuard)
-  @Mutation(() => [User], { name: 'createUsers' })
-  async createUsers(
-    @Args('inputs') input: CreateUsersInput,
-  ): Promise<(User | null)[]> {
-    try {
-      const users: (User | null)[] = await Promise.all(
-        input.users.map(async (userData) => {
-          const createdUser = await this.userService.createUser(userData);
-          return createdUser;
-        }),
-      );
-      return users;
-    } catch (error: any) {
-      throw new Error(`Error creating users: ${error.message}`);
-    }
-  }
+  // @UseGuards(AuthGuard)
+  // @Mutation(() => [User], { name: 'createUsers' })
+  // async createUsers(
+  //   @Args('inputs') input: CreateUsersInput,
+  // ): Promise<(User | null)[]> {
+  //   try {
+  //     const users: (User | null)[] = await Promise.all(
+  //       input.users.map(async (userData) => {
+  //         const createdUser = await this.userService.createUser(userData);
+  //         return createdUser;
+  //       }),
+  //     );
+  //     return users;
+  //   } catch (error: any) {
+  //     throw new Error(`Error creating users: ${error.message}`);
+  //   }
+  // }
 
   @Mutation(() => User, { name: 'updateUser' })
   async updateUser(
