@@ -4,6 +4,7 @@ import avatarImage from '@/public/OIP.jpeg';
 import Image from 'next/image';
 import logo from '@/public/nifs_logo.png'
 import { BiUser, BiLogIn } from "react-icons/bi";
+import { useRouter } from 'next/navigation';
 
 const UserProfileButton: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -11,6 +12,8 @@ const UserProfileButton: React.FC = () => {
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
+
+  const router = useRouter();
 
   return (
     <div className="hidden sm:flex bg-white rounded-full gap-3 h-10 pl-3 pr-0 sm:pr-3">
@@ -38,7 +41,7 @@ const UserProfileButton: React.FC = () => {
             </div>
             <div className='flex items-center gap-0 sm:gap-1 hover:bg-slate-200 rounded-full px-1 sm:px-2'>
               <BiLogIn size={20} />
-              <button className="hidden sm:block">Log out</button>
+              <button className="hidden sm:block" onClick={() => router.push('/auth/login')}>Log out</button>
             </div>
           </div>
         )}
