@@ -25,7 +25,9 @@ import TableTabs from "@/components/tableTab/tab";
 export default function DashboardPage() {
 	return (
 		<>
-			{/* <SummaryStatWidget /> */}
+			<div className="bg-[#197dfd] w-full">
+				<SummaryStatWidget />
+			</div>
 			{/* <div>
 				<TableTabs />
 			</div>
