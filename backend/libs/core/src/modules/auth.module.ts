@@ -6,16 +6,21 @@ import { UserModule } from '../modules/user.module';
 import { VerificationCodesModule } from '../modules/verification-codes.module';
 import { jwtConstants } from '../constants/constants';
 import { RoleModule } from '../modules/role.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
     UserModule,
     RoleModule,
     VerificationCodesModule,
+
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET ?? jwtConstants.secret,
-      signOptions: { expiresIn: '300s' },
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   providers: [AuthService, AuthResolver],

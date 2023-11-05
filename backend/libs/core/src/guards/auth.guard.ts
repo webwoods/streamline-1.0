@@ -55,7 +55,8 @@ export class AuthGuard implements CanActivate {
     /**
      * This is a helper method that takes a Request object and extracts the JWT token from the Authorization header.
      */
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    console.log(request.headers);
+    const [type, token] = request.headers?.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }
