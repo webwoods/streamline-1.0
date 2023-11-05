@@ -11,6 +11,8 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { NotificationIcon } from "./notificationIcon";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CHARACTER_LIMIT = 100;
 
@@ -47,7 +49,7 @@ export default function ModalNotification() {
           color={"default"}
           className="capitalize bg-transparent rounded-full"
         >
-          <NotificationIcon size={40} />
+          <FontAwesomeIcon className="text-white" size="xl" icon={faBell} />
         </Button>
       </Tooltip>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior={scrollBehavior}>

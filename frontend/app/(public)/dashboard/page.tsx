@@ -25,17 +25,17 @@ import TableTabs from "@/components/tableTab/tab";
 export default function DashboardPage() {
 	return (
 		<>
-			<SummaryStatWidget />
-			<div>
-				<TableTabs/>
-			</div>	
-			<div className="flex content-center p-8 sm:px-28">
-			<StatusModal/>
-			<UpdatePurchase/>
-			<UpdateQuotation/>
-			<UpdateRequest/>
-			</div>	
-			
+			{/* <SummaryStatWidget /> */}
+			{/* <div>
+				<TableTabs />
+			</div>
+			<div className="flex content-center p-8 sm:px-28 gap-2">
+				<StatusModal />
+				<UpdatePurchase />
+				<UpdateQuotation />
+				<UpdateRequest />
+			</div> */}
+
 		</>
 	);
 }
