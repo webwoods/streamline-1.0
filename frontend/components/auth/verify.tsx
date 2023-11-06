@@ -52,13 +52,13 @@ function VerifyUserForm() {
     // Ignore any other characters
   };
 
-  // Effect hook to redirect to the dashboard after a successful verification
+  // Effect hook to redirect to the login interface after a successful verification
   useEffect(() => {
     const redirectToDashboard = async () => {
       if (verifySuccess) {
         // Delay the redirection for a better user experience
         await new Promise(resolve => setTimeout(resolve, 2000));
-        router.push('/dashboard');
+        router.push('/auth/login');
       }
     };
 
@@ -118,7 +118,7 @@ function VerifyUserForm() {
         ) :
           <div className='align-center flex flex-col justify-center gap-5'>
             {/* Loading spinner and redirection message */}
-            <p className='text-xs text-center'>You will be redirected to the dashboard shortly...</p>
+            <p className='text-xs text-center'>You will be redirected to the login shortly...</p>
             <Spinner color='primary' />
           </div>}
       </div>

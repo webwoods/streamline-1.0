@@ -62,10 +62,13 @@ function LoginForm() {
       });
 
       // Extract and set the access token from the login response
-      const token = response?.data?.login?.accessToken;
+      const responseData = response?.data?.login;
+      const token = responseData?.accessToken;
+      const currentUser = responseData?.me;
 
       if (token) {
         setCookie(null, "accessToken", token, { path: "/" });
+        setCookie(null, "currentUser", currentUser.username, { path: "/" });
       } else {
         setLoginSuccess(false);
         return;
@@ -196,7 +199,7 @@ function LoginForm() {
         ) :
           <div className='align-center flex flex-col justify-center gap-5'>
             {/* Loading spinner and redirection message */}
-            <p className='text-xs'>You will be redirected to the dashboard shortly...</p>
+            <p className='text-xs text-center'>You will be redirected to the dashboard shortly...</p>
             <Spinner color='primary' />
           </div>}
       </div>

@@ -24,8 +24,19 @@ export class AuthService {
     private mailService: MailService,
   ) {}
 
+  isValidEmail(email: string) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
   async signIn(input: LoginInput): Promise<any> {
-    const user = await this.userService.findUserByUsername(input.username);
+    let user: Partial<User>;
+
+    if (this.isValidEmail(input.username)) {
+      user = await this.userService.findUserByEmail(input.username);
+    } else {
+      user = await this.userService.findUserByUsername(input.username);
+    }
 
     if (!user) {
       throw new NotFoundException('User not found');
