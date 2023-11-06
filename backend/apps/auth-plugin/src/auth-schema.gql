@@ -16,7 +16,7 @@ input CreateUserInput {
   name: String
   password: String!
   roleId: String
-  username: String!
+  username: String
 }
 
 """
@@ -65,7 +65,7 @@ type RegisterNewUserSuccess {
   verificationToken: String
 }
 
-union RegisterResultUnion = PasswordMismatchError | RegisterNewUserSuccess | UserNotExistError
+union RegisterResultUnion = PasswordMismatchError | RegisterNewUserSuccess | UserAlreadyExistsError
 
 type Role {
   createdAt: DateTime
@@ -103,9 +103,13 @@ type User {
   password: String
   role: Role
   updatedAt: DateTime
-  username: String!
+  username: String
   verificationCodes: [VerificationCode!]
   verified: Boolean!
+}
+
+type UserAlreadyExistsError {
+  message: String!
 }
 
 type UserNotExistError {
@@ -145,6 +149,6 @@ type VerificationSuccess {
 
 input VerifyUserInput {
   email: String
-  username: String!
+  username: String
   verificationToken: String!
 }

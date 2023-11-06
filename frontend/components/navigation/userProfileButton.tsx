@@ -16,7 +16,7 @@ const UserProfileButton: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="hidden sm:flex bg-white rounded-full gap-3 h-10 pl-3 pr-0 sm:pr-3">
+    <div className="hidden sm:flex bg-white dark:bg-zinc-900 rounded-full gap-3 h-10 pl-3 pr-0 sm:pr-3">
       <button onClick={() => toggleExpand()}>
         <div className='rounded-full overflow-hidden hidden sm:block'>
           <Image width={25} src={avatarImage} alt='Avatar' />

@@ -18,7 +18,7 @@ export function MainNavbar() {
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-[#197dfd] border-none pt-7 flex"
+      className="bg-[#197dfd] dark:bg-gray-800 border-none pt-7 flex"
     >
       <NavbarContent className="sm:hidden inline-flex">
         <NavbarMenuToggle className="text-white" icon={<FontAwesomeIcon size="lg" icon={faBars} />} aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
@@ -29,7 +29,7 @@ export function MainNavbar() {
         {tabs.map((tabData) => {
           return (
             <NavbarItem key={tabData}>
-              <Button className="bg-white rounded-full py-2 hover:bg-black hover:text-white active:bg-blue-600 h-8 focus:ring focus:ring-gray-300 ">
+              <Button className="bg-white dark:bg-zinc-900 rounded-full py-2 hover:bg-black dark:hover:bg-[#197dfd] hover:text-white active:bg-blue-600 h-8 focus:ring focus:ring-gray-300 ">
                 {tabData}
               </Button>
             </NavbarItem>

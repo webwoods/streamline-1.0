@@ -47,7 +47,7 @@ export class AuthResolver {
       const result = await this.authService.registerNewUser(input);
       const success = new RegisterNewUserSuccess(
         result.newUser,
-        result.verificationToken,
+        result.verificationCode,
       );
       return success;
     } catch (error) {

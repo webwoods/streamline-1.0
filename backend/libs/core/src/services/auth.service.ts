@@ -13,6 +13,7 @@ import { UserService } from '@libs/core/services/user.service';
 import { VerificationCodesService } from '@libs/core/services/verification-codes.service';
 import { CreateUserInput } from '@libs/core/entities/dto/create.user';
 import { MailService } from './mail.service';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -61,16 +62,14 @@ export class AuthService {
     }
 
     // check if the current user data exists in the database
-    const username: string | undefined = input.username;
+    const email: string | undefined = input.email;
 
-    if (username === undefined) {
+    if (email === undefined) {
       throw new NotFoundException();
     }
-    const user = await this.userService.findUserByUsername(username);
-    if (user && user.email === input.email) {
+    const user = await this.userService.findUserByEmail(email);
+    if (user) {
       throw new ConflictException('This email has already been taken!');
-    } else if (user) {
-      throw new ConflictException('This user already exists!');
     }
 
     const newUser = await this.userService.createUser(input);
@@ -100,8 +99,6 @@ export class AuthService {
     const text = `Your verification code is: ${verificationCode}`;
     // await this.mailService.sendMail(newUser.email, subject, text);
 
-    console.log(verificationCode);
-
     // Remove the password from the return new user object
     const savedUser = await this.userService.findUserById(newUser.id);
 
@@ -109,10 +106,17 @@ export class AuthService {
       throw new NotFoundException();
     }
 
-    const { password, verificationCodes, createdAt, updatedAt, ...userWithoutPassword } = savedUser;
+    const {
+      password,
+      verificationCodes,
+      createdAt,
+      updatedAt,
+      ...userWithoutPassword
+    } = savedUser;
 
     return {
       newUser: userWithoutPassword,
+      verificationCode: verificationCode,
     };
   }
 
@@ -122,7 +126,14 @@ export class AuthService {
     }
 
     // check if the current user data exists in the database
-    const user = await this.userService.findUserByUsername(input.username);
+    let user: Partial<User>;
+
+    if (input.username) {
+      user = await this.userService.findUserByUsername(input.username);
+    } else if (input.email) {
+      user = await this.userService.findUserByEmail(input.email);
+    }
+
     if (!user) {
       throw new NotFoundException('User not found');
     }

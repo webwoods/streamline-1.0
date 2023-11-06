@@ -42,6 +42,16 @@ export class UserService {
     });
   }
 
+  async findUserByEmail(email: string): Promise<User | null> {
+    return await this.userRepository.findOne({
+      relations: {
+        role: true,
+        verificationCodes: true,
+      },
+      where: { email },
+    });
+  }
+
   async createUser(input: Partial<User>): Promise<User | null> {
     const user = this.userRepository.create(input);
     const createdUser = await this.userRepository.save(user);
