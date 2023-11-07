@@ -21,12 +21,12 @@ import {
   ChipProps,
   SortDescriptor
 } from "@nextui-org/react";
-import {PlusIcon} from "./PlusIcon";
-import {VerticalDotsIcon} from "./VerticalDotsIcon";
-import {ChevronDownIcon} from "./ChevronDownIcon";
-import {SearchIcon} from "./SearchIcon";
-import {columns, users, statusOptions} from "./data";
-import {capitalize} from "./utils";
+import { PlusIcon } from "./PlusIcon";
+import { VerticalDotsIcon } from "./VerticalDotsIcon";
+import { ChevronDownIcon } from "./ChevronDownIcon";
+import { SearchIcon } from "./SearchIcon";
+import { columns, users, statusOptions } from "./data";
+import { capitalize } from "./utils";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -58,7 +58,7 @@ export default function TableSort({ type }: TableSortProps) {
   React.useEffect(() => {
     if (type === "requests") {
       // Set the visible columns for the "requests" type
-      setVisibleColumns(new Set(["name", "role", "status", "actions","id"]));
+      setVisibleColumns(new Set(["name", "role", "status", "actions", "id"]));
     } else if (type === "purchase") {
       // Set the visible columns for the "purchase" type
       setVisibleColumns(new Set(["name", "role", "actions"]));
@@ -121,7 +121,7 @@ export default function TableSort({ type }: TableSortProps) {
       case "name":
         return (
           <User
-            avatarProps={{radius: "lg", src: user.avatar}}
+            avatarProps={{ radius: "lg", src: user.avatar }}
             description={user.email}
             name={cellValue}
           >
@@ -189,10 +189,10 @@ export default function TableSort({ type }: TableSortProps) {
     }
   }, []);
 
-  const onClear = React.useCallback(()=>{
+  const onClear = React.useCallback(() => {
     setFilterValue("")
     setPage(1)
-  },[])
+  }, [])
 
   const topContent = React.useMemo(() => {
     return (

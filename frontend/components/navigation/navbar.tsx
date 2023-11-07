@@ -51,14 +51,14 @@ export function MainNavbar() {
   ];
 
   const router = useRouter();
-
+// [#197dfd]
   return (
     <Navbar
       position="sticky"
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-[#197dfd] dark:bg-gray-800 border-none pt-7 flex"
+      className="bg-[#197dfd] dark:bg-gray-800 border-none pt-7 pb-5 flex"
     >
       <NavbarContent className="sm:hidden inline-flex">
         <NavbarMenuToggle className="text-white" icon={<FontAwesomeIcon size="lg" icon={faBars} />} aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
@@ -70,7 +70,7 @@ export function MainNavbar() {
           return (
             <NavbarItem key={tabData.label}>
               <Button
-                className={`${tabData.label === activeTab ? 'bg-zinc-900 text-white' : 'bg-white'} dark:bg-zinc-900 rounded-full py-2 hover:bg-zinc-900 dark:hover:bg-[#197dfd] hover:text-white active:bg-blue-600 h-8`}
+                className={`${tabData.label === activeTab ? 'bg-zinc-900 text-white' : 'bg-gradient-to-r from-white to-cyan-50'} rounded-full hover:text-cprimary active:bg-blue-600 h-8 drop-shadow-md`}
                 onClick={() => {
                   setActiveTab(tabData.label);
                   router.push(tabData.href)

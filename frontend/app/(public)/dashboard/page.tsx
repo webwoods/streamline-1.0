@@ -25,7 +25,7 @@ import TableTabs from "@/components/tableTab/tab";
 export default function DashboardPage() {
 	return (
 		<>
-			<div className="bg-[#197dfd] dark:bg-gray-800 w-full">
+			<div className="bg-[#197dfd] dark:bg-gray-800 w-full drop-shadow-md">
 				<SummaryStatWidget />
 			</div>
 			{/* <div>
@@ -37,7 +37,6 @@ export default function DashboardPage() {
 				<UpdateQuotation />
 				<UpdateRequest />
 			</div> */}
-
 		</>
 	);
 }

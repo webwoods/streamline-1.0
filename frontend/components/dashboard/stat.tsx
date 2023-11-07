@@ -28,7 +28,7 @@ function getIcon(key: string | undefined) {
 
 export default function Stat({ props }: StatProps) {
   return (
-    <div className='bg-white rounded-lg p-3 flex flex-col gap-2 hover:bg-accent-yellow hover:text-primary'>
+    <div className='bg-gradient-to-r from-white to-cyan-50  rounded-lg p-3 flex flex-col gap-2 hover:bg-accent-yellow hover:text-cprimary'>
       <div className='grid grid-cols-2'>
         <h5 className='text-sm'>{props.title}</h5>
         <div className='flex justify-end'>

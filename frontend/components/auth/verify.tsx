@@ -75,7 +75,7 @@ function VerifyUserForm() {
 
   // Render the verify form component
   return (
-    <div className='h-screen bg-[#197dfd] flex flex-col gap-5 justify-center items-center'>
+    <div className='h-screen bg-white flex flex-col gap-5 justify-center items-center'>
       <div className='w-[20rem] sm:w-[25rem] bg-white px-5 py-10 rounded-xl'>
         <div className='flex flex-col justify-center items-center mb-10'>
           {/* Company logo */}
@@ -123,7 +123,7 @@ function VerifyUserForm() {
           </div>}
       </div>
       {/* Powered by StreamLine message */}
-      <p className='text-center text-white text-sm'>
+      <p className='text-center text-[#197dfd] text-sm'>
         Powered by <span>StreamLine</span>
       </p>
     </div>
