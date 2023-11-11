@@ -4,6 +4,7 @@ import UpdatePurchase from "@/components/formsModal/updatePurchase";
 import UpdateQuotation from "@/components/formsModal/updateQuotation";
 import UpdateRequest from "@/components/formsModal/updateRequest";
 import TableTabs from "@/components/tableTab/tab";
+import Tips from "@/components/tips/tips";
 
 
 /**
@@ -34,6 +35,7 @@ export default function DashboardPage() {
 				<UpdateQuotation />
 				<UpdateRequest />
 			</div> */}
+			<Tips/>
 
 		</>
 	);
