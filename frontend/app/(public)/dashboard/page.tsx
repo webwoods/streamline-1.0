@@ -6,10 +6,9 @@ import UpdateRequest from "@/components/formsModal/updateRequest";
 import TableTabs from "@/components/tableTab/tab";
 import Tips from "@/components/tips/tips";
 
-
 /**
  * Dashboard Components visible to the Procurement Staff
- * 
+ *
  * docs
  * pending tasks:    pending requisitions, purchase orders, awaiting approvals, pending vendor responses
  * notifications
@@ -24,9 +23,12 @@ import Tips from "@/components/tips/tips";
  */
 
 export default function DashboardPage() {
-	return (
-		<>
-			{/* <div>
+  const customMessage =
+    "Check vendor ratings before finalizing orders. Prioritize suppliers with high performance scores for better service quality";
+  return (
+    <>
+      <Tips message={customMessage} />
+      {/* <div>
 				<TableTabs />
 			</div>
 			<div className="flex content-center p-8 sm:px-28 gap-2">
@@ -35,8 +37,6 @@ export default function DashboardPage() {
 				<UpdateQuotation />
 				<UpdateRequest />
 			</div> */}
-			<Tips/>
-
-		</>
-	);
+    </>
+  );
 }
