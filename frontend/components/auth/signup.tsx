@@ -3,7 +3,7 @@
 // Import necessary libraries and modules
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { LOGIN } from "@/gql/mutation";
+import { REGISTER_NEW_USER } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
 import authClient from '@/gql/client';
 import { setCookie } from 'nookies';
@@ -11,19 +11,22 @@ import { Button, Checkbox, Input, Link, Spinner } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
+import { isValidEmail } from '@/util/email.validate';
 
-// Functional component for the login form
-function LoginForm() {
-  // Use Apollo Client's useMutation hook for the login mutation
-  const [loginMutation] = useMutation(LOGIN, { client: authClient });
+// Functional component for the registration form
+function SignupForm() {
+  // Use Apollo Client's useMutation hook for the registration mutation
+  const [registrationMutation] = useMutation(REGISTER_NEW_USER, { client: authClient });
 
-  // State variables to manage form input, visibility, and login success
+  // State variables to manage form input, visibility, and registration success
   const [isVisible, setIsVisible] = React.useState(false);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [isConfirmPasswordInvalid, setIsConfirmPasswordInvalid] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   // Next.js router instance for navigation
@@ -32,49 +35,54 @@ function LoginForm() {
   // Function to toggle password visibility
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  // Function to handle the login process
-  const handleLogin = async () => {
+  // Function to handle the registration process
+  const handleRegistration = async () => {
     try {
-      // Validate username and password
-      if (!username) {
+      // Validate email and password
+      if (!email || !isValidEmail(email)) {
         setIsEmailInvalid(true);
-        return;
       }
 
       if (!password) {
         setIsPasswordInvalid(true);
+      }
+
+      if (!confirmPassword) {
+        setIsConfirmPasswordInvalid(true);
         return;
       }
 
-      // Store or remove the remembered username based on the "Remember Me" checkbox
-      if (rememberMe) {
-        localStorage.setItem('rememberedUsername', username);
-      } else {
-        localStorage.removeItem('rememberedUsername');
+      if (password !== confirmPassword) {
+        throw new Error('Passwords don\'t match!');
       }
 
-      // Perform the login mutation
-      const response = await loginMutation({
+      // Store or remove the remembered email based on the "Remember Me" checkbox
+      if (rememberMe) {
+        localStorage.setItem('rememberedEmail', email);
+      } else {
+        localStorage.removeItem('rememberedEmail');
+      }
+
+      // Perform the registration mutation
+      const response = await registrationMutation({
         variables: {
-          username: username,
+          email: email,
           password: password,
         },
       });
 
-      // Extract and set the access token from the login response
-      const responseData = response?.data?.login;
-      const token = responseData?.accessToken;
-      const currentUser = responseData?.me;
+      // Extract and set the verification token from the registration response
+      const token = response?.data?.registerNewUser?.verificationToken;
 
       if (token) {
-        setCookie(null, "accessToken", token, { path: "/" });
-        setCookie(null, "currentUser", currentUser.username, { path: "/" });
+        setCookie(null, "code", token, { path: "/" });
+        setCookie(null, "currentUserEmail", email, { path: "/" });
       } else {
-        setLoginSuccess(false);
+        setRegistrationSuccess(false);
         return;
       }
 
-      setLoginSuccess(true);
+      setRegistrationSuccess(true);
     } catch (error: any) {
       throw new Error(error);
     }
@@ -85,27 +93,27 @@ function LoginForm() {
     setRememberMe(!rememberMe);
   };
 
-  // Effect hook to pre-fill the username field if it was remembered
+  // Effect hook to pre-fill the email field if it was remembered
   useEffect(() => {
-    const storedUsername = localStorage.getItem('rememberedUsername');
-    if (storedUsername) {
-      setUsername(storedUsername);
+    const storedEmail = localStorage.getItem('rememberedUsername');
+    if (storedEmail) {
+      setEmail(storedEmail);
       setRememberMe(true);
     }
   }, []);
 
-  // Effect hook to redirect to the dashboard after a successful login
+  // Effect hook to redirect to the verification after a successful registration
   useEffect(() => {
-    const redirectToDashboard = async () => {
-      if (loginSuccess) {
+    const redirectToVerification = async () => {
+      if (registrationSuccess) {
         // Delay the redirection for a better user experience
         await new Promise(resolve => setTimeout(resolve, 2000));
-        router.push('/dashboard');
+        router.push('/auth/verify');
       }
     };
 
-    redirectToDashboard();
-  }, [loginSuccess, router]);
+    redirectToVerification();
+  }, [registrationSuccess, router]);
 
   // Render the login form component
   return (
@@ -120,30 +128,30 @@ function LoginForm() {
             height={150}
           />
           {/* Display welcome message if not a successful login */}
-          {!loginSuccess && (
+          {!registrationSuccess && (
             <>
-              <h2 className='mt-5 text-2xl font-semibold'>Welcome back!</h2>
-              <p className='text-sm text-gray-400 font-normal text-center'>
-                Not a member? <Link href='/auth/signup' className='text-sm font-semibold text-[#197dfd]'>Create your account now!</Link>
+              <h2 className='mt-5 text-2xl font-semibold'>Join with us!</h2>
+              <p className='text-sm text-gray-400 font-normal'>
+                Already a member? <Link href='/auth/login' className='text-sm font-semibold text-[#197dfd]'>Sign in</Link>
               </p>
             </>
           )}
         </div>
         {/* Display login form or loading spinner based on login success */}
-        {!loginSuccess ? (
+        {!registrationSuccess ? (
           <>
             <form className='flex flex-col gap-3'>
-              {/* Username input */}
+              {/* Email input */}
               <Input
-                label='Username'
+                label='Email'
                 labelPlacement='outside'
-                placeholder='Enter your email or username'
+                placeholder='Enter your email'
                 isRequired={true}
-                value={username}
-                autoComplete='username' // Enable browser autocomplete for username
+                value={email}
+                autoComplete='email' // Enable browser autocomplete for email
                 onValueChange={(value: string) => {
                   setIsEmailInvalid(false);
-                  setUsername(value);
+                  setEmail(value);
                 }}
                 isInvalid={isEmailInvalid}
                 errorMessage={isEmailInvalid ? "Please enter a valid email" : ''}
@@ -174,32 +182,55 @@ function LoginForm() {
                 }
                 type={isVisible ? "text" : "password"}
               />
-              {/* Remember Me checkbox and Forgot Password link */}
+              {/* Confirm Password input */}
+              <Input
+                label='Confirm Password'
+                labelPlacement='outside'
+                placeholder='Enter your password again'
+                isRequired={true}
+                value={confirmPassword}
+                onValueChange={(value: string) => {
+                  setIsConfirmPasswordInvalid(false);
+                  setConfirmPassword(value);
+                }}
+                isInvalid={isConfirmPasswordInvalid}
+                errorMessage={isConfirmPasswordInvalid ? "Please enter the correct password" : ''}
+                endContent={
+                  <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                    {/* Toggle password visibility icon */}
+                    {isVisible ? (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEye} />
+                    )}
+                  </button>
+                }
+                type={isVisible ? "text" : "password"}
+              />
+              {/* Keep me signed in checkbox and Forgot Password link */}
               <div className='flex justify-between'>
                 <div className='flex items-center'>
-                  {/* Remember Me checkbox */}
+                  {/* Keep me signed in checkbox */}
                   <Checkbox
                     checked={rememberMe}
                     onChange={handleRememberMeChange}
                   />
-                  <label className='text-sm'>Remember me</label>
+                  <label className='text-sm'>Keep me signed in</label>
                 </div>
-                {/* Forgot Password link */}
-                <Link href='#' className='text-sm text-[#197dfd]'>Forgot password?</Link>
               </div>
             </form>
-            {/* Sign In button */}
+            {/* Sign Up button */}
             <Button
               className='w-full bg-ctertiary text-white text-md mt-10 hover:bg-accent-yellow hover:text-cprimary'
-              onClick={() => handleLogin()}
+              onClick={() => handleRegistration()}
             >
-              Sign in
+              Sign up
             </Button>
           </>
         ) :
           <div className='align-center flex flex-col justify-center gap-5'>
             {/* Loading spinner and redirection message */}
-            <p className='text-xs text-center'>You will be redirected to the dashboard shortly...</p>
+            <p className='text-xs text-center'>You will be redirected for verification shortly...</p>
             <Spinner color='primary' />
           </div>}
       </div>
@@ -211,5 +242,5 @@ function LoginForm() {
   );
 }
 
-// Export the LoginForm component as the default export
-export default LoginForm;
+// Export the SignupForm component as the default export
+export default SignupForm;

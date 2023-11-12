@@ -5,7 +5,7 @@ export class CreateUserInput {
   @Field({ nullable: true })
   name?: string;
 
-  @Field()
+  @Field({ nullable: true })
   username?: string;
 
   @Field()

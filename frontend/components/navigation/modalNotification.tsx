@@ -40,7 +40,7 @@ export default function ModalNotification() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 drop-shadow-md">
       <Tooltip color={"danger"} content={"20"} className="capitalize">
         <Button
           isIconOnly

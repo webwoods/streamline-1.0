@@ -28,15 +28,9 @@ export const LOGIN = gql`
   }
 `;
 
-const REGISTER_NEW_USER = gql`
-  mutation RegisterNewUser(
-    $email: string
-    $username: string
-    $password: string
-  ) {
-    registerNewUser(
-      input: { email: $email, password: $password, username: $user }
-    ) {
+export const REGISTER_NEW_USER = gql`
+  mutation RegisterNewUser($email: String!, $password: String!) {
+    registerNewUser(input: { email: $email, password: $password }) {
       __typename
       ... on RegisterNewUserSuccess {
         me {
@@ -50,8 +44,9 @@ const REGISTER_NEW_USER = gql`
           }
           username
         }
+        verificationToken
       }
-      ... on UserNotExistError {
+      ... on UserAlreadyExistsError {
         message
       }
       ... on PasswordMismatchError {
@@ -61,9 +56,11 @@ const REGISTER_NEW_USER = gql`
   }
 `;
 
-const VERIFY_USER = gql`
-  mutation VerifyUser($username: string, $token: string) {
-    verifyUser(input: { username: $string, verificationToken: $token }) {
+export const VERIFY_USER = gql`
+  mutation VerifyUser($username: String, $email: String, $token: String!) {
+    verifyUser(
+      input: { username: $username, email: $email, verificationToken: $token }
+    ) {
       __typename
       ... on VerificationSuccess {
         me {
@@ -75,12 +72,7 @@ const VERIFY_USER = gql`
             id
             name
           }
-          updatedAt
           username
-          verificationCodes {
-            code
-            id
-          }
           verified
         }
       }

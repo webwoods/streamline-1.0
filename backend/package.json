@@ -103,7 +103,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@libs/core(|/.*)$": "<rootDir>/libs/core/src/$1"
+      "^@libs/core(|/.*)$": "<rootDir>/libs/core/src/$1",
+      "^@config/config(|/.*)$": "<rootDir>/libs/config/src/$1"
     }
   }
 }

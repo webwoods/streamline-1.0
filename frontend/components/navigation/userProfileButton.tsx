@@ -16,10 +16,10 @@ const UserProfileButton: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="hidden sm:flex bg-white rounded-full gap-3 h-10 pl-3 pr-0 sm:pr-3">
+    <div className="hidden sm:flex bg-gradient-to-r from-white to-cyan-50 dark:bg-zinc-900 rounded-full gap-3 h-14 pl-3 pr-0 sm:pr-3 drop-shadow-md">
       <button onClick={() => toggleExpand()}>
         <div className='rounded-full overflow-hidden hidden sm:block'>
-          <Image width={25} src={avatarImage} alt='Avatar' />
+          <Image width={40} height={40} src='/avatar-image.png' alt='Avatar' />
         </div>
       </button>
       <div className="items-center gap-4 hidden sm:flex">
@@ -29,7 +29,7 @@ const UserProfileButton: React.FC = () => {
               <p className="font-semibold">Dammika Rathnasri</p>
             </div>
             <div>
-              <Image src={logo} alt='logo' width={60} />
+              <Image src={logo} alt='logo' width={60} height={60} />
             </div>
           </>
         )}
