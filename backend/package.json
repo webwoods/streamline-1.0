@@ -24,7 +24,7 @@
     "@apollo/client": "^3.8.5",
     "@apollo/federation": "^0.38.1",
     "@apollo/server": "^4.9.4",
-    "@apollo/subgraph": "^2.5.5",
+    "@apollo/subgraph": "2.2.3",
     "@nestjs/apollo": "^12.0.9",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.1.1",
@@ -55,6 +55,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@apollo/gateway": "^2.5.6",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",

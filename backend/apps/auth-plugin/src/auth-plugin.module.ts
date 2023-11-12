@@ -6,7 +6,7 @@ import { Role } from '@libs/core/entities/role.entity';
 import { VerificationCode } from '@libs/core/entities/verification-codes.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver, ApolloDriverConfig, ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AuthModule } from '@libs/core/modules/auth.module';
 import * as dotenv from 'dotenv';
@@ -17,14 +17,23 @@ dotenv.config();
   imports: [
     AuthModule,
 
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(__dirname, '/auth-schema.gql'),
-      sortSchema: true,
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   autoSchemaFile: join(__dirname, '/auth-schema.gql'),
+    //   sortSchema: true,
+    //   include: [AuthModule],
+    //   playground: true,
+    //   path: '/graphql',
+    //   context: ({ req, res }) => ({ request: req, response: res }),
+    // }),
+
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: join(__dirname, '/gateway/auth-schema.gql'),
+      sortSchema : true,
       include: [AuthModule],
       playground: true,
-      path: '/graphql',
-      context: ({ req, res }) => ({ request: req, response: res }),
+      path: process.env.AUTH_GATEWAY,
     }),
 
     TypeOrmModule.forRoot({

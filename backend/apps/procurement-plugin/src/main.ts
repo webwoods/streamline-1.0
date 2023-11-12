@@ -14,17 +14,15 @@ async function bootstrap() {
   const globalPrefix = process.env.PRC_PREFIX;
   app.setGlobalPrefix(globalPrefix);
 
-  const graphqlEndpoint = process.env.PRC_GRAPHQL;
+  const graphql = process.env.PRC_GATEWAY;
+  const host = process.env.PRC_HOST;
   const port = process.env.PRC_PORT;
+  const url = process.env.PRC_SERVICE ?? `http://${host}:${port}/${graphql}`
 
   await app.listen(port);
 
   Logger.log(
-    `
-    🚀 Application is running on: http://localhost:${port}/${globalPrefix}
-    🚀 Graphql Server is running on: http://localhost:${port}${graphqlEndpoint}
-    🚀 Graphql Playground is running on: http://localhost:${port}${graphqlEndpoint}/playground
-    `,
+    `🚀 Microservice started on: ${url}`,
   );
 }
 bootstrap();

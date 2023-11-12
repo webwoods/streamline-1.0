@@ -3,7 +3,7 @@ import { ProcurementPluginController } from './procurement-plugin.controller';
 import { ProcurementPluginService } from './procurement-plugin.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver, ApolloDriverConfig, ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { User } from '@libs/core/entities/user.entity';
 import { VerificationCode } from '@libs/core/entities/verification-codes.entity';
@@ -21,15 +21,25 @@ dotenv.config();
   imports: [
     ProcurementModule,
 
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(__dirname, '/procurement_schema.gql'),
-      sortSchema: true,
-      playground: true,
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   autoSchemaFile: join(__dirname, '/procurement_schema.gql'),
+    //   sortSchema: true,
+    //   playground: true,
+    //   include: [ProcurementModule],
+    //   path: '/graphql',
+    //   context: ({ req, res }) => ({ request: req, response: res }),
+    // }),
+
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: join(__dirname, '/gateway/procurement-schema.gql'),
+      sortSchema : true,
       include: [ProcurementModule],
-      path: '/graphql',
-      context: ({ req, res }) => ({ request: req, response: res }),
+      playground: true,
+      path: 'gateway/procurement'
     }),
+
 
     TypeOrmModule.forRoot({
       type: process.env.PRC_DB === 'postgres' ? 'postgres' : 'mysql',

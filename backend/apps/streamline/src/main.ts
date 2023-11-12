@@ -1,21 +1,25 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MAIN_APP } from '@libs/core/constants/appInfo';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const globalPrefix = MAIN_APP.name;
-  const graphqlEndpoint = MAIN_APP.graphqlEndpoint;
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || MAIN_APP.port;
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET, PUT, POST, DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+  });
+
+  const graphql = process.env.GATEWAY_GRAPHQL;
+  const host = process.env.GATEWAY_HOST;
+  const port = process.env.GATEWAY_PORT;
+  const url = process.env.GATEWAY_SERVICE ?? `http://${host}:${port}/${graphql}`
+
   await app.listen(port);
+
   Logger.log(
-    `
-    🚀 Application is running on: http://localhost:${port}/${globalPrefix}
-    🚀 Graphql Server is running on: http://localhost:${port}${graphqlEndpoint}
-    🚀 Graphql Playground is running on: http://localhost:${port}${graphqlEndpoint}/playground
-    `,
+    `🚀 Gateway started on: ${url}`,
   );
 }
 bootstrap();

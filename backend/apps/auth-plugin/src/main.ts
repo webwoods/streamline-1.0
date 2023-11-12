@@ -14,17 +14,15 @@ async function bootstrap() {
   const globalPrefix = process.env.AUTH_PREFIX;
   app.setGlobalPrefix(globalPrefix);
 
-  const graphqlEndpoint = process.env.AUTH_GRAPHQL;
+  const graphql = process.env.AUTH_GATEWAY;
+  const host = process.env.AUTH_HOST;
   const port = process.env.AUTH_PORT;
+  const url = process.env.AUTH_SERVICE ?? `http://${host}:${port}/${graphql}`
 
   await app.listen(port);
 
   Logger.log(
-    `
-    🚀 Application is running on: http://localhost:${port}/${globalPrefix}
-    🚀 Graphql Server is running on: http://localhost:${port}${graphqlEndpoint}
-    🚀 Graphql Playground is running on: http://localhost:${port}${graphqlEndpoint}/playground
-    `,
+    `🚀 Microservice started on: ${url}`,
   );
 }
 bootstrap();
