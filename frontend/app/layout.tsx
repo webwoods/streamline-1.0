@@ -28,10 +28,12 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head/>
-			<body style={{
-				fontFamily: 'Readex Pro'
-			}}>
+			<head />
+			<body
+				// className="bg-zinc-900"
+				style={{
+					fontFamily: 'Readex Pro'
+				}}>
 				<Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
 					<div className="relative flex flex-col h-screen">
 						<main>

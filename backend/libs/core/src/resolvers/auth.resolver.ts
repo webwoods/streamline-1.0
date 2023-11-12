@@ -28,12 +28,6 @@ export class AuthResolver {
   ): Promise<any> {
     try {
       const result = await this.authService.signIn(input);
-
-      // Set the bearer token in the response header
-      ctx?.response?.headers?.set(
-        'Authorization',
-        `Bearer ${result.access_token}`,
-      );
       const success = new LoginSuccess(result.user, result.access_token);
       return success;
     } catch (error) {

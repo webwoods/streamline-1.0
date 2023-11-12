@@ -19,10 +19,6 @@ input CreateUserInput {
   username: String!
 }
 
-input CreateUsersInput {
-  users: [CreateUserInput!]!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -43,8 +39,6 @@ type LoginSuccess {
 type Mutation {
   createRole(input: CreateRoleInput!): Role!
   createRoles(inputs: CreateRolesInput!): [Role!]!
-  createUser(input: CreateUserInput!): User!
-  createUsers(inputs: CreateUsersInput!): [User!]!
   deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
   login(input: LoginInput!): LoginResultUnion!
@@ -137,6 +131,7 @@ enum UserRoles {
 type VerificationCode {
   code: String!
   createdAt: DateTime
+  expirationDate: DateTime!
   id: ID!
   updatedAt: DateTime
   userId: String!

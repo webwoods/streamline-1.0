@@ -2,6 +2,8 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -10,31 +12,40 @@ import { VerifyUserInput } from '../entities/dto/verifyUser.input';
 import { UserService } from '@libs/core/services/user.service';
 import { VerificationCodesService } from '@libs/core/services/verification-codes.service';
 import { CreateUserInput } from '@libs/core/entities/dto/create.user';
-import { VerificationCode } from '@libs/core/entities/verification-codes.entity';
+import { MailService } from './mail.service';
+
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private verificationCodesService: VerificationCodesService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
   async signIn(input: LoginInput): Promise<any> {
     const user = await this.userService.findUserByUsername(input.username);
 
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('User not found');
     }
 
     // check if the user's password are matching
     const match = bcrypt.compare(input.password, user.password);
     if (!match) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid password');
     }
 
     // remove the password from the return user object
     // to prevent it being exposed to public
-    const { password, ...userWithoutPassword } = user;
+    const {
+      password,
+      verificationCodes,
+      createdAt,
+      updatedAt,
+      roleId,
+      ...userWithoutPassword
+    } = user;
 
     // return the user with the access token
     const payload = { sub: user.id, username: user.username };
@@ -46,7 +57,7 @@ export class AuthService {
 
   async registerNewUser(input: CreateUserInput): Promise<any> {
     if (!input) {
-      throw new NotFoundException();
+      throw new BadRequestException('Invalid input data');
     }
 
     // check if the current user data exists in the database
@@ -57,72 +68,79 @@ export class AuthService {
     }
     const user = await this.userService.findUserByUsername(username);
     if (user && user.email === input.email) {
-      throw new Error('This email has already been taken!');
+      throw new ConflictException('This email has already been taken!');
     } else if (user) {
-      throw new Error('This user already exists!');
+      throw new ConflictException('This user already exists!');
     }
 
     const newUser = await this.userService.createUser(input);
 
     if (newUser === null) {
-      throw new NotFoundException();
+      throw new ConflictException('User creation failed');
     }
 
-    // Generate a verification token
-    const verificationToken = await bcrypt.hash(
-      `${input.username}${input.email}${Date.now()}`,
-      10
-    );
+    // Generate a 6-digit verification code
+    const verificationCode = Math.floor(
+      100000 + Math.random() * 900000,
+    ).toString();
 
-    // add the new verification code to the user
-    const result = await this.verificationCodesService.createVerificationCode(
-      new VerificationCode(newUser, verificationToken)
-    );
+    // Set expiration time (5 minutes from now)
+    const expirationDate = new Date();
+    expirationDate.setMinutes(expirationDate.getMinutes() + 5);
 
-    if (!result) {
-      throw new NotFoundException();
-    }
+    // Store the verification code and expiration date
+    await this.verificationCodesService.createVerificationCode({
+      user: newUser,
+      code: verificationCode,
+      expirationDate: expirationDate,
+    });
 
-    // remove the password from the return new user object
-    // to prevent it being exposed to public
+    // Send the verification code to the user via email
+    const subject = 'Verification Code';
+    const text = `Your verification code is: ${verificationCode}`;
+    // await this.mailService.sendMail(newUser.email, subject, text);
+
+    console.log(verificationCode);
+
+    // Remove the password from the return new user object
     const savedUser = await this.userService.findUserById(newUser.id);
 
     if (savedUser === null) {
       throw new NotFoundException();
     }
 
-    const { password, ...userWithoutPassword } = savedUser;
+    const { password, verificationCodes, createdAt, updatedAt, ...userWithoutPassword } = savedUser;
 
     return {
       newUser: userWithoutPassword,
-      verificationToken: verificationToken,
     };
   }
 
   async verifyUser(input: VerifyUserInput): Promise<any> {
     if (!input) {
-      throw new NotFoundException();
+      throw new NotFoundException('Invalid input data');
     }
 
     // check if the current user data exists in the database
     const user = await this.userService.findUserByUsername(input.username);
     if (!user) {
-      throw new Error('User does not exist!');
+      throw new NotFoundException('User not found');
     }
     // verification codes are sorted when the user is queried
     // the latest verification code for a particular user
     // can be obtained from the first verification code
     if (!user.verificationCodes) {
-      throw new Error('No verification codes saved for this user!');
+      throw new NotFoundException('Verification codes not found');
     }
 
     // check if verification codes match
     if (user.verificationCodes[0].code !== input.verificationToken) {
-      throw new Error('Invalid verification code! Try again.');
+      throw new BadRequestException('Invalid verification code! Try again.');
     }
 
     user.verified = true;
     const verifiedUser = await this.userService.updateUser(user.id, user);
-    return verifiedUser;
+    const { password, ...result } = verifiedUser;
+    return result;
   }
 }

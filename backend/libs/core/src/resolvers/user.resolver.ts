@@ -6,14 +6,16 @@ import {
   ResolveField,
   Parent,
   Int,
-  ResolveReference
+  ResolveReference,
 } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { User } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
 import { CreateUserInput, CreateUsersInput } from '../entities/dto/create.user';
 import { UpdateUserInput } from '../entities/dto/update.user';
 import { Role } from '../entities/role.entity';
 import { UserPage } from '../entities/dto/userPage.dto';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -52,29 +54,35 @@ export class UserResolver {
     }
   }
 
-  @Mutation(() => User, { name: 'createUser' })
-  async createUser(@Args('input') input: CreateUserInput): Promise<User | null> {
-    try {
-      return await this.userService.createUser(input);
-    } catch (error: any) {
-      throw new Error(`Error creating user: ${error.message}`);
-    }
-  }
+  // @UseGuards(AuthGuard)
+  // @Mutation(() => User, { name: 'createUser' })
+  // async createUser(
+  //   @Args('input') input: CreateUserInput,
+  // ): Promise<User | null> {
+  //   try {
+  //     return await this.userService.createUser(input);
+  //   } catch (error: any) {
+  //     throw new Error(`Error creating user: ${error.message}`);
+  //   }
+  // }
 
-  @Mutation(() => [User], { name: 'createUsers' })
-  async createUsers(@Args('inputs') input: CreateUsersInput): Promise<(User | null)[]> {
-    try {
-      const users: (User | null)[] = await Promise.all(
-        input.users.map(async (userData) => {
-          const createdUser = await this.userService.createUser(userData);
-          return createdUser;
-        }),
-      );
-      return users;
-    } catch (error: any) {
-      throw new Error(`Error creating users: ${error.message}`);
-    }
-  }
+  // @UseGuards(AuthGuard)
+  // @Mutation(() => [User], { name: 'createUsers' })
+  // async createUsers(
+  //   @Args('inputs') input: CreateUsersInput,
+  // ): Promise<(User | null)[]> {
+  //   try {
+  //     const users: (User | null)[] = await Promise.all(
+  //       input.users.map(async (userData) => {
+  //         const createdUser = await this.userService.createUser(userData);
+  //         return createdUser;
+  //       }),
+  //     );
+  //     return users;
+  //   } catch (error: any) {
+  //     throw new Error(`Error creating users: ${error.message}`);
+  //   }
+  // }
 
   @Mutation(() => User, { name: 'updateUser' })
   async updateUser(

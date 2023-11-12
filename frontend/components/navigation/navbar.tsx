@@ -1,14 +1,16 @@
 'use client'
 import React from "react";
 
-import {Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem} from "@nextui-org/react";
+import { Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import UserProfileButton from "./userProfileButton";
 import ModalNotification from "./modalNotification";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export function MainNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const tabs = ['Dashboard', 'Request', 'Files'];
-  const menuItems = ['Dashboard', 'Request', 'Files'];
+  const menuItems = ['Dashboard', 'Request', 'Files', 'Profile', 'Log out'];
 
   return (
     <Navbar
@@ -16,38 +18,39 @@ export function MainNavbar() {
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-[#197dfd] border-none pt-7"
+      className="bg-[#197dfd] border-none pt-7 flex"
     >
-      <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
-      </NavbarContent>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-      
-        {tabs.map((tabData) => {
-            return (
-                <NavbarItem  key={tabData}>
-                    <Button className="bg-white rounded-full py-2 hover:bg-black hover:text-white active:bg-blue-600  focus:ring focus:ring-gray-300 ">
-                        {tabData}
-                    </Button>
-                </NavbarItem>
-            )
-          })}
+      <NavbarContent className="sm:hidden inline-flex">
+        <NavbarMenuToggle className="text-white" icon={<FontAwesomeIcon size="lg" icon={faBars} />} aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
       </NavbarContent>
 
-      <NavbarContent justify="end">
-        <NavbarItem>
+      <NavbarContent className="hidden sm:flex gap-4">
+
+        {tabs.map((tabData) => {
+          return (
+            <NavbarItem key={tabData}>
+              <Button className="bg-white rounded-full py-2 hover:bg-black hover:text-white active:bg-blue-600 h-8 focus:ring focus:ring-gray-300 ">
+                {tabData}
+              </Button>
+            </NavbarItem>
+          )
+        })}
+      </NavbarContent>
+
+      <NavbarContent className="flex">
+        <NavbarItem className="ml-auto">
           <UserProfileButton />
         </NavbarItem>
-        <NavbarItem>
-          <ModalNotification/>
+        <NavbarItem >
+          <ModalNotification />
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu className="items-center pt-20">
+      <NavbarMenu className="bg-[#197dfd] pt-10">
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`} >
             <Link
-              className="w-full p-5"
+              className="w-full text-white"
               href="#"
               size="lg"
             >

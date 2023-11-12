@@ -4,11 +4,11 @@ import UpdatePurchase from "@/components/formsModal/updatePurchase";
 import UpdateQuotation from "@/components/formsModal/updateQuotation";
 import UpdateRequest from "@/components/formsModal/updateRequest";
 import TableTabs from "@/components/tableTab/tab";
-
+import Tips from "@/components/tips/tips";
 
 /**
  * Dashboard Components visible to the Procurement Staff
- * 
+ *
  * docs
  * pending tasks:    pending requisitions, purchase orders, awaiting approvals, pending vendor responses
  * notifications
@@ -23,19 +23,20 @@ import TableTabs from "@/components/tableTab/tab";
  */
 
 export default function DashboardPage() {
-	return (
-		<>
-			<SummaryStatWidget />
-			<div>
-				<TableTabs/>
-			</div>	
-			<div className="flex content-center p-8 sm:px-28">
-			<StatusModal/>
-			<UpdatePurchase/>
-			<UpdateQuotation/>
-			<UpdateRequest/>
-			</div>	
-			
-		</>
-	);
+  const customMessage =
+    "Check vendor ratings before finalizing orders. Prioritize suppliers with high performance scores for better service quality";
+  return (
+    <>
+      <Tips message={customMessage} />
+      {/* <div>
+				<TableTabs />
+			</div>
+			<div className="flex content-center p-8 sm:px-28 gap-2">
+				<StatusModal />
+				<UpdatePurchase />
+				<UpdateQuotation />
+				<UpdateRequest />
+			</div> */}
+    </>
+  );
 }
