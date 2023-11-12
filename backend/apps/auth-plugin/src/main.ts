@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthPluginModule } from './auth-plugin.module';
 import { Logger } from '@nestjs/common';
-import { AUTH_APP } from '@libs/core/constants/appInfo';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthPluginModule);
@@ -12,11 +11,11 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
   });
 
-  const globalPrefix = AUTH_APP.name;
+  const globalPrefix = process.env.AUTH_PREFIX;
   app.setGlobalPrefix(globalPrefix);
 
-  const graphqlEndpoint = AUTH_APP.graphqlEndpoint;
-  const port = process.env.PORT || AUTH_APP.port;
+  const graphqlEndpoint = process.env.AUTH_GRAPHQL;
+  const port = process.env.AUTH_PORT;
 
   await app.listen(port);
 
