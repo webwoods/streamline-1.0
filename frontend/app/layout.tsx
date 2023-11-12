@@ -30,7 +30,7 @@ export default function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<head />
 			<body
-				className="bg-zinc-900"
+				// className="bg-zinc-900"
 				style={{
 					fontFamily: 'Readex Pro'
 				}}>
