@@ -1,16 +1,18 @@
-import { ObjectType, Field} from '@nestjs/graphql';
-import { Entity } from 'typeorm';
-import { User } from './user.entity';
-import { ProcurementUserType } from './enum/procurement-user-type';
+import { ObjectType, Field, Directive, ID } from '@nestjs/graphql';
+import { Request } from './request.entity';
 
 /**
  * this 'User' class is an extension of the
  * 'User' class in the shared library.
  */
-
-@Entity()
 @ObjectType()
-export class ProcurementUser extends User {
-  @Field(() => ProcurementUserType)
-  type: ProcurementUserType;
+@Directive('@extends')
+@Directive('@key(fields: "id")')
+export class User {
+  @Field((type) => ID)
+  @Directive('@external')
+  id: string;
+
+  @Field((type) => [Request], { nullable: true })
+  requests?: Request[];
 }

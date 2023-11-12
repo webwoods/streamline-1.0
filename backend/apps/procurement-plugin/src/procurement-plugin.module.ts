@@ -37,7 +37,7 @@ dotenv.config();
       sortSchema : true,
       include: [ProcurementModule],
       playground: true,
-      path: 'gateway/procurement'
+      path: 'gateway/'
     }),
 
 
