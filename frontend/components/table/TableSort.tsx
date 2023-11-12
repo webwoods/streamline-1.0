@@ -19,7 +19,9 @@ import {
   Pagination,
   Selection,
   ChipProps,
-  SortDescriptor
+  SortDescriptor,
+  SelectItem,
+  Select
 } from "@nextui-org/react";
 import { PlusIcon } from "./PlusIcon";
 import { VerticalDotsIcon } from "./VerticalDotsIcon";
@@ -200,17 +202,23 @@ export default function TableSort({ type }: TableSortProps) {
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            variant="flat"
+            className="w-full sm:max-w-[44%] text-slate-500"
             placeholder="Search by name..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
+            classNames={{
+              input: ['bg-transparent'],
+              innerWrapper: 'bg-transparent',
+              inputWrapper: ['bg-slate-100', 'hover:!bg-slate-200', 'focus-within:!bg-slate-100', 'text-slate-500']
+            }}
           />
           <div className="flex gap-3">
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
+                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat" className="bg-slate-100 hover:bg-slate-200 font-semibold text-slate-500">
                   Status
                 </Button>
               </DropdownTrigger>
@@ -233,17 +241,22 @@ export default function TableSort({ type }: TableSortProps) {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">Total {users.length} users</span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </label>
+          <Select
+            variant="flat"
+            className="max-w-[10rem]"
+            onChange={onRowsPerPageChange}
+            label="Rows"
+            labelPlacement="outside"
+            classNames={{
+              trigger: ['bg-slate-100', 'hover:!bg-slate-200'],
+            }}
+          >
+            {[5, 10, 15].map((rows) => (
+              <SelectItem key={rows} value={rows}>
+                {rows}
+              </SelectItem>
+            ))}
+          </Select>
         </div>
       </div>
     );
@@ -275,10 +288,10 @@ export default function TableSort({ type }: TableSortProps) {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage} className="bg-slate-100 hover:bg-slate-200">
             Previous
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage} className="bg-slate-100 hover:bg-slate-200">
             Next
           </Button>
         </div>
@@ -294,7 +307,10 @@ export default function TableSort({ type }: TableSortProps) {
       bottomContentPlacement="outside"
       classNames={{
         wrapper: "max-h-[382px]",
+        th: ['bg-slate-700', 'text-slate-200'],
       }}
+      removeWrapper
+      isStriped
       selectedKeys={selectedKeys}
       selectionMode="multiple"
       sortDescriptor={sortDescriptor}

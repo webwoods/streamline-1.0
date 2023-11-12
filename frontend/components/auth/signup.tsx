@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { REGISTER_NEW_USER } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
-import authClient from '@/gql/client';
+import client from '@/gql/client';
 import { setCookie } from 'nookies';
 import { Button, Checkbox, Input, Link, Spinner } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,7 @@ import { isValidEmail } from '@/util/email.validate';
 // Functional component for the registration form
 function SignupForm() {
   // Use Apollo Client's useMutation hook for the registration mutation
-  const [registrationMutation] = useMutation(REGISTER_NEW_USER, { client: authClient });
+  const [registrationMutation] = useMutation(REGISTER_NEW_USER, { client: client });
 
   // State variables to manage form input, visibility, and registration success
   const [isVisible, setIsVisible] = React.useState(false);

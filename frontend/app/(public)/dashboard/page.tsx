@@ -23,10 +23,14 @@ import Tips from "@/components/tips/tips";
  */
 
 export default function DashboardPage() {
+  // create a table in the databse to store custom messages for tips
   const customMessage =
     "Check vendor ratings before finalizing orders. Prioritize suppliers with high performance scores for better service quality";
   return (
-    <>
+    <div className="flex flex-col justify-center">
+      <div className="bg-[#197dfd] w-full">
+				<SummaryStatWidget />
+			</div>
       <Tips message={customMessage} />
       {/* <div>
 				<TableTabs />
@@ -37,6 +41,6 @@ export default function DashboardPage() {
 				<UpdateQuotation />
 				<UpdateRequest />
 			</div> */}
-    </>
+    </div>
   );
 }

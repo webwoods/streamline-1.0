@@ -1,21 +1,20 @@
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { BulbIcon } from "../icons";
 
 interface TipsProps {
-    message: string;
-  }
+  message: string;
+}
 
-export default function Tips({ message }:TipsProps) {
+export default function Tips({ message }: TipsProps) {
   return (
-    <div className="container mx-auto p-10">
-      <div className="p-3 border-dashed border-2 border-sky-500 rounded-2xl bg-sky-100">
-        <div className="flex items-center gap-2">
-          <p className="text-xl font-medium">Tips and Reminders</p>
-          <div>
-          <BulbIcon />
-          </div>
+    <div className="container mx-auto py-10 px-6 max-w-screen-lg">
+      <div className="p-4 border-dashed border-1 border-[#197dfd] rounded-2xl bg-gradient-to-r from-white to-sky-50">
+        <div className="flex items-center gap-2 text-slate-900">
+          <p className="font-semibold hover:text-[#197dfd]">Tips and Reminders</p>
+          <FontAwesomeIcon size="sm" icon={faLightbulb} color="#197dfd" />
         </div>
-        <p className="text-sm pt-2">
+        <p className="text-sm text-slate-900">
           “{message}”
         </p>
       </div>

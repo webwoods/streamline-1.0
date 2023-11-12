@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { LOGIN } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
-import authClient from '@/gql/client';
+import client from '@/gql/client';
 import { setCookie } from 'nookies';
 import { Button, Checkbox, Input, Link, Spinner } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 // Functional component for the login form
 function LoginForm() {
   // Use Apollo Client's useMutation hook for the login mutation
-  const [loginMutation] = useMutation(LOGIN, { client: authClient });
+  const [loginMutation] = useMutation(LOGIN, { client: client });
 
   // State variables to manage form input, visibility, and login success
   const [isVisible, setIsVisible] = React.useState(false);

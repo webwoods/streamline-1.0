@@ -5,7 +5,7 @@ import React, { createRef, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { VERIFY_USER } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
-import authClient from '@/gql/client';
+import client from '@/gql/client';
 import { parseCookies, setCookie } from 'nookies';
 import { Button, Input, Spinner } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 // Functional component for the verify form
 function VerifyUserForm() {
   // Use Apollo Client's useMutation hook for the verify mutation
-  const [verifyMutation] = useMutation(VERIFY_USER, { client: authClient });
+  const [verifyMutation] = useMutation(VERIFY_USER, { client: client });
 
   // State variables to manage form input, visibility
   const [verifySuccess, setVerifySuccess] = useState(false);
