@@ -111,7 +111,7 @@ function AddItemsBlock() {
 
 export default function CreateNewRequestForm() {
   return (
-    <div style={{ height: '1000px', width: '100%', backgroundColor: "darkgray" }}>
+    <div>
       <div className={[styles.formArea].join(" ")}>
         <CreateBlock />
         <AddItemsBlock />
