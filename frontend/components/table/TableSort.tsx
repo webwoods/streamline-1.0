@@ -29,6 +29,8 @@ import { ChevronDownIcon } from "./ChevronDownIcon";
 import { SearchIcon } from "./SearchIcon";
 import { columns, users, statusOptions } from "./data";
 import { capitalize } from "./utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -199,7 +201,7 @@ export default function TableSort({ type }: TableSortProps) {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex justify-between gap-3 items-center">
           <Input
             isClearable
             variant="flat"
@@ -217,10 +219,10 @@ export default function TableSort({ type }: TableSortProps) {
           />
           <div className="flex gap-3">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat" className="bg-slate-100 hover:bg-slate-200 font-semibold text-slate-500">
-                  Status
-                </Button>
+              <DropdownTrigger className="hidden sm:flex sm:items-center">
+                <div className="flex gap-3 justify-center items-center text-gray-500 hover:text-accent-blue p-2 rounded-xl text-sm px-3">
+                  Filter <FontAwesomeIcon icon={faFilter} />
+                </div>
               </DropdownTrigger>
               <DropdownMenu
                 disallowEmptySelection
@@ -238,25 +240,15 @@ export default function TableSort({ type }: TableSortProps) {
               </DropdownMenu>
             </Dropdown>
           </div>
+          <div className="flex gap-1 items-center text-sm  text-gray-500">
+            <div className="pr-3">Rows</div>
+            {[5, 10, 15].map((row) => (
+              <div className="flex justify-center items-center bg-slate-200 p-1 rounded-full w-7 aspect-square hover:bg-slate-800 hover:text-white" key={row}>{row}</div>
+            ))}
+          </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">Total {users.length} users</span>
-          <Select
-            variant="flat"
-            className="max-w-[10rem]"
-            onChange={onRowsPerPageChange}
-            label="Rows"
-            labelPlacement="outside"
-            classNames={{
-              trigger: ['bg-slate-100', 'hover:!bg-slate-200'],
-            }}
-          >
-            {[5, 10, 15].map((rows) => (
-              <SelectItem key={rows} value={rows}>
-                {rows}
-              </SelectItem>
-            ))}
-          </Select>
         </div>
       </div>
     );
