@@ -307,7 +307,6 @@ export default function TableSort({ type }: TableSortProps) {
       bottomContentPlacement="outside"
       classNames={{
         wrapper: "max-h-[382px]",
-        th: ['bg-slate-700', 'text-slate-200'],
       }}
       removeWrapper
       isStriped

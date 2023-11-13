@@ -51,7 +51,7 @@ export function MainNavbar() {
   ];
 
   const router = useRouter();
-// [#197dfd]
+  // [#197dfd]
   return (
     <Navbar
       position="sticky"
@@ -70,7 +70,7 @@ export function MainNavbar() {
           return (
             <NavbarItem key={tabData.label}>
               <Button
-                className={`${tabData.label === activeTab ? 'bg-zinc-900 text-white' : 'bg-gradient-to-r from-white to-cyan-50'} rounded-full hover:text-cprimary active:bg-blue-600 h-8 drop-shadow-md`}
+                className={`${tabData.label === activeTab ? 'bg-slate-800 text-white hover:text-accent-yellow' : 'bg-gradient-to-r from-white to-cyan-50 hover:text-cprimary'} rounded-full active:bg-blue-600 h-8 drop-shadow-md`}
                 onClick={() => {
                   setActiveTab(tabData.label);
                   router.push(tabData.href)
