@@ -1,3 +1,4 @@
+import WidgetCollection from "@/components/budgetsummary/widgetCollection";
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import StatusModal from "@/components/formStatusModal/statusModal";
 import UpdatePurchase from "@/components/formsModal/updatePurchase";
@@ -41,6 +42,7 @@ export default function DashboardPage() {
 				<UpdateQuotation />
 				<UpdateRequest />
 			</div> */}
+      <WidgetCollection/>
     </div>
   );
 }
