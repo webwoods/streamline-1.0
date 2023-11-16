@@ -10,12 +10,15 @@ export default function WidgetCollection(){
       ]
     
       return (
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-1'>
+        <div className="bg-[#f5b22f] max-w-screen-lg container mx-auto py-5 px-6">
+          <p className="font-semibold text-xl">Budget Summary</p>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1 py-5'>
           {mockdata?.map((data, index) => {
             return (
               <Widget props={{ ...data }} key={data.title} />
             )
           })}
+        </div>
         </div>
       )
 }
