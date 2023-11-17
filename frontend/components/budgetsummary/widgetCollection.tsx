@@ -3,10 +3,10 @@ import Widget from "./widget";
 
 export default function WidgetCollection(){
     const mockdata = [
-        { title: 'Awaiting Approval', icon: 'awaiting-approval', value: 3 },
-        { title: 'Pending Requisitions', icon: 'pending-request', value: 12 },
-        { title: 'Purchase Orders', icon: 'purchase-order', value: 114 },
-        { title: 'Vendor Responses', icon: 'vendor-responses', value: 20 }
+        { title: 'Allocated Budget', icon: 'awaiting-approval', value: "1.2%" },
+        { title: 'Remaining Budget', icon: 'pending-request', value: "84.7K" },
+        { title: 'Spent Percentage', icon: 'purchase-order', value: "43%" },
+        { title: 'Warning Limit', icon: 'vendor-responses', value: "+0.45K" }
       ]
     
       return (
