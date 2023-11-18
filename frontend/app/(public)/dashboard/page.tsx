@@ -1,9 +1,10 @@
-import WidgetCollection from "@/components/budgetsummary/widgetCollection";
+import WidgetCollection from "@/components/budgetSummary/widgetCollection";
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import StatusModal from "@/components/formStatusModal/statusModal";
 import UpdatePurchase from "@/components/formsModal/updatePurchase";
 import UpdateQuotation from "@/components/formsModal/updateQuotation";
 import UpdateRequest from "@/components/formsModal/updateRequest";
+import Recents from "@/components/recentActivity/recent";
 import TableTabs from "@/components/tableTab/tab";
 import Tips from "@/components/tips/tips";
 
@@ -23,6 +24,22 @@ import Tips from "@/components/tips/tips";
  * personalized widgets
  */
 
+const recentsData = [
+  {
+    id:1,
+    date: "Oct 15, 2023 - 09:45 AM",
+    description: "John Doe submitted a new requisition for office supplies",
+    viewDetailsLink: "/details1",
+  },
+  {
+    id:2,
+    date: "Oct 16, 2023 - 10:30 AM",
+    description: "Jane Smith completed a project milestone",
+    viewDetailsLink: "/details2",
+  },
+  // Add more data as needed
+];
+
 export default function DashboardPage() {
   // create a table in the databse to store custom messages for tips
   const customMessage =
@@ -30,10 +47,10 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col justify-center">
       <div className="bg-[#197dfd] w-full">
-				<SummaryStatWidget />
-			</div>
+        <SummaryStatWidget />
+      </div>
       <Tips message={customMessage} />
-      {/* <div>
+      {/* <div>F
 				<TableTabs />
 			</div>
 			<div className="flex content-center p-8 sm:px-28 gap-2">
@@ -42,7 +59,15 @@ export default function DashboardPage() {
 				<UpdateQuotation />
 				<UpdateRequest />
 			</div> */}
-      <WidgetCollection/>
+      <WidgetCollection />
+      {recentsData.map((data) => (
+        <Recents
+          key={data.id}
+          date={data.date}
+          description={data.description}
+          viewDetailsLink={data.viewDetailsLink}
+        />
+      ))}
     </div>
   );
 }
