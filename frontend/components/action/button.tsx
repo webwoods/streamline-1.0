@@ -27,7 +27,7 @@ export default function ActionButton({ props }: Readonly<{ props: any }>) {
           <div className='flex w-7 rounded-full justify-center items-center bg-slate-800 group-hover:bg-cprimary aspect-square text-slate-50'>
             {getIcon(props.icon)}
           </div>
-          <h5 className='text-sm leading-4'>{props.title}</h5>
+          <h5 className='text-sm leading-4 whitespace-pre-line'>{props.title}</h5>
         </div>
         <div className="flex justify-end">
           {/* <Tooltip content={props.tooltip}> */}

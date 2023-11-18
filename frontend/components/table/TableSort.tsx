@@ -273,7 +273,6 @@ export default function TableSort({ type }: TableSortProps) {
         <Pagination
           isCompact
           showControls
-          showShadow
           color="primary"
           page={page}
           total={pages}
@@ -298,9 +297,9 @@ export default function TableSort({ type }: TableSortProps) {
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[382px]",
+        wrapper: 'p-0',
       }}
-      removeWrapper
+      shadow="none"
       isStriped
       selectedKeys={selectedKeys}
       selectionMode="multiple"

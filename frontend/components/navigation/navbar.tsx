@@ -55,10 +55,13 @@ export function MainNavbar() {
   return (
     <Navbar
       position="sticky"
-      isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-[#197dfd] dark:bg-gray-800 border-none pt-7 pb-5 flex"
+      className="bg-[#197dfd] dark:bg-gray-800 border-none p-0 flex"
+      classNames={{
+        base: 'p-0',
+        wrapper: 'p-0 max-w-none p-5 sm:p-10'
+      }}
     >
       <NavbarContent className="sm:hidden inline-flex">
         <NavbarMenuToggle className="text-white" icon={<FontAwesomeIcon size="lg" icon={faBars} />} aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
