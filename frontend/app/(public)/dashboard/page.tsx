@@ -26,18 +26,40 @@ import Tips from "@/components/tips/tips";
 
 const recentsData = [
   {
-    id:1,
+    id: 1,
     date: "Oct 15, 2023 - 09:45 AM",
     description: "John Doe submitted a new requisition for office supplies",
-    viewDetailsLink: "/details1",
+    link: "/requisition-details",
+    linkText: "View Requisition Details",
   },
   {
-    id:2,
+    id: 2,
     date: "Oct 16, 2023 - 10:30 AM",
     description: "Jane Smith completed a project milestone",
-    viewDetailsLink: "/details2",
+    link: "/project-details",
+    linkText: "View Project Details",
   },
-  // Add more data as needed
+  {
+    id: 3,
+    date: "Oct 17, 2023 - 02:15 PM",
+    description: "Bob Johnson received employee of the month award",
+    link: "/employee-award-details",
+    linkText: "View Award Details",
+  },
+  {
+    id: 4,
+    date: "Oct 18, 2023 - 04:45 PM",
+    description: "Alice Williams started a new training program",
+    link: "/training-program-details",
+    linkText: "View Details",
+  },
+  {
+    id: 5,
+    date: "Oct 19, 2023 - 11:00 AM",
+    description: "Charlie Brown participated in a team-building event",
+    link: "/team-building-details",
+    linkText: "View Details",
+  },
 ];
 
 export default function DashboardPage() {
@@ -60,14 +82,17 @@ export default function DashboardPage() {
 				<UpdateRequest />
 			</div> */}
       <WidgetCollection />
-      {recentsData.map((data) => (
-        <Recents
-          key={data.id}
-          date={data.date}
-          description={data.description}
-          viewDetailsLink={data.viewDetailsLink}
-        />
-      ))}
+      <div>
+        {recentsData.map((data) => (
+          <Recents
+            key={data.id}
+            date={data.date}
+            description={data.description}
+            viewDetailsLink={data.link}
+            viewDetailsLinkText={data.linkText}
+          />
+        ))}
+      </div>
     </div>
   );
 }
