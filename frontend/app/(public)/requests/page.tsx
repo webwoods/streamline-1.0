@@ -1,4 +1,5 @@
 import ActionButton from "@/components/action/button";
+import RequestsToolBar from "@/components/action/requestsToolbar";
 import TableTabs from "@/components/tableTab/tab";
 import { faBoxesPacking, faClipboardCheck, faList, faPenNib, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,9 +55,15 @@ function ManageRequests() {
 
 export default function RequestsPage() {
 	return (
-		<div className="pb-20">
-			<div className="py-10 px-10">
+		<div className="grid grid-cols-8">
+			<div className="col-span-1 bg-white">
+				<RequestsToolBar />
+			</div>
+			<div className="col-span-5 bg-slate-50 p-10 border-x-2">
 				<TableTabs />
+			</div>
+			<div className="col-span-2 bg-slate-100">
+
 			</div>
 		</div >
 	);

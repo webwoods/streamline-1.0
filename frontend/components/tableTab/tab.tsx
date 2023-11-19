@@ -4,6 +4,7 @@ import { Tabs, Tab, Chip } from "@nextui-org/react";
 import TableSort from "../table/TableSort";
 import { faFileLines, faListCheck, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CustomTable from "../table/customTable";
 
 export default function TableTabs() {
   const [activeTab, setActiveTab] = useState(" ");
@@ -63,10 +64,16 @@ export default function TableTabs() {
         </Tabs>
       </div>
 
-      <div className="flex content-center pt-10">
+      {/* <div className="flex content-center pt-10">
         {activeTab === requests && <TableSort type="requests" />}
         {activeTab === purchaseOrder && <TableSort type="purchase" />}
         {activeTab === quotations && <TableSort type="quotations" />}
+      </div> */}
+
+      <div className="flex content-center pt-10">
+        {activeTab === requests && <CustomTable type="requests" />}
+        {activeTab === purchaseOrder && <CustomTable type="purchase" />}
+        {activeTab === quotations && <CustomTable type="quotations" />}
       </div>
 
     </>
