@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useEffect } from "react";
-import { Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
+import { Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Tooltip } from "@nextui-org/react";
 import UserProfileButton from "./userProfileButton";
 import ModalNotification from "./modalNotification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faChartLine, faClipboard, faClipboardCheck, faDollarSign, faHome, faShop, faStore, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 
 export function MainNavbar() {
@@ -16,14 +16,37 @@ export function MainNavbar() {
     {
       label: "Dashboard",
       href: "/dashboard",
+      icon: <FontAwesomeIcon icon={faHome} />,
+    },
+    {
+      label: "Insights",
+      href: "/insights",
+      icon: <FontAwesomeIcon icon={faChartLine} />,
+    },
+    {
+      label: "Employees",
+      href: "/employees",
+      icon: <FontAwesomeIcon icon={faUsers} />,
+    },
+    {
+      label: "Vendors",
+      href: "/vendors",
+      icon: <FontAwesomeIcon icon={faStore} />,
+    },
+    {
+      label: "Activity",
+      href: "/activity",
+      icon: <FontAwesomeIcon icon={faClipboard} />,
     },
     {
       label: "Requests",
       href: "/requests",
+      icon: <FontAwesomeIcon icon={faClipboardCheck} />,
     },
     {
-      label: "Files",
-      href: "/files",
+      label: "Bills",
+      href: "/bills",
+      icon: <FontAwesomeIcon icon={faDollarSign} />,
     },
   ];
 
@@ -33,12 +56,28 @@ export function MainNavbar() {
       href: "/dashboard",
     },
     {
+      label: "Insights",
+      href: "/insights",
+    },
+    {
+      label: "Employees",
+      href: "/employees",
+    },
+    {
+      label: "Vendors",
+      href: "/vendors",
+    },
+    {
+      label: "Activity",
+      href: "/activity",
+    },
+    {
       label: "Requests",
       href: "/requests",
     },
     {
-      label: "Files",
-      href: "/files",
+      label: "Bills",
+      href: "/bills",
     },
     {
       label: "Profile",
@@ -67,21 +106,39 @@ export function MainNavbar() {
         <NavbarMenuToggle className="text-white" icon={<FontAwesomeIcon size="lg" icon={faBars} />} aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4">
+      <NavbarContent className="hidden sm:flex gap-3">
 
         {tabs.map((tabData) => {
+          const style = `${tabData.label === activeTab ? 'bg-slate-800 text-white hover:text-accent-yellow' : 'bg-gradient-to-r from-white to-cyan-50 hover:text-cprimary text-slate-800'} rounded-full active:bg-blue-600 h-8 drop-shadow-md`;
+
           return (
-            <NavbarItem key={tabData.label}>
-              <Button
-                className={`${tabData.label === activeTab ? 'bg-slate-800 text-white hover:text-accent-yellow' : 'bg-gradient-to-r from-white to-cyan-50 hover:text-cprimary'} rounded-full active:bg-blue-600 h-8 drop-shadow-md`}
-                onClick={() => {
-                  setActiveTab(tabData.label);
-                  router.push(tabData.href)
-                }}
-              >
-                {tabData.label}
-              </Button>
-            </NavbarItem>
+            tabData.label === activeTab ?
+              <NavbarItem key={tabData.label}>
+                <Button
+                  className={style}
+                  onClick={() => {
+                    setActiveTab(tabData.label);
+                    router.push(tabData.href)
+                  }}
+                  startContent={tabData.icon}
+                >
+                  {tabData.label}
+                </Button>
+              </NavbarItem> :
+              <NavbarItem key={tabData.label}>
+                <Button
+                  className={`${style} min-w-0 max-w-[32px]`}
+                  onClick={() => {
+                    setActiveTab(tabData.label);
+                    router.push(tabData.href)
+                  }}
+                  isIconOnly
+                >
+                  <Tooltip content={tabData.label}>
+                    {tabData.icon}
+                  </Tooltip>
+                </Button>
+              </NavbarItem>
           )
         })}
       </NavbarContent>

@@ -15,7 +15,7 @@ export default function TableTabs() {
   const [requests, purchaseOrder, quotations] = ['Requests', 'Purchase Orders', 'Quotations'];
 
   return (
-    <div className="pt-10 px-6 sm:px-10">
+    <>
       <div className="flex w-full flex-col">
         <Tabs
           aria-label="Options"
@@ -69,6 +69,6 @@ export default function TableTabs() {
         {activeTab === quotations && <TableSort type="quotations" />}
       </div>
 
-    </div>
+    </>
   );
 }

@@ -31,6 +31,7 @@ import { columns, users, statusOptions } from "./data";
 import { capitalize } from "./utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import ActionButton from "../action/button";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -300,7 +301,6 @@ export default function TableSort({ type }: TableSortProps) {
         wrapper: 'p-0',
       }}
       shadow="none"
-      isStriped
       selectedKeys={selectedKeys}
       selectionMode="multiple"
       sortDescriptor={sortDescriptor}

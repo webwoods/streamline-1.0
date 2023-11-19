@@ -55,7 +55,9 @@ function ManageRequests() {
 export default function RequestsPage() {
 	return (
 		<div className="pb-20">
-			<TableTabs />
+			<div className="py-10 px-10">
+				<TableTabs />
+			</div>
 		</div >
 	);
 }
