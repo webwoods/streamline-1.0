@@ -9,9 +9,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<div>
+		<div className="flex flex-col">
 			<MainNavbar />
-			<main>
+			<main className="w-full">
 				{children}
 			</main>
 		</div>

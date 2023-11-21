@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import { authApolloClient } from '@libs/core/apollo/client';
+import { apolloClient } from '@libs/core/apollo/client';
 import { FileService } from './file.service';
 import { PropertyService } from './property.service';
 import { RequestItemsService } from './request-items.service';
@@ -332,7 +332,7 @@ export class ProcurementService {
    */
   async getUserByIdFromAuth(id: string): Promise<User> {
     try {
-      const { data } = await authApolloClient.query({
+      const { data } = await apolloClient.query({
         query: gql`
           query user($id: String!) {
             user(id: $id) {
@@ -386,7 +386,7 @@ export class ProcurementService {
    */
   async getRoleByIdFromAuth(id: string): Promise<Role> {
     try {
-      const { data } = await authApolloClient.query({
+      const { data } = await apolloClient.query({
         query: gql`
           query roleById($id: String!) {
             roleById(id: $id) {

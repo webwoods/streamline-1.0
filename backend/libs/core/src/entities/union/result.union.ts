@@ -2,6 +2,7 @@ import { createUnionType } from '@nestjs/graphql';
 import { LoginSuccess, RegisterNewUserSuccess, VerificationSuccess } from './success';
 import { PasswordMismatchError } from './passwordMismatchError';
 import { UserNotExistError } from './userNotExistError';
+import { UserAlreadyExistsError } from './userNotExistError copy';
 
 export const LoginResultUnion = createUnionType({
   name: 'LoginResultUnion',
@@ -10,7 +11,7 @@ export const LoginResultUnion = createUnionType({
 
 export const RegisterResultUnion = createUnionType({
   name: 'RegisterResultUnion',
-  types: () => [RegisterNewUserSuccess, PasswordMismatchError, UserNotExistError] as const,
+  types: () => [RegisterNewUserSuccess, PasswordMismatchError, UserAlreadyExistsError] as const,
 });
 
 export const VerificationResultUnion = createUnionType({

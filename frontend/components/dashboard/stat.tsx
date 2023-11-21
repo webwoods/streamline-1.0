@@ -1,38 +1,41 @@
-import styles from '@/styles/stats.module.css'
+import React from 'react';
 import { ThumbsUp } from 'akar-icons';
+import { faFileCircleExclamation, faMoneyCheckDollar, faTriangleExclamation, faTruckFast } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface StatProps {
   props: {
-    title?: string,
-    icon?: string,
-    value?: number,
+    title?: string;
+    icon?: string;
+    value?: number;
+  };
+}
+
+function getIcon(key: string | undefined) {
+  switch (key) {
+    case 'awaiting-approval':
+      return <FontAwesomeIcon size='xl' icon={faFileCircleExclamation} />;
+    case 'pending-request':
+      return <FontAwesomeIcon size='xl' icon={faTriangleExclamation} />
+    case 'purchase-order':
+      return <FontAwesomeIcon size='xl' icon={faMoneyCheckDollar} />;
+    case 'vendor-responses':
+      return <FontAwesomeIcon size='xl' icon={faTruckFast} />;
+    default:
+      return;
   }
 }
 
 export default function Stat({ props }: StatProps) {
-
   return (
-    <div className={styles['stat-container']}>
-      <div className={styles['stat-card']}>
-        <div className={styles['stat']}>
-          <h5>{props.title}</h5>
-          <div className={styles['icon-circle']}>
-            <ThumbsUp size={36} />
-          </div>
+    <div className='bg-gradient-to-r from-white to-cyan-50  rounded-lg p-3 flex flex-col gap-2 hover:bg-accent-yellow hover:text-cprimary'>
+      <div className='grid grid-cols-2 min-h-[3rem]'>
+        <h5 className='text-sm leading-4'>{props.title}</h5>
+        <div className='flex justify-end'>
+          {getIcon(props.icon)}
         </div>
-        <span className={styles['stat-value']}>{props.value}</span>
       </div>
-
-      {/* mobile only */}
-      <div className={styles['stat-card-mobile']}>
-        <div className={styles['stat-mobile']}>
-          <h5>{props.title}</h5>
-          <div className={styles['icon-circle']}>
-            <ThumbsUp size={20} />
-          </div>
-        </div>
-        <span className={styles['stat-value']}>{props.value}</span>
-      </div>
+      {/* <span className='text-3xl font-semibold'>{props.value}</span> */}
     </div>
-  )
+  );
 }

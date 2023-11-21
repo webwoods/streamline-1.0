@@ -1,32 +1,19 @@
 import React from 'react';
-import styles from '@/styles/dounutchart.module.css';
 import StatCollection from '../dashboard/statCollection';
 import DounutChartandFull from './dounutchartandfull';
 
 const SummaryStatWidget = () => {
     return (
-        <div className={styles['chart-container']}>
-            <div className={styles['row']}>
-                <div className={styles['custom-container']}>
-                    <div className={styles['chart-info']}>
-                        <div className={styles['text-dounut-chart']}>All Time Requests</div>
-                        <div className={styles['text-dounut-chart-subtitle']}>Gas, Lab Euipment and Equipment Maintanance</div>
-                        <div className={styles['text-dounut-chart-48']}>331</div>
-                    </div>
-                    <DounutChartandFull />
+        <div className="max-w-screen-lg mx-auto py-10 px-6 grid grid-cols-1 sm:grid-cols-2 gap-4 drop-shadow-md">
+            <div className='w-full bg-gradient-to-r from-white to-cyan-50 rounded-xl p-5'>
+                <div>
+                    <p className='font-semibold'>All Time Requests</p>
+                    <p className='text-xs text-slate-500'>Gas, Lab Euipment and Equipment Maintanance</p>
+                    <p className='text-3xl font-semibold py-2'>331</p>
                 </div>
-                <StatCollection />
+                {/* <DounutChartandFull /> */}
             </div>
-
-            {/* mobile only */}
-            <div className={styles['row-mobile']}>
-                <div className={styles['custom-container']}>
-                    <div className={styles['chart-info']}>
-                        <div className={styles['text-dounut-chart']}>All Time Requests</div>
-                        <div className={styles['text-dounut-chart-subtitle']}>Gas, Lab Euipment and Equipment Maintanance</div>
-                        <div className={styles['text-dounut-chart-48']}>331</div>
-                    </div>
-                </div>
+            <div className='w-full'>
                 <StatCollection />
             </div>
         </div>

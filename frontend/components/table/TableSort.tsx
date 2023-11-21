@@ -19,14 +19,19 @@ import {
   Pagination,
   Selection,
   ChipProps,
-  SortDescriptor
+  SortDescriptor,
+  SelectItem,
+  Select
 } from "@nextui-org/react";
-import {PlusIcon} from "./PlusIcon";
-import {VerticalDotsIcon} from "./VerticalDotsIcon";
-import {ChevronDownIcon} from "./ChevronDownIcon";
-import {SearchIcon} from "./SearchIcon";
-import {columns, users, statusOptions} from "./data";
-import {capitalize} from "./utils";
+import { PlusIcon } from "./PlusIcon";
+import { VerticalDotsIcon } from "./VerticalDotsIcon";
+import { ChevronDownIcon } from "./ChevronDownIcon";
+import { SearchIcon } from "./SearchIcon";
+import { columns, users, statusOptions } from "./data";
+import { capitalize } from "./utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import ActionButton from "../action/button";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -58,7 +63,7 @@ export default function TableSort({ type }: TableSortProps) {
   React.useEffect(() => {
     if (type === "requests") {
       // Set the visible columns for the "requests" type
-      setVisibleColumns(new Set(["name", "role", "status", "actions","id"]));
+      setVisibleColumns(new Set(["name", "role", "status", "actions", "id"]));
     } else if (type === "purchase") {
       // Set the visible columns for the "purchase" type
       setVisibleColumns(new Set(["name", "role", "actions"]));
@@ -121,7 +126,7 @@ export default function TableSort({ type }: TableSortProps) {
       case "name":
         return (
           <User
-            avatarProps={{radius: "lg", src: user.avatar}}
+            avatarProps={{ radius: "lg", src: user.avatar }}
             description={user.email}
             name={cellValue}
           >
@@ -189,30 +194,36 @@ export default function TableSort({ type }: TableSortProps) {
     }
   }, []);
 
-  const onClear = React.useCallback(()=>{
+  const onClear = React.useCallback(() => {
     setFilterValue("")
     setPage(1)
-  },[])
+  }, [])
 
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex justify-between gap-3 items-center">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            variant="flat"
+            className="w-full sm:max-w-[44%] text-slate-500"
             placeholder="Search by name..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
+            classNames={{
+              input: ['bg-transparent'],
+              innerWrapper: 'bg-transparent',
+              inputWrapper: ['bg-slate-100', 'hover:!bg-slate-200', 'focus-within:!bg-slate-100', 'text-slate-500']
+            }}
           />
           <div className="flex gap-3">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Status
-                </Button>
+              <DropdownTrigger className="hidden sm:flex sm:items-center">
+                <div className="flex gap-3 justify-center items-center text-gray-500 hover:text-accent-blue p-2 rounded-xl text-sm px-3">
+                  Filter <FontAwesomeIcon icon={faFilter} />
+                </div>
               </DropdownTrigger>
               <DropdownMenu
                 disallowEmptySelection
@@ -229,42 +240,16 @@ export default function TableSort({ type }: TableSortProps) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+          </div>
+          <div className="flex gap-1 items-center text-sm  text-gray-500">
+            <div className="pr-3">Rows</div>
+            {[5, 10, 15].map((row) => (
+              <div className="flex justify-center items-center bg-slate-200 p-1 rounded-full w-7 aspect-square hover:bg-slate-800 hover:text-white" key={row}>{row}</div>
+            ))}
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">Total {users.length} users</span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </label>
         </div>
       </div>
     );
@@ -289,17 +274,16 @@ export default function TableSort({ type }: TableSortProps) {
         <Pagination
           isCompact
           showControls
-          showShadow
           color="primary"
           page={page}
           total={pages}
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage} className="bg-slate-100 hover:bg-slate-200">
             Previous
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage} className="bg-slate-100 hover:bg-slate-200">
             Next
           </Button>
         </div>
@@ -314,8 +298,9 @@ export default function TableSort({ type }: TableSortProps) {
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[382px]",
+        wrapper: 'p-0',
       }}
+      shadow="none"
       selectedKeys={selectedKeys}
       selectionMode="multiple"
       sortDescriptor={sortDescriptor}

@@ -16,11 +16,7 @@ input CreateUserInput {
   name: String
   password: String!
   roleId: String
-  username: String!
-}
-
-input CreateUsersInput {
-  users: [CreateUserInput!]!
+  username: String
 }
 
 """
@@ -43,8 +39,6 @@ type LoginSuccess {
 type Mutation {
   createRole(input: CreateRoleInput!): Role!
   createRoles(inputs: CreateRolesInput!): [Role!]!
-  createUser(input: CreateUserInput!): User!
-  createUsers(inputs: CreateUsersInput!): [User!]!
   deleteRole(id: String!): Role!
   deleteUser(id: String!): User!
   login(input: LoginInput!): LoginResultUnion!
@@ -71,7 +65,7 @@ type RegisterNewUserSuccess {
   verificationToken: String
 }
 
-union RegisterResultUnion = PasswordMismatchError | RegisterNewUserSuccess | UserNotExistError
+union RegisterResultUnion = PasswordMismatchError | RegisterNewUserSuccess | UserAlreadyExistsError
 
 type Role {
   createdAt: DateTime
@@ -109,9 +103,13 @@ type User {
   password: String
   role: Role
   updatedAt: DateTime
-  username: String!
+  username: String
   verificationCodes: [VerificationCode!]
   verified: Boolean!
+}
+
+type UserAlreadyExistsError {
+  message: String!
 }
 
 type UserNotExistError {
@@ -137,6 +135,7 @@ enum UserRoles {
 type VerificationCode {
   code: String!
   createdAt: DateTime
+  expirationDate: DateTime!
   id: ID!
   updatedAt: DateTime
   userId: String!
@@ -150,6 +149,6 @@ type VerificationSuccess {
 
 input VerifyUserInput {
   email: String
-  username: String!
+  username: String
   verificationToken: String!
 }

@@ -16,8 +16,8 @@ import { VerificationCode } from './verification-codes.entity';
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class User extends StreamLineEntity {
-  @Column()
-  @Field()
+  @Column({ nullable: true })
+  @Field({ nullable: true })
   username?: string;
 
   @Column()

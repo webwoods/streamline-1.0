@@ -65,6 +65,7 @@ export class UserService {
       throw new NotFoundException(`User with id ${id} not found`);
     }
 
+
     // Construct the set object dynamically based on input values
     user.verified = true;
     await this.userRepository.save(user);
