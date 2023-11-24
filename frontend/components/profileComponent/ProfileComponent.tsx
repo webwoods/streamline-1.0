@@ -20,7 +20,7 @@ function ProfileComponent() {
     return (
         <div className="flex flex-col items-center ml-10">
             <Avatar
-                className="w-56 h-56 mt-10"
+                className="w-40 h-40 mt-5"
                 isBordered
                 color="danger"
                 src="https://i.pravatar.cc/150?u=a042581"
