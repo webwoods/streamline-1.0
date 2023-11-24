@@ -40,7 +40,7 @@ function ProfileComponent() {
                         labelPlacement='outside'
                         placeholder='Full name'
                         isRequired={true}
-                        value={email}
+                        value={fullname}
                         autoComplete='fullname'
                         onValueChange={(value) => setFullname(value)}
                     />
@@ -49,7 +49,7 @@ function ProfileComponent() {
                         labelPlacement='outside'
                         placeholder='Password'
                         isRequired={true}
-                        value={email}
+                        value={password}
                         autoComplete='password'
                         onValueChange={(value) => setPassword(value)}
                     />
@@ -70,7 +70,7 @@ function ProfileComponent() {
                         labelPlacement='outside'
                         placeholder='Role'
                         isRequired={true}
-                        value={username}
+                        value={role}
                         autoComplete='role'
                         onValueChange={(value) => setRole(value)}
                     />
@@ -79,7 +79,7 @@ function ProfileComponent() {
                         labelPlacement='outside'
                         placeholder='Designation'
                         isRequired={true}
-                        value={email}
+                        value={designation}
                         autoComplete='designation'
                         onValueChange={(value) => setDesignation(value)}
                     />
@@ -88,7 +88,7 @@ function ProfileComponent() {
                         labelPlacement='outside'
                         placeholder='Division'
                         isRequired={true}
-                        value={email}
+                        value={division}
                         autoComplete='division'
                         onValueChange={(value) => setDivision(value)}
                     />
@@ -97,7 +97,7 @@ function ProfileComponent() {
                         labelPlacement='outside'
                         placeholder='Permissions'
                         isRequired={true}
-                        value={email}
+                        value={permissions}
                         autoComplete='permissions'
                         onValueChange={(value) => setPermissions(value)}
                     />
