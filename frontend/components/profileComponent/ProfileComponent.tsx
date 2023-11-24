@@ -1,6 +1,7 @@
 'use client'
 import { Avatar, Input } from "@nextui-org/react"
 import { useState } from "react";
+import styles from '@/components/auth/Auth.module.css';
 
 function ProfileComponent() {
 
@@ -53,7 +54,7 @@ function ProfileComponent() {
                         autoComplete='password'
                         onValueChange={(value) => setPassword(value)}
                     />
-                     <Input
+                    <Input
                         label='Email'
                         labelPlacement='outside'
                         placeholder='Enter email'
@@ -103,6 +104,9 @@ function ProfileComponent() {
                     />
                 </div>
             </div>
+            <button className= " mb-10 bg-black text-white border-0 w-80 rounded-full px-4 py-2.5 transition duration-300 ease-in-out hover:bg-yellow-500 hover:text-gray-900">
+                Update
+            </button>
         </div>
     )
 }
