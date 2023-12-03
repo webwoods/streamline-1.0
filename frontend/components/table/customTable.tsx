@@ -52,7 +52,7 @@ export default function CustomTable({ type }: Readonly<CustomtableProps>) {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "age",
     direction: "ascending",
@@ -140,7 +140,9 @@ export default function CustomTable({ type }: Readonly<CustomtableProps>) {
         );
       case "status":
         return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="dot" classNames={{
+            base: "border-none",
+          }}>
             {cellValue}
           </Chip>
         );
@@ -221,7 +223,7 @@ export default function CustomTable({ type }: Readonly<CustomtableProps>) {
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex sm:items-center">
                 <div className="flex gap-3 justify-center items-center text-gray-500 hover:text-accent-blue p-2 rounded-xl text-sm px-3">
-                  Filter <FontAwesomeIcon icon={faFilter} />
+                <FontAwesomeIcon icon={faFilter} /> Filter
                 </div>
               </DropdownTrigger>
               <DropdownMenu
@@ -243,7 +245,7 @@ export default function CustomTable({ type }: Readonly<CustomtableProps>) {
           <div className="flex gap-1 items-center text-sm  text-gray-500">
             <div className="pr-3">Rows</div>
             {[5, 10, 15].map((row) => (
-              <div className="flex justify-center items-center bg-slate-200 p-1 rounded-full w-7 aspect-square hover:bg-slate-800 hover:text-white" key={row}>{row}</div>
+              <div className="flex justify-center items-center bg-green-400 p-1 rounded-md w-7 aspect-square hover:bg-slate-800 text-white" key={row}>{row}</div>
             ))}
           </div>
         </div>
@@ -273,12 +275,14 @@ export default function CustomTable({ type }: Readonly<CustomtableProps>) {
         <Pagination
           isCompact
           showControls
-          color="primary"
           page={page}
           total={pages}
           onChange={setPage}
           loop
           radius="full"
+          classNames={{
+            cursor: "bg-slate-800"
+          }}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage} className="bg-slate-200 hover:bg-slate-300 rounded-sm">
@@ -304,7 +308,7 @@ export default function CustomTable({ type }: Readonly<CustomtableProps>) {
         },
       }}
       classNames={{
-        wrapper: ["max-h-[382px]", "max-w-3xl", "bg-white"],
+        wrapper: ["max-h-[382px]", "border-1"],
         th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
         td: [
           // changing the rows border radius
