@@ -63,11 +63,11 @@ export const REQUEST_QUERY = gql`
     data {
       id
       createdAt
-      updatedAt
       requestType
-      description
       requestedUser{
-        id
+        name
+      }
+      file{
         name
       }
       status
