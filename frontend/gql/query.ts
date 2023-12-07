@@ -56,3 +56,23 @@ export const STUDENTS_QUERY = gql`
     }
   }
 `;
+
+export const REQUEST_QUERY = gql`
+{
+  requests(page: 1, pageSize: 10) {
+    data {
+      id
+      createdAt
+      updatedAt
+      requestType
+      description
+      requestedUser{
+        id
+        name
+      }
+      status
+    }
+    totalPages
+  }
+}
+`;
