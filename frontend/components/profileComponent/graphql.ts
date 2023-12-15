@@ -11,6 +11,7 @@ export const GET_PROFILE = gql`
     email
     password
     name
+    verified
     }
   }
 `;
