@@ -2,20 +2,48 @@
 import { Avatar, Input } from "@nextui-org/react"
 import { useState } from "react";
 import styles from '@/components/auth/Auth.module.css';
+import { GET_PROFILE, UPDATE_PROFILE } from './graphql'; // Replace with your actual GraphQL queries
+import { useMutation, useQuery } from "@apollo/client";
 
 function ProfileComponent() {
 
+    const { loading, error, data } = useQuery(GET_PROFILE);
+
+    const [updateProfile] = useMutation(UPDATE_PROFILE);
+
+
     const [username, setUsername] = useState('');
     const [fullname, setFullname] = useState('');
-
     const [email, setEmail] = useState('');
-
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
     const [designation, setDesignation] = useState('');
     const [division, setDivision] = useState('');
     const [permissions, setPermissions] = useState('');
 
+
+    // Fetching data from GraphQL API
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
+    // Updating profile data
+    const handleUpdate = async () => {
+        try {
+            await updateProfile({
+                variables: {
+                    input: {
+                        username,
+                        fullname,
+
+                    },
+                },
+            });
+            // Optionally, you can refetch the data after updating
+            // refetch();
+        } catch (error: any) {
+            console.error('Error updating profile:', error.message);
+        }
+    };
+    const { profile } = data;
 
     return (
         <div className="flex flex-col items-center ml-10">
@@ -32,7 +60,7 @@ function ProfileComponent() {
                         labelPlacement='outside'
                         placeholder='Enter username'
                         isRequired={true}
-                        value={username}
+                        value={profile.username}
                         autoComplete='username'
                         onValueChange={(value) => setUsername(value)}
                     />
@@ -104,7 +132,7 @@ function ProfileComponent() {
                     />
                 </div>
             </div>
-            <button className= " mb-10 bg-black text-white border-0 w-80 rounded-full px-4 py-2.5 transition duration-300 ease-in-out hover:bg-yellow-500 hover:text-gray-900">
+            <button className=" mb-10 bg-black text-white border-0 w-80 rounded-full px-4 py-2.5 transition duration-300 ease-in-out hover:bg-yellow-500 hover:text-gray-900">
                 Update
             </button>
         </div>
