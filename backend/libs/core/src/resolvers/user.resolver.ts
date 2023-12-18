@@ -39,6 +39,28 @@ export class UserResolver {
     }
   }
 
+  @Query(() => User, { name: 'userByUsernameOrEmail' })
+  async getUserByUsername(
+    @Args('username', { nullable: true }) username: string,
+    @Args('email', { nullable: true }) email: string,
+  ): Promise<User> {
+    try {
+      const user = username
+        ? await this.userService.findUserByUsername(username)
+        : await this.userService.findUserByEmail(email);
+      if (!user) {
+        if (username) {
+          throw new Error(`User with username ${username} not found`);
+        } else {
+          throw new Error(`User with email ${email} not found`);
+        }
+      }
+      return user;
+    } catch (error: any) {
+      throw new Error(`Error fetching user: ${error.message}`);
+    }
+  }
+
   @Query(() => UserPage, { name: 'users' })
   async getUsers(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
