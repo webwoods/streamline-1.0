@@ -8,10 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
 import { CREATE_REQUEST } from "@/gql/mutation";
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import client from "@/gql/client";
 import { useRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
+import { SEARCH_REQUEST_ITEMS } from '@/gql/query';
+import { useDebouncedCallback } from 'use-debounce';
 
 const formInputStyles = {
   base: "w-full",
@@ -128,48 +130,62 @@ function CreateBlock({ user, onNext }: { user: string; onNext: () => void }) {
 }
 
 function AddItemsBlock({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
-  const [hidden, setHidden] = useState(true);
-  const [requestId, setRequestId] = useState('GR221');
 
-  const handleBlockClick = () => {
-    setHidden(!hidden);
-  }
+  const [requestId, setRequestId] = useState('GR221');
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [searchRequestItems, { loading, error, data }] = useLazyQuery(SEARCH_REQUEST_ITEMS, { client });
 
   const handleVerify = () => {
-    setHidden(true);
+    onNext();
   }
 
+  const handleSearch = useDebouncedCallback(
+    // function
+    (value) => {
+      if (searchQuery !== "") {
+        searchRequestItems({
+          variables: { page: 1, pageSize: 10, searchString: searchQuery },
+        });
+      }
+    },
+    // delay in ms
+    1000
+  );
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  useEffect(() => {
+    handleSearch(searchQuery);
+  }, [searchQuery])
+
   return (
-    <div className={styles.block}>
-      {
-        !hidden &&
-        <div className={styles.meta} onClick={handleBlockClick}>
-          <h1 className={[styles.title].join(" ")}>Add items</h1>
-          <h2 className={[styles.title].join(" ")}>{requestId}</h2>
-        </div>
-      }
+    <div className='w-96 max-w-3xl py-10'>
+      <div className="flex items-center justify-center flex-col">
+        <h1 className="leading-5 font-semibold text-lg">Add items</h1>
+        <h2 className="text-slate-400 text-sm">{requestId}</h2>
+      </div>
 
-      {
-        hidden &&
-        <div className={[styles.metaHidden, styles.textWithIcon].join(" ")} onClick={handleBlockClick}>
-          <h1 className={[styles.title].join(" ")}>Add items</h1>
-          <FontAwesomeIcon icon={faCircleCheck} />
-        </div>
-      }
+      <div className='flex flex-col items-center pt-10 gap-3'>
+        <Input
+          label="Search items"
+          labelPlacement='outside'
+          placeholder='Enter Name'
+          radius='none'
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          classNames={{ ...formInputStyles }} />
 
-      {
-        !hidden &&
-        <div>
-          <div className={[styles.fieldContainer].join(" ")}>
-            <TextInput label='Search item' />
-          </div>
-
-          <div className={styles.buttonContainer}>
-            <Button className={[styles.button].join(" ")} onClick={onBack}>Back</Button>
-            <Button className={[styles.button, styles.buttonCta].join(" ")} onClick={handleVerify}>Verify</Button>
-          </div>
+        <div className='w-full flex gap-3 pt-5'>
+          <Button className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300' onClick={onBack}>Back</Button>
+          <Button
+            className='w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700'
+            onClick={handleVerify}>Verify</Button>
         </div>
-      }
+
+      </div>
     </div>
   );
 }
