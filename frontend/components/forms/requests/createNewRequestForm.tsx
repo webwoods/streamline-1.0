@@ -3,27 +3,47 @@
 import styles from '@/styles/forms.module.css';
 import { TextInput, DateInput, SelectInput, TextAreaInput } from '../inputs';
 import { Button } from '@nextui-org/button';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { Input, Select, SelectItem, Textarea } from '@nextui-org/react';
+import { CREATE_REQUEST } from "@/gql/mutation";
+import { useMutation } from "@apollo/client";
+import client from "@/gql/client";
+import { useRouter } from 'next/navigation';
+import { parseCookies } from 'nookies';
 
-function CreateBlock() {
-  const [hidden, setHidden] = useState(false);
+const formInputStyles = {
+  base: "w-full",
+  inputWrapper: "rounded-[0.25rem]"
+}
 
-  const handleBlockClick = () => {
-    setHidden(!hidden);
-  }
+function CreateBlock({ user, onNext }: { user: string; onNext: () => void }) {
+  const currentDate = new Date();
+  const expectedDate = new Date();
+  expectedDate.setMonth(currentDate.getMonth() + 1);
+
+  const [requestedUserName, setRequestedUserName] = useState<string>(user ? JSON.parse(user).name : "");
+  const [createdAt, setCreatedAt] = useState<string>(currentDate.toLocaleDateString('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }));
+  const [expectedAt, setExpectedAt] = useState<string>(expectedDate.toLocaleDateString('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }));
+  const [requestType, setRequestType] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [flag, setFlag] = useState(false);
 
   const handleCancel = () => { }
 
   const handleNext = () => {
-    setHidden(true);
-  }
-
-  const formInputStyles = {
-    base: "w-full",
-    inputWrapper: "rounded-[0.25rem]"
+    setFlag(true);
+    console.log({ requestedUserName, createdAt, expectedAt, requestType, description });
+    onNext();
   }
 
   return (
@@ -37,8 +57,12 @@ function CreateBlock() {
         <Input
           label="Requested by"
           labelPlacement='outside'
-          placeholder='Enter Id'
+          placeholder='Enter Name'
           radius='none'
+          value={requestedUserName}
+          onChange={(e) => setRequestedUserName(e.target.value)}
+          isInvalid={flag && requestedUserName === ""}
+          errorMessage={flag && requestedUserName === "" ? "Please enter a valid username" : ""}
           classNames={{ ...formInputStyles }} />
         <Input
           type='date'
@@ -46,6 +70,10 @@ function CreateBlock() {
           labelPlacement='outside'
           placeholder='Select date'
           radius='none'
+          value={createdAt}
+          onChange={(e) => setCreatedAt(e.target.value)}
+          isInvalid={flag && createdAt === ""}
+          errorMessage={flag && createdAt === "" ? "Please enter a valid username" : ""}
           classNames={{ ...formInputStyles }} />
         <Input
           type='date'
@@ -53,10 +81,14 @@ function CreateBlock() {
           labelPlacement='outside'
           placeholder='Select date'
           radius='none'
+          value={expectedAt}
+          onChange={(e) => setExpectedAt(e.target.value)}
           classNames={{ ...formInputStyles }} />
         <Select
           radius='none'
           label="Type"
+          value={requestType}
+          onChange={(e) => setRequestType(e.target.value)}
           labelPlacement='outside'
           placeholder='Select Request Type'
           classNames={{
@@ -74,6 +106,8 @@ function CreateBlock() {
         </Select>
         <Textarea
           label="Remarks"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           labelPlacement='outside'
           radius='none'
           classNames={{
@@ -83,7 +117,9 @@ function CreateBlock() {
 
         <div className='w-full flex gap-3 pt-5'>
           <Button className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'>Cancel</Button>
-          <Button className='w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700'>Next</Button>
+          <Button
+            className='w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700'
+            onClick={handleNext}>Next</Button>
         </div>
 
       </div>
@@ -91,15 +127,13 @@ function CreateBlock() {
   );
 }
 
-function AddItemsBlock() {
+function AddItemsBlock({ onNext, onBack }: { onNext: () => void, onBack: () => void }) {
   const [hidden, setHidden] = useState(true);
   const [requestId, setRequestId] = useState('GR221');
 
   const handleBlockClick = () => {
     setHidden(!hidden);
   }
-
-  const handleCancel = () => { }
 
   const handleVerify = () => {
     setHidden(true);
@@ -131,7 +165,7 @@ function AddItemsBlock() {
           </div>
 
           <div className={styles.buttonContainer}>
-            <Button className={[styles.button].join(" ")} onClick={handleCancel}>Cancel</Button>
+            <Button className={[styles.button].join(" ")} onClick={onBack}>Back</Button>
             <Button className={[styles.button, styles.buttonCta].join(" ")} onClick={handleVerify}>Verify</Button>
           </div>
         </div>
@@ -142,9 +176,23 @@ function AddItemsBlock() {
 
 export default function CreateNewRequestForm() {
 
+  const [currentUser, setCurrentUser] = useState("");
+  const [activeBlock, setActiveBlock] = useState(1);
+
+  const blocks = [
+    <CreateBlock user={currentUser} key={0} onNext={() => setActiveBlock(1)} />,
+    <AddItemsBlock key={1} onNext={() => setActiveBlock(2)} onBack={() => setActiveBlock(0)} />
+  ];
+
+  useEffect(() => {
+    const parsedCookie = parseCookies()['currentUser'];
+    setCurrentUser(parsedCookie);
+    console.log(parsedCookie);
+  }, []);
+
   return (
     <div className='w-full flex flex-col items-center'>
-      <CreateBlock />
+      {blocks[activeBlock]}
     </div>
   );
 }
