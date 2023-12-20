@@ -1,9 +1,20 @@
 import CreateRequest from "@/components/forms/requests/create";
+import { ThreeColumnLayout } from "@/components/layouts/threeColumnLayout";
+import { MultistepComponent } from "@/components/progress/stepProgress";
 
 export default function CreateRequestPage() {
+	
+	
 	return (
-		<div className="w-full h-full flex justify-center items-center">
-			<CreateRequest />
-		</div >
+		<ThreeColumnLayout
+			startContent={<></>}
+			middleContent={<CreateRequest />}
+			endContent={
+				<div>
+					{/* <MultistepComponent steps={[]} children={[]} /> */}
+				</div>
+			}
+		/>
 	);
 }
+

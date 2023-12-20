@@ -56,3 +56,23 @@ export const STUDENTS_QUERY = gql`
     }
   }
 `;
+
+export const SEARCH_REQUEST_ITEMS = gql`
+  query SearchRequestItems($page: Int, $pageSize: Int, $searchString: String!){
+    searchRequestItems(page: $page, pageSize: $pageSize, searchString: $searchString) {
+      data {
+        id
+        name
+        sku
+        quantity
+        type
+        unit
+        price
+        properties {
+          key
+          value
+        }
+      }
+    }
+  }
+`;

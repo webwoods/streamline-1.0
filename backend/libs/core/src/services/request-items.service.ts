@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { RequestItem } from '../entities/request-items.entity';
 
 @Injectable()
@@ -20,6 +20,24 @@ export class RequestItemsService {
       relations: { requests: true, properties: true },
     });
     return data;
+  }
+
+  async searchRequestItems(searchString: string, skip: number, pageSize: number): Promise<RequestItem[]> {
+    try {
+      // Split the search string into an array of individual words
+      const searchWords = searchString.split(' ');
+  
+      // Find request items that match the search words
+      const requestItems = await this.requestItemRepository.find({
+        where: searchWords.map((word) => ({ name: ILike(`%${word}%`) })),
+        skip,
+        take: pageSize,
+      });
+  
+      return requestItems;
+    } catch (error) {
+      throw new Error(`Error searching request items: ${error.message}`);
+    }
   }
 
   async findRequestItemById(id: string): Promise<RequestItem | null> {

@@ -96,7 +96,7 @@ export function MainNavbar() {
       position="sticky"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-[#197dfd] dark:bg-gray-800 border-none p-0 flex"
+      className="bg-gradient-to-r from-[#197dfd] via-[#197dfd] to-slate-900 dark:bg-gray-800 border-none p-0 flex"
       classNames={{
         base: 'p-0',
         wrapper: 'p-0 max-w-none p-5 sm:p-10'
