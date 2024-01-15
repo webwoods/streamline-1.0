@@ -5,6 +5,7 @@ import TableSort from "../table/TableSort";
 import { IconDefinition, faCalendarWeek, faFileLines, faListCheck, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CustomTable from "../table/customTable";
+import { LazyQueryRequests, QueryRequests } from "../query/queryRequests";
 
 export default function TableTabs() {
   const [activeTab, setActiveTab] = useState(" ");
@@ -74,7 +75,10 @@ export default function TableTabs() {
         {activeTab === quotations && <TableSort type="quotations" />}
       </div> */}
 
-      <div className="flex content-center pt-10">
+      <div className="flex flex-col content-center pt-10">
+
+        <QueryRequests page={1} pageSize={5} />
+
         {activeTab === requests && <CustomTable type="requests" />}
         {activeTab === purchaseOrder && <CustomTable type="purchase" />}
         {activeTab === quotations && <CustomTable type="quotations" />}

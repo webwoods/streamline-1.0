@@ -8,31 +8,17 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Input,
   Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
   Chip,
   User,
   Pagination,
   Selection,
   ChipProps,
   SortDescriptor,
-  SelectItem,
-  Select
 } from "@nextui-org/react";
-import { PlusIcon } from "./PlusIcon";
-import { VerticalDotsIcon } from "./VerticalDotsIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
-import { SearchIcon } from "./SearchIcon";
 import { columns, users, statusOptions } from "./data";
-import { capitalize } from "./utils";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import ActionButton from "../action/button";
 import CustomTableTopContent from "./customTableTopContent";
+import Actions from "./actions";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -150,18 +136,7 @@ export default function CustomTable({ type }: Readonly<CustomtableProps>) {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <Actions />
           </div>
         );
       default:

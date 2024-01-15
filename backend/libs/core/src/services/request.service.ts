@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from '../entities/request.entity';
+import { apolloClient } from '../apollo/client';
 
 @Injectable()
 export class RequestService {

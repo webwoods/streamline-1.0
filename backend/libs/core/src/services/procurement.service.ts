@@ -12,6 +12,7 @@ import { Property } from '../entities/property.entity';
 import { Request } from '../entities/request.entity';
 import { RequestStatus } from '../entities/enum/requestStatus';
 import { UserRoles } from '../entities/enum/role';
+import { USER_QUERY } from '../apollo/query';
 
 @Injectable()
 export class ProcurementService {
@@ -333,22 +334,7 @@ export class ProcurementService {
   async getUserByIdFromAuth(id: string): Promise<User> {
     try {
       const { data } = await apolloClient.query({
-        query: gql`
-          query user($id: String!) {
-            user(id: $id) {
-              email
-              id
-              name
-              role {
-                division
-                id
-                name
-              }
-              username
-              verified
-            }
-          }
-        `,
+        query: USER_QUERY,
         variables: { id },
       });
 
