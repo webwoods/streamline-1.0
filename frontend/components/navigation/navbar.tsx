@@ -1,95 +1,26 @@
 'use client'
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Tooltip } from "@nextui-org/react";
 import UserProfileButton from "./userProfileButton";
 import ModalNotification from "./modalNotification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faChartLine, faClipboard, faClipboardCheck, faDollarSign, faHome, faShop, faStore, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
+import { tabs } from "./tabs";
+import { menuItems } from "./menu";
 
 export function MainNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState('Dashboard');
 
-  const tabs = [
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-      icon: <FontAwesomeIcon icon={faHome} />,
-    },
-    {
-      label: "Insights",
-      href: "/insights",
-      icon: <FontAwesomeIcon icon={faChartLine} />,
-    },
-    {
-      label: "Employees",
-      href: "/employees",
-      icon: <FontAwesomeIcon icon={faUsers} />,
-    },
-    {
-      label: "Vendors",
-      href: "/vendors",
-      icon: <FontAwesomeIcon icon={faStore} />,
-    },
-    {
-      label: "Activity",
-      href: "/activity",
-      icon: <FontAwesomeIcon icon={faClipboard} />,
-    },
-    {
-      label: "Requests",
-      href: "/requests",
-      icon: <FontAwesomeIcon icon={faClipboardCheck} />,
-    },
-    {
-      label: "Bills",
-      href: "/bills",
-      icon: <FontAwesomeIcon icon={faDollarSign} />,
-    },
-  ];
-
-  const menuItems = [
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      label: "Insights",
-      href: "/insights",
-    },
-    {
-      label: "Employees",
-      href: "/employees",
-    },
-    {
-      label: "Vendors",
-      href: "/vendors",
-    },
-    {
-      label: "Activity",
-      href: "/activity",
-    },
-    {
-      label: "Requests",
-      href: "/requests",
-    },
-    {
-      label: "Bills",
-      href: "/bills",
-    },
-    {
-      label: "Profile",
-      href: "/profile",
-    },
-    {
-      label: "Log out",
-      href: "/auth/login",
-    },
-  ];
-
   const router = useRouter();
+
+  const handleTabClick = useCallback((tabData: { label: React.SetStateAction<string>; href: string; }) => {
+    setActiveTab(tabData.label);
+    router.push(tabData.href);
+  }, [router]);
+  
   // [#197dfd]
   return (
     <Navbar
@@ -116,10 +47,7 @@ export function MainNavbar() {
               <NavbarItem key={tabData.label}>
                 <Button
                   className={style}
-                  onClick={() => {
-                    setActiveTab(tabData.label);
-                    router.push(tabData.href)
-                  }}
+                  onClick={() => handleTabClick(tabData)}
                   startContent={tabData.icon}
                 >
                   {tabData.label}
@@ -130,7 +58,7 @@ export function MainNavbar() {
                   className={`${style} min-w-0 max-w-[32px]`}
                   onClick={() => {
                     setActiveTab(tabData.label);
-                    router.push(tabData.href)
+                    router.push(tabData.href);
                   }}
                   isIconOnly
                 >

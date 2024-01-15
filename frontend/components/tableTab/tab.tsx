@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Tabs, Tab, Chip } from "@nextui-org/react";
 import TableSort from "../table/TableSort";
-import { faCalendarWeek, faFileLines, faListCheck, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
+import { IconDefinition, faCalendarWeek, faFileLines, faListCheck, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CustomTable from "../table/customTable";
 
@@ -64,7 +64,7 @@ export default function TableTabs() {
         </Tabs>
 
         <div className="flex gap-3 items-center text-slate-800 text-sm font-semibold">
-            Date <FontAwesomeIcon size="lg" icon={faCalendarWeek} />
+          Date <FontAwesomeIcon size="lg" icon={faCalendarWeek} />
         </div>
       </div>
 

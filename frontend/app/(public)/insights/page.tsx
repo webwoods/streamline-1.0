@@ -1,16 +1,25 @@
 import ActionButton from "@/components/action/button";
 import RequestsToolBar from "@/components/action/requestsToolbar";
+import InsightTabs from "@/components/insights/insightsTab";
 import { SecondaryPanel } from "@/components/layouts/secondaryPanel";
 import { ThreeColumnLayout } from "@/components/layouts/threeColumnLayout";
 import TableTabs from "@/components/tableTab/tab";
 import { faBoxesPacking, faClipboardCheck, faList, faPenNib, faPencil, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function RequestsPage() {
+function RoundIcon({ icon }: { icon: any }) {
+	return (
+		<div className={`flex justify-center items-center w-16 bg-slate-800 text-white aspect-square rounded-lg hover:text-accent-yellow`}>
+			{icon}
+		</div>
+	);
+}
+
+export default function InsightsPage() {
 	return (
 		<ThreeColumnLayout
 			startContent={<RequestsToolBar />}
-			middleContent={<TableTabs />}
+			middleContent={<InsightTabs />}
 			endContent={
 				<SecondaryPanel>
 					<div className="flex gap-2 items-center">
