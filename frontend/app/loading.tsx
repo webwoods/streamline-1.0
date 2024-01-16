@@ -1,13 +1,12 @@
 'use client'
-
 import React from 'react';
 import { Spinner } from '@nextui-org/react';
 
 const Loading: React.FC = () => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
+        <div className="flex items-center justify-center h-screen">
             <Spinner color="primary" />
-            <span style={{ marginLeft: '8px' }}>Loading...</span>
+            <span className="ml-2">Loading...</span>
         </div>
     );
 };

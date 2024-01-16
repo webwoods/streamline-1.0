@@ -6,6 +6,7 @@ import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { QueryRequests } from "../query/queryRequests";
 import DynamicTable from "../table/table";
+import CustomTable from "../table/customTable";
 
 export default function TableTabs() {
   const [activeTab, setActiveTab] = useState(" ");
@@ -58,9 +59,9 @@ export default function TableTabs() {
         {activeTab === quotations && <TableSort type="quotations" />}
       </div> */}
 
-      {/*
-        {activeTab === requests && <CustomTable type="requests" />}
-        {activeTab === purchaseOrder && <CustomTable type="purchase" />}
+      
+        {/* {activeTab === "Requests" && <CustomTable type="requests" />} */}
+        {/* {activeTab === purchaseOrder && <CustomTable type="purchase" />}
         {activeTab === quotations && <CustomTable type="quotations" />} */}
 
       <div className="flex flex-col content-center pt-10">

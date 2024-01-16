@@ -43,7 +43,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
         console.log(extracted);
 
         if (renderTable) {
-            const headerColumns = ["date", "subject", "requested by", "status"];
+            const headerColumns = ["date", "subject", "requested by", "status", "actions"];
             const tableData = extracted.map((item: any, index: number) => {
                 return {
                     ...item,
