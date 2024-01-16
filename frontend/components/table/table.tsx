@@ -1,4 +1,4 @@
-import { Chip, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, getKeyValue } from "@nextui-org/react";
+import { Chip, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, getKeyValue } from "@nextui-org/react";
 import { checkboxProps, tableClassNames } from "./tableStyles";
 import { Key, useCallback, useEffect, useState } from "react";
 import { statusColorMap } from "./statusUtil";
@@ -13,9 +13,38 @@ export interface DynamicTableProps {
 }
 
 export default function DynamicTable({ headerColumns, data }: DynamicTableProps) {
+    type Data = typeof data[0];
 
     const [selectedKeys, setSelectedKeys] = useState<Iterable<Key> | "all" | undefined>(new Set());
+    const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+        column: "date" as Key,
+        direction: "ascending"
+    });
 
+    const sortedData = React.useMemo(() => {
+        // this function sorts data in ascending or descending order
+        // when the relevent column header is clicked
+
+        // don't edit
+        if (!sortDescriptor.column) {
+            return data;
+        }
+
+        // don't edit
+        const sorted = [...data].sort((a: Data, b: Data) => {
+            let first = a[sortDescriptor.column as keyof Data];
+            let second = b[sortDescriptor.column as keyof Data];
+            let cmp = (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
+
+            if (sortDescriptor.direction === "descending") {
+                cmp *= -1;
+            }
+
+            return cmp;
+        });
+
+        return sorted;
+    }, [data, sortDescriptor]);
 
     const renderCell = useCallback((row: any, columnKey: any) => {
         const cellValue = getKeyValue(row, columnKey);
@@ -55,11 +84,12 @@ export default function DynamicTable({ headerColumns, data }: DynamicTableProps)
                         </Tooltip>
                     </div>
                 );
+            // add more cases here
             default:
                 return cellValue;
         }
     }, []);
-    
+
     return (
         // don't edit this table.
         // data should be passed in as a prop to the DynamicTable component
@@ -67,25 +97,28 @@ export default function DynamicTable({ headerColumns, data }: DynamicTableProps)
         // any customization needed for rows,
         // must be done inside the renderCell function above.
         <Table
-            aria-label="Example empty table"
+            aria-label="Dynamic table"
             checkboxesProps={checkboxProps}
             classNames={tableClassNames}
             shadow="none"
             selectionMode="multiple"
             selectedKeys={selectedKeys}
             onSelectionChange={setSelectedKeys}
+            sortDescriptor={sortDescriptor}
+            onSortChange={setSortDescriptor}
+            isVirtualized
         >
             <TableHeader>
                 {headerColumns.map((column, index) => {
                     return (
-                        <TableColumn key={column}>{column.toUpperCase()}</TableColumn>
+                        <TableColumn key={column} allowsSorting>{column.toUpperCase()}</TableColumn>
                     )
                 })}
             </TableHeader>
             <TableBody
                 emptyContent={"No rows to display."}
             >
-                {data?.map((row: any) =>
+                {sortedData?.map((row: any) =>
                     <TableRow key={row.id}>
                         {(columnKey) => <TableCell key={columnKey}>
                             {renderCell(row, columnKey)}
