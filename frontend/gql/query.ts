@@ -39,7 +39,7 @@ query GetRequests($page: Int, $pageSize: Int){
       }
       status
     }
-    totalPages
+    totalItems
   }
 }
 `;

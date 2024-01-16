@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { REQUESTS_QUERY } from '@/gql/query';
 import client from '@/gql/client';
@@ -30,7 +30,8 @@ export function LazyQueryRequests({ page, pageSize, filter, renderTable }: Props
 }
 
 export function QueryRequests({ page, pageSize, filter, renderTable = false }: Props) {
-    const { loading, error, data } = useQuery(REQUESTS_QUERY, {
+
+    const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
         variables: { page, pageSize },
     });
@@ -38,8 +39,15 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
     if (loading) return <Loading />;
     if (error) return `Error! ${error}`;
 
+    const handlePaginationChange = (newPage: number, newPageSize: number) => {
+        // Fetch data with the new page and pageSize
+        // Implement your data fetching logic here
+        refetch({ page: newPage, pageSize: newPageSize });
+    };
+
     if (data) {
         const extracted = data.getRequestsWithUser.data;
+        const total = data.getRequestsWithUser.totalItems;
         console.log(extracted);
 
         if (renderTable) {
@@ -58,6 +66,10 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
             return <DynamicTable
                 headerColumns={headerColumns}
                 data={tableData}
+                onPaginationChange={handlePaginationChange}
+                pageNumber={page}
+                pageSize={pageSize}
+                total={total}
             />;
         }
     }

@@ -66,7 +66,7 @@ export default function TableTabs() {
 
       <div className="flex flex-col content-center pt-10">
         <Suspense fallback={<div>Loading...</div>}>
-          {activeTab === 'Requests' && <QueryRequests page={1} pageSize={5} renderTable={true} />}
+          {activeTab === 'Requests' && <QueryRequests page={1} pageSize={2} renderTable={true} />}
         </Suspense>
       </div>
 
