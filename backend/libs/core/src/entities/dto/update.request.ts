@@ -10,6 +10,9 @@ export class UpdateRequestInput {
   requestType?: string;
 
   @Field({ nullable: true })
+  subject?: string;
+
+  @Field({ nullable: true })
   requestedUserId?: string;
 
   @Field({ nullable: true })

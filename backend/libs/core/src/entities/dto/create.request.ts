@@ -15,6 +15,9 @@ export class CreateRequestInput {
   @Field({ nullable: true })
   description?: string;
 
+  @Field()
+  subject!: string;
+
   @Field((type) => RequestStatus, {
     defaultValue: RequestStatus.AWAITING_APPROVAL,
   })
