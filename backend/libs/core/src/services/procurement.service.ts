@@ -21,7 +21,7 @@ export class ProcurementService {
     private readonly requestItemService: RequestItemsService,
     private readonly propertyService: PropertyService,
     private readonly fileService: FileService,
-  ) {}
+  ) { }
 
   /**
    * This function lets the procurement user to add request items to
@@ -418,15 +418,16 @@ export class ProcurementService {
     }
   }
 
-  async getRequestsWithUser(skip?: number, take?: number): Promise<Request[]> {
+  async getRequestsWithUser(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
     try {
       const requests = await this.requestService.findAllRequests(skip, take);
-      requests.forEach(async (request: Request) => {
-        request.requestedUser = await this.getUserByIdFromAuth(
-          request.requestedUserId,
-        );
-      });
-      return requests;
+      const requestsWithUsers = await Promise.all(requests.data.map(async (request: Request) => {
+        if (request.requestedUserId) {
+          request.requestedUser = await this.getUserByIdFromAuth(request.requestedUserId);
+        }
+        return request;
+      }));
+      return { data: requestsWithUsers, count: requests.count };
     } catch (error) {
       throw new Error(error);
     }

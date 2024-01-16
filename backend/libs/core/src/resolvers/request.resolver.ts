@@ -45,7 +45,7 @@ export class RequestResolver {
     try {
       const skip = (page - 1) * pageSize;
       const requests = await this.requestService.findAllRequests(skip, pageSize);
-      const requestsPage: RequestPage = { data: requests, totalItems: requests.length };
+      const requestsPage: RequestPage = { data: requests.data, totalItems: requests.count };
       return requestsPage;
     } catch (error: any) {
       throw new Error(`Error fetching requests: ${error.message}`);
