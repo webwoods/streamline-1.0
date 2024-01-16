@@ -1,11 +1,12 @@
-import { Table, TableBody, TableColumn, TableHeader } from "@nextui-org/react";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, getKeyValue } from "@nextui-org/react";
 import { checkboxProps, tableClassNames } from "./tableStyles";
 
 export interface DynamicTableProps {
     headerColumns: string[];
+    data?: any;
 }
 
-export default function DynamicTable({ headerColumns }: DynamicTableProps) {
+export default function DynamicTable({ headerColumns, data }: DynamicTableProps) {
     return (
         <Table
             aria-label="Example empty table"
@@ -20,7 +21,13 @@ export default function DynamicTable({ headerColumns }: DynamicTableProps) {
                     )
                 })}
             </TableHeader>
-            <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
+            <TableBody emptyContent={"No rows to display."}>
+                {data?.map((row: any) =>
+                    <TableRow key={row.id}>
+                        {(columnKey) => <TableCell key={columnKey}>{getKeyValue(row, columnKey)}</TableCell>}
+                    </TableRow>
+                )}
+            </TableBody>
         </Table>
     );
 }

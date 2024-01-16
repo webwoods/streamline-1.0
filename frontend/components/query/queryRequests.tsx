@@ -43,11 +43,12 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
         console.log(extracted);
 
         if (renderTable) {
-            const headerColumns = ["id", "date", "subject", "requested by", "status"];
+            const headerColumns = ["date", "subject", "requested by", "status"];
             const tableData = extracted.map((item: any, index: number) => {
                 return {
+                    ...item,
                     id: item.id,
-                    date: item.updatedAt,
+                    date: new Date(item.updatedAt).toLocaleDateString('en-US'),
                     subject: item.subject,
                     'requested by': item.requestedUser.name,
                     status: item.status,
@@ -56,7 +57,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
 
             return <DynamicTable
                 headerColumns={headerColumns}
-
+                data={tableData}
             />;
         }
     }
