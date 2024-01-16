@@ -41,7 +41,9 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
 
     const handlePaginationChange = (newPage: number, newPageSize: number) => {
         // Fetch data with the new page and pageSize
-        // Implement your data fetching logic here
+        // This function is used as callback from the DynamicTable component
+        // to get the new page size and the new current page.
+        // THe useQuery will be refetched using the updated page and pageSize variables.
         refetch({ page: newPage, pageSize: newPageSize });
     };
 
@@ -52,6 +54,8 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
         if (renderTable) {
             const headerColumns = ["date", "subject", "requested by", "status", "actions"];
             const tableData = extracted.map((item: any, index: number) => {
+                // table data needs to be mapped to the column header 
+                // accordingly in order to properly render as cells inside the table.
                 return {
                     ...item,
                     id: item.id,
