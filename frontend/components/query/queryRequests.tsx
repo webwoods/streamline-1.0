@@ -48,7 +48,6 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
     if (data) {
         const extracted = data.getRequestsWithUser.data;
         const total = data.getRequestsWithUser.totalItems;
-        console.log(extracted);
 
         if (renderTable) {
             const headerColumns = ["date", "subject", "requested by", "status", "actions"];

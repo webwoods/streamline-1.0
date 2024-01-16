@@ -35,18 +35,22 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
     const pages = useMemo(() => Math.ceil(total / rowsPerPage), [total, rowsPerPage]);
 
     const onNextPage = React.useCallback(() => {
+        // don't edit
         if (page < pages) {
             setPage(page + 1);
         }
     }, [page, pages]);
 
     const onPreviousPage = React.useCallback(() => {
+        // don't edit
         if (page > 1) {
             setPage(page - 1);
         }
     }, [page]);
 
     const renderCell = useCallback((row: any, columnKey: any) => {
+        // this function is rendering cells of the table
+        // each column can be styled under the switch case
         const cellValue = getKeyValue(row, columnKey);
 
         switch (columnKey) {
@@ -62,6 +66,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
 
     const bottomContent = React.useMemo(() => {
         // don't edit
+        // contains pagination controls
         return (
             <BottomContent
                 selectedKeys={selectedKeys}
