@@ -1,11 +1,11 @@
 'use client'
-import React, { useState } from "react";
+
+import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { Tabs, Tab, Chip } from "@nextui-org/react";
-import TableSort from "../table/TableSort";
-import { IconDefinition, faCalendarWeek, faFileLines, faListCheck, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CustomTable from "../table/customTable";
-import { LazyQueryRequests, QueryRequests } from "../query/queryRequests";
+import { QueryRequests } from "../query/queryRequests";
+import DynamicTable from "../table/table";
 
 export default function TableTabs() {
   const [activeTab, setActiveTab] = useState(" ");
@@ -14,7 +14,8 @@ export default function TableTabs() {
     setActiveTab(tabKey);
   };
 
-  const [requests, purchaseOrder, quotations] = ['Requests', 'Purchase Orders', 'Quotations'];
+  // Memoize the tabs to prevent unnecessary re-renders
+  const tabs = useMemo(() => ['Requests', 'Purchase Orders', 'Quotations'], []);
 
   return (
     <>
@@ -32,36 +33,18 @@ export default function TableTabs() {
           selectedKey={activeTab}
           onSelectionChange={handleTabChange}
         >
-          <Tab
-            key={requests}
-            title={
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faFileLines} />
-                <span>{requests}</span>
-                <Chip size="sm" variant="flat">9</Chip>
-              </div>
-            }
-          />
-          <Tab
-            key={purchaseOrder}
-            title={
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faMoneyCheckDollar} />
-                <span>{purchaseOrder}</span>
-                <Chip size="sm" variant="flat">3</Chip>
-              </div>
-            }
-          />
-          <Tab
-            key={quotations}
-            title={
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faListCheck} />
-                <span>{quotations}</span>
-                <Chip size="sm" variant="flat">1</Chip>
-              </div>
-            }
-          />
+          {tabs.map((tab) => (
+            <Tab
+              key={tab}
+              title={
+                <div className="flex items-center space-x-2">
+                  <FontAwesomeIcon icon={faFileLines} />
+                  <span>{tab}</span>
+                  <Chip size="sm" variant="flat">9</Chip>
+                </div>
+              }
+            />
+          ))}
         </Tabs>
 
         <div className="flex gap-3 items-center text-slate-800 text-sm font-semibold">
@@ -75,13 +58,15 @@ export default function TableTabs() {
         {activeTab === quotations && <TableSort type="quotations" />}
       </div> */}
 
-      <div className="flex flex-col content-center pt-10">
-
-        <QueryRequests page={1} pageSize={5} />
-
+      {/*
         {activeTab === requests && <CustomTable type="requests" />}
         {activeTab === purchaseOrder && <CustomTable type="purchase" />}
-        {activeTab === quotations && <CustomTable type="quotations" />}
+        {activeTab === quotations && <CustomTable type="quotations" />} */}
+
+      <div className="flex flex-col content-center pt-10">
+        <Suspense fallback={<div>Loading...</div>}>
+          {activeTab === 'Requests' && <QueryRequests page={1} pageSize={5} renderTable={true} />}
+        </Suspense>
       </div>
 
     </>

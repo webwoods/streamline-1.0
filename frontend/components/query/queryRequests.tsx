@@ -2,14 +2,17 @@ import React from 'react';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { REQUESTS_QUERY } from '@/gql/query';
 import client from '@/gql/client';
+import DynamicTable from '../table/table';
+import Loading from '@/app/loading';
 
 interface Props {
     page: number
     pageSize: number
     filter?: string
+    renderTable?: boolean
 }
 
-export function LazyQueryRequests({ page, pageSize, filter }: Props) {
+export function LazyQueryRequests({ page, pageSize, filter, renderTable }: Props) {
     const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });
 
     if (loading) return <p>Loading ...</p>;
@@ -26,18 +29,39 @@ export function LazyQueryRequests({ page, pageSize, filter }: Props) {
     );
 }
 
-export function QueryRequests({ page, pageSize, filter }: Props) {
+export function QueryRequests({ page, pageSize, filter, renderTable = false }: Props) {
     const { loading, error, data } = useQuery(REQUESTS_QUERY, {
         client,
         variables: { page, pageSize },
     });
 
-    if (loading) return null;
+    if (loading) return <Loading />;
     if (error) return `Error! ${error}`;
 
+    if (data) {
+        const extracted = data.getRequestsWithUser.data;
+        console.log(extracted);
+
+        if (renderTable) {
+            const headerColumns = ["id", "date", "subject", "requested by", "status"];
+            const tableData = extracted.map((item: any, index: number) => {
+                return {
+                    id: item.id,
+                    date: item.updatedAt,
+                    subject: item.subject,
+                    'requested by': item.requestedUser.name,
+                    status: item.status,
+                }
+            });
+
+            return <DynamicTable
+                headerColumns={headerColumns}
+
+            />;
+        }
+    }
+
     return (
-        <div>
-            <p className='text-xs'>{JSON.stringify(data)}</p>
-        </div>
+        <></>
     );
 }

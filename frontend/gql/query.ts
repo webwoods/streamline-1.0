@@ -8,6 +8,7 @@ query GetRequests($page: Int, $pageSize: Int){
       createdAt
       updatedAt
       requestType
+      subject
       description
       file {
         id
