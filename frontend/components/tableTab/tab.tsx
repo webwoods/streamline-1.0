@@ -64,7 +64,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
           {activeTab === 'Requests' &&
             <QueryRequests
               page={1}
-              pageSize={5}
+              pageSize={2}
               renderTable={true}
               getActiveRecord={getActiveRecord}
             />}

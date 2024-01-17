@@ -1,6 +1,6 @@
 import { Button, Chip, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, getKeyValue } from "@nextui-org/react";
 import { checkboxProps, tableClassNames } from "./tableStyles";
-import { Key, useCallback, useEffect, useMemo, useState } from "react";
+import { Key, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import React from "react";
 import { ActionsWithIcons } from "./actions";
 import Status from "./status";
@@ -13,7 +13,7 @@ export interface DynamicTableProps {
     pageNumber: number
     pageSize: number
     total: number
-    onPaginationChange: (page: number, pageSize: number) => void
+    onPaginationChange?: (page: number, pageSize: number) => void
     getRowData?: (data: any, rowId: string) => typeof data[0]
 }
 
@@ -91,7 +91,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
             case "status": // don't edit
                 return <Status value={cellValue} status={row.status} />;
             case "actions": // don't edit
-                return  <MemoizedActionsWithIcons row={row} />;
+                return <MemoizedActionsWithIcons row={row} />;
             // add more cases here
             default:
                 return cellValue;
@@ -118,7 +118,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
     useEffect(() => {
         // Call the callback when page or pageSize changes
         onPaginationChange && onPaginationChange(page, rowsPerPage);
-    }, [page, rowsPerPage]);
+    }, [page, rowsPerPage, onPaginationChange]);
 
     return (
         // don't edit this table.
