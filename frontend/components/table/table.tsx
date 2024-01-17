@@ -36,6 +36,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
 
     const onNextPage = React.useCallback(() => {
         // don't edit
+        console.log("next: " + page + "\t" + pages);
         if (page < pages) {
             setPage(page + 1);
         }
@@ -43,6 +44,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
 
     const onPreviousPage = React.useCallback(() => {
         // don't edit
+        console.log("prev: " + page + "\t" + pages);
         if (page > 1) {
             setPage(page - 1);
         }

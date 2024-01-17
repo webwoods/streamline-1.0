@@ -44,11 +44,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
         // This function is used as callback from the DynamicTable component
         // to get the new page size and the new current page.
         // THe useQuery will be refetched using the updated page and pageSize variables.
-        if (page !== newPage) {
-            // the page === newPage condition refetches the data even after the 
-            // initial data fetching so this has to be removed.
-            refetch({ page: newPage, pageSize: newPageSize });
-        }
+        refetch({ page: newPage, pageSize: newPageSize });
     };
 
     if (data) {

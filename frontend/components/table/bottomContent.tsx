@@ -31,9 +31,10 @@ export default function BottomContent({
       <Pagination
         isCompact
         showControls
+        initialPage={page}
         page={page}
-        total={pages}
         onChange={setPage}
+        total={pages}
         loop
         radius="full"
         classNames={{

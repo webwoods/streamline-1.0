@@ -1,12 +1,10 @@
 'use client'
 
-import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import { Tabs, Tab, Chip } from "@nextui-org/react";
 import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { QueryRequests } from "../query/queryRequests";
-import DynamicTable from "../table/table";
-import CustomTable from "../table/customTable";
 
 export default function TableTabs() {
   const [activeTab, setActiveTab] = useState(" ");
@@ -52,17 +50,6 @@ export default function TableTabs() {
           Date <FontAwesomeIcon size="lg" icon={faCalendarWeek} />
         </div>
       </div>
-
-      {/* <div className="flex content-center pt-10">
-        {activeTab === requests && <TableSort type="requests" />}
-        {activeTab === purchaseOrder && <TableSort type="purchase" />}
-        {activeTab === quotations && <TableSort type="quotations" />}
-      </div> */}
-
-      
-        {/* {activeTab === "Requests" && <CustomTable type="requests" />} */}
-        {/* {activeTab === purchaseOrder && <CustomTable type="purchase" />}
-        {activeTab === quotations && <CustomTable type="quotations" />} */}
 
       <div className="flex flex-col content-center pt-10">
         <Suspense fallback={<div>Loading...</div>}>
