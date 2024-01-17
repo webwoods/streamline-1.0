@@ -1,12 +1,16 @@
 'use client'
 
-import React, { Suspense, useMemo, useState } from "react";
+import React, { Suspense, useCallback, useMemo, useState } from "react";
 import { Tabs, Tab, Chip } from "@nextui-org/react";
 import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { QueryRequests } from "../query/queryRequests";
 
-export default function TableTabs() {
+interface Props {
+  getActiveTabActiveRecord?: (record: any) => typeof record
+}
+
+export default function TableTabs({ getActiveTabActiveRecord }: Props) {
   const [activeTab, setActiveTab] = useState(" ");
 
   const handleTabChange = (tabKey: any) => {
@@ -15,6 +19,10 @@ export default function TableTabs() {
 
   // Memoize the tabs to prevent unnecessary re-renders
   const tabs = useMemo(() => ['Requests', 'Purchase Orders', 'Quotations'], []);
+
+  const getActiveRecord = useCallback((record: any) => {
+    getActiveTabActiveRecord && getActiveTabActiveRecord(record);
+  }, [])
 
   return (
     <>
@@ -53,7 +61,13 @@ export default function TableTabs() {
 
       <div className="flex flex-col content-center pt-10">
         <Suspense fallback={<div>Loading...</div>}>
-          {activeTab === 'Requests' && <QueryRequests page={1} pageSize={2} renderTable={true} />}
+          {activeTab === 'Requests' &&
+            <QueryRequests
+              page={1}
+              pageSize={5}
+              renderTable={true}
+              getActiveRecord={getActiveRecord}
+            />}
         </Suspense>
       </div>
 

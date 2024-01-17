@@ -14,9 +14,10 @@ export interface DynamicTableProps {
     pageSize: number
     total: number
     onPaginationChange: (page: number, pageSize: number) => void
+    getRowData?: (data: any, rowId: string) => typeof data[0]
 }
 
-export default function DynamicTable({ headerColumns, data, pageNumber, pageSize, total, onPaginationChange }: DynamicTableProps) {
+export default function DynamicTable({ headerColumns, data, pageNumber, pageSize, total, onPaginationChange, getRowData }: DynamicTableProps) {
 
     const [selectedKeys, setSelectedKeys] = useState<Iterable<Key> | "all" | undefined>(new Set());
     const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
@@ -36,7 +37,6 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
 
     const onNextPage = React.useCallback(() => {
         // don't edit
-        console.log("next: " + page + "\t" + pages);
         if (page < pages) {
             setPage(page + 1);
         }
@@ -44,7 +44,6 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
 
     const onPreviousPage = React.useCallback(() => {
         // don't edit
-        console.log("prev: " + page + "\t" + pages);
         if (page > 1) {
             setPage(page - 1);
         }
@@ -52,20 +51,23 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
 
     // function to get the relevant view data from the row
     // when the view action button is clicked
-    const handleViewClick = useCallback((row: any) => {
-        console.log("Handling View click for row:", row);
+    const handleViewClick = useCallback((rowId: any) => {
+        console.log("Handling View click for row:", rowId);
+        getRowData && getRowData(data, rowId);
     }, []);
 
     // function to get the relevant edit data from the row
     // when the view action button is clicked
-    const handleEditClick = useCallback((row: any) => {
-        console.log("Handling Edit click for row:", row);
+    const handleEditClick = useCallback((rowId: any) => {
+        console.log("Handling Edit click for row:", rowId);
+        getRowData && getRowData(data, rowId);
     }, []);
 
     // function to get the relevant delete data from the row
     // when the view action button is clicked
-    const handleDeleteClick = useCallback((row: any) => {
-        console.log("Handling Delete click for row:", row);
+    const handleDeleteClick = useCallback((rowId: any) => {
+        console.log("Handling Delete click for row:", rowId);
+        getRowData && getRowData(data, rowId);
     }, []);
 
     const MemoizedActionsWithIcons = useMemo(() => (

@@ -10,26 +10,27 @@ interface Props {
     pageSize: number
     filter?: string
     renderTable?: boolean
+    getActiveRecord?: (record: any) => typeof record
 }
 
-export function LazyQueryRequests({ page, pageSize, filter, renderTable }: Props) {
-    const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });
+// export function LazyQueryRequests({ page, pageSize, filter, renderTable }: Props) {
+//     const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });
 
-    if (loading) return <p>Loading ...</p>;
-    if (error) return `Error! ${error}`;
+//     if (loading) return <p>Loading ...</p>;
+//     if (error) return `Error! ${error}`;
 
-    return (
-        <div>
-            {/* <button onClick={() => getRequests({
-                variables: { page, pageSize }
-            })}>
-                Click me!
-            </button> */}
-        </div>
-    );
-}
+//     return (
+//         <div>
+//             {/* <button onClick={() => getRequests({
+//                 variables: { page, pageSize }
+//             })}>
+//                 Click me!
+//             </button> */}
+//         </div>
+//     );
+// }
 
-export function QueryRequests({ page, pageSize, filter, renderTable = false }: Props) {
+export function QueryRequests({ page, pageSize, filter, renderTable = false, getActiveRecord }: Props) {
 
     const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
@@ -46,6 +47,13 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
         // THe useQuery will be refetched using the updated page and pageSize variables.
         refetch({ page: newPage, pageSize: newPageSize });
     };
+
+    const getRowData = (data: any, rowId: string) => {
+        // this function will get the data relevent to the record that
+        // matches the id of the row within the dynamic table
+        const rowData = data.find((item: any) => item.id === rowId);
+        getActiveRecord && getActiveRecord(rowData);
+    }
 
     if (data) {
         const extracted = data.getRequestsWithUser.data;
@@ -73,6 +81,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false }: P
                 pageNumber={page}
                 pageSize={pageSize}
                 total={total}
+                getRowData={getRowData}
             />;
         }
     }
