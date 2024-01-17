@@ -1,4 +1,4 @@
-import { Chip, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, getKeyValue } from "@nextui-org/react";
+import { Button, Chip, SortDescriptor, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, getKeyValue } from "@nextui-org/react";
 import { checkboxProps, tableClassNames } from "./tableStyles";
 import { Key, useCallback, useEffect, useMemo, useState } from "react";
 import React from "react";
@@ -67,23 +67,27 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
     }, []);
 
     const MemoizedActionsWithIcons = useMemo(() => (
-        <ActionsWithIcons
-            onViewClick={handleViewClick}
-            onEditClick={handleEditClick}
-            onDeleteClick={handleDeleteClick}
-        />
+        // the state of the actions buttons for each row is memoized
+        // inorder to prevent unneccessary re-renders
+        ({ row }: { row: any }) => (
+            <ActionsWithIcons
+                id={row.id}
+                onViewClick={handleViewClick}
+                onEditClick={handleEditClick}
+                onDeleteClick={handleDeleteClick}
+            />
+        )
     ), [handleViewClick, handleEditClick, handleDeleteClick]);
 
     const renderCell = useCallback((row: any, columnKey: any) => {
         // this function is rendering cells of the table
         // each column can be styled under the switch case
         const cellValue = getKeyValue(row, columnKey);
-        console.log("render cell");
         switch (columnKey) {
             case "status": // don't edit
                 return <Status value={cellValue} status={row.status} />;
             case "actions": // don't edit
-                return MemoizedActionsWithIcons;
+                return  <MemoizedActionsWithIcons row={row} />;
             // add more cases here
             default:
                 return cellValue;

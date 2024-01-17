@@ -6,22 +6,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { color } from "framer-motion";
 
 interface ToolTipButtonProps {
+    id?: string
     content: string
     icon?: IconDefinition
-    onClick?: (value: any) => void
+    onClick: (value: any) => void
     color?: any
 }
 
 interface ActionsWithIconsProps {
+    id: string
     onViewClick: (row: any) => void
     onEditClick: (row: any) => void
     onDeleteClick: (row: any) => void
 }
 
-function ToolTipButton({ content, icon, onClick, color = "default" }: ToolTipButtonProps) {
+function ToolTipButton({ id, content, icon, onClick, color = "default" }: ToolTipButtonProps) {
     return (
         <Tooltip content={content}>
-            <Button isIconOnly color={color} size="sm" variant="light" aria-label={content} onClick={onClick}>
+            <Button isIconOnly color={color} size="sm" variant="light" aria-label={content} onClick={() => {onClick(id)}}>
                 <span className="text-default-400 cursor-pointer active:opacity-50">
                     <FontAwesomeIcon color={color === "danger" ? "red" : "gray"} icon={icon || faEye} />
                 </span>
@@ -47,17 +49,19 @@ export default function Actions() {
     );
 }
 
-export function ActionsWithIcons({ onViewClick, onEditClick, onDeleteClick }: ActionsWithIconsProps) {
+export function ActionsWithIcons({ id, onViewClick, onEditClick, onDeleteClick }: ActionsWithIconsProps) {
     const buttons = [
         {
+            id: id,
             content: "View",
             icon: faEye,
             onClick: (row: any) => {
                 console.log("View button clicked");
-                onViewClick(row);                
+                onViewClick(row);
             }
         },
         {
+            id: id,
             content: "Edit",
             icon: faPenToSquare,
             onClick: (row: any) => {
@@ -66,6 +70,7 @@ export function ActionsWithIcons({ onViewClick, onEditClick, onDeleteClick }: Ac
             }
         },
         {
+            id: id,
             content: "Delete",
             icon: faTrashCan,
             onClick: (row: any) => {
@@ -82,6 +87,7 @@ export function ActionsWithIcons({ onViewClick, onEditClick, onDeleteClick }: Ac
                 buttons.map((btn, index) => {
                     return (
                         <ToolTipButton
+                            id={btn.id}
                             key={btn.content}
                             content={btn.content}
                             icon={btn.icon}
