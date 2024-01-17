@@ -1,6 +1,7 @@
 import { SortDescriptor } from "@nextui-org/react";
 
 export const sortData = (data: any, sortDescriptor: SortDescriptor) => {
+    console.log("sort data");
     type Data = typeof data[0];
 
     if (!sortDescriptor.column) {

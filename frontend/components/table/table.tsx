@@ -48,25 +48,52 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
         }
     }, [page]);
 
+    // function to get the relevant view data from the row
+    // when the view action button is clicked
+    const handleViewClick = useCallback((row: any) => {
+        console.log("Handling View click for row:", row);
+    }, []);
+
+    // function to get the relevant edit data from the row
+    // when the view action button is clicked
+    const handleEditClick = useCallback((row: any) => {
+        console.log("Handling Edit click for row:", row);
+    }, []);
+
+    // function to get the relevant delete data from the row
+    // when the view action button is clicked
+    const handleDeleteClick = useCallback((row: any) => {
+        console.log("Handling Delete click for row:", row);
+    }, []);
+
+    const MemoizedActionsWithIcons = useMemo(() => (
+        <ActionsWithIcons
+            onViewClick={handleViewClick}
+            onEditClick={handleEditClick}
+            onDeleteClick={handleDeleteClick}
+        />
+    ), [handleViewClick, handleEditClick, handleDeleteClick]);
+
     const renderCell = useCallback((row: any, columnKey: any) => {
         // this function is rendering cells of the table
         // each column can be styled under the switch case
         const cellValue = getKeyValue(row, columnKey);
-
+        console.log("render cell");
         switch (columnKey) {
             case "status": // don't edit
                 return <Status value={cellValue} status={row.status} />;
             case "actions": // don't edit
-                return <ActionsWithIcons />;
+                return MemoizedActionsWithIcons;
             // add more cases here
             default:
                 return cellValue;
         }
-    }, []);
+    }, [MemoizedActionsWithIcons]);
 
     const bottomContent = React.useMemo(() => {
         // don't edit
         // contains pagination controls
+
         return (
             <BottomContent
                 selectedKeys={selectedKeys}
@@ -83,7 +110,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
     useEffect(() => {
         // Call the callback when page or pageSize changes
         onPaginationChange && onPaginationChange(page, rowsPerPage);
-    }, [page, rowsPerPage, onPaginationChange]);
+    }, [page, rowsPerPage]);
 
     return (
         // don't edit this table.
@@ -107,7 +134,11 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
             <TableHeader>
                 {headerColumns.map((column, index) => {
                     return (
-                        <TableColumn key={column} allowsSorting>{column.toUpperCase()}</TableColumn>
+                        <TableColumn
+                            key={column}
+                            allowsSorting>
+                            {column.toUpperCase()}
+                        </TableColumn>
                     )
                 })}
             </TableHeader>

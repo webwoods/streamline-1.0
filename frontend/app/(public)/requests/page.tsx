@@ -1,5 +1,7 @@
 import ActionButton from "@/components/action/button";
+import Details from "@/components/action/details";
 import RequestsToolBar from "@/components/action/requestsToolbar";
+import EmptyContent from "@/components/layouts/emptyContent";
 import { SecondaryPanel } from "@/components/layouts/secondaryPanel";
 import { ThreeColumnLayout } from "@/components/layouts/threeColumnLayout";
 import TableTabs from "@/components/tableTab/tab";
@@ -13,19 +15,8 @@ export default function RequestsPage() {
 			middleContent={<TableTabs />}
 			endContent={
 				<SecondaryPanel>
-					<div className="flex gap-2 items-center">
-						<span className="font-semibold">Details</span>
-						<div className="bg-green-400 w-3 rounded-full aspect-square"></div>
-					</div>
-					<div className="flex gap-2 items-center text-slate-400 text-xs">
-						<span>Edit</span>
-						<FontAwesomeIcon icon={faPencil} />
-					</div>
-
-					<div className="mt-5 bg-slate-100 rounded-md flex flex-col p-5">
-						<span className="font-semibold">Oops! There's nothing to show here.</span>
-						<span className="text-xs font-light">Select a request to view details.</span>
-					</div>
+					<Details header="Details" cta="Edit" />
+					<EmptyContent msg={"Click the 'eye' icon for a request from the table to view the data."} />
 				</SecondaryPanel>
 			}
 		/>
