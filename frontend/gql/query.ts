@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+// export const USER_QUERY = gql``;
+
 export const REQUESTS_QUERY = gql`
 query GetRequests($page: Int, $pageSize: Int){
   getRequestsWithUser(page: $page, pageSize: $pageSize) {

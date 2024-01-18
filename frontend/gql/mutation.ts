@@ -1,6 +1,8 @@
 import { gql } from "@apollo/client";
 import { RequestStatus } from "./types";
 
+// export const UPDATE_USER_MUTATION = gql``;
+
 export const CREATE_REQUEST = gql`
   mutation CreateRequest(
     $requestType: String!
