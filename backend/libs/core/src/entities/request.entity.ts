@@ -47,4 +47,8 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'status', type: 'text', nullable: true })
   @Field(() => RequestStatus)
   status: RequestStatus;
+
+  @Column({ name: 'subject', nullable: true })
+  @Field({ nullable: true })
+  subject: string;
 }

@@ -17,7 +17,7 @@ async function bootstrap() {
   const graphql = process.env.AUTH_GATEWAY;
   const host = process.env.AUTH_HOST;
   const port = process.env.AUTH_PORT;
-  const url = process.env.AUTH_SERVICE ?? `http://${host}:${port}/${graphql}`
+  const url = process.env.AUTH_SERVICE ?? `http://${host}:${port}${graphql}`
 
   await app.listen(port);
 

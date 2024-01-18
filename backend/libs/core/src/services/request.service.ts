@@ -2,21 +2,22 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from '../entities/request.entity';
+import { apolloClient } from '../apollo/client';
 
 @Injectable()
 export class RequestService {
   constructor(
     @InjectRepository(Request)
     private readonly requestRepository: Repository<Request>,
-  ) {}
+  ) { }
 
-  async findAllRequests(skip?: number, take?: number): Promise<Request[]> {
-    const data = await this.requestRepository.find({
+  async findAllRequests(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
+    const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
       relations: { file: true, requestItems: true },
     });
-    return data;
+    return { data, count };
   }
 
   async findAllRequestsByUserId(

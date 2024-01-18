@@ -14,7 +14,7 @@ async function bootstrap() {
   const graphql = process.env.GATEWAY_GRAPHQL;
   const host = process.env.GATEWAY_HOST;
   const port = process.env.GATEWAY_PORT;
-  const url = process.env.GATEWAY_SERVICE ?? `http://${host}:${port}/${graphql}`
+  const url = process.env.GATEWAY_SERVICE ?? `http://${host}:${port}${graphql}`
 
   await app.listen(port);
 

@@ -39,7 +39,7 @@ export default function RequestsToolBar() {
 				<div className="bg-white w-8 rounded-full aspect-square flex justify-center items-center">
 					<FontAwesomeIcon size="lg" icon={faSquarePen} />
 				</div>
-				<span>Create Custom Form</span>
+				<span>Custom Form</span>
 			</div>
 		</div>
 	);
