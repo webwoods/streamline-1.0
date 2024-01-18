@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import "@/styles/fonts.module.css";
 import { MainNavbar } from "@/components/navigation/navbar";
+import Footer from "@/components/footer/footer";
 
 
 export default function RootLayout({
@@ -9,11 +10,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<div className="flex flex-col items-center justify-center">
+		<div className="flex flex-col">
 			<MainNavbar />
-			<main className="w-full">
+			<main className="w-full h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
 				{children}
 			</main>
+			{/* <Footer /> */}
 		</div>
 	);
 }

@@ -1,21 +1,28 @@
 import { NestFactory } from '@nestjs/core';
 import { ProcurementPluginModule } from './procurement-plugin.module';
 import { Logger } from '@nestjs/common';
-import { PROCUREMENT_APP } from '@libs/core/constants/appInfo';
 
 async function bootstrap() {
   const app = await NestFactory.create(ProcurementPluginModule);
-  const globalPrefix = PROCUREMENT_APP.name;
-  const graphqlEndpoint = PROCUREMENT_APP.graphqlEndpoint;
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET, PUT, POST, DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+  });
+
+  const globalPrefix = process.env.PRC_PREFIX;
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || PROCUREMENT_APP.port;
+
+  const graphql = process.env.PRC_GATEWAY;
+  const host = process.env.PRC_HOST;
+  const port = process.env.PRC_PORT;
+  const url = process.env.PRC_SERVICE ?? `http://${host}:${port}${graphql}`
+
   await app.listen(port);
+
   Logger.log(
-    `
-    🚀 Application is running on: http://localhost:${port}/${globalPrefix}
-    🚀 Graphql Server is running on: http://localhost:${port}${graphqlEndpoint}
-    🚀 Graphql Playground is running on: http://localhost:${port}${graphqlEndpoint}/playground
-    `,
+    `🚀 Microservice started on: ${url}`,
   );
 }
 bootstrap();

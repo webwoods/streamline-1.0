@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthPluginModule } from './auth-plugin.module';
 import { Logger } from '@nestjs/common';
-import { AUTH_APP } from '@libs/core/constants/appInfo';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthPluginModule);
@@ -12,20 +11,18 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
   });
 
-  const globalPrefix = AUTH_APP.name;
+  const globalPrefix = process.env.AUTH_PREFIX;
   app.setGlobalPrefix(globalPrefix);
 
-  const graphqlEndpoint = AUTH_APP.graphqlEndpoint;
-  const port = process.env.PORT || AUTH_APP.port;
+  const graphql = process.env.AUTH_GATEWAY;
+  const host = process.env.AUTH_HOST;
+  const port = process.env.AUTH_PORT;
+  const url = process.env.AUTH_SERVICE ?? `http://${host}:${port}${graphql}`
 
   await app.listen(port);
 
   Logger.log(
-    `
-    🚀 Application is running on: http://localhost:${port}/${globalPrefix}
-    🚀 Graphql Server is running on: http://localhost:${port}${graphqlEndpoint}
-    🚀 Graphql Playground is running on: http://localhost:${port}${graphqlEndpoint}/playground
-    `,
+    `🚀 Microservice started on: ${url}`,
   );
 }
 bootstrap();

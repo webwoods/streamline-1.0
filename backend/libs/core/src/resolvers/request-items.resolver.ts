@@ -39,6 +39,29 @@ export class RequestItemsResolver {
     }
   }
 
+  @Query(() => RequestItemPage, { name: 'searchRequestItems' })
+  async searchRequestItems(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('searchString', { type: () => String }) searchString: string,
+  ): Promise<RequestItemPage> {
+    try {
+      const skip = (page - 1) * pageSize;
+      const requestItems = await this.requestItemService.searchRequestItems(
+        searchString,
+        skip,
+        pageSize,
+      );
+      const requestsPage: RequestItemPage = {
+        data: requestItems,
+        totalItems: requestItems.length,
+      };
+      return requestsPage;
+    } catch (error: any) {
+      throw new Error(`Error fetching requests: ${error.message}`);
+    }
+  }
+
   @Query(() => RequestItemPage, { name: 'requestItems' })
   async getRequestItems(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,

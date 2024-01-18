@@ -1,9 +1,8 @@
-import CreateNewRequestForm from "@/components/forms/requests/createNewRequestForm";
+
+import Requests from "@/components/requests/requests";
 
 export default function RequestsPage() {
 	return (
-		<div>
-			<CreateNewRequestForm />
-		</div>
+		<Requests />
 	);
 }

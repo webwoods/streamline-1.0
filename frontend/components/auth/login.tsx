@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { LOGIN } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
-import authClient from '@/gql/client';
+import client from '@/gql/client';
 import { setCookie } from 'nookies';
 import { Button, Checkbox, Input, Link, Spinner } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 // Functional component for the login form
 function LoginForm() {
   // Use Apollo Client's useMutation hook for the login mutation
-  const [loginMutation] = useMutation(LOGIN, { client: authClient });
+  const [loginMutation] = useMutation(LOGIN, { client: client });
 
   // State variables to manage form input, visibility, and login success
   const [isVisible, setIsVisible] = React.useState(false);
@@ -62,10 +62,13 @@ function LoginForm() {
       });
 
       // Extract and set the access token from the login response
-      const token = response?.data?.login?.accessToken;
+      const responseData = response?.data?.login;
+      const token = responseData?.accessToken;
+      const currentUser = responseData?.me;
 
       if (token) {
         setCookie(null, "accessToken", token, { path: "/" });
+        setCookie(null, "currentUser", JSON.stringify(currentUser), { path: "/" });
       } else {
         setLoginSuccess(false);
         return;
@@ -106,7 +109,7 @@ function LoginForm() {
 
   // Render the login form component
   return (
-    <div className='h-screen bg-[#197dfd] flex flex-col gap-5 justify-center items-center'>
+    <div className='h-screen bg-white flex flex-col gap-5 justify-center items-center'>
       <div className='w-[20rem] sm:w-[25rem] bg-white px-5 py-10 rounded-xl'>
         <div className='flex flex-col justify-center items-center mb-10'>
           {/* Company logo */}
@@ -196,12 +199,12 @@ function LoginForm() {
         ) :
           <div className='align-center flex flex-col justify-center gap-5'>
             {/* Loading spinner and redirection message */}
-            <p className='text-xs'>You will be redirected to the dashboard shortly...</p>
+            <p className='text-xs text-center'>You will be redirected to the dashboard shortly...</p>
             <Spinner color='primary' />
           </div>}
       </div>
       {/* Powered by StreamLine message */}
-      <p className='text-center text-white text-sm'>
+      <p className='text-center text-[#197dfd] text-sm'>
         Powered by <span>StreamLine</span>
       </p>
     </div>

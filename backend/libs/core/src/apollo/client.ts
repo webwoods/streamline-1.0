@@ -4,19 +4,19 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client/core';
-import { createURI } from '../scripts/generate-uri';
-import { AUTH_APP, PROCUREMENT_APP } from '../constants/appInfo';
+import { Logger } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export const createApolloClient = (
   uri: string,
 ): ApolloClient<NormalizedCacheObject> => {
+  Logger.log(`🚀 Connected to Gateway via on: ${uri}`);
   return new ApolloClient({
     uri,
     cache: new InMemoryCache(),
   });
 };
 
-export const authApolloClient = createApolloClient(createURI(AUTH_APP));
-export const procurementApolloClient = createApolloClient(
-  createURI(PROCUREMENT_APP),
-);
+export const apolloClient = createApolloClient(process.env.GATEWAY_SERVICE);

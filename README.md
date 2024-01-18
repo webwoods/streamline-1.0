@@ -45,32 +45,68 @@ yarn install
 yarn install
 ```
 
-**Database Configurations**
-Add database configurations in the `backend\libs\core\src\config\orm.config.ts` file.  
-<br>
-<img src="assets/ormconfig.png" alt="orm-config" width="100%">
+## Configure Gateway and Microservices
+Setup the following environment variables before starting the services.
 
-**Run the Application**
-Run the application using the following commands.
+**Microservices**
+Replace `MICROSEVICE` with the relevant microservice using the following identifiers.
+
+| Service Name          | Identifier   |
+|-----------------------|--------------|
+| Auth Service          | AUTH         |
+| Procurement Service   | PRC          |
+
+e.g. The gateway endpoint for `Auth` service can be set using `AUTH_GATEWAY=/gateway/auth`
+
 ```
-# go to backend folder and run
+MICROSERVICE_DB=postgres
+MICROSERVICE_DB_HOST=localhost
+MICROSERVICE_DB_PORT=5432
+MICROSERVICE_DB_USERNAME=username
+MICROSERVICE_DB_PASSWORD=password
+MICROSERVICE_DB_NAME=database
+MICROSERVICE_HOST=localhost
+MICROSERVICE_PORT=5001
+MICROSERVICE_GRAPHQL=/graphql
+MICROSERVICE_GATEWAY=/gateway/microservice
+MICROSERVICE_PREFIX=microservice
+```
+
+**Mail Service**
+```
+SMTP_HOST=localhost
+SMTP_PORT=2525
+SMTP_USER=user
+SMTP_PASS=password
+FROM_EMAIL=demo@email.com
+```
+
+**Gateway**
+```
+GATEWAY_HOST=localhost
+GATEWAY_PORT=3333
+GATEWAY_GRAPHQL=/graphql
+```
+
+## Test the applications in dev mode
+
+**Run the Application** using the following commands.
+```
+# go to backend folder and run the microservices
 yarn start:dev auth-plugin
 yarn start:dev procurement-plugin
 
-# to run backend apps securely (using bash)
-DB_HOST=localhost DB_PASSWORD=password DB_USER=user DB_PORT=5432 DB=postgres DB_NAME=streamline yarn start:dev auth-plugin
-
-DB_HOST=localhost DB_PASSWORD=password DB_USER=user DB_PORT=5432 DB=postgres DB_NAME=streamline yarn start:dev procurement-plugin
+# go to backend folder and start the gateway service
+yarn start:dev streamline
 
 # go to frontend folder and run
 yarn dev:new
 ```
 
-## Test the applications in dev mode
 User Interface starts on `http://localhost:3000`  
-Auth app starts on `http://localhost:5001/auth`  
-Procurement app starts on `http://localhost:5002/procurement`  
-Use a graphql client like **Altair** or use the playgorund on `http://localhost:5001/auth/playground` and `http://localhost:5002/procurement/playground`  
+Server starts on `http://localhost:3333/graphql`  
+Use a graphql client like **Altair** or use the playground on `http://localhost:3333/graphql/playground`
+
 <br>
 <img src="assets/playground.png" alt="graphql-playground" width="100%">
 

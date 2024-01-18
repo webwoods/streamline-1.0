@@ -1,42 +1,92 @@
 'use client'
-import React from "react";
 
-import { Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
+import React, { SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
+import { Navbar, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Tooltip } from "@nextui-org/react";
 import UserProfileButton from "./userProfileButton";
 import ModalNotification from "./modalNotification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
+import { tabs } from "./tabs";
+import { menuItems } from "./menu";
 
 export function MainNavbar() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const tabs = ['Dashboard', 'Request', 'Files'];
-  const menuItems = ['Dashboard', 'Request', 'Files', 'Profile', 'Log out'];
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Dashboard');
 
+  const router = useRouter();
+
+  const handleTabClick = useCallback((tabData: { label: SetStateAction<string>; href: string; }) => {
+    setActiveTab(tabData.label);
+    console.log(tabData.label, tabData.href);
+    router.push(tabData.href);
+  }, [activeTab, router]);
+
+  // Memoize tabs and menuItems to prevent unnecessary re-renders
+  const memoizedTabs = useMemo(() => tabs, []); // Empty dependency array means it only recomputes if tabs changes
+  const memoizedMenuItems = useMemo(() => menuItems, []); // Same for menuItems
+
+  const idleTabStyle = 'bg-gradient-to-r from-white to-cyan-50 hover:text-cprimary text-slate-800 min-w-0 max-w-[32px]';
+  const activeTabStyle = 'bg-slate-800 text-white hover:text-accent-yellow';
+  const tabStyle = 'rounded-full active:bg-blue-600 h-8 drop-shadow-md';
+
+  // [#197dfd]
   return (
     <Navbar
       position="sticky"
-      isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-[#197dfd] dark:bg-gray-800 border-none pt-7 flex"
+      className="bg-gradient-to-r from-[#197dfd] via-[#197dfd] to-slate-900 dark:bg-gray-800 border-none p-0 flex"
+      classNames={{
+        base: 'p-0',
+        wrapper: 'p-0 max-w-none p-5 sm:p-10'
+      }}
     >
+      {/* mobile */}
       <NavbarContent className="sm:hidden inline-flex">
-        <NavbarMenuToggle className="text-white" icon={<FontAwesomeIcon size="lg" icon={faBars} />} aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+        <NavbarMenuToggle
+          className="text-white"
+          icon={<FontAwesomeIcon size="lg" icon={faBars} />}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        />
       </NavbarContent>
+      <NavbarMenu className="bg-[#197dfd] pt-10">
+        {memoizedMenuItems.map((item, index) => (
+          <NavbarMenuItem key={item.label} >
+            <Link
+              className="w-full text-white"
+              href={item.href}
+              size="lg"
+            >
+              {item.label}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
 
-      <NavbarContent className="hidden sm:flex gap-4">
+      {/* web */}
+      <NavbarContent className="hidden sm:flex gap-3">
+        {memoizedTabs.map((tabData) => {
+          const isIconOnly = activeTab !== tabData.label;
 
-        {tabs.map((tabData) => {
           return (
-            <NavbarItem key={tabData}>
-              <Button className="bg-white dark:bg-zinc-900 rounded-full py-2 hover:bg-black dark:hover:bg-[#197dfd] hover:text-white active:bg-blue-600 h-8 focus:ring focus:ring-gray-300 ">
-                {tabData}
+            <Tooltip
+              key={tabData.label}
+              content={tabData.label}
+              placement="bottom"
+            >
+              <Button
+                className={`${tabStyle} ${isIconOnly ? idleTabStyle : activeTabStyle}`}
+                key={tabData.label}
+                startContent={tabData.icon}
+                isIconOnly={isIconOnly}
+                onClick={() => handleTabClick(tabData)}>
+                {!isIconOnly && tabData.label}
               </Button>
-            </NavbarItem>
+            </Tooltip>
           )
         })}
       </NavbarContent>
-
       <NavbarContent className="flex">
         <NavbarItem className="ml-auto">
           <UserProfileButton />
@@ -46,19 +96,6 @@ export function MainNavbar() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu className="bg-[#197dfd] pt-10">
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`} >
-            <Link
-              className="w-full text-white"
-              href="#"
-              size="lg"
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu>
     </Navbar>
   );
 }

@@ -18,12 +18,12 @@ const setAuthToken = (token: string) => {
 };
 
 // Create an HTTP link for the Apollo Client
-const authHttpLink = createHttpLink({
-  uri: "http://localhost:5001/auth",
+const httpLink = createHttpLink({
+  uri: process.env.GATEWAY_SERVICE,
 });
 
 // Create an ApolloLink middleware to intercept requests
-const authMiddleware = new ApolloLink((operation, forward) => {
+const middleware = new ApolloLink((operation, forward) => {
   // Get the Bearer token from cookies
   const token = getAuthToken();
 
@@ -41,8 +41,8 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 
 // Create the Apollo Client with the custom link and cache
-const authClient = new ApolloClient({
-  link: ApolloLink.from([authMiddleware, authHttpLink]),
+const client = new ApolloClient({
+  link: ApolloLink.from([middleware, httpLink]),
   cache: new InMemoryCache(),
 });
 
@@ -50,4 +50,4 @@ const authClient = new ApolloClient({
 export const setBearerToken = setAuthToken;
 export const getBearerToken = getAuthToken;
 
-export default authClient;
+export default client;

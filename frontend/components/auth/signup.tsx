@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { REGISTER_NEW_USER } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
-import authClient from '@/gql/client';
+import client from '@/gql/client';
 import { setCookie } from 'nookies';
 import { Button, Checkbox, Input, Link, Spinner } from '@nextui-org/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,7 @@ import { isValidEmail } from '@/util/email.validate';
 // Functional component for the registration form
 function SignupForm() {
   // Use Apollo Client's useMutation hook for the registration mutation
-  const [registrationMutation] = useMutation(REGISTER_NEW_USER, { client: authClient });
+  const [registrationMutation] = useMutation(REGISTER_NEW_USER, { client: client });
 
   // State variables to manage form input, visibility, and registration success
   const [isVisible, setIsVisible] = React.useState(false);
@@ -84,6 +84,9 @@ function SignupForm() {
 
       setRegistrationSuccess(true);
     } catch (error: any) {
+
+
+      console.log(error);
       throw new Error(error);
     }
   };
@@ -117,7 +120,7 @@ function SignupForm() {
 
   // Render the login form component
   return (
-    <div className='h-screen bg-[#197dfd] flex flex-col gap-5 justify-center items-center'>
+    <div className='h-screen bg-white flex flex-col gap-5 justify-center items-center'>
       <div className='w-[20rem] sm:w-[25rem] bg-white px-5 py-10 rounded-xl'>
         <div className='flex flex-col justify-center items-center mb-10'>
           {/* Company logo */}
@@ -235,7 +238,7 @@ function SignupForm() {
           </div>}
       </div>
       {/* Powered by StreamLine message */}
-      <p className='text-center text-white text-sm'>
+      <p className='text-center text-[#197dfd] text-sm'>
         Powered by <span>StreamLine</span>
       </p>
     </div>

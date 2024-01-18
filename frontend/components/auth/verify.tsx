@@ -5,7 +5,7 @@ import React, { createRef, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { VERIFY_USER } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
-import authClient from '@/gql/client';
+import client from '@/gql/client';
 import { parseCookies, setCookie } from 'nookies';
 import { Button, Input, Spinner } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 // Functional component for the verify form
 function VerifyUserForm() {
   // Use Apollo Client's useMutation hook for the verify mutation
-  const [verifyMutation] = useMutation(VERIFY_USER, { client: authClient });
+  const [verifyMutation] = useMutation(VERIFY_USER, { client: client });
 
   // State variables to manage form input, visibility
   const [verifySuccess, setVerifySuccess] = useState(false);
@@ -52,13 +52,13 @@ function VerifyUserForm() {
     // Ignore any other characters
   };
 
-  // Effect hook to redirect to the dashboard after a successful verification
+  // Effect hook to redirect to the login interface after a successful verification
   useEffect(() => {
     const redirectToDashboard = async () => {
       if (verifySuccess) {
         // Delay the redirection for a better user experience
         await new Promise(resolve => setTimeout(resolve, 2000));
-        router.push('/dashboard');
+        router.push('/auth/login');
       }
     };
 
@@ -75,7 +75,7 @@ function VerifyUserForm() {
 
   // Render the verify form component
   return (
-    <div className='h-screen bg-[#197dfd] flex flex-col gap-5 justify-center items-center'>
+    <div className='h-screen bg-white flex flex-col gap-5 justify-center items-center'>
       <div className='w-[20rem] sm:w-[25rem] bg-white px-5 py-10 rounded-xl'>
         <div className='flex flex-col justify-center items-center mb-10'>
           {/* Company logo */}
@@ -118,12 +118,12 @@ function VerifyUserForm() {
         ) :
           <div className='align-center flex flex-col justify-center gap-5'>
             {/* Loading spinner and redirection message */}
-            <p className='text-xs text-center'>You will be redirected to the dashboard shortly...</p>
+            <p className='text-xs text-center'>You will be redirected to the login shortly...</p>
             <Spinner color='primary' />
           </div>}
       </div>
       {/* Powered by StreamLine message */}
-      <p className='text-center text-white text-sm'>
+      <p className='text-center text-[#197dfd] text-sm'>
         Powered by <span>StreamLine</span>
       </p>
     </div>
