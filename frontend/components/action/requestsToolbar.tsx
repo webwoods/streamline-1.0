@@ -2,45 +2,67 @@
 
 import { faGears, faPlusSquare, faSquarePen, faTableList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+
+interface ToolProps {
+	title?: string
+	icon?: any
+	onClick?: (href?: string) => void
+}
+
+function Tool({ onClick, title, icon }: ToolProps) {
+	return (
+		<>
+			{/* web */}
+			<Tooltip content={title}>
+				<Button
+					radius="full"
+					className="lg:flex justify-start bg-white hidden"
+					onClick={() => onClick && onClick('/')}
+					startContent={<FontAwesomeIcon size="lg" icon={icon} />}
+				>
+					{title}
+				</Button>
+			</Tooltip>
+
+			{/* mobile */}
+			<Tooltip content={title}>
+				<Button
+					radius="full"
+					className="bg-white lg:hidden block"
+					isIconOnly
+					onClick={() => onClick && onClick('/')}
+					startContent={<FontAwesomeIcon size="lg" icon={icon} />}
+				/>
+			</Tooltip>
+		</>
+	);
+}
 
 export default function RequestsToolBar() {
 
 	const router = useRouter();
 
+	const testRouter = (href?: string) => {
+		console.log(href);
+	}
+
 	return (
-		<div className="flex flex-col py-10 gap-3 text-xs">
-			
-			<div
-				className="flex gap-2 text-blue-600 items-center"
-				onClick={() => router.push('/requests/create')}
-			>
-				<div className="bg-white w-8 rounded-full aspect-square flex justify-center items-center">
-					<FontAwesomeIcon size="lg" icon={faPlusSquare} />
-				</div>
-				<span>Create Request</span>
-			</div>
+		<div className="flex lg:flex-col py-10 gap-3 text-xs">
 
-			<div
-				className="flex gap-2 text-slate-800 items-center"
-				onClick={() => router.push('/requests/create')}
-			>
-				<div className="bg-white w-8 rounded-full aspect-square flex justify-center items-center">
-					<FontAwesomeIcon size="lg" icon={faTableList} />
-				</div>
-				<span>View All Requests</span>
-			</div>
+			<Tool
+				title="View All"
+				icon={faTableList}
+				onClick={() => testRouter('/requests')}
+			/>
 
-			<div
-				className="flex gap-2 text-slate-800 items-center"
-				onClick={() => router.push('/requests/create')}
-			>
-				<div className="bg-white w-8 rounded-full aspect-square flex justify-center items-center">
-					<FontAwesomeIcon size="lg" icon={faSquarePen} />
-				</div>
-				<span>Custom Form</span>
-			</div>
+			<Tool
+				title="Create"
+				icon={faSquarePen}
+				onClick={() => testRouter('/requests/create')}
+			/>
+
 		</div>
 	);
 }

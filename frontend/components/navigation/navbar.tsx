@@ -81,7 +81,7 @@ export function MainNavbar() {
                 startContent={tabData.icon}
                 isIconOnly={isIconOnly}
                 onClick={() => handleTabClick(tabData)}>
-                {!isIconOnly && tabData.label}
+                {!isIconOnly && <span className="mt-[0.15rem]">{tabData.label}</span>}
               </Button>
             </Tooltip>
           )

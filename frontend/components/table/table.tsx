@@ -94,7 +94,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
                 return <MemoizedActionsWithIcons row={row} />;
             // add more cases here
             default:
-                return cellValue;
+                return <span className="text-xs">{cellValue}</span>;
         }
     }, [MemoizedActionsWithIcons]);
 

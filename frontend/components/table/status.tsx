@@ -16,7 +16,7 @@ export default function Status({ value, status }: Props) {
             variant="dot"
             classNames={{ base: "border-none" }}
         >
-            {capitalizeFirstLetter(value)}
+            <span className="text-xs">{capitalizeFirstLetter(value)}</span>
         </Chip>
     );
 }

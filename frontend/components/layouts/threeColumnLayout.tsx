@@ -9,20 +9,18 @@ interface Props {
 
 export function ThreeColumnLayout({ startContent, middleContent, endContent }: Readonly<Props>) {
   return (
-    <div className="grid grid-cols-7 py-10 gap-3">
-
-      <div className="col-span-1 px-10">
+    <div className="lg:grid lg:grid-cols-7 lg:py-10 px-10 lg:px-0 lg:gap-3 grid-rows-4 grid-cols-none">
+      <div className="lg:col-span-1 col-span-full lg:px-10 row-span-1">
         {startContent}
       </div>
 
-      <div className="col-span-4 bg-white p-10 rounded-lg">
+      <div className="lg:col-span-4 col-span-full bg-white p-10 rounded-lg row-span-2">
         {middleContent}
       </div>
 
-      <div className="col-span-2 px-10">
+      <div className="lg:col-span-2 col-span-full lg:px-10 row-span-1">
         {endContent}
       </div>
-
-    </div >
+    </div>
   );
 }
