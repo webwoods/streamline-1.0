@@ -1,13 +1,16 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { RequestStatus } from '../enum/requestStatus';
+import { RequestType } from '../enum/requestType';
 
 @InputType()
 export class CreateRequestInput {
   @Field({ nullable: true })
   fileId?: string;
 
-  @Field()
-  requestType!: string;
+  @Field((type) => RequestType, {
+    defaultValue: RequestType.REQUEST,
+  })
+  requestType!: RequestType;
 
   @Field()
   requestedUserId!: string;
@@ -19,7 +22,7 @@ export class CreateRequestInput {
   subject!: string;
 
   @Field((type) => RequestStatus, {
-    defaultValue: RequestStatus.AWAITING_APPROVAL,
+    defaultValue: RequestStatus.PENDING,
   })
   status: RequestStatus;
 }
