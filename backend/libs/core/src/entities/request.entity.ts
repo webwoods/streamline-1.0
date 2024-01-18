@@ -5,13 +5,14 @@ import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { RequestItem } from './request-items.entity';
 import { RequestStatus } from './enum/requestStatus';
 import { User } from './user.entity';
+import { RequestType } from './enum/requestType';
 
 @Entity()
 @ObjectType()
 export class Request extends StreamLineEntity {
-  @Column()
-  @Field()
-  requestType: string;
+  @Column({ name: 'request_type', type: 'text', nullable: true })
+  @Field(() => RequestType)
+  requestType: RequestType;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
