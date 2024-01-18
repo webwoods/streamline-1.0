@@ -9,7 +9,7 @@ interface Props {
 
 export function ThreeColumnLayout({ startContent, middleContent, endContent }: Readonly<Props>) {
   return (
-    <div className="lg:grid lg:grid-cols-7 lg:py-10 px-10 lg:px-0 lg:gap-3 grid-rows-4 grid-cols-none">
+    <div className="lg:grid lg:grid-cols-7 lg:py-10 pb-10 px-10 lg:px-0 lg:gap-3 grid-rows-4 grid-cols-none">
       <div className="lg:col-span-1 col-span-full lg:px-10 row-span-1">
         {startContent}
       </div>

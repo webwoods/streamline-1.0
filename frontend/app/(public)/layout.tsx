@@ -12,7 +12,7 @@ export default function RootLayout({
 	return (
 		<div className="flex flex-col">
 			<MainNavbar />
-			<main className="w-full h-max min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
+			<main className="w-full bg-gradient-to-br from-blue-50 via-white to-blue-100">
 				{children}
 			</main>
 			{/* <Footer /> */}

@@ -18,7 +18,7 @@ function Tool({ onClick, title, icon }: ToolProps) {
 			<Tooltip content={title}>
 				<Button
 					radius="full"
-					className="lg:flex justify-start bg-white hidden"
+					className="flex justify-start bg-white"
 					onClick={() => onClick && onClick('/')}
 					startContent={<FontAwesomeIcon size="lg" icon={icon} />}
 				>
@@ -26,7 +26,7 @@ function Tool({ onClick, title, icon }: ToolProps) {
 				</Button>
 			</Tooltip>
 
-			{/* mobile */}
+			{/* mobile
 			<Tooltip content={title}>
 				<Button
 					radius="full"
@@ -35,7 +35,7 @@ function Tool({ onClick, title, icon }: ToolProps) {
 					onClick={() => onClick && onClick('/')}
 					startContent={<FontAwesomeIcon size="lg" icon={icon} />}
 				/>
-			</Tooltip>
+			</Tooltip> */}
 		</>
 	);
 }
