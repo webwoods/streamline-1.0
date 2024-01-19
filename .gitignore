@@ -34,10 +34,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-<<<<<<< HEAD
 backend/*.env
 frontend/*.env
-=======
-frontend/.env
-backend/.env
->>>>>>> c7b77e41e63b63b45412cc657fa72c3f63c9dc3b
