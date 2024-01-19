@@ -39,9 +39,9 @@ export function UserProfileButton() {
     loggedInUser && setCurrentUser(loggedInUser);
   }, [])
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser])
+  // useEffect(() => {
+  //   console.log(currentUser);
+  // }, [currentUser])
 
   return (
     <Tooltip content="click the profile photo to expand/collapse">
