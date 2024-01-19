@@ -1,143 +1,81 @@
 'use client'
-import { Avatar, Input } from "@nextui-org/react"
-import { useState } from "react";
-import styles from '@/components/auth/Auth.module.css';// Replace with your actual GraphQL queries
-import { useMutation, useQuery } from "@apollo/client";
-// import { UPDATE_USER_MUTATION } from "@/gql/mutation";
-// import { USER_QUERY } from "@/gql/query";
+
+import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { USER_QUERY } from '@/gql/query';
+import client from '@/gql/client';
+import Loading from '@/app/loading';
+import { parseCookies } from 'nookies';
+
+interface ProfileFieldProps {
+    type?: string
+    label?: string
+    placeholder?: string
+    defaultValue?: string
+    value?: string
+    ref?: string
+    onChange?: (value: string) => void
+}
+
+const ProfileField = ({
+    type,
+    label,
+    placeholder,
+    defaultValue,
+    value = '',
+    onChange
+}: ProfileFieldProps) => {
+
+    return (
+        <div className="flex items-end">
+            <input
+                type={type}
+                aria-label={label}
+                placeholder={placeholder}
+                defaultValue={defaultValue}
+                value={value}
+                className="max-w-xs"
+            />
+
+            <button type="button" style={{ marginLeft: '5px' }}>
+                <FontAwesomeIcon icon={faPen} />
+            </button>
+        </div>
+    );
+};
 
 function ProfileComponent() {
+    // const [currentUser, setCurrentUser] = useState(JSON.parse(parseCookies()['currentUser']));
 
-    // const { loading, error, data } = useQuery(USER_QUERY);
+    // const [firstName, setFirstName] = useState<string>();
 
-    // const [updateProfile] = useMutation(UPDATE_USER_MUTATION);
-
-
-    // const [username, setUsername] = useState('');
-    // const [fullname, setFullname] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [role, setRole] = useState('');
-    // const [designation, setDesignation] = useState('');
-    // const [division, setDivision] = useState('');
-    // const [permissions, setPermissions] = useState('');
-
-
-    // // Fetching data from GraphQL API
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Error: {error.message}</p>;
-    // // Updating profile data
-    // const handleUpdate = async () => {
-    //     try {
-    //         await updateProfile({
-    //             variables: {
-    //                 input: {
-    //                     username,
-    //                     fullname,
-
-    //                 },
-    //             },
-    //         });
-    //         // Optionally, you can refetch the data after updating
-    //         // refetch();
-    //     } catch (error: any) {
-    //         console.error('Error updating profile:', error.message);
+    // const { loading, error, data } = useQuery(USER_QUERY, {
+    //     client,
+    //     variables: {
+    //         id: currentUser.id
     //     }
+    // });
+
+    // if (loading) { return <Loading />; }
+
+    // const handleSubmit = () => {
+    //     console.log('Form submitted with data:',);
     // };
-    // const { profile } = data;
 
     return (
         <div className="flex flex-col items-center ml-10">
-            <Avatar
-                className="w-40 h-40 mt-5"
-                isBordered
-                color="danger"
-                src="https://i.pravatar.cc/150?u=a042581"
+            {/* <ProfileField
+                label="First Name"
+                placeholder="First Name"
+                type="text"
             />
-            {/* <div className="flex flex-row items-center  mt-10 space-x-5 mb-10">
-                <div className="flex-col space-y-5 w-64 h-64 mb-20">
-                    <Input
-                        label='Username'
-                        labelPlacement='outside'
-                        placeholder='Enter username'
-                        isRequired={true}
-                        value={profile.username}
-                        autoComplete='username'
-                        onValueChange={(value) => setUsername(value)}
-                    />
-                    <Input
-                        label='Full name'
-                        labelPlacement='outside'
-                        placeholder='Full name'
-                        isRequired={true}
-                        value={fullname}
-                        autoComplete='fullname'
-                        onValueChange={(value) => setFullname(value)}
-                    />
-                    <Input
-                        label='Password'
-                        labelPlacement='outside'
-                        placeholder='Password'
-                        isRequired={true}
-                        value={password}
-                        autoComplete='password'
-                        onValueChange={(value) => setPassword(value)}
-                    />
-                    <Input
-                        label='Email'
-                        labelPlacement='outside'
-                        placeholder='Enter email'
-                        isRequired={true}
-                        value={email}
-                        autoComplete='email'
-                        onValueChange={(value) => setEmail(value)}
-                    />
-                </div>
-                <div className="flex-col space-y-5 w-64 h-64 mb-20">
-
-                    <Input
-                        label='Role'
-                        labelPlacement='outside'
-                        placeholder='Role'
-                        isRequired={true}
-                        value={role}
-                        autoComplete='role'
-                        onValueChange={(value) => setRole(value)}
-                    />
-                    <Input
-                        label='Designation'
-                        labelPlacement='outside'
-                        placeholder='Designation'
-                        isRequired={true}
-                        value={designation}
-                        autoComplete='designation'
-                        onValueChange={(value) => setDesignation(value)}
-                    />
-                    <Input
-                        label='Division'
-                        labelPlacement='outside'
-                        placeholder='Division'
-                        isRequired={true}
-                        value={division}
-                        autoComplete='division'
-                        onValueChange={(value) => setDivision(value)}
-                    />
-                    <Input
-                        label='Permissions'
-                        labelPlacement='outside'
-                        placeholder='Permissions'
-                        isRequired={true}
-                        value={permissions}
-                        autoComplete='permissions'
-                        onValueChange={(value) => setPermissions(value)}
-                    />
-                </div>
-            </div>
-            <button className=" mb-10 bg-black text-white border-0 w-80 rounded-full px-4 py-2.5 transition duration-300 ease-in-out hover:bg-yellow-500 hover:text-gray-900">
-                Update
+            <button type="button" onClick={handleSubmit} style={{ marginTop: '10px' }}>
+                Submit
             </button> */}
         </div>
-    )
+    );
 }
 
 export default ProfileComponent;

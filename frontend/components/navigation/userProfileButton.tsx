@@ -35,7 +35,7 @@ export function UserProfileButton() {
 
   useEffect(() => {
     const cookies = parseCookies();
-    const loggedInUser: CurrentUser = JSON.parse(cookies['currentUser']);
+    const loggedInUser: CurrentUser | string = cookies['currentUser'] ? JSON.parse(cookies['currentUser']) : 'Log in';
     loggedInUser && setCurrentUser(loggedInUser);
   }, [])
 

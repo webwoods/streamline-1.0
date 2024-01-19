@@ -1,6 +1,24 @@
 import { gql } from "@apollo/client";
 
-// export const USER_QUERY = gql``;
+export const USER_QUERY = gql`
+query User($id: String!) {
+  user(id: $id) {
+    id
+    createdAt
+    updatedAt
+    username
+    email
+    password
+    name
+    role {
+      id
+      name
+      division
+    }
+    verified
+  }
+}
+`;
 
 export const REQUESTS_QUERY = gql`
 query GetRequests($page: Int, $pageSize: Int){
