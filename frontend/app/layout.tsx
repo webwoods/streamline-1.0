@@ -33,7 +33,8 @@ export default function RootLayout({
 				// className="bg-gradient-to-tl from-sky-50 via-blue-100 to-white"
 				style={{
 					fontFamily: 'Readex Pro'
-				}}>
+				}}
+				>
 				<Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
 					<div className="relative flex flex-col h-screen">
 						<main>

@@ -1,142 +1,128 @@
 'use client'
-import { Avatar, Input } from "@nextui-org/react"
-import { useState } from "react";
-import styles from '@/components/auth/Auth.module.css';
-import { GET_PROFILE, UPDATE_PROFILE } from './graphql'; // Replace with your actual GraphQL queries
-import { useMutation, useQuery } from "@apollo/client";
+
+import React, { Ref, RefObject, forwardRef, useEffect, useRef, useState } from 'react';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark, faClose, faPen, faPenAlt, faPenSquare, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { USER_QUERY } from '@/gql/query';
+import client from '@/gql/client';
+import Loading from '@/app/loading';
+import { parseCookies } from 'nookies';
+import { Button, Input, Tooltip } from '@nextui-org/react';
+
+interface FormFieldProps {
+    label?: string
+    placeholder?: string
+    type?: string
+}
+
+const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, ref) => {
+    const [isReadOnly, setIsReadOnly] = useState<boolean>(true);
+
+    const handleReadOnly = () => {
+        setIsReadOnly(!isReadOnly);
+    }
+
+    return (
+        <div className='flex flex-col'>
+            <div className='flex items-center justify-between'>
+                <span className='text-xs text-slate-500'>{props.label}</span>
+                <Tooltip content='edit' className='text-xs'>
+                    <Button
+                        isIconOnly
+                        size='sm'
+                        className='p-0 bg-transparent text-slate-400'
+                        startContent={<FontAwesomeIcon size='sm' icon={isReadOnly ? faPenAlt : faCircleXmark} />}
+                        onClick={handleReadOnly}
+                    />
+                </Tooltip>
+            </div>
+            <Input
+                isReadOnly={isReadOnly}
+                type={props.type}
+                placeholder={props.placeholder}
+                ref={ref}
+            />
+        </div>
+    )
+});
 
 function ProfileComponent() {
 
-    const { loading, error, data } = useQuery(GET_PROFILE);
+    const [currentUserId, setCurrentUserId] = useState<string>();
+    const [getCurrentUser, { loading, error, data }] = useLazyQuery(USER_QUERY, { client });
 
-    const [updateProfile] = useMutation(UPDATE_PROFILE);
+    // useLazyQuery is better than useQuery because we do not want to fetch the user data 
+    // from the db just when a user visits the page. Instead, when ever a user is logged in,
+    // and the 'currentUser' cookie is set, then and then only should the query run.
 
+    // these `ref` objects keep track of teh latest values inside the input components.
+    const firstName = useRef<HTMLInputElement>(null);
+    const lastName = useRef<HTMLInputElement>(null);
+    const email = useRef<HTMLInputElement>(null);
 
-    const [username, setUsername] = useState('');
-    const [fullname, setFullname] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [role, setRole] = useState('');
-    const [designation, setDesignation] = useState('');
-    const [division, setDivision] = useState('');
-    const [permissions, setPermissions] = useState('');
+    const handleSaveButton = () => {
+        // get the latest values of the input fields in the form
+        // when the save button is clicked.
+        console.log(firstName?.current?.value);
+        console.log(lastName?.current?.value);
+        console.log(email?.current?.value);
+    }
 
+    const handleCancelButton = () => {
+        console.log('clicked cancel!!');
+    }
 
-    // Fetching data from GraphQL API
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
-    // Updating profile data
-    const handleUpdate = async () => {
-        try {
-            await updateProfile({
-                variables: {
-                    input: {
-                        username,
-                        fullname,
+    useEffect(() => {
+        // when the component intially loads, fetch the current user cookie
+        const parsedUserId = JSON.parse(parseCookies()['currentUser']).id;
+        setCurrentUserId(parsedUserId);
+    }, []);
 
-                    },
-                },
-            });
-            // Optionally, you can refetch the data after updating
-            // refetch();
-        } catch (error: any) {
-            console.error('Error updating profile:', error.message);
+    useEffect(() => {
+        // when the currentUserId is set, then check if it is valid.
+        // if yes, fetch the user data from db using lazy query.
+        if (currentUserId) {
+            getCurrentUser({ variables: { id: currentUserId } });
         }
-    };
-    const { profile } = data;
+    }, [currentUserId]);
+
+    useEffect(() => { console.log(firstName.current) }, [firstName]);
+
+    if (loading) { return <Loading />; }
+    if (error) { return <div className='p-10'>error: {JSON.stringify(error)}</div> }
 
     return (
-        <div className="flex flex-col items-center ml-10">
-            <Avatar
-                className="w-40 h-40 mt-5"
-                isBordered
-                color="danger"
-                src="https://i.pravatar.cc/150?u=a042581"
-            />
-            <div className="flex flex-row items-center  mt-10 space-x-5 mb-10">
-                <div className="flex-col space-y-5 w-64 h-64 mb-20">
-                    <Input
-                        label='Username'
-                        labelPlacement='outside'
-                        placeholder='Enter username'
-                        isRequired={true}
-                        value={profile.username}
-                        autoComplete='username'
-                        onValueChange={(value) => setUsername(value)}
-                    />
-                    <Input
-                        label='Full name'
-                        labelPlacement='outside'
-                        placeholder='Full name'
-                        isRequired={true}
-                        value={fullname}
-                        autoComplete='fullname'
-                        onValueChange={(value) => setFullname(value)}
-                    />
-                    <Input
-                        label='Password'
-                        labelPlacement='outside'
-                        placeholder='Password'
-                        isRequired={true}
-                        value={password}
-                        autoComplete='password'
-                        onValueChange={(value) => setPassword(value)}
-                    />
-                    <Input
-                        label='Email'
-                        labelPlacement='outside'
-                        placeholder='Enter email'
-                        isRequired={true}
-                        value={email}
-                        autoComplete='email'
-                        onValueChange={(value) => setEmail(value)}
-                    />
-                </div>
-                <div className="flex-col space-y-5 w-64 h-64 mb-20">
+        <div className='flex flex-col p-10 gap-3 w-96 bg-white h-max rounded-2xl'>
 
-                    <Input
-                        label='Role'
-                        labelPlacement='outside'
-                        placeholder='Role'
-                        isRequired={true}
-                        value={role}
-                        autoComplete='role'
-                        onValueChange={(value) => setRole(value)}
-                    />
-                    <Input
-                        label='Designation'
-                        labelPlacement='outside'
-                        placeholder='Designation'
-                        isRequired={true}
-                        value={designation}
-                        autoComplete='designation'
-                        onValueChange={(value) => setDesignation(value)}
-                    />
-                    <Input
-                        label='Division'
-                        labelPlacement='outside'
-                        placeholder='Division'
-                        isRequired={true}
-                        value={division}
-                        autoComplete='division'
-                        onValueChange={(value) => setDivision(value)}
-                    />
-                    <Input
-                        label='Permissions'
-                        labelPlacement='outside'
-                        placeholder='Permissions'
-                        isRequired={true}
-                        value={permissions}
-                        autoComplete='permissions'
-                        onValueChange={(value) => setPermissions(value)}
-                    />
-                </div>
+            <FormField
+                label='First name'
+                placeholder='Billy'
+                type='text'
+                ref={firstName}
+            />
+
+            <FormField
+                label='Last name'
+                placeholder='Jeans Jr.'
+                type='text'
+                ref={lastName}
+            />
+
+            <FormField
+                label='Email'
+                placeholder='billy@jeans.com'
+                type='email'
+                ref={email}
+            />
+
+            <div className='flex justify-between gap-3'>
+                <Button className='w-full' onClick={handleCancelButton}>Cancel</Button>
+                <Button className='w-full' onClick={handleSaveButton}>Save</Button>
             </div>
-            <button className=" mb-10 bg-black text-white border-0 w-80 rounded-full px-4 py-2.5 transition duration-300 ease-in-out hover:bg-yellow-500 hover:text-gray-900">
-                Update
-            </button>
+
         </div>
-    )
+    );
 }
 
 export default ProfileComponent;

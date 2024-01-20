@@ -1,60 +1,67 @@
 import { gql } from "@apollo/client";
 
-export const USERS_QUERY = gql`
-  {
-    users {
-      email
+export const USER_QUERY = gql`
+query User($id: String!) {
+  user(id: $id) {
+    id
+    createdAt
+    updatedAt
+    username
+    email
+    password
+    name
+    role {
       id
       name
-      password
-      username
+      division
     }
+    verified
   }
+}
 `;
 
-export const COMPANIES_QUERY = gql`
-  {
-    companies {
-      companyName
+export const REQUESTS_QUERY = gql`
+query GetRequests($page: Int, $pageSize: Int){
+  getRequestsWithUser(page: $page, pageSize: $pageSize) {
+    data {
       id
-      stalls {
-        floorPlanLocation
-        id
-        stallNumber
-      }
-      user {
-        email
+      createdAt
+      updatedAt
+      requestType
+      subject
+      description
+      file {
         id
         name
-        password
-        username
       }
-    }
-  }
-`;
-
-export const STUDENTS_QUERY = gql`
-  {
-    students {
-      id
-      interestedRooms {
-        id
-      }
-      interviews {
-        id
-      }
-      studentEmail
-      studentId
-      studentName
-      user {
-        email
+      requestedUser {
         id
         name
-        password
-        username
+        email
+        role {
+          name
+          division
+        }
       }
+      requestedUserId
+      requestItems {
+        id
+        name
+        price
+        quantity
+        sku
+        type
+        unit
+        properties {
+          key
+          value
+        }
+      }
+      status
     }
+    totalItems
   }
+}
 `;
 
 export const SEARCH_REQUEST_ITEMS = gql`
