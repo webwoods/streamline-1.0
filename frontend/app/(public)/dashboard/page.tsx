@@ -3,7 +3,7 @@ import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import StatusModal from "@/components/formStatusModal/statusModal";
 import UpdatePurchase from "@/components/formsModal/updatePurchase";
 import UpdateQuotation from "@/components/formsModal/updateQuotation";
-import UpdateRequest from "@/components/formsModal/updateRequest";
+import UpdateRequest from "@/components/forms/requests/updateRequest";
 import Recents from "@/components/recentActivity/recent";
 import TableTabs from "@/components/tableTab/tab";
 import Tips from "@/components/tips/tips";

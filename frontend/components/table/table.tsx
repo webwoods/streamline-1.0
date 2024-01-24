@@ -53,21 +53,21 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
     // when the view action button is clicked
     const handleViewClick = useCallback((rowId: any) => {
         console.log("Handling View click for row:", rowId);
-        getRowData && getRowData(data, rowId);
+        getRowData && getRowData({ data: data, action: 'view' }, rowId);
     }, []);
 
     // function to get the relevant edit data from the row
     // when the view action button is clicked
     const handleEditClick = useCallback((rowId: any) => {
         console.log("Handling Edit click for row:", rowId);
-        getRowData && getRowData(data, rowId);
+        getRowData && getRowData({ data: data, action: 'edit' }, rowId);
     }, []);
 
     // function to get the relevant delete data from the row
     // when the view action button is clicked
     const handleDeleteClick = useCallback((rowId: any) => {
         console.log("Handling Delete click for row:", rowId);
-        getRowData && getRowData(data, rowId);
+        getRowData && getRowData({ data: data, action: 'delete' }, rowId);
     }, []);
 
     const MemoizedActionsWithIcons = useMemo(() => (

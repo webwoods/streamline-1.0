@@ -90,7 +90,9 @@ export default function VerifyBlock({ onVerify, onBack }: { onVerify: () => void
                 </div>
 
                 <div className='w-full flex gap-3 pt-5'>
-                    <Button className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'>Back</Button>
+                    <Button 
+                    className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'
+                    onClick={onBack}>Back</Button>
                     <Button
                         className='w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700'
                         onClick={handleNext}>Submit</Button>

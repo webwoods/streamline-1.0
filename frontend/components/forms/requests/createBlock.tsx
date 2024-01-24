@@ -1,32 +1,29 @@
-import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { useState } from "react";
+import { Button, Divider, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { useMemo, useRef, useState } from "react";
+import { formSelectStyles, formTextAreaStyles, listBoxProps } from "../styles";
 
 export default function CreateBlock({ user, onNext, formInputStyles }: { user: string; onNext: () => void; formInputStyles: any }) {
-    const currentDate = new Date();
-    const expectedDate = new Date();
-    expectedDate.setMonth(currentDate.getMonth() + 1);
 
-    const [requestedUserName, setRequestedUserName] = useState<string>(user ? JSON.parse(user).name : "");
-    const [createdAt, setCreatedAt] = useState<string>(currentDate.toLocaleDateString('en-CA', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    }));
-    const [expectedAt, setExpectedAt] = useState<string>(expectedDate.toLocaleDateString('en-CA', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    }));
-    const [requestType, setRequestType] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [flag, setFlag] = useState(false);
+    const requestedUserNameRef = useRef<HTMLInputElement>(null);
+    const subjectRef = useRef<HTMLInputElement>(null);
+    const expectedAtRef = useRef<HTMLInputElement>(null);
+    const requestTypeRef = useRef<HTMLSelectElement>(null);
+    const fileRef = useRef<HTMLInputElement>(null);
+    const descriptionRef = useRef<HTMLInputElement>(null);
 
     const handleCancel = () => { }
 
     const handleNext = () => {
-        setFlag(true);
+        const requestedUserName = requestedUserNameRef.current?.value || "";
+        const subject = subjectRef.current?.value || "";
+        const createdAt = new Date();
+        const expectedAt = expectedAtRef.current?.value ? new Date(expectedAtRef.current?.value) : null;
+        const requestType = requestTypeRef.current?.value || ""; // Assuming you want to add a ref for requestType as well
+        const description = ""; // Assuming you want to add a ref for description as well
+        const file = fileRef.current?.value || "";
+
         console.log({ requestedUserName, createdAt, expectedAt, requestType, description });
-        onNext();
+        // onNext();
     }
 
     return (
@@ -38,64 +35,60 @@ export default function CreateBlock({ user, onNext, formInputStyles }: { user: s
 
             <div className='flex flex-col items-center pt-10 gap-3'>
                 <Input
+                    ref={requestedUserNameRef}
                     label="Requested by"
                     labelPlacement='outside'
-                    placeholder='Enter Name'
+                    placeholder='Enter Username'
                     radius='none'
-                    value={requestedUserName}
-                    onChange={(e) => setRequestedUserName(e.target.value)}
-                    isInvalid={flag && requestedUserName === ""}
-                    errorMessage={flag && requestedUserName === "" ? "Please enter a valid username" : ""}
-                    classNames={{ ...formInputStyles }} />
+                    classNames={{ ...formInputStyles }}
+                />
                 <Input
-                    type='date'
-                    label="Created date"
+                    ref={subjectRef}
+                    label="Subject"
+                    labelPlacement='outside'
+                    placeholder='Request for ...'
+                    radius='none'
+                    classNames={{ ...formInputStyles }}
+                />
+                <Input
+                    ref={expectedAtRef}
+                    type="date"
+                    label="Expect a response by"
                     labelPlacement='outside'
                     placeholder='Select date'
                     radius='none'
-                    value={createdAt}
-                    onChange={(e) => setCreatedAt(e.target.value)}
-                    isInvalid={flag && createdAt === ""}
-                    errorMessage={flag && createdAt === "" ? "Please enter a valid username" : ""}
-                    classNames={{ ...formInputStyles }} />
-                <Input
-                    type='date'
-                    label="Expect response by"
-                    labelPlacement='outside'
-                    placeholder='Select date'
-                    radius='none'
-                    value={expectedAt}
-                    onChange={(e) => setExpectedAt(e.target.value)}
-                    classNames={{ ...formInputStyles }} />
+                    classNames={{ ...formInputStyles }}
+                />
                 <Select
+                    ref={requestTypeRef}
                     radius='none'
                     label="Type"
-                    value={requestType}
-                    onChange={(e) => setRequestType(e.target.value)}
                     labelPlacement='outside'
                     placeholder='Select Request Type'
-                    classNames={{
-                        trigger: "rounded-[0.25rem]",
-                        popover: "rounded-sm",
-                    }}
-                    listboxProps={{
-                        itemClasses: {
-                            base: "rounded-[0.25rem]"
-                        }
-                    }}
+                    classNames={formSelectStyles}
+                    listboxProps={listBoxProps}
                 >
-                    <SelectItem key="Gas">Gas</SelectItem>
-                    <SelectItem key="Lab equipment">Lab equipment</SelectItem>
+                    <SelectItem key="request">Request</SelectItem>
+                    <SelectItem key="purchase_order">Purchase Order</SelectItem>
+                    <SelectItem key="quotation">Quotation Request</SelectItem>
                 </Select>
+
+                <Divider className="my-5" />
+
+                <Input
+                    ref={fileRef}
+                    label="Add to file"
+                    labelPlacement='outside'
+                    placeholder='Enter filename'
+                    radius='none'
+                    classNames={{ ...formInputStyles }} />
+
                 <Textarea
+                    ref={descriptionRef}
                     label="Remarks"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
                     labelPlacement='outside'
                     radius='none'
-                    classNames={{
-                        inputWrapper: "rounded-[0.25rem]"
-                    }}
+                    classNames={formTextAreaStyles}
                 />
 
                 <div className='w-full flex gap-3 pt-5'>
