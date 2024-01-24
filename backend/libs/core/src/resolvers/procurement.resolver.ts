@@ -412,8 +412,8 @@ export class ProcurementResolver {
         pageSize,
       );
       const requestPage: RequestPage = {
-        data: requests,
-        totalItems: requests.length,
+        data: requests.data,
+        totalItems: requests.count,
       };
       return requestPage;
     } catch (error) {

@@ -17,7 +17,7 @@ async function bootstrap() {
   const graphql = process.env.PRC_GATEWAY;
   const host = process.env.PRC_HOST;
   const port = process.env.PRC_PORT;
-  const url = process.env.PRC_SERVICE ?? `http://${host}:${port}/${graphql}`
+  const url = process.env.PRC_SERVICE ?? `http://${host}:${port}${graphql}`
 
   await app.listen(port);
 

@@ -68,7 +68,7 @@ function LoginForm() {
 
       if (token) {
         setCookie(null, "accessToken", token, { path: "/" });
-        setCookie(null, "currentUser", currentUser.username, { path: "/" });
+        setCookie(null, "currentUser", JSON.stringify(currentUser), { path: "/" });
       } else {
         setLoginSuccess(false);
         return;

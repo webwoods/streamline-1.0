@@ -1,22 +1,32 @@
 'use client'
-import React, { useState } from "react";
-import { Tabs, Tab, Chip } from "@nextui-org/react";
-import TableSort from "../table/TableSort";
-import { faFileLines, faListCheck, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function TableTabs() {
+import React, { Suspense, useCallback, useMemo, useState } from "react";
+import { Tabs, Tab, Chip } from "@nextui-org/react";
+import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { QueryRequests } from "../query/queryRequests";
+
+interface Props {
+  getActiveTabActiveRecord?: (record: any) => typeof record
+}
+
+export default function TableTabs({ getActiveTabActiveRecord }: Props) {
   const [activeTab, setActiveTab] = useState(" ");
 
   const handleTabChange = (tabKey: any) => {
     setActiveTab(tabKey);
   };
 
-  const [requests, purchaseOrder, quotations] = ['Requests', 'Purchase Orders', 'Quotations'];
+  // Memoize the tabs to prevent unnecessary re-renders
+  const tabs = useMemo(() => ['Requests', 'Purchase Orders', 'Quotations'], []);
+
+  const getActiveRecord = useCallback((record: any) => {
+    getActiveTabActiveRecord && getActiveTabActiveRecord(record);
+  }, [])
 
   return (
     <>
-      <div className="flex w-full flex-col">
+      <div className="flex w-full justify-between items-center">
         <Tabs
           aria-label="Options"
           color="primary"
@@ -30,43 +40,35 @@ export default function TableTabs() {
           selectedKey={activeTab}
           onSelectionChange={handleTabChange}
         >
-          <Tab
-            key={requests}
-            title={
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faFileLines} />
-                <span>{requests}</span>
-                <Chip size="sm" variant="flat">9</Chip>
-              </div>
-            }
-          />
-          <Tab
-            key={purchaseOrder}
-            title={
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faMoneyCheckDollar} />
-                <span>{purchaseOrder}</span>
-                <Chip size="sm" variant="flat">3</Chip>
-              </div>
-            }
-          />
-          <Tab
-            key={quotations}
-            title={
-              <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={faListCheck} />
-                <span>{quotations}</span>
-                <Chip size="sm" variant="flat">1</Chip>
-              </div>
-            }
-          />
+          {tabs.map((tab) => (
+            <Tab
+              key={tab}
+              title={
+                <div className="flex items-center space-x-2">
+                  <FontAwesomeIcon icon={faFileLines} />
+                  <span>{tab}</span>
+                  <Chip size="sm" variant="flat">9</Chip>
+                </div>
+              }
+            />
+          ))}
         </Tabs>
+
+        <div className="flex gap-3 items-center text-slate-800 text-sm font-semibold">
+          Date <FontAwesomeIcon size="lg" icon={faCalendarWeek} />
+        </div>
       </div>
 
-      <div className="flex content-center pt-10">
-        {activeTab === requests && <TableSort type="requests" />}
-        {activeTab === purchaseOrder && <TableSort type="purchase" />}
-        {activeTab === quotations && <TableSort type="quotations" />}
+      <div className="flex flex-col content-center pt-10">
+        <Suspense fallback={<div>Loading...</div>}>
+          {activeTab === 'Requests' &&
+            <QueryRequests
+              page={1}
+              pageSize={2}
+              renderTable={true}
+              getActiveRecord={getActiveRecord}
+            />}
+        </Suspense>
       </div>
 
     </>
