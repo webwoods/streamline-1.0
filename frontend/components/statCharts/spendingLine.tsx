@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Chart from "chart.js/auto";
 
-function Example() {
+function SpendingTrendsChart() {
   useEffect(() => {
     var ctx = document.getElementById('myChart') as HTMLCanvasElement | null | string;
     var existingChart = Chart.getChart(ctx as HTMLCanvasElement);
@@ -41,4 +41,4 @@ function Example() {
   );
 }
 
-export default Example;
+export default SpendingTrendsChart;
