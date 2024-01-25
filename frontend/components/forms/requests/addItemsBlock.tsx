@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Chip, Input } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { formButtonStyles } from "../styles";
 
@@ -24,10 +24,10 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
 
   const [searchRequestItems, { loading, error, data }] = useLazyQuery(SEARCH_REQUEST_ITEMS, { client });
 
-  const handleVerify = () => {
+  const handleVerify = useCallback(() => {
     onDataSubmit && onDataSubmit({ requestItems: addedItems });
     onNext();
-  }
+  }, [onDataSubmit, onNext, addedItems]);  
 
   const handleAddItems = (item: any) => {
     // Check if the item with the same id already exists in addedItems
@@ -53,6 +53,7 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
     1000
   );
 
+  // delete this in prod
   useEffect(() => {
     console.log(data?.searchRequestItems);
   }, [data]);
@@ -61,6 +62,7 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
     handleSearch(searchQuery);
   }, [searchQuery])
 
+  // delete this in prod
   useEffect(() => {
     console.log('added items updated', addedItems);
   }, [addedItems]);
@@ -73,6 +75,8 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
       </div>
 
       <div className='flex flex-col items-center pt-10 gap-3'>
+
+        {/* this is the search bar */}
         <Input
           isClearable
           label="Search items"
@@ -83,6 +87,7 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
           classNames={{ ...formInputStyles }}
         />
 
+        {/* this is to render search results */}
         <div className="w-full flex flex-col gap-4">
           {data &&
             data?.searchRequestItems?.data.map((item: any, index: number) => {
@@ -95,14 +100,6 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
             })
           }
         </div>
-
-        {/* <div className='flex w-full gap-1'>
-            {selectedTags.map((tag, index) => (
-              <Chip key={index} onClose={() => console.log("close")} variant="bordered">
-                {tag}
-              </Chip>
-            ))}
-          </div> */}
 
         <div className='w-full flex flex-col gap-3'>
           {addedItems?.map((item: any, index: number) => {

@@ -1,7 +1,8 @@
 import { Button, Divider, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { formButtonStyles, formSelectStyles, formTextAreaStyles, listBoxProps } from "../styles";
 import { useRouter } from "next/navigation";
+import SearchUserInput from "../searchUserInput";
 
 interface Props {
     user: string
@@ -12,7 +13,7 @@ interface Props {
 
 export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmit }: Props) {
 
-    const requestedUserNameRef = useRef<HTMLInputElement>(null);
+    // const requestedUserNameRef = useRef<HTMLInputElement>(null);
     const subjectRef = useRef<HTMLInputElement>(null);
     const expectedAtRef = useRef<HTMLInputElement>(null);
     const requestTypeRef = useRef<HTMLSelectElement>(null);
@@ -21,12 +22,14 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
 
     const router = useRouter();
 
+    const [isUserValid, setIsUserValid] = useState<boolean>(true);
+
     const handleCancel = () => {
         router.push('/requests');
     }
 
     const handleNext = () => {
-        const requestedUserName = requestedUserNameRef.current?.value || "";
+        // const requestedUserName = requestedUserNameRef.current?.value || "";
         const subject = subjectRef.current?.value || "";
         const createdAt = new Date();
         const expectedAt = expectedAtRef.current?.value ? new Date(expectedAtRef.current?.value) : null;
@@ -35,10 +38,10 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
         const file = fileRef.current?.value || "";
         const status = "awaiting_approval";
 
-        const formData = { requestedUserName, createdAt, expectedAt, requestType, subject, description, file, status };
+        const formData = { createdAt, expectedAt, requestType, subject, description, file, status };
 
         onDataSubmit && onDataSubmit(formData);
-        onNext();
+        // onNext();
     }
 
     return (
@@ -49,13 +52,9 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
             </div>
 
             <div className='flex flex-col items-center pt-10 gap-3'>
-                <Input
-                    ref={requestedUserNameRef}
-                    label="Requested by"
-                    labelPlacement='outside'
-                    placeholder='Enter Username'
-                    radius='none'
-                    classNames={{ ...formInputStyles }}
+                <SearchUserInput
+                    formInputStyles={formInputStyles}
+                    onDataSubmit={setIsUserValid}
                 />
                 <Input
                     ref={subjectRef}

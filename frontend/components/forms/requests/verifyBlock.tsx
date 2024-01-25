@@ -3,14 +3,13 @@ import { Button, Divider } from "@nextui-org/react";
 interface Props {
     onVerify: () => void
     onBack: () => void
-    onDataSubmit?: (data: any) => void
+    data?: any
 }
 
-export default function VerifyBlock({ onVerify, onBack, onDataSubmit }: Props) {
-    
+export default function VerifyBlock({ onVerify, onBack, data }: Props) {
+
     const handleSubmit = () => {
-        const verifiedData = '';
-        onDataSubmit && onDataSubmit({verifiedData: verifiedData});
+
     }
 
     return (
@@ -25,57 +24,45 @@ export default function VerifyBlock({ onVerify, onBack, onDataSubmit }: Props) {
                 <div className='flex flex-col items-center w-full gap-2'>
                     <div className="w-full flex text-xs justify-between">
                         <div>Requested by</div>
-                        <div>Derik Wijesinghe</div>
+                        <div>{data?.requestedUserName}</div>
                     </div>
 
                     <div className="w-full flex text-xs justify-between">
                         <div>Created date</div>
-                        <div>2024-01-12</div>
+                        <div>{data?.createdAt}</div>
                     </div>
 
                     <div className="w-full flex text-xs justify-between">
                         <div>Expected response by</div>
-                        <div>2024-02-03</div>
+                        <div>{data?.expectedAt}</div>
                     </div>
 
                     <div className="w-full flex text-xs justify-between">
                         <div>Forward to</div>
-                        <div>Gihan Dias</div>
+                        <div>{data?.forwadTo}</div>
                     </div>
                 </div>
 
                 <div className="w-full flex text-xs justify-between">
                     <div>Request type</div>
-                    <div>--</div>
+                    <div>{data?.requestType}</div>
                 </div>
 
                 <div className="w-full flex text-xs justify-between font-semibold">Requested items</div>
                 <Divider className="mb-4" />
                 <div className='flex flex-col items-center w-full gap-1'>
-                    <div className="w-full flex text-xs justify-between">
-                        <div>oxygen-2l</div>
-                        <div>Oxygen</div>
-                        <div>4L</div>
-                        <div>38,000 LKR</div>
-                    </div>
-                    <div className="w-full flex text-xs justify-between">
-                        <div>oxygen-2l</div>
-                        <div>Oxygen</div>
-                        <div>4L</div>
-                        <div>38,000 LKR</div>
-                    </div>
-                    <div className="w-full flex text-xs justify-between">
-                        <div>oxygen-2l</div>
-                        <div>Oxygen</div>
-                        <div>4L</div>
-                        <div>38,000 LKR</div>
-                    </div>
-                    <div className="w-full flex text-xs justify-between">
-                        <div>oxygen-2l</div>
-                        <div>Oxygen</div>
-                        <div>4L</div>
-                        <div>38,000 LKR</div>
-                    </div>
+                    {data?.requestItems?.map((item: any, index: number) => {
+                        return (
+                            <div
+                                key={item?.id}
+                                className="w-full flex text-xs justify-between">
+                                <div>{item?.sku}</div>
+                                <div>{item?.name}</div>
+                                <div>{`${item?.quantity} ${item?.unit}`}</div>
+                                <div>{item?.price} LKR</div>
+                            </div>
+                        )
+                    })}
                 </div>
 
                 <Divider className="my-4" />
