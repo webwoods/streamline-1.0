@@ -1,9 +1,17 @@
 import { Button, Divider } from "@nextui-org/react";
 
-export default function VerifyBlock({ onVerify, onBack }: { onVerify: () => void, onBack: () => void }) {
-    const handleCancel = () => { }
+interface Props {
+    onVerify: () => void
+    onBack: () => void
+    onDataSubmit?: (data: any) => void
+}
 
-    const handleNext = () => { }
+export default function VerifyBlock({ onVerify, onBack, onDataSubmit }: Props) {
+    
+    const handleSubmit = () => {
+        const verifiedData = '';
+        onDataSubmit && onDataSubmit({verifiedData: verifiedData});
+    }
 
     return (
         <div className='w-96 max-w-3xl py-10'>
@@ -40,7 +48,7 @@ export default function VerifyBlock({ onVerify, onBack }: { onVerify: () => void
                     <div>Request type</div>
                     <div>--</div>
                 </div>
-                
+
                 <div className="w-full flex text-xs justify-between font-semibold">Requested items</div>
                 <Divider className="mb-4" />
                 <div className='flex flex-col items-center w-full gap-1'>
@@ -90,14 +98,14 @@ export default function VerifyBlock({ onVerify, onBack }: { onVerify: () => void
                 </div>
 
                 <div className='w-full flex gap-3 pt-5'>
-                    <Button 
-                    className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'
-                    onClick={onBack}>Back</Button>
+                    <Button
+                        className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'
+                        onClick={onBack}>Back</Button>
                     <Button
                         className='w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700'
-                        onClick={handleNext}>Submit</Button>
+                        onClick={handleSubmit}>Submit</Button>
                 </div>
-                
+
             </div>
         </div>
     );
