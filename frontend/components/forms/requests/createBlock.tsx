@@ -1,8 +1,16 @@
 import { Button, Divider, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useMemo, useRef, useState } from "react";
-import { formSelectStyles, formTextAreaStyles, listBoxProps } from "../styles";
+import { formButtonStyles, formSelectStyles, formTextAreaStyles, listBoxProps } from "../styles";
+import { useRouter } from "next/navigation";
 
-export default function CreateBlock({ user, onNext, formInputStyles }: { user: string; onNext: () => void; formInputStyles: any }) {
+interface Props {
+    user: string
+    onNext: () => void
+    formInputStyles: any
+    onDataSubmit?: (data: any) => void
+};
+
+export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmit }: Props) {
 
     const requestedUserNameRef = useRef<HTMLInputElement>(null);
     const subjectRef = useRef<HTMLInputElement>(null);
@@ -11,7 +19,11 @@ export default function CreateBlock({ user, onNext, formInputStyles }: { user: s
     const fileRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
 
-    const handleCancel = () => { }
+    const router = useRouter();
+
+    const handleCancel = () => {
+        router.push('/requests');
+    }
 
     const handleNext = () => {
         const requestedUserName = requestedUserNameRef.current?.value || "";
@@ -19,11 +31,14 @@ export default function CreateBlock({ user, onNext, formInputStyles }: { user: s
         const createdAt = new Date();
         const expectedAt = expectedAtRef.current?.value ? new Date(expectedAtRef.current?.value) : null;
         const requestType = requestTypeRef.current?.value || ""; // Assuming you want to add a ref for requestType as well
-        const description = ""; // Assuming you want to add a ref for description as well
+        const description = descriptionRef.current?.value || ""; // Assuming you want to add a ref for description as well
         const file = fileRef.current?.value || "";
+        const status = "awaiting_approval";
 
-        console.log({ requestedUserName, createdAt, expectedAt, requestType, description });
-        // onNext();
+        const formData = { requestedUserName, createdAt, expectedAt, requestType, subject, description, file, status };
+
+        onDataSubmit && onDataSubmit(formData);
+        onNext();
     }
 
     return (
@@ -92,9 +107,12 @@ export default function CreateBlock({ user, onNext, formInputStyles }: { user: s
                 />
 
                 <div className='w-full flex gap-3 pt-5'>
-                    <Button className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'>Cancel</Button>
                     <Button
-                        className='w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700'
+                        className={formButtonStyles.secondary}
+                        onClick={handleCancel}
+                    >Cancel</Button>
+                    <Button
+                        className={formButtonStyles.primary}
                         onClick={handleNext}>Next</Button>
                 </div>
 

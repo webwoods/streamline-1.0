@@ -17,3 +17,8 @@ export const listBoxProps = {
         base: "rounded-[0.25rem]"
     }
 }
+
+export const formButtonStyles = {
+    primary: 'w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700',
+    secondary: 'w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'
+}

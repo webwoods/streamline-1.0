@@ -60,7 +60,7 @@ export default function RequestsToolBar() {
 			<Tool
 				title="Create"
 				icon={faSquarePen}
-				onClick={() => testRouter('/requests/create')}
+				onClick={() => router.push('/requests/create')}
 			/>
 
 		</div>
