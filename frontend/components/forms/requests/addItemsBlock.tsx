@@ -20,16 +20,18 @@ function Item({ data, onClick }: { data: any, onClick: (data: any) => void }) {
 
   return (
     <div className="text-tiny w-full flex justify-between items-center border-slate-300 border-1 rounded-md p-2">
-      <div className="flex flex-col">
+      <div className="flex flex-col pl-3">
         <span className="text-slate-400">{data.sku}</span>
         <span className="font-semibold">{data.name}</span>
-        <span>{data.price} LKR</span>
       </div>
 
       <div className="flex justify-end gap-2 items-center">
-        <span className={`${inStock ? 'text-green-500' : 'text-red-500'}`}>
-          {inStock ? "In stock" : "Out of stock"}
-        </span>
+        <div className="flex flex-col items-end">
+          <span className={`${inStock ? 'text-green-500' : 'text-red-500'}`}>
+            {inStock ? "In stock" : "Out of stock"}
+          </span>
+          <span>{data.price} LKR</span>
+        </div>
         <Tooltip content='Add item' className="text-tiny">
           <Button
             onClick={() => onClick(data)}
@@ -44,10 +46,48 @@ function Item({ data, onClick }: { data: any, onClick: (data: any) => void }) {
   )
 }
 
+function AddedItem({ data, onClick }: { data: any, onClick: (data: any) => void }) {
+  return (
+    <div className='text-xs grid grid-cols-5 border-1 items-center rounded-[0.25rem] p-2'>
+      <div className='flex flex-col pl-3 col-span-2'>
+        <span className='text-slate-400'>{data.sku}</span>
+        <span className="font-semibold">{data.name}</span>
+      </div>
+      <div className="col-span-1">
+        <Input
+          type="number"
+          defaultValue='1'
+          classNames={{
+            base: [
+              'w-15'
+            ],
+            input: [
+              'bg-transparent',
+              'text-center'
+            ],
+            inputWrapper: [
+              'bg-transparent',
+              'border-1'
+            ]
+          }}
+        />
+      </div>
+      <div className="col-span-2 flex justify-end items-center">
+        <span>{data.price} LKR</span>
+        <Tooltip className="text-xs" content="remove item">
+          <Button isIconOnly onClick={() => onClick(data)} className="text-red-500 bg-transparent">
+            <FontAwesomeIcon icon={faTrash} size='sm' />
+          </Button>
+        </Tooltip>
+      </div>
+    </div>
+  )
+}
+
 export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataSubmit }: Props) {
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [addedItems, setAddedItems] = useState<any>();
+  const [addedItems, setAddedItems] = useState<any>([]);
 
   const [searchRequestItems, { loading, error, data }] = useLazyQuery(SEARCH_REQUEST_ITEMS, { client });
 
@@ -68,6 +108,17 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
     }
   };
 
+  const handleRemoveItems = (itemToRemove: any) => {
+    console.log(itemToRemove.id);
+    // Use the functional form of setAddedItems to ensure you're working with the latest state
+    setAddedItems((prevItems: any) => {
+      // Filter out the item with the specified id
+      const updatedItems = prevItems.filter((item: any) => item.id !== itemToRemove.id);
+      console.log('Item removed!');
+      return updatedItems;
+    });
+  };  
+  
   const handleSearch = useDebouncedCallback(
     // function
     (_value) => {
@@ -124,23 +175,11 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
           }
         </div>
 
-        <span className="text-sm text-left w-full">Added items</span>
+        <span className="text-sm text-left w-full font-medium">Added items</span>
 
-        <div className='w-full flex flex-col gap-3'>
+        <div className='w-full flex flex-col gap-2'>
           {addedItems?.map((item: any, index: number) => {
-            return (
-              <div key={index} className='flex bg-slate-100 justify-between items-center p-3 rounded-[0.25rem]'>
-                <div className='flex flex-col'>
-                  <span>{item.name}</span>
-                  <span className='text-xs'>{item.sku}</span>
-                </div>
-                <Input
-                  type="number"
-                />
-                <div>{item.price} Rs</div>
-                <FontAwesomeIcon icon={faTrash} />
-              </div>
-            );
+            return (<AddedItem key={item.id} data={item} onClick={handleRemoveItems} />);
           })}
         </div>
 
