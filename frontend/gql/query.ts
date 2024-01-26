@@ -103,3 +103,47 @@ export const REQUEST_QUERY = gql`
   }
 }
 `;
+
+
+export const PURCHASE_ORDER_QUERY = gql`
+query GetPurchaseOrders($page: Int, $pageSize: Int){
+  getPurchaseOrders(page: $page, pageSize: $pageSize) {
+    data {
+      id
+      createdAt
+      updatedAt
+      requestType
+      description
+      file {
+        id
+        name
+      }
+      requestedUser {
+        id
+        name
+        email
+        role {
+          name
+          division
+        }
+      }
+      requestedUserId
+      requestItems {
+        id
+        name
+        price
+        quantity
+        sku
+        type
+        unit
+        properties {
+          key
+          value
+        }
+      }
+      status
+    }
+    totalItems
+  }
+}
+`;
