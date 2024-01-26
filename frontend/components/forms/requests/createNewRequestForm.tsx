@@ -10,7 +10,7 @@ import { formInputStyles } from '../styles';
 export default function CreateNewRequestForm() {
 
   const [currentUser, setCurrentUser] = useState("");
-  const [activeBlock, setActiveBlock] = useState(0);
+  const [activeBlock, setActiveBlock] = useState(1);
   const [formData, setFormData] = useState<any>();
 
   const onDataSubmit = useCallback((data: any) => {
