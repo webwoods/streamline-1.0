@@ -69,6 +69,10 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
               getActiveRecord={getActiveRecord}
             />}
         </Suspense>
+        {activeTab === 'Purchase Orders' &&
+        <QueryPurchaseOrders
+          // Props for Purchase Orders component
+        />}
       </div>
 
     </>
