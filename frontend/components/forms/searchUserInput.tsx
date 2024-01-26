@@ -6,10 +6,10 @@ import { useRef, useState, useEffect } from "react";
 
 interface SearchUserInputProps {
   formInputStyles: any;
-  onDataSubmit: (isValid: boolean) => void;
+  onUserNameChange?: (user: any | null) => void;
 };
 
-export default function SearchUserInput({ formInputStyles, onDataSubmit }: SearchUserInputProps) {
+export default function SearchUserInput({ formInputStyles, onUserNameChange }: SearchUserInputProps) {
   const requestedUserNameRef = useRef<HTMLInputElement>(null);
   const [isUserValid, setIsUserValid] = useState<boolean>(true);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
@@ -19,15 +19,8 @@ export default function SearchUserInput({ formInputStyles, onDataSubmit }: Searc
     { loading, error, data }
   ] = useLazyQuery(USER_BY_USERNAME_OR_EMAIL_QUERY, { client });
 
-  useEffect(() => {
-    if (error) {
-      setIsUserValid(false);
-    } else if (data?.getUserByUsernameOrEmail) {
-      setIsUserValid(true);
-    }
-  }, [data, error]);
-
   const handleBlur = () => {
+    // this function is triggered whenever the user stops typing
     const username = requestedUserNameRef.current?.value;
     if (username) {
       // Clear any existing timer before setting a new one
@@ -48,6 +41,19 @@ export default function SearchUserInput({ formInputStyles, onDataSubmit }: Searc
   };
 
   useEffect(() => {
+    if (data) {
+      setIsUserValid(true);
+      onUserNameChange && onUserNameChange(data.userByUsernameOrEmail);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      setIsUserValid(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
     // Cleanup the timer on component unmount or when the input changes
     return () => {
       if (timer !== null) {
@@ -55,10 +61,6 @@ export default function SearchUserInput({ formInputStyles, onDataSubmit }: Searc
       }
     };
   }, [timer]);
-
-  useEffect(() => {
-    onDataSubmit(isUserValid);
-  }, [isUserValid]);
 
   return (
     <Input
@@ -68,11 +70,11 @@ export default function SearchUserInput({ formInputStyles, onDataSubmit }: Searc
       placeholder="Enter Username"
       radius="none"
       classNames={{ ...formInputStyles }}
-      // color={isUserValid ? "success" : "default"}
       isInvalid={!isUserValid}
       errorMessage={!isUserValid ? "Invalid username!" : ""}
       onBlur={handleBlur}
       onChange={handleChange}
+      isRequired
     />
   );
 }

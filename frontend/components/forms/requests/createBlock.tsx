@@ -1,5 +1,5 @@
 import { Button, Divider, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { formButtonStyles, formSelectStyles, formTextAreaStyles, listBoxProps } from "../styles";
 import { useRouter } from "next/navigation";
 import SearchUserInput from "../searchUserInput";
@@ -13,7 +13,6 @@ interface Props {
 
 export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmit }: Props) {
 
-    // const requestedUserNameRef = useRef<HTMLInputElement>(null);
     const subjectRef = useRef<HTMLInputElement>(null);
     const expectedAtRef = useRef<HTMLInputElement>(null);
     const requestTypeRef = useRef<HTMLSelectElement>(null);
@@ -22,14 +21,16 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
 
     const router = useRouter();
 
-    const [isUserValid, setIsUserValid] = useState<boolean>(true);
+    const [isSubjectValid, setIsSubjectValid] = useState<boolean>(true);
+    const [isExpectedDateValid, setIsExpectedDateValid] = useState<boolean>(true);
+
+    const [requestedUser, setRequestedUser] = useState<any>(null);
 
     const handleCancel = () => {
         router.push('/requests');
     }
 
     const handleNext = () => {
-        // const requestedUserName = requestedUserNameRef.current?.value || "";
         const subject = subjectRef.current?.value || "";
         const createdAt = new Date();
         const expectedAt = expectedAtRef.current?.value ? new Date(expectedAtRef.current?.value) : null;
@@ -38,11 +39,29 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
         const file = fileRef.current?.value || "";
         const status = "awaiting_approval";
 
-        const formData = { createdAt, expectedAt, requestType, subject, description, file, status };
+        const formData = { 
+            requestedUser, 
+            createdAt, 
+            expectedAt, 
+            requestType, 
+            subject, 
+            description, 
+            file, 
+            status 
+        };
+        
+        if (requestedUser === null || !isExpectedDateValid || !isSubjectValid) {
+            alert('"Requested by", "Subject" and "Expect a response by" are required. Please check if any of them are empty.');
+            return;
+        }
 
         onDataSubmit && onDataSubmit(formData);
-        // onNext();
+        onNext();
     }
+
+    const handleUserNameChange = useCallback((user: any) => {
+        setRequestedUser(user);
+    }, []);
 
     return (
         <div className='w-96 max-w-3xl py-10'>
@@ -54,15 +73,24 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
             <div className='flex flex-col items-center pt-10 gap-3'>
                 <SearchUserInput
                     formInputStyles={formInputStyles}
-                    onDataSubmit={setIsUserValid}
+                    onUserNameChange={handleUserNameChange}
                 />
                 <Input
                     ref={subjectRef}
+                    isRequired
                     label="Subject"
                     labelPlacement='outside'
                     placeholder='Request for ...'
                     radius='none'
                     classNames={{ ...formInputStyles }}
+                    isInvalid={!isSubjectValid}
+                    errorMessage={!isSubjectValid ? "Subject cannot be empty!" : ""}
+                    onBlur={() => {
+                        if (subjectRef.current?.value === "") {
+                            setIsSubjectValid(false);
+                        }
+                    }}
+                    onChange={() => setIsSubjectValid(true)}
                 />
                 <Input
                     ref={expectedAtRef}
@@ -72,6 +100,14 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
                     placeholder='Select date'
                     radius='none'
                     classNames={{ ...formInputStyles }}
+                    isInvalid={!isExpectedDateValid}
+                    errorMessage={!isExpectedDateValid ? "Enter a valid date!" : ""}
+                    onBlur={() => {
+                        if (expectedAtRef.current?.value === "") {
+                            setIsExpectedDateValid(false);
+                        }
+                    }}
+                    onChange={() => setIsExpectedDateValid(true)}
                 />
                 <Select
                     ref={requestTypeRef}
@@ -81,6 +117,7 @@ export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmi
                     placeholder='Select Request Type'
                     classNames={formSelectStyles}
                     listboxProps={listBoxProps}
+                    defaultSelectedKeys={["request"]}
                 >
                     <SelectItem key="request">Request</SelectItem>
                     <SelectItem key="purchase_order">Purchase Order</SelectItem>
