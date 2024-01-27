@@ -67,7 +67,7 @@ query GetRequests($page: Int, $pageSize: Int){
         id
         name
         price
-        quantity
+        stock
         sku
         type
         unit
@@ -90,7 +90,7 @@ export const SEARCH_REQUEST_ITEMS = gql`
         id
         name
         sku
-        quantity
+        stock
         type
         unit
         price

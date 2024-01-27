@@ -67,7 +67,9 @@ export default function SearchUserInput({ savedData, formInputStyles, onUserName
   }, [timer]);
 
   useEffect(() => {
-    requestedUserNameRef.current && (requestedUserNameRef.current.value = savedData?.name);
+    if (requestedUserNameRef.current && savedData?.name) {
+      requestedUserNameRef.current.value = savedData?.name;
+    }
   }, [savedData]);
 
   return (

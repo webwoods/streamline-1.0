@@ -26,14 +26,20 @@ export default function CreateNewRequestForm() {
     <CreateBlock
       formInputStyles={formInputStyles}
       key={0}
-      onNext={() => setActiveBlock(1)}
+      onNext={() => {
+        alert('data successfully saved!');
+        setActiveBlock(1);
+      }}
       onDataSubmit={onDataSubmit}
       savedData={formData}
     />,
     <AddItemsBlock
       formInputStyles={formInputStyles}
       key={1}
-      onNext={() => setActiveBlock(2)}
+      onNext={() => {
+        alert('data successfully saved!');
+        setActiveBlock(2);
+      }}
       onBack={() => setActiveBlock(0)}
       onDataSubmit={onDataSubmit}
       savedData={formData}
