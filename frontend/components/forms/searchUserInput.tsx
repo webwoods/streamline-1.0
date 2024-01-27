@@ -1,7 +1,7 @@
 import client from "@/gql/client";
 import { USER_BY_USERNAME_OR_EMAIL_QUERY } from "@/gql/query";
 import { useLazyQuery } from "@apollo/client";
-import { Input } from "@nextui-org/react";
+import { Input, Spinner } from "@nextui-org/react";
 import { useRef, useState, useEffect } from "react";
 
 interface SearchUserInputProps {
@@ -30,7 +30,7 @@ export default function SearchUserInput({ formInputStyles, onUserNameChange }: S
 
       const newTimer = setTimeout(() => {
         getUserByUsernameOrEmail({ variables: { username } });
-      }, 2000);
+      }, 1000);
 
       setTimer(newTimer);
     }
@@ -44,6 +44,9 @@ export default function SearchUserInput({ formInputStyles, onUserNameChange }: S
     if (data) {
       setIsUserValid(true);
       onUserNameChange && onUserNameChange(data.userByUsernameOrEmail);
+
+      // Update the input value with the user's name
+      requestedUserNameRef.current && (requestedUserNameRef.current.value = data.userByUsernameOrEmail.name);
     }
   }, [data]);
 
@@ -75,6 +78,7 @@ export default function SearchUserInput({ formInputStyles, onUserNameChange }: S
       onBlur={handleBlur}
       onChange={handleChange}
       isRequired
+      startContent={loading && <Spinner size="sm" color="success" />}
     />
   );
 }

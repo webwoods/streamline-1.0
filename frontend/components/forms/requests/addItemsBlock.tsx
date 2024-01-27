@@ -101,20 +101,19 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
     if (!addedItems?.some((addedItem: any) => addedItem.id === item.id)) {
       // If not, add the item to the addedItems array
       setAddedItems((prevItems: any) => [...(prevItems || []), item]);
-      console.log('Item added!');
+      // console.log('Item added!');
     } else {
-      console.log('Item already exists!');
+      // console.log('Item already exists!');
       alert('Item already exists!');
     }
   };
 
   const handleRemoveItems = (itemToRemove: any) => {
-    console.log(itemToRemove.id);
     // Use the functional form of setAddedItems to ensure you're working with the latest state
     setAddedItems((prevItems: any) => {
       // Filter out the item with the specified id
       const updatedItems = prevItems.filter((item: any) => item.id !== itemToRemove.id);
-      console.log('Item removed!');
+      // console.log('Item removed!');
       return updatedItems;
     });
   };  
@@ -133,18 +132,18 @@ export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataS
   );
 
   // delete this in prod
-  useEffect(() => {
-    console.log(data?.searchRequestItems);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data?.searchRequestItems);
+  // }, [data]);
 
   useEffect(() => {
     handleSearch(searchQuery);
   }, [searchQuery])
 
   // delete this in prod
-  useEffect(() => {
-    console.log('added items updated', addedItems);
-  }, [addedItems]);
+  // useEffect(() => {
+  //   console.log('added items updated', addedItems);
+  // }, [addedItems]);
 
   return (
     <div className='w-96 max-w-3xl py-10'>

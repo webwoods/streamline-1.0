@@ -1,7 +1,6 @@
 'use client'
 
-import React, { Dispatch, useCallback, useEffect, useState } from 'react';
-import { parseCookies } from 'nookies';
+import React, { useCallback, useEffect, useState } from 'react';
 import CreateBlock from './createBlock';
 import AddItemsBlock from './addItemsBlock';
 import VerifyBlock from './verifyBlock';
@@ -9,8 +8,7 @@ import { formInputStyles } from '../styles';
 
 export default function CreateNewRequestForm() {
 
-  const [currentUser, setCurrentUser] = useState("");
-  const [activeBlock, setActiveBlock] = useState(1);
+  const [activeBlock, setActiveBlock] = useState(0);
   const [formData, setFormData] = useState<any>();
 
   const onDataSubmit = useCallback((data: any) => {
@@ -23,7 +21,6 @@ export default function CreateNewRequestForm() {
   const blocks = [
     <CreateBlock
       formInputStyles={formInputStyles}
-      user={currentUser}
       key={0}
       onNext={() => setActiveBlock(1)}
       onDataSubmit={onDataSubmit}
@@ -42,14 +39,6 @@ export default function CreateNewRequestForm() {
       data={formData}
     />
   ];
-
-  useEffect(() => {
-    const parsedCookie = parseCookies()['currentUser'];
-    setCurrentUser(parsedCookie);
-    // console.log(parsedCookie);
-  }, []);
-
-  useEffect(() => { console.log(formData) }, [formData, onDataSubmit]);
 
   return (
     <div className='w-full flex flex-col items-center'>

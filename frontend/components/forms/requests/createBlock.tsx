@@ -5,13 +5,12 @@ import { useRouter } from "next/navigation";
 import SearchUserInput from "../searchUserInput";
 
 interface Props {
-    user: string
     onNext: () => void
     formInputStyles: any
     onDataSubmit?: (data: any) => void
 };
 
-export default function CreateBlock({ user, onNext, formInputStyles, onDataSubmit }: Props) {
+export default function CreateBlock({ onNext, formInputStyles, onDataSubmit }: Props) {
 
     const subjectRef = useRef<HTMLInputElement>(null);
     const expectedAtRef = useRef<HTMLInputElement>(null);
