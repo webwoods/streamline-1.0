@@ -18,12 +18,17 @@ export default function CreateNewRequestForm() {
     }));
   }, []);
 
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   const blocks = [
     <CreateBlock
       formInputStyles={formInputStyles}
       key={0}
       onNext={() => setActiveBlock(1)}
       onDataSubmit={onDataSubmit}
+      savedData={formData}
     />,
     <AddItemsBlock
       formInputStyles={formInputStyles}
@@ -31,6 +36,7 @@ export default function CreateNewRequestForm() {
       onNext={() => setActiveBlock(2)}
       onBack={() => setActiveBlock(0)}
       onDataSubmit={onDataSubmit}
+      savedData={formData}
     />,
     <VerifyBlock
       key={2}

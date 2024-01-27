@@ -8,9 +8,10 @@ interface Props {
     onNext: () => void
     formInputStyles: any
     onDataSubmit?: (data: any) => void
+    savedData?: any
 };
 
-export default function CreateBlock({ onNext, formInputStyles, onDataSubmit }: Props) {
+export default function CreateBlock({ savedData, onNext, formInputStyles, onDataSubmit }: Props) {
 
     const subjectRef = useRef<HTMLInputElement>(null);
     const expectedAtRef = useRef<HTMLInputElement>(null);
@@ -62,6 +63,18 @@ export default function CreateBlock({ onNext, formInputStyles, onDataSubmit }: P
         setRequestedUser(user);
     }, []);
 
+    useEffect(() => {
+        // Set the state with the saved data when the component mounts
+        if (savedData) {
+            setRequestedUser(savedData?.requestedUser);
+            subjectRef.current && (subjectRef.current.value = savedData?.subject || "");
+            expectedAtRef.current && (expectedAtRef.current.value = savedData?.expectedAt ? new Date(savedData?.expectedAt).toISOString().split('T')[0] : "");
+            requestTypeRef.current && (requestTypeRef.current.value = savedData?.requestType || "");
+            fileRef.current && (fileRef.current.value = savedData?.file || "");
+            descriptionRef.current && (descriptionRef.current.value = savedData?.description || "");
+        }
+    }, [savedData]);
+
     return (
         <div className='w-96 max-w-3xl py-10'>
             <div className="flex items-center justify-center flex-col">
@@ -73,6 +86,7 @@ export default function CreateBlock({ onNext, formInputStyles, onDataSubmit }: P
                 <SearchUserInput
                     formInputStyles={formInputStyles}
                     onUserNameChange={handleUserNameChange}
+                    savedData={requestedUser}
                 />
                 <Input
                     ref={subjectRef}

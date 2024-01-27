@@ -13,6 +13,7 @@ interface Props {
   onBack: () => void;
   formInputStyles: any,
   onDataSubmit?: (data: any) => void
+  savedData?: any
 }
 
 function Item({ data, onClick }: { data: any, onClick: (data: any) => void }) {
@@ -84,7 +85,7 @@ function AddedItem({ data, onClick }: { data: any, onClick: (data: any) => void 
   )
 }
 
-export default function AddItemsBlock({ onNext, onBack, formInputStyles, onDataSubmit }: Props) {
+export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyles, onDataSubmit }: Props) {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [addedItems, setAddedItems] = useState<any>([]);

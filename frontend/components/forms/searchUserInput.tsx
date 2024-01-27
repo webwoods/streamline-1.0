@@ -5,11 +5,12 @@ import { Input, Spinner } from "@nextui-org/react";
 import { useRef, useState, useEffect } from "react";
 
 interface SearchUserInputProps {
+  savedData?: any
   formInputStyles: any;
   onUserNameChange?: (user: any | null) => void;
 };
 
-export default function SearchUserInput({ formInputStyles, onUserNameChange }: SearchUserInputProps) {
+export default function SearchUserInput({ savedData, formInputStyles, onUserNameChange }: SearchUserInputProps) {
   const requestedUserNameRef = useRef<HTMLInputElement>(null);
   const [isUserValid, setIsUserValid] = useState<boolean>(true);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
@@ -64,6 +65,10 @@ export default function SearchUserInput({ formInputStyles, onUserNameChange }: S
       }
     };
   }, [timer]);
+
+  useEffect(() => {
+    requestedUserNameRef.current && (requestedUserNameRef.current.value = savedData?.name);
+  }, [savedData]);
 
   return (
     <Input
