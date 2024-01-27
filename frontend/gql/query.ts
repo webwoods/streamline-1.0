@@ -20,6 +20,25 @@ query User($id: String!) {
 }
 `;
 
+export const USER_BY_USERNAME_OR_EMAIL_QUERY = gql`
+query UserByUsernameOrEmail($username: String, $email: String) {
+  userByUsernameOrEmail(
+    username: $username, 
+    email: $email
+  ) {
+    id
+    username
+    email
+    name
+    role {
+      name
+      division
+    }
+    verified
+  }
+}
+`;
+
 export const REQUESTS_QUERY = gql`
 query GetRequests($page: Int, $pageSize: Int){
   getRequestsWithUser(page: $page, pageSize: $pageSize) {
@@ -48,7 +67,7 @@ query GetRequests($page: Int, $pageSize: Int){
         id
         name
         price
-        quantity
+        stock
         sku
         type
         unit
@@ -71,7 +90,7 @@ export const SEARCH_REQUEST_ITEMS = gql`
         id
         name
         sku
-        quantity
+        stock
         type
         unit
         price

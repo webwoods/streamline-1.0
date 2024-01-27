@@ -1,18 +1,26 @@
 'use client'
-import React from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Select, SelectItem} from "@nextui-org/react";
-import { status } from "./data";
+import React, { useEffect } from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Select, SelectItem } from "@nextui-org/react";
+import { status } from "../../formsModal/data";
 
+interface Props {
+  data?: any
+}
 
-export default function UpdateRequest() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+export default function UpdateRequest({ data }: Props) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  // Use useEffect to open the modal when data is present
+  useEffect(() => {
+    if (data) {
+      onOpen();
+    }
+  }, [data, onOpen]);
 
   return (
     <>
-      <Button onPress={onOpen} color="primary">Open Request Form</Button>
-      <Modal 
-        isOpen={isOpen} 
+      <Modal
+        isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="top-center"
       >
@@ -20,11 +28,11 @@ export default function UpdateRequest() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 items-center">Update
-              <p className="text-xs text-gray-400">Request</p>
+                <p className="text-xs text-gray-400">Request</p>
               </ModalHeader>
               <ModalBody>
                 <Input
-                  autoFocus
+                  readOnly
                   label="ID"
                   placeholder="POG312"
                   variant="bordered"
@@ -34,26 +42,28 @@ export default function UpdateRequest() {
                   placeholder="Methane Gas"
                   variant="bordered"
                 />
-                 <Input
+                <Input
+                  readOnly
                   label="Type"
                   placeholder="Gas"
                   variant="bordered"
                 />
                 <Input
+                  readOnly
                   label="Date Created"
                   placeholder="yyyy-mm-dd"
                   type="Date"
                   variant="bordered"
                 />
                 <Select
-                    items={status}
-                    label="Status"
-                    placeholder="Status"
-                    className="flex"
-                    >
-                    {(status) => <SelectItem key={status.value}>{status.label}</SelectItem>}
+                  items={status}
+                  label="Status"
+                  placeholder="Status"
+                  className="flex"
+                >
+                  {(status) => <SelectItem key={status.value}>{status.label}</SelectItem>}
                 </Select>
-                  <Input
+                <Input
                   label="Remarks"
                   size="lg"
                   placeholder="text"

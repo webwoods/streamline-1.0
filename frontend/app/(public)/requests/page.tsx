@@ -1,5 +1,5 @@
 
-import Requests from "@/components/requests/requests";
+import Requests from "@/components/forms/requests/requests";
 
 export default function RequestsPage() {
 	return (

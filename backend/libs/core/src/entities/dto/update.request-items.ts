@@ -18,5 +18,5 @@ export class UpdateRequestItemsInput {
   price?: number;
 
   @Field({ nullable: true })
-  quantity?: number;
+  stock?: number;
 }

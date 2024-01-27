@@ -17,7 +17,7 @@ export class RequestItem extends StreamLineEntity {
 
   @Column({ type: 'bigint', nullable: true })
   @Field({ nullable: true })
-  quantity: number;
+  stock: number;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
