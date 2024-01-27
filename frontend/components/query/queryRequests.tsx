@@ -4,6 +4,7 @@ import { REQUESTS_QUERY } from '@/gql/query';
 import client from '@/gql/client';
 import DynamicTable from '../table/table';
 import Loading from '@/app/loading';
+import UpdateRequest from '../forms/requests/updateRequest';
 
 interface Props {
     page: number
@@ -33,8 +34,11 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
     const getRowData = useCallback((data: any, rowId: string) => {
         // this function will get the data relevent to the record that
         // matches the id of the row within the dynamic table
-        const rowData = data.find((item: any) => item.id === rowId);
-        getActiveRecord && getActiveRecord(rowData);
+
+        // the recieved data from the call back has the following structure
+        // data = { data: any, action: any }
+        const rowData = data?.data?.find((item: any) => item.id === rowId);
+        getActiveRecord && getActiveRecord({ data: rowData, action: data?.action });
     }, []);
 
     if (loading) return <Loading />;
@@ -59,15 +63,17 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
                 }
             });
 
-            return <DynamicTable
-                headerColumns={headerColumns}
-                data={tableData}
-                onPaginationChange={handlePaginationChange}
-                pageNumber={page}
-                pageSize={pageSize}
-                total={total}
-                getRowData={getRowData}
-            />;
+            return (
+                <DynamicTable
+                    headerColumns={headerColumns}
+                    data={tableData}
+                    onPaginationChange={handlePaginationChange}
+                    pageNumber={page}
+                    pageSize={pageSize}
+                    total={total}
+                    getRowData={getRowData}
+                />
+            )
         }
     }
 

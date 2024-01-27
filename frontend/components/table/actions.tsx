@@ -4,6 +4,7 @@ import { VerticalDotsIcon } from "./VerticalDotsIcon";
 import { IconDefinition, faEye, faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { color } from "framer-motion";
+import UpdateRequest from "../forms/requests/updateRequest";
 
 interface ToolTipButtonProps {
     id?: string
