@@ -75,8 +75,12 @@ function ProfileComponent() {
 
     useEffect(() => {
         // when the component intially loads, fetch the current user cookie
-        const parsedUserId = JSON.parse(parseCookies()['currentUser']).id;
-        setCurrentUserId(parsedUserId);
+        if (parseCookies()['currentuser']) {
+            const parsedUserId = JSON.parse(parseCookies()['currentUser']).id;
+            setCurrentUserId(parsedUserId);
+        } else {
+            // you are not logged in
+        }
     }, []);
 
     useEffect(() => {

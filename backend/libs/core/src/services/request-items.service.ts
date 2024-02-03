@@ -8,7 +8,7 @@ export class RequestItemsService {
   constructor(
     @InjectRepository(RequestItem)
     private readonly requestItemRepository: Repository<RequestItem>,
-  ) {}
+  ) { }
 
   async findAllRequestItems(
     skip: number,
@@ -17,7 +17,7 @@ export class RequestItemsService {
     const data = await this.requestItemRepository.find({
       skip,
       take,
-      relations: { requests: true, properties: true },
+      relations: { requests: true },
     });
     return data;
   }
@@ -26,14 +26,33 @@ export class RequestItemsService {
     try {
       // Split the search string into an array of individual words
       const searchWords = searchString.split(' ');
-  
+
+      // // Find request items that match the search words
+      // const requestItems = await this.requestItemRepository.find({
+      //   where: searchWords.map((word) => ({ name: ILike(`%${word}%`) })),
+      //   skip,
+      //   take: pageSize,
+      // });
+
       // Find request items that match the search words
-      const requestItems = await this.requestItemRepository.find({
-        where: searchWords.map((word) => ({ name: ILike(`%${word}%`) })),
-        skip,
-        take: pageSize,
-      });
-  
+      const requestItems = await this.requestItemRepository
+        .createQueryBuilder('requestItem')
+        .leftJoinAndSelect('requestItem.storeItem', 'storeItem') // Join the StoreItem entity
+        .where(
+          searchWords.map((word) => {
+            return `storeItem.name ILIKE :word`; // Change 'name' to the actual field in StoreItem
+          }),
+        )
+        .setParameters(
+          searchWords.reduce((params, word, index) => {
+            params[`word${index}`] = `%${word}%`;
+            return params;
+          }, {}),
+        )
+        .skip(skip)
+        .take(pageSize)
+        .getMany();
+
       return requestItems;
     } catch (error) {
       throw new Error(`Error searching request items: ${error.message}`);
@@ -43,8 +62,7 @@ export class RequestItemsService {
   async findRequestItemById(id: string): Promise<RequestItem | null> {
     return await this.requestItemRepository.findOne({
       relations: {
-        requests: true,
-        properties: true,
+        requests: true
       },
       where: { id },
     });
@@ -54,10 +72,10 @@ export class RequestItemsService {
     input: Partial<RequestItem>,
   ): Promise<RequestItem | null> {
     const requestItem = this.requestItemRepository.create(input);
-    const createdRequest = await this.requestItemRepository.save(requestItem);
+    const createdRequestItem = await this.requestItemRepository.save(requestItem);
     return await this.requestItemRepository.findOne({
-      relations: { requests: true, properties: true },
-      where: { id: createdRequest.id },
+      relations: { requests: true },
+      where: { id: createdRequestItem.id },
     });
   }
 
@@ -66,7 +84,7 @@ export class RequestItemsService {
     input: Partial<RequestItem>,
   ): Promise<RequestItem | null> {
     const requestItem = await this.requestItemRepository.findOne({
-      relations: { requests: true, properties: true },
+      relations: { requests: true },
       where: { id },
     });
 
@@ -83,7 +101,7 @@ export class RequestItemsService {
 
   async deleteRequestItem(id: string): Promise<RequestItem | null> {
     const requestItem = await this.requestItemRepository.findOne({
-      relations: { requests: true, properties: true },
+      relations: { requests: true },
       where: { id },
     });
     await this.requestItemRepository.delete(id);

@@ -5,6 +5,7 @@ import { FileModule } from '../modules/file.module';
 import { RequestItemsModule } from '../modules/request-items.module';
 import { RequestModule } from '../modules/request.module';
 import { PropertiesModule } from '../modules/property.module';
+import { StoreItemModule } from './store-item.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { PropertiesModule } from '../modules/property.module';
     RequestItemsModule,
     RequestModule,
     PropertiesModule,
+    StoreItemModule,
   ],
   exports: [ProcurementService],
   providers: [ProcurementService, ProcurementResolver],

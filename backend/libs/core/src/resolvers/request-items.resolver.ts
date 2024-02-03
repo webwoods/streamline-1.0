@@ -52,13 +52,13 @@ export class RequestItemsResolver {
         skip,
         pageSize,
       );
-      const requestsPage: RequestItemPage = {
+      const requestItemsPage: RequestItemPage = {
         data: requestItems,
         totalItems: requestItems.length,
       };
-      return requestsPage;
+      return requestItemsPage;
     } catch (error: any) {
-      throw new Error(`Error fetching requests: ${error.message}`);
+      throw new Error(`Error fetching request items: ${error.message}`);
     }
   }
 
@@ -73,45 +73,45 @@ export class RequestItemsResolver {
         skip,
         pageSize,
       );
-      const requestsPage: RequestItemPage = {
+      const requestItemsPage: RequestItemPage = {
         data: requestItems,
         totalItems: requestItems.length,
       };
-      return requestsPage;
+      return requestItemsPage;
     } catch (error: any) {
-      throw new Error(`Error fetching requests: ${error.message}`);
+      throw new Error(`Error fetching request items: ${error.message}`);
     }
   }
 
   @Mutation(() => RequestItem, { name: 'createRequestItem' })
-  async createFile(
+  async createRequestItem(
     @Args('input') input: CreateRequestItemsInput,
   ): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.createRequestItem(input);
     } catch (error: any) {
-      throw new Error(`Error creating request: ${error.message}`);
+      throw new Error(`Error creating request item: ${error.message}`);
     }
   }
 
   @Mutation(() => RequestItem, { name: 'updateRequestItem' })
-  async updateFile(
+  async updateRequestItem(
     @Args('id') id: string,
     @Args('input') input: UpdateRequestItemsInput,
   ): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.updateRequestItem(id, input);
     } catch (error: any) {
-      throw new Error(`Error updating request: ${error.message}`);
+      throw new Error(`Error updating request item: ${error.message}`);
     }
   }
 
   @Mutation(() => RequestItem, { name: 'deleteRequestItem' })
-  async deleteFile(@Args('id') id: string): Promise<RequestItem | null> {
+  async deleteRequestItem(@Args('id') id: string): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.deleteRequestItem(id);
     } catch (error: any) {
-      throw new Error(`Error deleting request: ${error.message}`);
+      throw new Error(`Error deleting request item: ${error.message}`);
     }
   }
 

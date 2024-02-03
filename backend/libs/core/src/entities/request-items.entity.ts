@@ -1,35 +1,21 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from './streamline.entity';
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 import { Request } from './request.entity';
 import { Property } from './property.entity';
+import { StoreItem } from './storeItem.entity';
 
 @Entity()
 @ObjectType()
 export class RequestItem extends StreamLineEntity {
-  @Column()
+  @OneToOne(() => StoreItem, (entity: StoreItem) => entity.requestItem)
+  @JoinColumn({ name: 'store_item_id', referencedColumnName: 'id' })
   @Field()
-  name: string;
-
-  @Column()
-  @Field()
-  sku: string;
+  storeItem: StoreItem;
 
   @Column({ type: 'bigint', nullable: true })
   @Field({ nullable: true })
-  stock: number;
-
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  type: string;
-
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  unit: string;
-
-  @Column({ type: 'float', nullable: true })
-  @Field({ nullable: true })
-  price: number;
+  qty: number;
 
   @ManyToMany(() => Request, (request) => request.requestItems, {
     onDelete: 'SET NULL',
@@ -42,17 +28,4 @@ export class RequestItem extends StreamLineEntity {
   })
   @Field(() => [Request], { nullable: true })
   requests: Request[];
-
-  @ManyToMany(() => Property, (property) => property.requestItems, {
-    nullable: true,
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-  @JoinTable({
-    name: 'request_item_properties',
-    joinColumn: { name: 'request_item_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'property_id', referencedColumnName: 'id' },
-  })
-  @Field(() => [Property], { nullable: true })
-  properties: Property[];
 }
