@@ -59,7 +59,7 @@ dotenv.config();
         Property,
         File,
         StoreItem,
-        Vendor,
+        // Vendor,
       ],
       synchronize: true,
     }),
