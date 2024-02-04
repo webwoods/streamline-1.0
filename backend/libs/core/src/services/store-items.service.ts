@@ -60,6 +60,25 @@ export class StoreItemsService {
     });
   }
 
+  async createStoreItems(
+    inputs: Partial<StoreItem>[]
+  ): Promise<StoreItem[]> {
+    try {
+      const storeItems = inputs.map((input) => this.storeItemRepository.create(input));
+
+      const createdStoreItems = await this.storeItemRepository.save(storeItems);
+
+      return await this.storeItemRepository.find({
+        where: createdStoreItems.map((item) => ({ id: item.id })),
+        relations: { properties: true, requestItem: true },
+      });
+
+    } catch (error) {
+      throw new Error(`Error creating store items: ${error.message}`);
+    }
+  }
+
+
   async updateStoreItem(
     id: string,
     input: Partial<StoreItem>,

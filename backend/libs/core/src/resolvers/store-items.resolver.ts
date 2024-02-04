@@ -11,7 +11,7 @@ import {
 import { StoreItem } from '../entities/storeItem.entity';
 import { StoreItemsService } from '../services/store-items.service';
 import { StoreItemPage } from '../entities/dto/storeItemPage.dto';
-import { CreateStoreItemsInput } from '../entities/dto/create.store-items';
+import { CreateStoreItemInput, CreateStoreItemsInput } from '../entities/dto/create.store-items';
 
 @Resolver(() => StoreItem)
 export class StoreItemsResolver {
@@ -83,7 +83,7 @@ export class StoreItemsResolver {
 
     @Mutation(() => StoreItem, { name: 'createStoreItem' })
     async createStoreItem(
-        @Args('input') input: CreateStoreItemsInput,
+        @Args('input') input: CreateStoreItemInput,
     ): Promise<StoreItem | null> {
         try {
             return await this.storeItemService.createStoreItem(input);
@@ -92,10 +92,21 @@ export class StoreItemsResolver {
         }
     }
 
+    @Mutation(() => [StoreItem], { name: 'createStoreItems' })
+    async createStoreItems(
+        @Args('input') input: CreateStoreItemsInput,
+    ): Promise<StoreItem[] | null> {
+        try {
+            return await this.storeItemService.createStoreItems(input.storeItems);
+        } catch (error: any) {
+            throw new Error(`Error creating store item: ${error.message}`);
+        }
+    }
+
     @Mutation(() => StoreItem, { name: 'updateStoreItem' })
     async updateStoreItem(
         @Args('id') id: string,
-        @Args('input') input: CreateStoreItemsInput,
+        @Args('input') input: CreateStoreItemInput,
     ): Promise<StoreItem | null> {
         try {
             return await this.storeItemService.updateStoreItem(id, input);

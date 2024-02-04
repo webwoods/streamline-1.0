@@ -34,20 +34,39 @@ export class RequestItemsService {
       //   take: pageSize,
       // });
 
+      // // Find request items that match the search words
+      // const requestItems = await this.requestItemRepository
+      //   .createQueryBuilder('requestItem')
+      //   .leftJoinAndSelect('requestItem.storeItem', 'storeItem') // Join the StoreItem entity
+      //   .where(
+      //     searchWords.map((word) => {
+      //       return `storeItem.name ILIKE :word`; // Change 'name' to the actual field in StoreItem
+      //     }),
+      //   )
+      //   .setParameters(
+      //     searchWords.reduce((params, word, index) => {
+      //       params[`word${index}`] = `%${word}%`;
+      //       return params;
+      //     }, {}),
+      //   )
+      //   .skip(skip)
+      //   .take(pageSize)
+      //   .getMany();
+
       // Find request items that match the search words
       const requestItems = await this.requestItemRepository
         .createQueryBuilder('requestItem')
         .leftJoinAndSelect('requestItem.storeItem', 'storeItem') // Join the StoreItem entity
         .where(
-          searchWords.map((word) => {
-            return `storeItem.name ILIKE :word`; // Change 'name' to the actual field in StoreItem
-          }),
-        )
-        .setParameters(
-          searchWords.reduce((params, word, index) => {
-            params[`word${index}`] = `%${word}%`;
-            return params;
-          }, {}),
+          qb => {
+            searchWords.forEach((word, index) => {
+              if (index === 0) {
+                qb.where(`storeItem.name ILIKE :word${index}`, { [`word${index}`]: `%${word}%` });
+              } else {
+                qb.orWhere(`storeItem.name ILIKE :word${index}`, { [`word${index}`]: `%${word}%` });
+              }
+            });
+          }
         )
         .skip(skip)
         .take(pageSize)

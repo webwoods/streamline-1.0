@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class CreateStoreItemsInput {
+export class CreateStoreItemInput {
   @Field()
   name: string;
 
@@ -20,3 +20,10 @@ export class CreateStoreItemsInput {
   @Field({ nullable: true })
   price?: number;
 }
+
+@InputType()
+export class CreateStoreItemsInput {
+  @Field((type) => [CreateStoreItemInput])
+  storeItems!: CreateStoreItemInput[];
+}
+
