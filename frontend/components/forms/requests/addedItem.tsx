@@ -9,9 +9,10 @@ interface Props {
   data: any,
   onClick: (data: any) => void
   getAddedItemData?: (data: any) => void
+  savedQty?: number
 }
 
-export default function AddedItem({ data, onClick, getAddedItemData }: Props) {
+export default function AddedItem({ data, onClick, getAddedItemData, savedQty }: Props) {
 
   const qtyInputRef = useRef<HTMLInputElement>(null);
 
@@ -33,6 +34,11 @@ export default function AddedItem({ data, onClick, getAddedItemData }: Props) {
       }
     };
   }, [getAddedItemData, data]);
+
+  useEffect(() => {
+    console.log(savedQty);
+    qtyInputRef.current && (qtyInputRef.current.value = savedQty?.toString() || '1');
+  }, [savedQty]);
 
   return (
     <div className='text-xs grid grid-cols-5 border-1 items-center rounded-[0.25rem] p-2'>

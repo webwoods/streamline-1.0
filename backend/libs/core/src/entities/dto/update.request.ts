@@ -30,4 +30,13 @@ export class UpdateRequestInput {
     defaultValue: RequestStatus.PENDING,
   })
   status: RequestStatus;
+
+  @Field({ nullable: true })
+  subtotal?: number;
+
+  @Field({ nullable: true })
+  tax?: number;
+
+  @Field({ nullable: true })
+  total?: number;
 }

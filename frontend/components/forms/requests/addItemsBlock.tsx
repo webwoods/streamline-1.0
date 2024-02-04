@@ -76,12 +76,15 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
   }, []);
 
   useEffect(() => {
-    console.log(addedItems);
-  }, [addedItems])
-
-  useEffect(() => {
     handleSearch(searchQuery);
   }, [searchQuery])
+
+  useEffect(() => {
+    // Set the state with the saved data when the component mounts
+    if (savedData) {
+      setAddedItems(savedData.requestItems);
+    }
+}, [savedData]);
 
   return (
     <div className='w-96 max-w-3xl py-10'>
@@ -121,6 +124,7 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
           {addedItems?.map((item: any, index: number) => {
             return (
               <AddedItem
+                savedQty={item.qty}
                 key={item.id}
                 data={item}
                 onClick={handleRemoveItems}

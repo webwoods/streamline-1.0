@@ -52,4 +52,16 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'subject', nullable: true })
   @Field({ nullable: true })
   subject: string;
+
+  @Column({ name: 'subtotal', type: 'float', nullable: true })
+  @Field({ nullable: true })
+  subtotal: number;
+
+  @Column({ name: 'tax', type: 'float', nullable: true })
+  @Field({ nullable: true })
+  tax: number;
+
+  @Column({ name: 'total', type: 'float', nullable: true })
+  @Field({ nullable: true })
+  total: number;
 }
