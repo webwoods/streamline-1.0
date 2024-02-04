@@ -1,25 +1,22 @@
 import { gql } from "@apollo/client";
-import { RequestStatus } from "./types";
-
-// export const UPDATE_USER_MUTATION = gql``;
 
 export const CREATE_REQUEST = gql`
   mutation CreateRequest(
-    $requestType: String!
-    $requestedUserId: String
     $description: String
     $fileId: String
-    $status: RequestStatus
+    $requestedUserId: String!
+    $requestType: RequestType!
+    $status: RequestStatus!
+    $subject: String!
   ) {
-    createRequest(
-      input: {
-        requestType: $requestType
-        requestedUserId: $requestedUserId
-        description: $description
-        fileId: $fileId
-        status: $status
-      }
-    ) {
+    createRequest(input: {
+      description: $description
+      fileId: $fileId
+      requestedUserId: $requestedUserId
+      requestType: $requestType
+      status: $status
+      subject: $subject
+    }) {
       id
       createdAt
       updatedAt
@@ -31,19 +28,76 @@ export const CREATE_REQUEST = gql`
       }
       requestedUser {
         id
-        name
+        createdAt
+        updatedAt
+        username
         email
+        password
+        name
+        role {
+          id
+          name
+          division
+        } 
+        verified
       }
       requestedUserId
       requestItems {
         id
+        createdAt
+        updatedAt
+        storeItem {
+          id
+          createdAt
+          updatedAt
+          name
+          sku
+          stock
+          type
+          unit
+          price
+          properties {
+            id
+            key
+            value
+            type
+          }
+        } 
+        qty
+      }
+      status
+      subject
+    }
+  }
+`;
+
+export const CREATE_REQUEST_ITEM = gql`
+  mutation CreateRequestItem($qty: ) {
+    createRequestItem(input: {
+      qty: ""
+      requestId: ""
+      storeItemId: ""
+    }) {
+      id
+      createdAt
+      updatedAt
+      storeItem {
+        id
+        createdAt
+        updatedAt
+        name
         sku
+        stock
+        type
+        unit
+        price
         properties {
           key
+          type
           value
         }
       }
-      status
+      qty
     }
   }
 `;

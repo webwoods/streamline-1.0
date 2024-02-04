@@ -1,3 +1,6 @@
+import client from "@/gql/client";
+import { CREATE_REQUEST } from "@/gql/mutation";
+import { useMutation } from "@apollo/client";
 import { Button, Divider } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -11,8 +14,10 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
     const [requestData, setRequestData] = useState<any>(null);
 
-    const handleSubmit = () => {
+    const [createRequestMutation] = useMutation(CREATE_REQUEST, { client });
 
+    const handleSubmit = () => {
+        console.log(requestData);
     }
 
     const calculateTotals = useMemo(() => {

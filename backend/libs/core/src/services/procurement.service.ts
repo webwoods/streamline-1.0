@@ -27,26 +27,35 @@ export class ProcurementService {
   ) { }
 
   /**
-   * This function lets the procurement user to add request items to
-   * a request
-   * @returns
-   */
+ * This function lets the procurement user to add request items to
+ * a request
+ * @returns
+ */
   async addRequestItemsToRequest(
     requestId: string,
     requestItemIds: string[],
   ): Promise<Request> {
     try {
       const request = await this.requestService.findRequestById(requestId);
-      requestItemIds.forEach(async (requestItemId: string) => {
+
+      // Map the array of request item IDs to an array of promises
+      const updatePromises = requestItemIds.map(async (requestItemId) => {
         const requestItem = await this.requestItemService.findRequestItemById(
           requestItemId,
         );
+
+        // console.log(requestItem); // here store item is queried along with the request item. this is correct.
+
         requestItem.requests.push(request);
         await this.requestItemService.updateRequestItem(
           requestItemId,
           requestItem,
         );
       });
+
+      // Use Promise.all to wait for all promises to resolve
+      await Promise.all(updatePromises);
+
       return await this.requestService.findRequestById(requestId);
     } catch (error) {
       throw new Error(error);

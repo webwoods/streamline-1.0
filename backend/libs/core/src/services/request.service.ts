@@ -15,7 +15,7 @@ export class RequestService {
     const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true } },
     });
     return { data, count };
   }
@@ -28,7 +28,7 @@ export class RequestService {
     const data = await this.requestRepository.find({
       skip,
       take,
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true } },
       where: {
         requestedUserId: userId,
       },
@@ -37,20 +37,25 @@ export class RequestService {
   }
 
   async findRequestById(id: string): Promise<Request | null> {
-    return await this.requestRepository.findOne({
+    const r = await this.requestRepository.findOne({
       relations: {
         file: true,
-        requestItems: true,
+        requestItems: {
+          storeItem: true
+        },
       },
       where: { id },
     });
+
+    console.log(r);
+    return r;
   }
 
   async createRequest(input: Partial<Request>): Promise<Request | null> {
     const request = this.requestRepository.create(input);
     const createdRequest = await this.requestRepository.save(request);
     return await this.requestRepository.findOne({
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true } },
       where: { id: createdRequest.id },
     });
   }
@@ -60,7 +65,7 @@ export class RequestService {
     input: Partial<Request>,
   ): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true } },
       where: { id },
     });
 
@@ -78,7 +83,7 @@ export class RequestService {
 
   async deleteRequest(id: string): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true } },
       where: { id },
     });
     await this.requestRepository.delete(id);

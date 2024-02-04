@@ -13,6 +13,9 @@ export class RequestItem extends StreamLineEntity {
   @Field()
   storeItem: StoreItem;
 
+  @Column({ name: 'store_item_id', nullable: true })
+  storeItemId: string;
+
   @Column({ type: 'bigint', nullable: true })
   @Field({ nullable: true })
   qty: number;
@@ -28,4 +31,7 @@ export class RequestItem extends StreamLineEntity {
   })
   @Field(() => [Request], { nullable: true })
   requests: Request[];
+
+  @Column({ name: 'request_id', nullable: true })
+  requestId: string;
 }
