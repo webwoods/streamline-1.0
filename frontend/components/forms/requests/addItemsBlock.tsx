@@ -1,5 +1,5 @@
 import client from "@/gql/client";
-import { SEARCH_REQUEST_ITEMS } from "@/gql/query";
+import { SEARCH_STORE_ITEMS } from "@/gql/query";
 import { useLazyQuery } from "@apollo/client";
 import { Button, Input } from "@nextui-org/react";
 import { useCallback, useEffect, useState } from "react";
@@ -21,7 +21,7 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
   const [searchQuery, setSearchQuery] = useState("");
   const [addedItems, setAddedItems] = useState<any>([]);
 
-  const [searchRequestItems, { loading, error, data }] = useLazyQuery(SEARCH_REQUEST_ITEMS, { client });
+  const [searchRequestItems, { loading, error, data }] = useLazyQuery(SEARCH_STORE_ITEMS, { client });
 
   const handleVerify = useCallback(() => {
     onDataSubmit && onDataSubmit({ requestItems: addedItems });
@@ -91,7 +91,7 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
         {/* this is to render search results */}
         <div className="w-full flex flex-col gap-2 mb-5">
           {searchQuery && data &&
-            data?.searchRequestItems?.data.map((item: any, index: number) => {
+            data?.searchStoreItems?.data.map((item: any, index: number) => {
               return (<SearchItem key={item.id} data={item} onClick={handleAddItems} />)
             })
           }

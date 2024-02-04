@@ -65,15 +65,18 @@ query GetRequests($page: Int, $pageSize: Int){
       requestedUserId
       requestItems {
         id
-        name
-        price
-        stock
-        sku
-        type
-        unit
-        properties {
-          key
-          value
+        qty
+        storeItem {
+          id
+          name
+          price
+          properties {
+            key
+            value
+          }
+          sku
+          stock
+          unit
         }
       }
       status
@@ -83,11 +86,13 @@ query GetRequests($page: Int, $pageSize: Int){
 }
 `;
 
-export const SEARCH_REQUEST_ITEMS = gql`
-  query SearchRequestItems($page: Int, $pageSize: Int, $searchString: String!){
-    searchRequestItems(page: $page, pageSize: $pageSize, searchString: $searchString) {
+export const SEARCH_STORE_ITEMS = gql`
+  query SearchStoreItems($page: Int, $pageSize: Int, $searchString: String!){
+    searchStoreItems(page: $page, pageSize: $pageSize, searchString: $searchString) {
       data {
         id
+        createdAt
+        updatedAt
         name
         sku
         stock
@@ -95,8 +100,10 @@ export const SEARCH_REQUEST_ITEMS = gql`
         unit
         price
         properties {
+          id
           key
           value
+          type
         }
       }
     }

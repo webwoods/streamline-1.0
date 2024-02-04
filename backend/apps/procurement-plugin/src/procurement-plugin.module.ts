@@ -14,6 +14,7 @@ import { File } from '@libs/core/entities/file.entity';
 import { Request } from '@libs/core/entities/request.entity';
 import { ProcurementModule } from '@libs/core/modules/procurement.module';
 import * as dotenv from 'dotenv';
+import { StoreItem } from '@libs/core/entities/storeItem.entity';
 import { Vendor } from '@libs/core/entities/vendor.entity';
 
 dotenv.config();
@@ -57,8 +58,8 @@ dotenv.config();
         RequestItem,
         Property,
         File,
-        Vendor
-        //vendors
+        StoreItem,
+        // Vendor,
       ],
       synchronize: true,
     }),
