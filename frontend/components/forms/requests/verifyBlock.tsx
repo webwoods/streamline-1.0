@@ -22,14 +22,14 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                 <h2 className="text-slate-400 text-sm">GR112</h2>
             </div>
 
-            {data &&
+            {/* {data &&
                 <div className='flex flex-col items-center pt-10 gap-5 font-normal'>
 
                     <div className='flex flex-col items-center w-full gap-2'>
-                        {/* <div className="w-full flex text-xs justify-between">
+                        <div className="w-full flex text-xs justify-between">
                         <div>Requested by</div>
                         <div>{data?.requestedUserName}</div>
-                    </div> */}
+                    </div>
 
                         <div className="w-full flex text-xs justify-between">
                             <div>Created date</div>
@@ -62,7 +62,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                                     className="w-full flex text-xs justify-between">
                                     <div>{item?.sku}</div>
                                     <div>{item?.name}</div>
-                                    {/* <div>{`${item?.quantity} ${item?.unit}`}</div> */}
                                     <div>{item?.price} LKR</div>
                                 </div>
                             )
@@ -98,7 +97,7 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                     </div>
 
                 </div>
-            }
+            } */}
         </div>
     );
 };
