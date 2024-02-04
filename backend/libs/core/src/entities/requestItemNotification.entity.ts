@@ -12,7 +12,7 @@ import { StreamLineEntity } from './streamline.entity';
 
 @Entity()
 @ObjectType()
-export class UserNotification extends Notification {
+export class RequestItemNotification extends Notification {
     @Column({ nullable: true })
     @Field({ nullable: true })
     requestItemId?: string;
