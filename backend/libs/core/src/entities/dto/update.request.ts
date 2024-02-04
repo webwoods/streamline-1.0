@@ -12,15 +12,12 @@ export class UpdateRequestInput {
     nullable: true
   })
   requestType?: RequestType;
-  
+
   @Field({ nullable: true })
   subject?: string;
 
   @Field({ nullable: true })
   requestedUserId?: string;
-
-  @Field({ nullable: true })
-  requestedDate?: Date;
 
   @Field({ nullable: true })
   description?: string;
@@ -39,4 +36,10 @@ export class UpdateRequestInput {
 
   @Field({ nullable: true })
   total?: number;
+
+  @Field({ nullable: true })
+  expectedAt?: Date;
+
+  @Field(() => [String], { nullable: true })
+  forwardTo?: string[];
 }

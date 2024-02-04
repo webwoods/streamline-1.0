@@ -1,5 +1,7 @@
 import client from "@/gql/client";
-import { CREATE_REQUEST } from "@/gql/mutation";
+import { ADD_REQUEST_ITEMS_TO_REQUEST, CREATE_REQUEST, CREATE_REQUEST_ITEMS, UPDATE_REQUEST } from "@/gql/mutation";
+import { RequestStatus, RequestType } from "@/gql/types";
+import { convertToUpperCaseUnderscored } from "@/util/string.util";
 import { useMutation } from "@apollo/client";
 import { Button, Divider } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
@@ -14,10 +16,66 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
     const [requestData, setRequestData] = useState<any>(null);
 
-    const [createRequestMutation] = useMutation(CREATE_REQUEST, { client });
+    const [createRequestMutation, {
+        error: createRequestError,
+        data: createRequestData,
+        loading: createRequestLoading
+    }] = useMutation(CREATE_REQUEST, { client });
 
-    const handleSubmit = () => {
+    const [createRequestItemsMutation, {
+        error: createRequestItemError,
+        data: createRequestItemData,
+        loading: createRequestItemLoading
+    }] = useMutation(CREATE_REQUEST_ITEMS, { client });
+
+    const [addRequestItemsToRequestMutation, {
+        error: addRequestItemsError,
+        data: addRequestItemsData,
+        loading: addRequestItemsLoading
+    }] = useMutation(ADD_REQUEST_ITEMS_TO_REQUEST, { client });
+
+    const [updateRequestMutation, {
+        error: updateRequestError,
+        data: updateRequestData,
+        loading: updateRequestLoading
+    }] = useMutation(UPDATE_REQUEST, { client });
+
+    const handleSubmit = async () => {
         console.log(requestData);
+
+        // step 1: create request 
+
+        await createRequestMutation({
+            variables: {
+                description: requestData?.description,
+                fileId: requestData?.fileId,
+                requestedUserId: requestData?.requestedUser?.id,
+                requestType: convertToUpperCaseUnderscored(requestData?.requestType),
+                status: convertToUpperCaseUnderscored(requestData?.status),
+                subject: requestData?.subject,
+                expectedAt: new Date(requestData?.expectedAt)
+            }
+        });
+
+        if (createRequestError) {
+            alert(createRequestError);
+            return;
+        }
+
+        if (createRequestItemError) {
+            alert(createRequestItemError);
+            return;
+        }
+
+        if (addRequestItemsError) {
+            alert(addRequestItemsError);
+            return;
+        }
+
+        if (createRequestData && createRequestItemData && addRequestItemsData) {
+            alert("Successfully Created the Request!");
+            return;
+        }
     }
 
     const calculateTotals = useMemo(() => {

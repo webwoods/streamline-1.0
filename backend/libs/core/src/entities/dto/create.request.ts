@@ -34,4 +34,10 @@ export class CreateRequestInput {
 
   @Field({ nullable: true })
   total?: number;
+
+  @Field({ nullable: true })
+  expectedAt?: Date;
+
+  @Field(() => [String], { nullable: true })
+  forwardTo?: string[];
 }

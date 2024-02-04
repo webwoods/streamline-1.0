@@ -69,4 +69,12 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'total', type: 'float', nullable: true })
   @Field({ nullable: true })
   total: number;
+
+  @Column({ name: 'expected_at', type: 'date', nullable: true })
+  @Field({ nullable: true })
+  expectedAt!: Date;
+
+  @Column({ name: 'forward_to', nullable: true, type: 'text' })
+  @Field(() => [String], { nullable: true })
+  forwardTo?: string[];
 }
