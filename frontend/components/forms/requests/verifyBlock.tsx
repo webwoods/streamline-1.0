@@ -43,9 +43,7 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
     const handleSubmit = async () => {
         console.log(requestData);
 
-        // step 1: create request 
-
-        await createRequestMutation({
+        createRequestMutation({
             variables: {
                 description: requestData?.description,
                 fileId: requestData?.fileId,
@@ -59,21 +57,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
         if (createRequestError) {
             alert(createRequestError);
-            return;
-        }
-
-        if (createRequestItemError) {
-            alert(createRequestItemError);
-            return;
-        }
-
-        if (addRequestItemsError) {
-            alert(addRequestItemsError);
-            return;
-        }
-
-        if (createRequestData && createRequestItemData && addRequestItemsData) {
-            alert("Successfully Created the Request!");
             return;
         }
     }
@@ -105,6 +88,50 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
             setRequestData({ ...data, calculateTotals });
         }
     }, [])
+
+    useEffect(() => {
+        console.log(createRequestData);
+
+        if (createRequestData) {
+            const requestId = createRequestData?.createRequest?.id;
+            const newRequestItemsArray = requestData?.requestItems?.map((item: any) => ({
+                qty: item.qty,
+                requestId: requestId,
+                storeItemId: item.id,
+            }));
+
+            createRequestItemsMutation({ variables: { input: { requestItems: newRequestItemsArray } } });
+        }
+
+        if (createRequestItemError) {
+            alert(createRequestItemError);
+            return;
+        }
+    }, [createRequestData])
+
+    useEffect(() => {
+        console.log(createRequestItemData);
+
+        if (createRequestItemData) {
+            addRequestItemsToRequestMutation({
+                variables: {
+                    requestId: createRequestData?.createRequest?.id,
+                    requestItemIds: createRequestItemData?.createRequestItems?.map((item: any) => (item.id))
+                }
+            })
+        }
+
+        if (addRequestItemsError) {
+            alert(addRequestItemsError);
+            return;
+        }
+    }, [createRequestItemData])
+
+    useEffect(() => {
+        console.log(addRequestItemsData);
+
+        alert("Successfully Created the Request!");
+    }, [addRequestItemsData])
 
     return (
         <div className='w-96 max-w-3xl py-10'>
