@@ -7,10 +7,7 @@ export class UpdateRequestInput {
   @Field({ nullable: true })
   fileId?: string;
 
-  @Field((type) => RequestType, {
-    defaultValue: RequestType.REQUEST,
-    nullable: true
-  })
+  @Field((type) => RequestType, { nullable: true })
   requestType?: RequestType;
 
   @Field({ nullable: true })
@@ -22,10 +19,7 @@ export class UpdateRequestInput {
   @Field({ nullable: true })
   description?: string;
 
-  @Field((type) => RequestStatus, {
-    nullable: true,
-    defaultValue: RequestStatus.PENDING,
-  })
+  @Field((type) => RequestStatus, { nullable: true })
   status: RequestStatus;
 
   @Field({ nullable: true })

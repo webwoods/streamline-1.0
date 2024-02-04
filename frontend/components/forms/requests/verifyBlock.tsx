@@ -1,3 +1,4 @@
+import StatusModal from "@/components/formStatusModal/statusModal";
 import client from "@/gql/client";
 import { ADD_REQUEST_ITEMS_TO_REQUEST, CREATE_REQUEST, CREATE_REQUEST_ITEMS, UPDATE_REQUEST } from "@/gql/mutation";
 import { RequestStatus, RequestType } from "@/gql/types";
@@ -15,6 +16,18 @@ interface Props {
 export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
     const [requestData, setRequestData] = useState<any>(null);
+
+    const [successStatus, setSuccessStatus] = useState<{
+        createRequest: boolean,
+        createRequestItems: boolean,
+        addRequestItems: boolean,
+        updateRequest: boolean
+    }>({
+        createRequest: false,
+        createRequestItems: false,
+        addRequestItems: false,
+        updateRequest: false
+    });
 
     const [createRequestMutation, {
         error: createRequestError,
@@ -41,8 +54,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
     }] = useMutation(UPDATE_REQUEST, { client });
 
     const handleSubmit = async () => {
-        console.log(requestData);
-
         createRequestMutation({
             variables: {
                 description: requestData?.description,
@@ -90,8 +101,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
     }, [])
 
     useEffect(() => {
-        console.log(createRequestData);
-
         if (createRequestData) {
             const requestId = createRequestData?.createRequest?.id;
             const newRequestItemsArray = requestData?.requestItems?.map((item: any) => ({
@@ -110,8 +119,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
     }, [createRequestData])
 
     useEffect(() => {
-        console.log(createRequestItemData);
-
         if (createRequestItemData) {
             addRequestItemsToRequestMutation({
                 variables: {
@@ -128,10 +135,23 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
     }, [createRequestItemData])
 
     useEffect(() => {
-        console.log(addRequestItemsData);
-
-        alert("Successfully Created the Request!");
+        if (addRequestItemsData) {
+            updateRequestMutation({variables: {
+                id: createRequestData?.createRequest?.id,
+                input: {
+                    expectedAt: new Date(requestData?.expectedAt),
+                    forwardTo: requestData?.forwardTo || null,
+                    subtotal: requestData?.calculateTotals?.subtotal,
+                    tax: requestData?.calculateTotals?.tax,
+                    total: requestData?.calculateTotals?.total
+                }
+            }})
+        }
     }, [addRequestItemsData])
+
+    useEffect(() => {
+        alert("Successfully Created the Request!");
+    }, [updateRequestData]);
 
     return (
         <div className='w-96 max-w-3xl py-10'>
@@ -221,6 +241,8 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
                 </div>
             }
+
+            {/* <StatusModal /> */}
         </div>
     );
 };

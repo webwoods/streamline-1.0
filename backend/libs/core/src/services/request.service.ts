@@ -37,7 +37,7 @@ export class RequestService {
   }
 
   async findRequestById(id: string): Promise<Request | null> {
-    const r = await this.requestRepository.findOne({
+    return await this.requestRepository.findOne({
       relations: {
         file: true,
         requestItems: {
@@ -46,9 +46,6 @@ export class RequestService {
       },
       where: { id },
     });
-
-    console.log(r);
-    return r;
   }
 
   async createRequest(input: Partial<Request>): Promise<Request | null> {
@@ -64,6 +61,7 @@ export class RequestService {
     id: string,
     input: Partial<Request>,
   ): Promise<Request | null> {
+    console.log('update request is started!');
     const request = await this.requestRepository.findOne({
       relations: { file: true, requestItems: { storeItem: true } },
       where: { id },
@@ -73,10 +71,11 @@ export class RequestService {
     if (!request) {
       throw new NotFoundException(`Request with id ${id} not found`);
     }
-
+    console.log('raw input\n', input);
     // Update the request object with the values from the input
     Object.assign(request, input);
 
+    console.log('assigned input to request\n', request);
     await this.requestRepository.save(request);
     return await this.findRequestById(id);
   }
