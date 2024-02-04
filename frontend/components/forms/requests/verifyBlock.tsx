@@ -147,10 +147,16 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                 }
             }})
         }
+
+        if (updateRequestError) {
+            alert(updateRequestError);
+            return;
+        }
     }, [addRequestItemsData])
 
     useEffect(() => {
         alert("Successfully Created the Request!");
+        onVerify();
     }, [updateRequestData]);
 
     return (
