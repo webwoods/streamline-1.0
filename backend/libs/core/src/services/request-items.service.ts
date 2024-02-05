@@ -145,4 +145,25 @@ export class RequestItemsService {
     await this.requestItemRepository.delete(id);
     return requestItem;
   }
+
+  async deleteRequestItems(ids: string[]): Promise<RequestItem[] | null> {
+    const deletedRequestItems: RequestItem[] = [];
+
+    // Using Promise.all to delete items in parallel
+    await Promise.all(
+      ids.map(async (id) => {
+        const requestItem = await this.requestItemRepository.findOne({
+          relations: { requests: true, storeItem: true },
+          where: { id },
+        });
+
+        if (requestItem) {
+          await this.requestItemRepository.delete(id);
+          deletedRequestItems.push(requestItem);
+        }
+      })
+    );
+
+    return deletedRequestItems.length > 0 ? deletedRequestItems : null;
+  }
 }

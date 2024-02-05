@@ -126,6 +126,16 @@ export class RequestItemsResolver {
     }
   }
 
+  @Mutation(() => [RequestItem], { name: 'deleteRequestItems' })
+  async deleteRequestItems(@Args('ids', { type: () => [String] }) ids: string[]): Promise<RequestItem[] | null> {
+    try {
+      return await this.requestItemService.deleteRequestItems(ids);
+    } catch (error: any) {
+      throw new Error(`Error deleting request items: ${error.message}`);
+    }
+  }
+
+
   /**
    * required by graphql federation
    */

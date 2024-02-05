@@ -1,6 +1,6 @@
 import StatusModal from "@/components/formStatusModal/statusModal";
 import client from "@/gql/client";
-import { ADD_REQUEST_ITEMS_TO_REQUEST, CREATE_REQUEST, CREATE_REQUEST_ITEMS, UPDATE_REQUEST } from "@/gql/mutation";
+import { ADD_REQUEST_ITEMS_TO_REQUEST, CREATE_REQUEST, CREATE_REQUEST_ITEMS, DELETE_REQUEST_ITEMS_MUTATION, DELETE_REQUEST_MUTATION, REMOVE_REQUEST_ITEMS_FROM_REQUEST_MUTATION, UPDATE_REQUEST } from "@/gql/mutation";
 import { RequestStatus, RequestType } from "@/gql/types";
 import { convertToUpperCaseUnderscored } from "@/util/string.util";
 import { useMutation } from "@apollo/client";
@@ -16,18 +16,6 @@ interface Props {
 export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
     const [requestData, setRequestData] = useState<any>(null);
-
-    const [successStatus, setSuccessStatus] = useState<{
-        createRequest: boolean,
-        createRequestItems: boolean,
-        addRequestItems: boolean,
-        updateRequest: boolean
-    }>({
-        createRequest: false,
-        createRequestItems: false,
-        addRequestItems: false,
-        updateRequest: false
-    });
 
     const [createRequestMutation, {
         error: createRequestError,
@@ -52,6 +40,24 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
         data: updateRequestData,
         loading: updateRequestLoading
     }] = useMutation(UPDATE_REQUEST, { client });
+
+    const [deleteRequestMutation, {
+        error: deleteRequestError,
+        data: deleteRequestData,
+        loading: deleteRequestLoading
+    }] = useMutation(DELETE_REQUEST_MUTATION, { client });
+
+    const [deleteRequestItemsMutation, {
+        error: deleteRequestItemsError,
+        data: deleteRequestItemsData,
+        loading: deleteRequestItemsLoading
+    }] = useMutation(DELETE_REQUEST_ITEMS_MUTATION, { client });
+
+    const [removeRequestItemsFromRequestMutation, {
+        error: removeRequestItemsError,
+        data: removeRequestItemsData,
+        loading: removeRequestItemsLoading
+    }] = useMutation(REMOVE_REQUEST_ITEMS_FROM_REQUEST_MUTATION, { client });
 
     const handleSubmit = async () => {
         createRequestMutation({
@@ -130,22 +136,26 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
         if (addRequestItemsError) {
             alert(addRequestItemsError);
+            deleteRequestMutation({ variables: { id: createRequestData?.createRequest?.id } });
+            deleteRequestItemsMutation({ variables: { ids: createRequestItemData?.createRequestItems?.map((item: any) => (item.id)) } });
             return;
         }
     }, [createRequestItemData])
 
     useEffect(() => {
         if (addRequestItemsData) {
-            updateRequestMutation({variables: {
-                id: createRequestData?.createRequest?.id,
-                input: {
-                    expectedAt: new Date(requestData?.expectedAt),
-                    forwardTo: requestData?.forwardTo || null,
-                    subtotal: requestData?.calculateTotals?.subtotal,
-                    tax: requestData?.calculateTotals?.tax,
-                    total: requestData?.calculateTotals?.total
+            updateRequestMutation({
+                variables: {
+                    id: createRequestData?.createRequest?.id,
+                    input: {
+                        expectedAt: new Date(requestData?.expectedAt),
+                        forwardTo: requestData?.forwardTo || null,
+                        subtotal: requestData?.calculateTotals?.subtotal,
+                        tax: requestData?.calculateTotals?.tax,
+                        total: requestData?.calculateTotals?.total
+                    }
                 }
-            }})
+            })
         }
 
         if (updateRequestError) {
