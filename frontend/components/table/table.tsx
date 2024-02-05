@@ -19,6 +19,8 @@ export interface DynamicTableProps {
 
 export default function DynamicTable({ headerColumns, data, pageNumber, pageSize, total, onPaginationChange, getRowData }: DynamicTableProps) {
 
+    const [tableData, setTableData] = useState(data);
+
     const [selectedKeys, setSelectedKeys] = useState<Iterable<Key> | "all" | undefined>(new Set());
     const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
         column: "date" as Key,
@@ -30,7 +32,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
     // don't edit this line
     // to modify the sorting logic, 
     // edit the sortData function in sort.ts
-    const sortedData = useMemo(() => sortData(data, sortDescriptor), [data, sortDescriptor]);
+    const sortedData = useMemo(() => sortData(tableData, sortDescriptor), [tableData, sortDescriptor]);
 
     // const pages = Math.ceil(filteredItems.length / rowsPerPage);
     const pages = useMemo(() => Math.ceil(total / rowsPerPage), [total, rowsPerPage]);
@@ -53,22 +55,22 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
     // when the view action button is clicked
     const handleViewClick = useCallback((rowId: any) => {
         console.log("Handling View click for row:", rowId);
-        getRowData && getRowData({ data: data, action: 'view' }, rowId);
-    }, []);
+        getRowData && getRowData({ data: tableData, action: 'view' }, rowId);
+    }, [getRowData, tableData]);
 
     // function to get the relevant edit data from the row
     // when the view action button is clicked
     const handleEditClick = useCallback((rowId: any) => {
         console.log("Handling Edit click for row:", rowId);
-        getRowData && getRowData({ data: data, action: 'edit' }, rowId);
-    }, []);
+        getRowData && getRowData({ data: tableData, action: 'edit' }, rowId);
+    }, [getRowData, tableData]);
 
     // function to get the relevant delete data from the row
     // when the view action button is clicked
     const handleDeleteClick = useCallback((rowId: any) => {
         console.log("Handling Delete click for row:", rowId);
-        getRowData && getRowData({ data: data, action: 'delete' }, rowId);
-    }, []);
+        getRowData && getRowData({ data: tableData, action: 'delete' }, rowId);
+    }, [getRowData, tableData]);
 
     const MemoizedActionsWithIcons = useMemo(() => (
         // the state of the actions buttons for each row is memoized
@@ -81,7 +83,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
                 onDeleteClick={handleDeleteClick}
             />
         )
-    ), [handleViewClick, handleEditClick, handleDeleteClick]);
+    ), [handleViewClick, handleEditClick, handleDeleteClick, data]);
 
     const renderCell = useCallback((row: any, columnKey: any) => {
         // this function is rendering cells of the table
@@ -105,7 +107,7 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
         return (
             <BottomContent
                 selectedKeys={selectedKeys}
-                filteredItems={data}
+                filteredItems={tableData}
                 page={page}
                 pages={pages}
                 setPage={setPage}
@@ -113,12 +115,17 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
                 onNextPage={onNextPage}
             />
         );
-    }, [selectedKeys, data.length, page, pages]);
+    }, [selectedKeys, tableData.length, page, pages]);
 
     useEffect(() => {
         // Call the callback when page or pageSize changes
         onPaginationChange && onPaginationChange(page, rowsPerPage);
     }, [page, rowsPerPage, onPaginationChange]);
+
+    useEffect(() => {
+        // re-trigger a render once new data is re-fetched
+        setTableData(data);
+    }, [data]);
 
     return (
         // don't edit this table.

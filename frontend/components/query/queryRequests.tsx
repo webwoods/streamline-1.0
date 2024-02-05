@@ -35,6 +35,9 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
         // this function will get the data relevent to the record that
         // matches the id of the row within the dynamic table
 
+        console.log('data set', data?.data?.map((item: any) => item.id));
+        console.log('row id', rowId);
+
         // the recieved data from the call back has the following structure
         // data = { data: any, action: any }
         const rowData = data?.data?.find((item: any) => item.id === rowId);
