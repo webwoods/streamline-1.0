@@ -5,6 +5,7 @@ import { Tabs, Tab, Chip } from "@nextui-org/react";
 import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { QueryRequests } from "../query/queryRequests";
+import { QueryPurchaseOrders } from "../query/queryPurchaseOrders";
 
 interface Props {
   getActiveTabActiveRecord?: (record: any) => typeof record
