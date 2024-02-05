@@ -19,7 +19,9 @@ export default function CreateNewRequestForm() {
   }, []);
 
   useEffect(() => {
-    console.log(formData);
+    if (formData === null) {
+      setActiveBlock(0);
+    }
   }, [formData]);
 
   const blocks = [
@@ -46,7 +48,9 @@ export default function CreateNewRequestForm() {
     />,
     <VerifyBlock
       key={2}
-      onVerify={() => { }}
+      onVerify={() => {
+        setFormData(null);
+      }}
       onBack={() => setActiveBlock(1)}
       data={formData}
     />

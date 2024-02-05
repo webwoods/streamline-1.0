@@ -53,7 +53,7 @@ export class RequestResolver {
   }
 
   @Mutation(() => Request, { name: 'createRequest' })
-  async createFile(@Args('input') input: CreateRequestInput): Promise<Request | null> {
+  async createRequest(@Args('input') input: CreateRequestInput): Promise<Request | null> {
     try {
       return await this.requestService.createRequest(input);
     } catch (error: any) {
@@ -62,7 +62,7 @@ export class RequestResolver {
   }
 
   @Mutation(() => Request, { name: 'updateRequest' })
-  async updateFile(
+  async updateRequest(
     @Args('id') id: string,
     @Args('input') input: UpdateRequestInput,
   ): Promise<Request | null> {
@@ -74,7 +74,7 @@ export class RequestResolver {
   }
 
   @Mutation(() => Request, { name: 'deleteRequest' })
-  async deleteFile(@Args('id') id: string): Promise<Request | null> {
+  async deleteRequest(@Args('id') id: string): Promise<Request | null> {
     try {
       return await this.requestService.deleteRequest(id);
     } catch (error: any) {

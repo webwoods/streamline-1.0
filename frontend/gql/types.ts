@@ -12,3 +12,9 @@ export enum RequestStatus {
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
+
+export enum RequestType {
+  REQUEST = 'request',
+  PURCHASE_ORDER = 'purchase order',
+  QUOTATION = 'quotation'
+}

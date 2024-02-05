@@ -29,15 +29,15 @@ function getDbConfig(_a) {
         host: (_d = process.env['DB_HOST']) !== null && _d !== void 0 ? _d : 'localhost',
         port: Number(process.env['DB_PORT']) || 5432,
         username: (_e = process.env['DB_USERNAME']) !== null && _e !== void 0 ? _e : 'postgres',
-        password: (_f = process.env['DB_PASSWORD']) !== null && _f !== void 0 ? _f : 'pwd@kodi',
+        password: (_f = process.env['DB_PASSWORD']) !== null && _f !== void 0 ? _f : 'postgres',
         database: (_g = process.env['DB_NAME']) !== null && _g !== void 0 ? _g : 'streamline',
     };
     var mysqlConfig = {
         type: 'mysql',
         host: (_h = process.env['DB_HOST']) !== null && _h !== void 0 ? _h : 'localhost',
         port: Number(process.env['DB_PORT']) || 3306,
-        username: (_j = process.env['DB_USERNAME']) !== null && _j !== void 0 ? _j : 'root',
-        password: (_k = process.env['DB_PASSWORD']) !== null && _k !== void 0 ? _k : 'pwd@kodi',
+        username: (_j = process.env['DB_USERNAME']) !== null && _j !== void 0 ? _j : 'streamline',
+        password: (_k = process.env['DB_PASSWORD']) !== null && _k !== void 0 ? _k : 'streamline',
         database: (_l = process.env['DB_NAME']) !== null && _l !== void 0 ? _l : 'streamline',
     };
     switch (dbType) {

@@ -11,13 +11,13 @@ import {
 import { RequestItemsService } from '../services/request-items.service';
 import { RequestItem } from '../entities/request-items.entity';
 import { Request } from '../entities/request.entity';
-import { CreateRequestItemsInput } from '../entities/dto/create.request-items';
+import { CreateRequestItemInput, CreateRequestItemsInput } from '../entities/dto/create.request-items';
 import { UpdateRequestItemsInput } from '../entities/dto/update.request-items';
 import { RequestItemPage } from '../entities/dto/requestItemPage.dto';
 
 @Resolver(() => RequestItem)
 export class RequestItemsResolver {
-  constructor(private readonly requestItemService: RequestItemsService) {}
+  constructor(private readonly requestItemService: RequestItemsService) { }
 
   @ResolveField(() => Request, { nullable: true })
   async requests(
@@ -52,13 +52,13 @@ export class RequestItemsResolver {
         skip,
         pageSize,
       );
-      const requestsPage: RequestItemPage = {
+      const requestItemsPage: RequestItemPage = {
         data: requestItems,
         totalItems: requestItems.length,
       };
-      return requestsPage;
+      return requestItemsPage;
     } catch (error: any) {
-      throw new Error(`Error fetching requests: ${error.message}`);
+      throw new Error(`Error fetching request items: ${error.message}`);
     }
   }
 
@@ -73,47 +73,68 @@ export class RequestItemsResolver {
         skip,
         pageSize,
       );
-      const requestsPage: RequestItemPage = {
+      const requestItemsPage: RequestItemPage = {
         data: requestItems,
         totalItems: requestItems.length,
       };
-      return requestsPage;
+      return requestItemsPage;
     } catch (error: any) {
-      throw new Error(`Error fetching requests: ${error.message}`);
+      throw new Error(`Error fetching request items: ${error.message}`);
     }
   }
 
   @Mutation(() => RequestItem, { name: 'createRequestItem' })
-  async createFile(
-    @Args('input') input: CreateRequestItemsInput,
+  async createRequestItem(
+    @Args('input') input: CreateRequestItemInput,
   ): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.createRequestItem(input);
     } catch (error: any) {
-      throw new Error(`Error creating request: ${error.message}`);
+      throw new Error(`Error creating request item: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => [RequestItem], { name: 'createRequestItems' })
+  async createRequestItems(
+    @Args('input') input: CreateRequestItemsInput,
+  ): Promise<RequestItem[] | null> {
+    try {
+      return await this.requestItemService.createRequestItems(input.requestItems);
+    } catch (error: any) {
+      throw new Error(`Error creating request item: ${error.message}`);
     }
   }
 
   @Mutation(() => RequestItem, { name: 'updateRequestItem' })
-  async updateFile(
+  async updateRequestItem(
     @Args('id') id: string,
     @Args('input') input: UpdateRequestItemsInput,
   ): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.updateRequestItem(id, input);
     } catch (error: any) {
-      throw new Error(`Error updating request: ${error.message}`);
+      throw new Error(`Error updating request item: ${error.message}`);
     }
   }
 
   @Mutation(() => RequestItem, { name: 'deleteRequestItem' })
-  async deleteFile(@Args('id') id: string): Promise<RequestItem | null> {
+  async deleteRequestItem(@Args('id') id: string): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.deleteRequestItem(id);
     } catch (error: any) {
-      throw new Error(`Error deleting request: ${error.message}`);
+      throw new Error(`Error deleting request item: ${error.message}`);
     }
   }
+
+  @Mutation(() => [RequestItem], { name: 'deleteRequestItems' })
+  async deleteRequestItems(@Args('ids', { type: () => [String] }) ids: string[]): Promise<RequestItem[] | null> {
+    try {
+      return await this.requestItemService.deleteRequestItems(ids);
+    } catch (error: any) {
+      throw new Error(`Error deleting request items: ${error.message}`);
+    }
+  }
+
 
   /**
    * required by graphql federation

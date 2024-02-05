@@ -1,8 +1,8 @@
 import client from "@/gql/client";
-import { SEARCH_REQUEST_ITEMS } from "@/gql/query";
+import { SEARCH_STORE_ITEMS } from "@/gql/query";
 import { useLazyQuery } from "@apollo/client";
 import { Button, Input } from "@nextui-org/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { formButtonStyles } from "../styles";
 import SearchItem from "./searchItem";
@@ -21,7 +21,7 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
   const [searchQuery, setSearchQuery] = useState("");
   const [addedItems, setAddedItems] = useState<any>([]);
 
-  const [searchRequestItems, { loading, error, data }] = useLazyQuery(SEARCH_REQUEST_ITEMS, { client });
+  const [searchRequestItems, { loading, error, data }] = useLazyQuery(SEARCH_STORE_ITEMS, { client });
 
   const handleVerify = useCallback(() => {
     onDataSubmit && onDataSubmit({ requestItems: addedItems });
@@ -31,8 +31,11 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
   const handleAddItems = (item: any) => {
     // Check if the item with the same id already exists in addedItems
     if (!addedItems?.some((addedItem: any) => addedItem.id === item.id)) {
-      // If not, add the item to the addedItems array
-      setAddedItems((prevItems: any) => [...(prevItems || []), item]);
+      // If not, add the item to the addedItems array with the initial qty value
+      setAddedItems((prevItems: any) => [
+        ...(prevItems || []),
+        { ...item, qty: 1 } // Set the initial qty value to 1 or any default value you prefer
+      ]);
       // console.log('Item added!');
     } else {
       // console.log('Item already exists!');
@@ -63,9 +66,25 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
     1000
   );
 
+  const handleGetAddedItemData = useCallback((updatedItem: any) => {
+    setAddedItems((prevItems: any) => {
+      const updatedItems = prevItems.map((item: any) =>
+        item.id === updatedItem.id ? { ...item, qty: updatedItem.qty } : item
+      );
+      return updatedItems;
+    });
+  }, []);
+
   useEffect(() => {
     handleSearch(searchQuery);
   }, [searchQuery])
+
+  useEffect(() => {
+    // Set the state with the saved data when the component mounts
+    if (savedData) {
+      setAddedItems(savedData.requestItems);
+    }
+}, [savedData]);
 
   return (
     <div className='w-96 max-w-3xl py-10'>
@@ -91,7 +110,7 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
         {/* this is to render search results */}
         <div className="w-full flex flex-col gap-2 mb-5">
           {searchQuery && data &&
-            data?.searchRequestItems?.data.map((item: any, index: number) => {
+            data?.searchStoreItems?.data.map((item: any, index: number) => {
               return (<SearchItem key={item.id} data={item} onClick={handleAddItems} />)
             })
           }
@@ -100,8 +119,18 @@ export default function AddItemsBlock({ savedData, onNext, onBack, formInputStyl
         {/* after adding items from the searched items, they will be rendered here */}
         <span className="text-sm text-left w-full font-medium">Added items</span>
         <div className='w-full flex flex-col gap-2'>
+          {/* useRef to number input. 
+          when handleVerify, save the latest value from number input as 'qty` for each item */}
           {addedItems?.map((item: any, index: number) => {
-            return (<AddedItem key={item.id} data={item} onClick={handleRemoveItems} />);
+            return (
+              <AddedItem
+                savedQty={item.qty}
+                key={item.id}
+                data={item}
+                onClick={handleRemoveItems}
+                getAddedItemData={handleGetAddedItemData}
+              />
+            );
           })}
         </div>
 
