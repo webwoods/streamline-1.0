@@ -1,6 +1,7 @@
 export const formInputStyles = {
     base: "w-full",
-    inputWrapper: "rounded-[0.25rem]"
+    inputWrapper: "rounded-[0.25rem]",
+    label: 'text-xs font-semibold'
 }
 
 export const formSelectStyles = {
@@ -9,7 +10,8 @@ export const formSelectStyles = {
 }
 
 export const formTextAreaStyles = {
-    inputWrapper: "rounded-[0.25rem]"
+    inputWrapper: "rounded-[0.25rem]",
+    label: 'text-xs font-semibold'
 }
 
 export const listBoxProps = {
