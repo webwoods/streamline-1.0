@@ -12,7 +12,7 @@ interface Props {
     getActiveRecord?: (record: any) => typeof record
 }
 
-export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getActiveRecord }: Props){
+export function QueryQuotation({ page, pageSize, renderTable = false, getActiveRecord }: Props){
     const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
         variables: { page, pageSize },
@@ -40,7 +40,7 @@ export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getAc
         const total = data.getRequestsWithUser.totalItems;
 
         if (renderTable) {
-            const headerColumns = ["date", "subject", "status", "actions"];
+            const headerColumns = ["date", "subject", "requested by", "status", "actions"];
             const tableData = extracted.map((item: any, index: number) => {
                 // table data needs to be mapped to the column header 
                 // accordingly in order to properly render as cells inside the table.
@@ -49,6 +49,7 @@ export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getAc
                     id: item.id,
                     date: new Date(item.updatedAt).toLocaleDateString('en-US'),
                     subject: item.subject,
+                    'requested by': item.requestedUser.name,
                     status: item.status,
                 }
             });
