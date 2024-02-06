@@ -22,7 +22,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
     });
 
     // const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });
-
+    
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
         // Fetch data with the new page and pageSize
         // This function is used as callback from the DynamicTable component
