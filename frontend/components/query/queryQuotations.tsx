@@ -12,7 +12,7 @@ interface Props {
     getActiveRecord?: (record: any) => typeof record
 }
 
-export function QueryQuotation({ page, pageSize, renderTable = false, getActiveRecord }: Props){
+export function QueryQuotation ({ page, pageSize, renderTable = false, getActiveRecord }: Props){
     const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
         variables: { page, pageSize },

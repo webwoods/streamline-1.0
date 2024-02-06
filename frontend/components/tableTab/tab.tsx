@@ -83,6 +83,15 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
             // Props for Purchase Orders component
           />
         )}
+        {activeTab === "Quotations" && (
+          <QueryPurchaseOrders
+            page={1}
+            pageSize={2}
+            renderTable={true}
+            getActiveRecord={getActiveRecord}
+            // Props for Purchase Orders component
+          />
+        )}
       </div>
     </>
   );
