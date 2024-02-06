@@ -17,7 +17,7 @@ export class RequestItemsService {
     const data = await this.requestItemRepository.find({
       skip,
       take,
-      relations: { requests: true },
+      relations: { requests: true, storeItem: true },
     });
     return data;
   }
@@ -81,7 +81,8 @@ export class RequestItemsService {
   async findRequestItemById(id: string): Promise<RequestItem | null> {
     return await this.requestItemRepository.findOne({
       relations: {
-        requests: true
+        requests: true,
+        storeItem: true
       },
       where: { id },
     });
@@ -93,9 +94,27 @@ export class RequestItemsService {
     const requestItem = this.requestItemRepository.create(input);
     const createdRequestItem = await this.requestItemRepository.save(requestItem);
     return await this.requestItemRepository.findOne({
-      relations: { requests: true },
+      relations: { requests: true, storeItem: true },
       where: { id: createdRequestItem.id },
     });
+  }
+
+  async createRequestItems(
+    inputs: Partial<RequestItem>[]
+  ): Promise<RequestItem[]> {
+    try {
+      const requestItems = inputs.map((input) => this.requestItemRepository.create(input));
+
+      const createdStoreItems = await this.requestItemRepository.save(requestItems);
+
+      return await this.requestItemRepository.find({
+        where: createdStoreItems.map((item) => ({ id: item.id })),
+        relations: { requests: true, storeItem: true },
+      });
+
+    } catch (error) {
+      throw new Error(`Error creating request items: ${error.message}`);
+    }
   }
 
   async updateRequestItem(
@@ -103,7 +122,7 @@ export class RequestItemsService {
     input: Partial<RequestItem>,
   ): Promise<RequestItem | null> {
     const requestItem = await this.requestItemRepository.findOne({
-      relations: { requests: true },
+      relations: { requests: true, storeItem: true },
       where: { id },
     });
 
@@ -120,10 +139,31 @@ export class RequestItemsService {
 
   async deleteRequestItem(id: string): Promise<RequestItem | null> {
     const requestItem = await this.requestItemRepository.findOne({
-      relations: { requests: true },
+      relations: { requests: true, storeItem: true },
       where: { id },
     });
     await this.requestItemRepository.delete(id);
     return requestItem;
+  }
+
+  async deleteRequestItems(ids: string[]): Promise<RequestItem[] | null> {
+    const deletedRequestItems: RequestItem[] = [];
+
+    // Using Promise.all to delete items in parallel
+    await Promise.all(
+      ids.map(async (id) => {
+        const requestItem = await this.requestItemRepository.findOne({
+          relations: { requests: true, storeItem: true },
+          where: { id },
+        });
+
+        if (requestItem) {
+          await this.requestItemRepository.delete(id);
+          deletedRequestItems.push(requestItem);
+        }
+      })
+    );
+
+    return deletedRequestItems.length > 0 ? deletedRequestItems : null;
   }
 }

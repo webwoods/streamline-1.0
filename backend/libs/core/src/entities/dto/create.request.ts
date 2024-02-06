@@ -25,4 +25,19 @@ export class CreateRequestInput {
     defaultValue: RequestStatus.PENDING,
   })
   status: RequestStatus;
+
+  @Field({ nullable: true })
+  subtotal?: number;
+
+  @Field({ nullable: true })
+  tax?: number;
+
+  @Field({ nullable: true })
+  total?: number;
+
+  @Field({ nullable: true })
+  expectedAt?: Date;
+
+  @Field(() => [String], { nullable: true })
+  forwardTo?: string[];
 }

@@ -11,13 +11,13 @@ import {
 import { RequestItemsService } from '../services/request-items.service';
 import { RequestItem } from '../entities/request-items.entity';
 import { Request } from '../entities/request.entity';
-import { CreateRequestItemsInput } from '../entities/dto/create.request-items';
+import { CreateRequestItemInput, CreateRequestItemsInput } from '../entities/dto/create.request-items';
 import { UpdateRequestItemsInput } from '../entities/dto/update.request-items';
 import { RequestItemPage } from '../entities/dto/requestItemPage.dto';
 
 @Resolver(() => RequestItem)
 export class RequestItemsResolver {
-  constructor(private readonly requestItemService: RequestItemsService) {}
+  constructor(private readonly requestItemService: RequestItemsService) { }
 
   @ResolveField(() => Request, { nullable: true })
   async requests(
@@ -85,10 +85,21 @@ export class RequestItemsResolver {
 
   @Mutation(() => RequestItem, { name: 'createRequestItem' })
   async createRequestItem(
-    @Args('input') input: CreateRequestItemsInput,
+    @Args('input') input: CreateRequestItemInput,
   ): Promise<RequestItem | null> {
     try {
       return await this.requestItemService.createRequestItem(input);
+    } catch (error: any) {
+      throw new Error(`Error creating request item: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => [RequestItem], { name: 'createRequestItems' })
+  async createRequestItems(
+    @Args('input') input: CreateRequestItemsInput,
+  ): Promise<RequestItem[] | null> {
+    try {
+      return await this.requestItemService.createRequestItems(input.requestItems);
     } catch (error: any) {
       throw new Error(`Error creating request item: ${error.message}`);
     }
@@ -114,6 +125,16 @@ export class RequestItemsResolver {
       throw new Error(`Error deleting request item: ${error.message}`);
     }
   }
+
+  @Mutation(() => [RequestItem], { name: 'deleteRequestItems' })
+  async deleteRequestItems(@Args('ids', { type: () => [String] }) ids: string[]): Promise<RequestItem[] | null> {
+    try {
+      return await this.requestItemService.deleteRequestItems(ids);
+    } catch (error: any) {
+      throw new Error(`Error deleting request items: ${error.message}`);
+    }
+  }
+
 
   /**
    * required by graphql federation
