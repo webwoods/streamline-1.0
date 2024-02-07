@@ -52,6 +52,22 @@ export class RequestResolver {
     }
   }
 
+  @Query(() => RequestPage, { name: 'softDeletedRequests' })
+  async getSoftDeletedRequests(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<RequestPage> {
+    try {
+      const skip = (page - 1) * pageSize;
+      const requests = await this.requestService.findAllSoftDeletedRequests(skip, pageSize);
+      const requestsPage: RequestPage = { data: requests.data, totalItems: requests.count };
+      return requestsPage;
+    } catch (error: any) {
+      throw new Error(`Error fetching soft-deleted requests: ${error.message}`);
+    }
+  }
+
+
   @Mutation(() => Request, { name: 'createRequest' })
   async createRequest(@Args('input') input: CreateRequestInput): Promise<Request | null> {
     try {
@@ -79,6 +95,15 @@ export class RequestResolver {
       return await this.requestService.deleteRequest(id);
     } catch (error: any) {
       throw new Error(`Error deleting request: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => Request, { name: 'softDeleteRequest' })
+  async softDeleteRequest(@Args('id') id: string): Promise<Request | null> {
+    try {
+      return await this.requestService.softDeleteRequest(id);
+    } catch (error: any) {
+      throw new Error(`Error soft-deleting request: ${error.message}`);
     }
   }
 
