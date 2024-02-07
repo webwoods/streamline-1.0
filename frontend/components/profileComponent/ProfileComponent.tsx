@@ -9,6 +9,7 @@ import client from '@/gql/client';
 import Loading from '@/app/loading';
 import { parseCookies } from 'nookies';
 import { Button, Input, Tooltip } from '@nextui-org/react';
+import { formButtonStyles, formInputStyles } from '../forms/styles';
 
 interface FormFieldProps {
     label?: string
@@ -38,6 +39,7 @@ const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, ref) => {
                 </Tooltip>
             </div>
             <Input
+                classNames={formInputStyles}
                 isReadOnly={isReadOnly}
                 type={props.type}
                 placeholder={props.placeholder}
@@ -104,34 +106,34 @@ function ProfileComponent() {
 
             {
                 loggedIn ?
-                <>
-                    <FormField
-                        label='First name'
-                        placeholder='Billy'
-                        type='text'
-                        ref={firstName}
-                    />
+                    <>
+                        <FormField
+                            label='First name'
+                            placeholder='Billy'
+                            type='text'
+                            ref={firstName}
+                        />
 
-                    <FormField
-                        label='Last name'
-                        placeholder='Jeans Jr.'
-                        type='text'
-                        ref={lastName}
-                    />
+                        <FormField
+                            label='Last name'
+                            placeholder='Jeans Jr.'
+                            type='text'
+                            ref={lastName}
+                        />
 
-                    <FormField
-                        label='Email'
-                        placeholder='billy@jeans.com'
-                        type='email'
-                        ref={email}
-                    />
+                        <FormField
+                            label='Email'
+                            placeholder='billy@jeans.com'
+                            type='email'
+                            ref={email}
+                        />
 
-                    <div className='flex justify-between gap-3'>
-                        <Button className='w-full' onClick={handleCancelButton}>Cancel</Button>
-                        <Button className='w-full' onClick={handleSaveButton}>Save</Button>
-                    </div>
-                </> :
-                <>Please log in to the system to view your profile settings.</>
+                        <div className='flex justify-between gap-3'>
+                            <Button className={formButtonStyles.secondary} onClick={handleCancelButton}>Cancel</Button>
+                            <Button className={formButtonStyles.primary} onClick={handleSaveButton}>Save</Button>
+                        </div>
+                    </> :
+                    <>Please log in to the system to view your profile settings.</>
             }
         </div >
     );
