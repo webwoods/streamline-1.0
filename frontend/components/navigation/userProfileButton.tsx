@@ -24,13 +24,13 @@ export function UserProfileButton() {
   const router = useRouter();
 
   const handleLogin = () => {
-    console.log("log in clicked!");
-    // router.push('/auth/login')
+    // console.log("log in clicked!");
+    router.push('/auth/login')
   };
 
   const handleProfile = () => {
-    console.log("profile clicked!!");
-    // router.push('/profile')
+    // console.log("profile clicked!!");
+    router.push('/profile')
   }
 
   useEffect(() => {

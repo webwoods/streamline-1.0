@@ -36,7 +36,7 @@ export default function AddedItem({ data, onClick, getAddedItemData, savedQty }:
   }, [getAddedItemData, data]);
 
   useEffect(() => {
-    console.log(savedQty);
+    // console.log(savedQty);
     qtyInputRef.current && (qtyInputRef.current.value = savedQty?.toString() || '1');
   }, [savedQty]);
 

@@ -15,7 +15,7 @@ export default function Requests() {
     const [action, setAction] = useState<any>(null);
 
     const getDataFromMiddle = useCallback((data: any) => {
-        console.log(data);
+        // console.log(data);
         setDataFromMiddle(data?.data);
         setAction(data?.action);
     }, []);

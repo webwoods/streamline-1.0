@@ -51,6 +51,7 @@ function ProfileComponent() {
 
     const [currentUserId, setCurrentUserId] = useState<string>();
     const [getCurrentUser, { loading, error, data }] = useLazyQuery(USER_QUERY, { client });
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     // useLazyQuery is better than useQuery because we do not want to fetch the user data 
     // from the db just when a user visits the page. Instead, when ever a user is logged in,
@@ -75,11 +76,13 @@ function ProfileComponent() {
 
     useEffect(() => {
         // when the component intially loads, fetch the current user cookie
-        if (parseCookies()['currentuser']) {
+        if (parseCookies()['currentUser']) {
             const parsedUserId = JSON.parse(parseCookies()['currentUser']).id;
             setCurrentUserId(parsedUserId);
+            setLoggedIn(true);
         } else {
             // you are not logged in
+            setLoggedIn(false);
         }
     }, []);
 
@@ -97,35 +100,40 @@ function ProfileComponent() {
     if (error) { return <div className='p-10'>error: {JSON.stringify(error)}</div> }
 
     return (
-        <div className='flex flex-col p-10 gap-3 w-96 bg-white h-max rounded-2xl'>
+        < div className='flex flex-col p-10 gap-3 w-96 bg-white h-max rounded-2xl' >
 
-            <FormField
-                label='First name'
-                placeholder='Billy'
-                type='text'
-                ref={firstName}
-            />
+            {
+                loggedIn ?
+                <>
+                    <FormField
+                        label='First name'
+                        placeholder='Billy'
+                        type='text'
+                        ref={firstName}
+                    />
 
-            <FormField
-                label='Last name'
-                placeholder='Jeans Jr.'
-                type='text'
-                ref={lastName}
-            />
+                    <FormField
+                        label='Last name'
+                        placeholder='Jeans Jr.'
+                        type='text'
+                        ref={lastName}
+                    />
 
-            <FormField
-                label='Email'
-                placeholder='billy@jeans.com'
-                type='email'
-                ref={email}
-            />
+                    <FormField
+                        label='Email'
+                        placeholder='billy@jeans.com'
+                        type='email'
+                        ref={email}
+                    />
 
-            <div className='flex justify-between gap-3'>
-                <Button className='w-full' onClick={handleCancelButton}>Cancel</Button>
-                <Button className='w-full' onClick={handleSaveButton}>Save</Button>
-            </div>
-
-        </div>
+                    <div className='flex justify-between gap-3'>
+                        <Button className='w-full' onClick={handleCancelButton}>Cancel</Button>
+                        <Button className='w-full' onClick={handleSaveButton}>Save</Button>
+                    </div>
+                </> :
+                <>Please log in to the system to view your profile settings.</>
+            }
+        </div >
     );
 }
 

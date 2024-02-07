@@ -81,7 +81,7 @@ export default function DeleteRequest({ data }: Props) {
 			alert('Request was permanently deleted. Deletion Successful.') :
 			alert('Request was sent to the recycle bin. Deletion Successful. If you want to delete this request permanently, delete it from the recycle bin.')
 
-		console.log(result);
+		// console.log(result);
 	};
 
 	const handleBack = () => {

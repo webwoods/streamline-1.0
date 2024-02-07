@@ -361,25 +361,30 @@ export function EditableRequestDataMapper({
 
             <hr className="my-2"></hr>
 
-            {/* subject and description */}
-            <EditableSubjectMapper
-                content={stringData['subject']}
-                style={formInputStyles}
-                ref={(ref) => onSubjectMapperRef && onSubjectMapperRef(ref)}
-                updateFormData={updateFormData}
-            />
-            <EditableDescriptionMapper
-                content={stringData['description']}
-                style={formTextAreaStyles}
-                ref={(ref) => onDescriptionMapperRef && onDescriptionMapperRef(ref)}
-                updateFormData={updateFormData}
-            />
-
-            <hr className="my-2"></hr>
-
             <Accordion defaultExpandedKeys={["1"]}>
                 <AccordionItem
                     key="1"
+                    aria-label="brief"
+                    subtitle="Press to expand"
+                    title="Brief"
+                >
+
+                    {/* subject and description */}
+                    <EditableSubjectMapper
+                        content={stringData['subject']}
+                        style={formInputStyles}
+                        ref={(ref) => onSubjectMapperRef && onSubjectMapperRef(ref)}
+                        updateFormData={updateFormData}
+                    />
+                    <EditableDescriptionMapper
+                        content={stringData['description']}
+                        style={formTextAreaStyles}
+                        ref={(ref) => onDescriptionMapperRef && onDescriptionMapperRef(ref)}
+                        updateFormData={updateFormData}
+                    />
+                </AccordionItem>
+                <AccordionItem
+                    key="2"
                     aria-label="requested user info"
                     subtitle="Press to expand"
                     title="Requested User Info"
@@ -390,7 +395,7 @@ export function EditableRequestDataMapper({
                     />
                 </AccordionItem>
                 <AccordionItem
-                    key="2"
+                    key="3"
                     aria-label="requested user info"
                     subtitle="Press to expand"
                     title="Requested Items Info"
@@ -408,9 +413,9 @@ export function EditableRequestDataMapper({
 
 export default function DataMapper({ data = {} }: Props) {
 
-    useEffect(() => {
-        console.log('DATA MAPPER', data);
-    }, [data]);
+    // useEffect(() => {
+    //     console.log('DATA MAPPER', data);
+    // }, [data]);
 
     return (
         <div className="flex flex-col gap-1">

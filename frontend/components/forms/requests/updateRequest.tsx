@@ -74,7 +74,7 @@ export default function UpdateRequest({ data }: Props) {
 
     if (updateRequestData) {
       alert('Request Successfully Updated!');
-      console.log('form update!', formData);
+      // console.log('form update!', formData);
     }
   }, [formData]);
 
