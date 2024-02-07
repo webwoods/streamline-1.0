@@ -1,11 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from './streamline.entity';
 import { File } from './file.entity';
-import { Entity, Column, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { RequestItem } from './request-items.entity';
 import { RequestStatus } from './enum/requestStatus';
 import { User } from './user.entity';
 import { RequestType } from './enum/requestType';
+import { RequestNotification } from './request-notification.entity';
 
 @Entity()
 @ObjectType()
@@ -77,4 +78,8 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'forward_to', nullable: true, type: 'text' })
   @Field(() => [String], { nullable: true })
   forwardTo?: string[];
+
+  @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
+  @Field(() => [RequestNotification])
+  notifications: RequestNotification[];
 }

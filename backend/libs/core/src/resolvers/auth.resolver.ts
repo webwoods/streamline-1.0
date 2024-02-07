@@ -14,7 +14,7 @@ import {
   RegisterNewUserSuccess,
   VerificationSuccess,
 } from '../entities/union/success';
-import { VerifyUserInput } from '../entities/dto/verifyUser.input';
+import { VerifyUserInput } from '../entities/dto/verify-user.input';
 import { CreateUserInput } from '../entities/dto/create.user';
 
 @Resolver()

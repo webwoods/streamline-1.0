@@ -13,7 +13,7 @@ import { RequestItem } from '../entities/request-items.entity';
 import { Request } from '../entities/request.entity';
 import { CreateRequestItemInput, CreateRequestItemsInput } from '../entities/dto/create.request-items';
 import { UpdateRequestItemsInput } from '../entities/dto/update.request-items';
-import { RequestItemPage } from '../entities/dto/requestItemPage.dto';
+import { RequestItemPage } from '../entities/dto/request-item-page.dto';
 
 @Resolver(() => RequestItem)
 export class RequestItemsResolver {

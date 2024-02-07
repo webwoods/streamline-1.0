@@ -61,7 +61,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
                     id: item.id,
                     date: new Date(item.updatedAt).toLocaleDateString('en-US'),
                     subject: item.subject,
-                    'requested by': item.requestedUser.name,
+                    'requested by': item.requestedUser?.name,
                     status: item.status,
                 }
             });

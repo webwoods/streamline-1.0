@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   Column,
   BeforeInsert,
+  DeleteDateColumn,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,6 +28,10 @@ export class StreamLineEntity {
   @UpdateDateColumn({ nullable: true })
   @Field({ nullable: true })
   updatedAt!: Date;
+
+  @DeleteDateColumn({ nullable: true })
+  @Field({ nullable: true })
+  deletedAt: Date;
 
   // @Column()
   // @Field()

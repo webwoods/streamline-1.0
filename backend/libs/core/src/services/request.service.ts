@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { Request } from '../entities/request.entity';
 import { apolloClient } from '../apollo/client';
 
@@ -16,6 +16,19 @@ export class RequestService {
       skip,
       take,
       relations: { file: true, requestItems: { storeItem: true } },
+    });
+    return { data, count };
+  }
+
+  async findAllSoftDeletedRequests(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
+    const [data, count] = await this.requestRepository.findAndCount({
+      skip,
+      take,
+      relations: { file: true, requestItems: { storeItem: true } },
+      withDeleted: true,
+      where: {
+        deletedAt: Not(IsNull())
+      }
     });
     return { data, count };
   }
@@ -84,6 +97,15 @@ export class RequestService {
       where: { id },
     });
     await this.requestRepository.delete(id);
+    return request;
+  }
+
+  async softDeleteRequest(id: string): Promise<Request | null> {
+    const request = await this.requestRepository.findOne({
+      relations: { file: true, requestItems: { storeItem: true } },
+      where: { id },
+    });
+    await this.requestRepository.softDelete(id);
     return request;
   }
 }

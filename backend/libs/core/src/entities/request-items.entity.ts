@@ -3,7 +3,7 @@ import { StreamLineEntity } from './streamline.entity';
 import { Entity, Column, ManyToMany, JoinTable, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 import { Request } from './request.entity';
 import { Property } from './property.entity';
-import { StoreItem } from './storeItem.entity';
+import { StoreItem } from './store-item.entity';
 
 @Entity()
 @ObjectType()
