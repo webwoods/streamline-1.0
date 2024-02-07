@@ -14,8 +14,11 @@ import { File } from '@libs/core/entities/file.entity';
 import { Request } from '@libs/core/entities/request.entity';
 import { ProcurementModule } from '@libs/core/modules/procurement.module';
 import * as dotenv from 'dotenv';
-import { StoreItem } from '@libs/core/entities/storeItem.entity';
+import { StoreItem } from '@libs/core/entities/store-item.entity';
 import { Vendor } from '@libs/core/entities/vendor.entity';
+import { Notification } from '@libs/core/entities/notification.entity';
+import { NotificationReciever } from '@libs/core/entities/notification-reciever.entity';
+import { RequestNotification } from '@libs/core/entities/request-notification.entity';
 
 dotenv.config();
 
@@ -59,6 +62,9 @@ dotenv.config();
         Property,
         File,
         StoreItem,
+        Notification,
+        NotificationReciever,
+        RequestNotification,
         // Vendor,
       ],
       synchronize: true,

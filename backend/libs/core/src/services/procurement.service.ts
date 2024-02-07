@@ -13,7 +13,7 @@ import { Request } from '../entities/request.entity';
 import { RequestStatus } from '../entities/enum/requestStatus';
 import { UserRoles } from '../entities/enum/role';
 import { USER_QUERY } from '../apollo/query';
-import { StoreItem } from '../entities/storeItem.entity';
+import { StoreItem } from '../entities/store-item.entity';
 import { StoreItemsService } from './store-items.service';
 
 @Injectable()

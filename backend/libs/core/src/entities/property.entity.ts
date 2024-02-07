@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from './streamline.entity';
 import { Entity, Column, ManyToMany } from 'typeorm';
-import { StoreItem } from './storeItem.entity';
+import { StoreItem } from './store-item.entity';
 
 @Entity()
 @ObjectType()

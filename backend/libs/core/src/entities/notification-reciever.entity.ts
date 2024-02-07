@@ -1,5 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { StreamLineEntity } from './streamline.entity';
 import { Notification } from './notification.entity';
 
@@ -15,6 +15,11 @@ export class NotificationReciever extends StreamLineEntity {
     isRead: boolean
 
     @ManyToOne(() => Notification, (entity: Notification) => entity.recievers)
+    @JoinColumn({ name: 'notification_id', referencedColumnName: 'id' })
     @Field(() => Notification, { nullable: true })
     notification?: Notification;
+
+    @Column({ name: 'notification_id', nullable: true })
+    @Field({ nullable: true })
+    notificationId?: string;
 }

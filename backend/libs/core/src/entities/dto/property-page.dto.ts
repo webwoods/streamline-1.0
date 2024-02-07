@@ -1,4 +1,4 @@
-import { PaginateResult } from './paginateResult.dto';
+import { PaginateResult } from './paginate-result.dto';
 import { ObjectType } from '@nestjs/graphql';
 import { Property } from '../property.entity';
 

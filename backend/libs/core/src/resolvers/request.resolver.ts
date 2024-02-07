@@ -11,7 +11,7 @@ import {
 import { Request } from '../entities/request.entity';
 import { RequestService } from '../services/request.service';
 import { RequestItem } from '../entities/request-items.entity';
-import { RequestPage } from '../entities/dto/requestPage.dto';
+import { RequestPage } from '../entities/dto/request-page.dto';
 import { CreateRequestInput } from '../entities/dto/create.request';
 import { UpdateRequestInput } from '../entities/dto/update.request';
 
