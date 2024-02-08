@@ -11,3 +11,9 @@ export class CreateNotificationRecieverInput {
   @Field()
   notificationId!: string;
 }
+
+@InputType()
+export class CreateNotificationRecieversInput {
+  @Field(type => [CreateNotificationRecieverInput])
+  recievers!: CreateNotificationRecieverInput[];
+}

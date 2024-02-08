@@ -14,7 +14,10 @@ export class NotificationReciever extends StreamLineEntity {
     @Field({ defaultValue: false })
     isRead: boolean
 
-    @ManyToOne(() => Notification, (entity: Notification) => entity.recievers)
+    @ManyToOne(() => Notification, (entity: Notification) => entity.recievers, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+    })
     @JoinColumn({ name: 'notification_id', referencedColumnName: 'id' })
     @Field(() => Notification, { nullable: true })
     notification?: Notification;

@@ -7,7 +7,6 @@ import { RequestModule } from '../modules/request.module';
 import { PropertiesModule } from '../modules/property.module';
 import { StoreItemModule } from './store-item.module';
 import { NotificationModule } from './notification.module';
-import { NotificationRecieverModule } from './notification-reciever.module';
 
 @Module({
   imports: [
