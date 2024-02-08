@@ -1,43 +1,31 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { REQUESTS_QUERY } from '@/gql/query';
+import { REQUESTS_QUERY } from "@/gql/query";
+import { useQuery } from "@apollo/client";
 import client from '@/gql/client';
-import DynamicTable from '../table/table';
-import Loading from '@/app/loading';
-import UpdateRequest from '../forms/requests/updateRequest';
+import { useCallback } from "react";
+import Loading from "@/app/loading";
+import DynamicTable from "../table/table";
 
 interface Props {
     page: number
     pageSize: number
-    filter?: string
     renderTable?: boolean
     getActiveRecord?: (record: any) => typeof record
 }
 
-export function QueryRequests({ page, pageSize, filter, renderTable = false, getActiveRecord }: Props) {
-
+export function QueryQuotation ({ page, pageSize, renderTable = false, getActiveRecord }: Props){
     const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
-        variables: { page, pageSize,requestType:'REQUEST' },
+        variables: { page, pageSize,requestType:'QUOTATION' },
     });
 
-    // const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });
-    
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
-        // Fetch data with the new page and pageSize
-        // This function is used as callback from the DynamicTable component
-        // to get the new page size and the new current page.
-        // THe useQuery will be refetched using the updated page and pageSize variables.
         refetch({ page: newPage, pageSize: newPageSize });
     }, []);
 
     const getRowData = useCallback((data: any, rowId: string) => {
-        // this function will get the data relevent to the record that
-        // matches the id of the row within the dynamic table
 
         console.log('data set', data?.data?.map((item: any) => item.id));
         console.log('row id', rowId);
-
         // the recieved data from the call back has the following structure
         // data = { data: any, action: any }
         const rowData = data?.data?.find((item: any) => item.id === rowId);
@@ -61,7 +49,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
                     id: item.id,
                     date: new Date(item.updatedAt).toLocaleDateString('en-US'),
                     subject: item.subject,
-                    'requested by': item.requestedUser?.name,
+                    'requested by': item.requestedUser.name,
                     status: item.status,
                 }
             });

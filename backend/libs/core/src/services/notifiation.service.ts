@@ -29,13 +29,7 @@ export class NotificationService {
         senderId: senderId,
       });
 
-      // const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
-      //   isRead: false,
-      //   recieverId: receiverId,
-      //   notificationId: notification.id,
-      // }));
-
-      const receivers = [senderId].map((receiverId) => ({
+      const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
         isRead: false,
         recieverId: receiverId,
         notificationId: notification.id,
