@@ -22,5 +22,5 @@ export class PropertyNotification extends Notification {
         onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'property_id', referencedColumnName: 'id' })
-    request: Property;
+    property: Property;
 }

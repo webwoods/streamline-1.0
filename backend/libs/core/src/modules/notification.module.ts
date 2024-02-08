@@ -22,11 +22,13 @@ import { UserNotificationModule } from './user-notification.module';
   imports: [
     TypeOrmModule.forFeature([
       Notification, 
-      RequestNotification, 
       NotificationReciever,
+
+      RequestNotification, 
       FileNotification,
-      // PropertyNotification, 
+      PropertyNotification, 
       RequestItemNotification,
+      
       // RoleNotification,
       // UserNotification
     ]),
@@ -34,7 +36,7 @@ import { UserNotificationModule } from './user-notification.module';
     NotificationRecieverModule,
     RequestNotificationModule,
     FileNotificationModule,
-    // PropertyNotificationModule,
+    PropertyNotificationModule,
     RequestItemNotificationModule,
     // RoleNotificationModule,
     // UserNotificationModule

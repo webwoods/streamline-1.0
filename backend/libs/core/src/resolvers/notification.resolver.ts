@@ -27,6 +27,10 @@ import { RoleNotification } from '../entities/role-notification.entity';
 import { CreateRoleNotificationInput } from '../entities/dto/create.role-notification';
 import { UpdateRoleNotificationInput } from '../entities/dto/update.role-notification';
 import { RoleNotificationPage } from '../entities/dto/role-notification-page.dto';
+import { PropertyNotification } from '../entities/property-notification.entity';
+import { PropertyNotificationPage } from '../entities/dto/property-notification-page.dto';
+import { CreatePropertyNotificationInput } from '../entities/dto/create.property-notification';
+import { UpdatePropertyNotificationInput } from '../entities/dto/update.property-notification';
 @Resolver()
 export class NotificationResolver {
   constructor(
@@ -188,7 +192,76 @@ export class NotificationResolver {
     }
   }
 
-  // Request Notification
+  // Property Notification
+
+  @Query(() => PropertyNotification, { name: 'propertyNotification' })
+  async getPropertyNotificationById(@Args('id') id: string): Promise<PropertyNotification> {
+    try {
+      const propertyNotification = this.notificationService.findPropertyNotificationById(id);
+      if (!propertyNotification) {
+        throw new Error(`Property Notification with ID ${id} not found`);
+      }
+      return propertyNotification;
+    } catch (error: any) {
+      throw new Error(`Error fetching property notification: ${error.message}`);
+    }
+  }
+
+  @Query(() => PropertyNotificationPage, { name: 'propertyNotifications' })
+  async getPropertyNotifications(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<PropertyNotificationPage> {
+    try {
+      const skip = (page - 1) * pageSize;
+      const propertyNotifications = await this.notificationService.findAllPropertyNotifications(skip, pageSize);
+      const propertyNotificationPage: PropertyNotificationPage = { data: propertyNotifications, totalItems: propertyNotifications.length };
+      return propertyNotificationPage;
+    } catch (error: any) {
+      throw new Error(`Error fetching property notifications: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => PropertyNotification, { name: 'createPropertyNotification' })
+  async createPropertyNotification(@Args('input') input: CreatePropertyNotificationInput): Promise<PropertyNotification | null> {
+    try {
+      return await this.notificationService.createPropertyNotification(input);
+    } catch (error: any) {
+      throw new Error(`Error creating property notification: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => PropertyNotification, { name: 'updatePropertyNotification' })
+  async updatePropertyNotification(
+    @Args('id') id: string,
+    @Args('input') input: UpdatePropertyNotificationInput,
+  ): Promise<PropertyNotification | null> {
+    try {
+      return await this.notificationService.updatePropertyNotification(id, input);
+    } catch (error: any) {
+      throw new Error(`Error updating property notification: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => PropertyNotification, { name: 'deletePropertyNotification' })
+  async deletePropertyNotification(@Args('id') id: string): Promise<PropertyNotification | null> {
+    try {
+      return await this.notificationService.deletePropertyNotification(id);
+    } catch (error: any) {
+      throw new Error(`Error deleting property notification: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => PropertyNotification, { name: 'softDeletePropertyNotification' })
+  async softDeletePropertyNotification(@Args('id') id: string): Promise<PropertyNotification | null> {
+    try {
+      return await this.notificationService.softDeletePropertyNotification(id);
+    } catch (error: any) {
+      throw new Error(`Error soft-deleting property notification: ${error.message}`);
+    }
+  }
+
+  // Request Item Notification
 
   @Query(() => RequestItemNotification, { name: 'requestItemNotification' })
   async getRequestItemNotificationById(@Args('id') id: string): Promise<RequestItemNotification> {

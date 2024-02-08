@@ -8,6 +8,7 @@ import { RequestItemNotification } from '../entities/request-item-notification.e
 import { UserNotification } from '../entities/user-notification.entity';
 import { RoleNotification } from '../entities/role-notification.entity';
 import { FileNotification } from '../entities/file-notification.entity';
+import { PropertyNotification } from '../entities/property-notification.entity';
 
 @Injectable()
 export class NotificationService {
@@ -20,16 +21,19 @@ export class NotificationService {
 
     @InjectRepository(RequestNotification)
     private readonly requestNotificationRepository: Repository<RequestNotification>,
-    
+
     @InjectRepository(RequestItemNotification)
     private readonly requestItemNotificationRepository: Repository<RequestItemNotification>,
-    
+
     @InjectRepository(FileNotification)
     private readonly fileNotificationRepository: Repository<FileNotification>,
 
+    @InjectRepository(PropertyNotification)
+    private readonly propertyNotificationRepository: Repository<PropertyNotification>,
+
     // @InjectRepository(UserNotification)
     // private readonly userNotificationRepository: Repository<UserNotification>,
-    
+
     // @InjectRepository(RoleNotification)
     // private readonly roleNotificationRepository: Repository<RoleNotification>,
   ) { }
@@ -376,6 +380,68 @@ export class NotificationService {
     });
     await this.requestNotificationRepository.softDelete(id);
     return requestNotification;
+  }
+
+  // Property Notifications
+
+  async findAllPropertyNotifications(skip: number, take: number): Promise<PropertyNotification[]> {
+    const data = await this.propertyNotificationRepository.find({
+      skip,
+      take,
+      relations: { recievers: true, property: true },
+    });
+    return data;
+  }
+
+  async findPropertyNotificationById(id: string): Promise<PropertyNotification | null> {
+    return await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+  }
+
+  async createPropertyNotification(input: Partial<PropertyNotification>): Promise<PropertyNotification | null> {
+    const propertyNotification = this.propertyNotificationRepository.create(input);
+    const createdPropertyNotification = await this.propertyNotificationRepository.save(propertyNotification);
+    return await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id: createdPropertyNotification.id },
+    });
+  }
+
+  async updatePropertyNotification(id: string, input: Partial<PropertyNotification>): Promise<PropertyNotification | null> {
+    const propertyNotification = await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+
+    // If the request notification doesn't exist, throw NotFoundException
+    if (!propertyNotification) {
+      throw new NotFoundException(`Property Notification with id ${id} not found`);
+    }
+
+    Object.assign(propertyNotification, input);
+
+    await this.propertyNotificationRepository.save(propertyNotification);
+    return await this.findPropertyNotificationById(id);
+  }
+
+  async deletePropertyNotification(id: string): Promise<PropertyNotification | null> {
+    const propertyNotification = await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+    await this.propertyNotificationRepository.delete(id);
+    return propertyNotification;
+  }
+
+  async softDeletePropertyNotification(id: string): Promise<PropertyNotification | null> {
+    const propertyNotification = await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+    await this.propertyNotificationRepository.softDelete(id);
+    return propertyNotification;
   }
 
   // Role Notifications
