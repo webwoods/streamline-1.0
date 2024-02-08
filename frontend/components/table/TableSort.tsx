@@ -32,6 +32,9 @@ import { capitalize } from "./utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import ActionButton from "../action/button";
+import { useQuery } from "@apollo/client";
+import client from "@/gql/client";
+import { REQUEST_QUERY } from "@/gql/query";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -49,7 +52,10 @@ type TableSortProps = {
   // setVisibleColumn: (columns: Set<string>) => void;
 };
 
+
 export default function TableSort({ type }: TableSortProps) {
+  const requestQ = useQuery(REQUEST_QUERY,);
+  
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));

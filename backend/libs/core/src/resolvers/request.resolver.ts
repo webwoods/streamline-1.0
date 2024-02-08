@@ -15,6 +15,7 @@ import { RequestPage } from '../entities/dto/request-page.dto';
 import { CreateRequestInput } from '../entities/dto/create.request';
 import { UpdateRequestInput } from '../entities/dto/update.request';
 import { NotificationService } from '../services/notifiation.service';
+import { RequestType } from '../entities/enum/requestType';
 
 @Resolver(() => Request)
 export class RequestResolver {
@@ -45,10 +46,11 @@ export class RequestResolver {
   async getRequests(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('requestType',{type: ()=> RequestType, nullable: true}) requestType?: RequestType|null,
   ): Promise<RequestPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const requests = await this.requestService.findAllRequests(skip, pageSize);
+      const requests = await this.requestService.findAllRequests(skip, pageSize, requestType);
       const requestsPage: RequestPage = { data: requests.data, totalItems: requests.count };
       return requestsPage;
     } catch (error: any) {
