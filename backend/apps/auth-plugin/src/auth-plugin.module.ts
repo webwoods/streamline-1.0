@@ -45,7 +45,11 @@ dotenv.config();
       username: process.env.AUTH_DB_USERNAME,
       password: process.env.AUTH_DB_PASSWORD,
       database: process.env.AUTH_DB_NAME,
-      entities: [User, Role, VerificationCode],
+      entities: [
+        User, 
+        Role, 
+        VerificationCode
+      ],
       synchronize: true,
     }),
   ],

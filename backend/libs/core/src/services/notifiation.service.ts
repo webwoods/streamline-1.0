@@ -9,6 +9,7 @@ import { UserNotification } from '../entities/user-notification.entity';
 import { RoleNotification } from '../entities/role-notification.entity';
 import { FileNotification } from '../entities/file-notification.entity';
 import { PropertyNotification } from '../entities/property-notification.entity';
+import { StoreItemNotification } from '../entities/store-item-notification.entity';
 
 @Injectable()
 export class NotificationService {
@@ -24,6 +25,9 @@ export class NotificationService {
 
     @InjectRepository(RequestItemNotification)
     private readonly requestItemNotificationRepository: Repository<RequestItemNotification>,
+
+    @InjectRepository(StoreItemNotification)
+    private readonly storeItemNotificationRepository: Repository<StoreItemNotification>,
 
     @InjectRepository(FileNotification)
     private readonly fileNotificationRepository: Repository<FileNotification>,
@@ -163,6 +167,35 @@ export class NotificationService {
       return notification;
     } catch (error: any) {
       console.error(`Error creating request item notification with recievers: ${error.message}`);
+      return null;
+    }
+  }
+
+  async createStoreItemNotificationWithReceivers(
+    storeItemId: string,
+    senderId: string,
+    message: string,
+    sendTo?: string[],
+  ): Promise<StoreItemNotification | null> {
+    try {
+      const notification = await this.createStoreItemNotification({
+        storeItemId: storeItemId,
+        message: message,
+        senderId: senderId,
+      });
+
+      const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
+        isRead: false,
+        recieverId: receiverId,
+        notificationId: notification.id,
+      }));
+
+      const createdReceivers = await this.createNotificationReceivers(receivers);
+      notification.recievers = createdReceivers;
+
+      return notification;
+    } catch (error: any) {
+      console.error(`Error creating store item notification with recievers: ${error.message}`);
       return null;
     }
   }
@@ -319,6 +352,68 @@ export class NotificationService {
     await this.requestItemNotificationRepository.softDelete(id);
     return requestItemNotification;
   }
+
+    // Store Item Notifications
+
+    async findAllStoreItemNotifications(skip: number, take: number): Promise<StoreItemNotification[]> {
+      const data = await this.storeItemNotificationRepository.find({
+        skip,
+        take,
+        relations: { recievers: true, storeItem: true },
+      });
+      return data;
+    }
+  
+    async findStoreItemNotificationById(id: string): Promise<StoreItemNotification | null> {
+      return await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+    }
+  
+    async createStoreItemNotification(input: Partial<StoreItemNotification>): Promise<StoreItemNotification | null> {
+      const storeItemNotification = this.storeItemNotificationRepository.create(input);
+      const createdStoreItemNotification = await this.storeItemNotificationRepository.save(storeItemNotification);
+      return await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id: createdStoreItemNotification.id },
+      });
+    }
+  
+    async updateStoreItemNotification(id: string, input: Partial<StoreItemNotification>): Promise<StoreItemNotification | null> {
+      const storeItemNotification = await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+  
+      // If the Store notification doesn't exist, throw NotFoundException
+      if (!storeItemNotification) {
+        throw new NotFoundException(`Store Item Notification with id ${id} not found`);
+      }
+  
+      Object.assign(storeItemNotification, input);
+  
+      await this.storeItemNotificationRepository.save(storeItemNotification);
+      return await this.findStoreItemNotificationById(id);
+    }
+  
+    async deleteStoreItemNotification(id: string): Promise<StoreItemNotification | null> {
+      const storeItemNotification = await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+      await this.storeItemNotificationRepository.delete(id);
+      return storeItemNotification;
+    }
+  
+    async softDeleteStoreItemNotification(id: string): Promise<StoreItemNotification | null> {
+      const storeItemNotification = await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+      await this.storeItemNotificationRepository.softDelete(id);
+      return storeItemNotification;
+    }
 
   // Request Notifications
 

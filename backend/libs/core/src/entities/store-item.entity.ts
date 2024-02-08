@@ -1,8 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from './streamline.entity';
-import { Entity, Column, ManyToMany, JoinTable, OneToOne } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, OneToOne, OneToMany } from 'typeorm';
 import { Property } from './property.entity';
 import { RequestItem } from './request-items.entity';
+import { StoreItemNotification } from './store-item-notification.entity';
 
 @Entity()
 @ObjectType()
@@ -46,4 +47,8 @@ export class StoreItem extends StreamLineEntity {
 
   @OneToOne(() => RequestItem, (entity: RequestItem) => entity.storeItem)
   requestItem: RequestItem;
+
+  @OneToMany(() => StoreItemNotification, (entity: StoreItemNotification) => entity.storeItem)
+  @Field(() => [StoreItemNotification], { nullable: true })
+  notifications: StoreItemNotification[];
 }

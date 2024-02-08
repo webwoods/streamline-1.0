@@ -31,6 +31,10 @@ import { PropertyNotification } from '../entities/property-notification.entity';
 import { PropertyNotificationPage } from '../entities/dto/property-notification-page.dto';
 import { CreatePropertyNotificationInput } from '../entities/dto/create.property-notification';
 import { UpdatePropertyNotificationInput } from '../entities/dto/update.property-notification';
+import { StoreItemNotification } from '../entities/store-item-notification.entity';
+import { StoreItemNotificationPage } from '../entities/dto/store-item-notification-page.dto';
+import { UpdateStoreItemNotificationInput } from '../entities/dto/update.store-item-notification';
+import { CreateStoreItemNotificationInput } from '../entities/dto/create.store-item-notification';
 @Resolver()
 export class NotificationResolver {
   constructor(
@@ -330,7 +334,74 @@ export class NotificationResolver {
     }
   }
 
+  // Store Item Notification
 
+  @Query(() => StoreItemNotification, { name: 'storeItemNotification' })
+  async getStoreItemNotificationById(@Args('id') id: string): Promise<StoreItemNotification> {
+    try {
+      const storeItemNotification = this.notificationService.findStoreItemNotificationById(id);
+      if (!storeItemNotification) {
+        throw new Error(`Store Item Notification with ID ${id} not found`);
+      }
+      return storeItemNotification;
+    } catch (error: any) {
+      throw new Error(`Error fetching Store Item Notification: ${error.message}`);
+    }
+  }
+
+  @Query(() => StoreItemNotificationPage, { name: 'storeItemNotifications' })
+  async getStoreItemNotifications(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<StoreItemNotificationPage> {
+    try {
+      const skip = (page - 1) * pageSize;
+      const storeItemNotifications = await this.notificationService.findAllStoreItemNotifications(skip, pageSize);
+      const storeItemNotificationPage: StoreItemNotificationPage = { data: storeItemNotifications, totalItems: storeItemNotifications.length };
+      return storeItemNotificationPage;
+    } catch (error: any) {
+      throw new Error(`Error fetching store item notifications: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => StoreItemNotification, { name: 'createStoreItemNotification' })
+  async createStoreItemNotification(@Args('input') input: CreateStoreItemNotificationInput): Promise<StoreItemNotification | null> {
+    try {
+      return await this.notificationService.createStoreItemNotification(input);
+    } catch (error: any) {
+      throw new Error(`Error creating store item notification: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => StoreItemNotification, { name: 'updateStoreItemNotification' })
+  async updateStoreItemNotification(
+    @Args('id') id: string,
+    @Args('input') input: UpdateStoreItemNotificationInput,
+  ): Promise<StoreItemNotification | null> {
+    try {
+      return await this.notificationService.updateStoreItemNotification(id, input);
+    } catch (error: any) {
+      throw new Error(`Error updating store item notification: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => StoreItemNotification, { name: 'deleteStoreItemNotification' })
+  async deleteStoreItemNotification(@Args('id') id: string): Promise<StoreItemNotification | null> {
+    try {
+      return await this.notificationService.deleteStoreItemNotification(id);
+    } catch (error: any) {
+      throw new Error(`Error deleting store item notification: ${error.message}`);
+    }
+  }
+
+  @Mutation(() => StoreItemNotification, { name: 'softDeleteStoreItemNotification' })
+  async softDeleteStoreItemNotification(@Args('id') id: string): Promise<StoreItemNotification | null> {
+    try {
+      return await this.notificationService.softDeleteStoreItemNotification(id);
+    } catch (error: any) {
+      throw new Error(`Error soft-deleting store item notification: ${error.message}`);
+    }
+  }
 
   // /// roles notification
   // @Query(() => RoleNotification, { name: 'roleNotification' })
