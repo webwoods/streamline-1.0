@@ -14,7 +14,7 @@ import { UpdateRoleInput } from '../entities/dto/update.role';
 import { Role } from '../entities/role.entity';
 import { UserRoles } from '../entities/enum/role';
 import { User } from '../entities/user.entity';
-import { RolePage } from '../entities/dto/rolePage.dto';
+import { RolePage } from '../entities/dto/role-page.dto';
 
 @Resolver(() => Role)
 export class RoleResolver {

@@ -8,9 +8,9 @@ import {
     ResolveReference,
     Resolver,
 } from '@nestjs/graphql';
-import { StoreItem } from '../entities/storeItem.entity';
+import { StoreItem } from '../entities/store-item.entity';
 import { StoreItemsService } from '../services/store-items.service';
-import { StoreItemPage } from '../entities/dto/storeItemPage.dto';
+import { StoreItemPage } from '../entities/dto/store-item-page.dto';
 import { CreateStoreItemInput, CreateStoreItemsInput } from '../entities/dto/create.store-items';
 
 @Resolver(() => StoreItem)

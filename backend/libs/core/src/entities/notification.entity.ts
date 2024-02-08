@@ -1,24 +1,21 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    Column,
-    BeforeInsert,
-} from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { Entity, Column, OneToMany, TableInheritance } from 'typeorm';
 import { StreamLineEntity } from './streamline.entity';
+import { NotificationReciever } from './notification-reciever.entity';
 
 @Entity()
 @ObjectType()
+@TableInheritance({ column: { type: "varchar", name: "type" } })
 export class Notification extends StreamLineEntity {
-    @Column({ nullable: true })
-    @Field({ nullable: true })
-    message?: string;
+    @Column()
+    @Field()
+    message!: string;
 
+    @Column()
+    @Field()
+    senderId!: string;
 
-    @Column({ nullable: true })
-    @Field({ nullable: true })
-    isRead?: boolean;
+    @OneToMany(() => NotificationReciever, (entity: NotificationReciever) => entity.notification)
+    @Field(() => [Notification], { nullable: true })
+    recievers?: NotificationReciever[];
 }

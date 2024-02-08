@@ -6,8 +6,8 @@ import { CreatePropertyInput } from '../entities/dto/create.property';
 import { User } from '../entities/user.entity';
 import { Role } from '../entities/role.entity';
 import { Request } from '../entities/request.entity';
-import { RequestPage } from '../entities/dto/requestPage.dto';
-import { StoreItem } from '../entities/storeItem.entity';
+import { RequestPage } from '../entities/dto/request-page.dto';
+import { StoreItem } from '../entities/store-item.entity';
 
 @Resolver()
 export class ProcurementResolver {

@@ -12,7 +12,7 @@ import { PropertyService } from '../services/property.service';
 import { Property } from '../entities/property.entity';
 import { CreatePropertyInput } from '../entities/dto/create.property';
 import { UpdatePropertyInput } from '../entities/dto/update.property';
-import { PropertyPage } from '../entities/dto/propertyPage.dto';
+import { PropertyPage } from '../entities/dto/property-page.dto';
 
 @Resolver(() => Property)
 export class PropertyResolver {

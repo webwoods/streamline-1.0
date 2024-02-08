@@ -290,3 +290,13 @@ mutation deleteRequest($id: String!) {
     updatedAt
   }
 }`;
+
+export const SOFT_DELETE_REQUEST_MUTATION = gql`
+mutation softDeleteRequest($id: String!) {
+  softDeleteRequest(id: $id) {
+    id
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}`;

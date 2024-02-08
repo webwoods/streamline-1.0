@@ -14,7 +14,7 @@ import { UserService } from '../services/user.service';
 import { CreateUserInput, CreateUsersInput } from '../entities/dto/create.user';
 import { UpdateUserInput } from '../entities/dto/update.user';
 import { Role } from '../entities/role.entity';
-import { UserPage } from '../entities/dto/userPage.dto';
+import { UserPage } from '../entities/dto/user-page.dto';
 import { AuthGuard } from '../guards/auth.guard';
 
 @Resolver(() => User)

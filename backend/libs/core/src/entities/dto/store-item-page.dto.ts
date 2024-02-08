@@ -1,5 +1,5 @@
-import { StoreItem } from '../storeItem.entity';
-import { PaginateResult } from './paginateResult.dto';
+import { StoreItem } from '../store-item.entity';
+import { PaginateResult } from './paginate-result.dto';
 import { ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
