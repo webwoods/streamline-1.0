@@ -13,7 +13,7 @@ import { File } from './file.entity';
 export class FileNotification extends Notification {
     @Column({ name: 'file_id', nullable: true })
     @Field({ nullable: true })
-    fieldId?: string;
+    fileId?: string;
 
 
     @ManyToOne(() => File, (entity: File) => entity.notifications, {

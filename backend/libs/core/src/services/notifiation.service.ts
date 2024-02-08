@@ -5,9 +5,9 @@ import { Notification } from '../entities/notification.entity';
 import { RequestNotification } from '../entities/request-notification.entity';
 import { NotificationReciever } from '../entities/notification-reciever.entity';
 import { RequestItemNotification } from '../entities/request-item-notification.entity';
-import { FileNotification } from '../entities/file-notification.entity';
 import { UserNotification } from '../entities/user-notification.entity';
 import { RoleNotification } from '../entities/role-notification.entity';
+import { FileNotification } from '../entities/file-notification.entity';
 
 @Injectable()
 export class NotificationService {
@@ -32,6 +32,246 @@ export class NotificationService {
     private readonly roleNotificationRepository: Repository<RoleNotification>,
 
   ) { }
+
+
+
+// user
+
+async createRoleNotificationWithReceivers(
+  roleId: string,
+  senderId: string,
+  message: string,
+  sendTo?: string[],
+): Promise<RoleNotification | null> {
+  try {
+    const notification = await this.createRoleNotification({
+      roleId: roleId,
+      message: message,
+      senderId: senderId,
+    });
+
+
+    const receivers = [senderId].map((receiverId) => ({
+      isRead: false,
+      recieverId: receiverId,
+      notificationId: notification.id,
+    }));
+
+    const createdReceivers = await this.createNotificationReceivers(receivers);
+    notification.recievers = createdReceivers;
+
+    return notification;
+  } catch (error: any) {
+    console.error(`Error creating request notification with recievers: ${error.message}`);
+    return null;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// user
+
+async createUserNotificationWithReceivers(
+  userId: string,
+  senderId: string,
+  message: string,
+  sendTo?: string[],
+): Promise<UserNotification | null> {
+  try {
+    const notification = await this.createUserNotification({
+      userId: userId,
+      message: message,
+      senderId: senderId,
+    });
+
+
+    const receivers = [senderId].map((receiverId) => ({
+      isRead: false,
+      recieverId: receiverId,
+      notificationId: notification.id,
+    }));
+
+    const createdReceivers = await this.createNotificationReceivers(receivers);
+    notification.recievers = createdReceivers;
+
+    return notification;
+  } catch (error: any) {
+    console.error(`Error creating request notification with recievers: ${error.message}`);
+    return null;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// file
+
+async createFileItemNotificationWithReceivers(
+  fileId: string,
+  senderId: string,
+  message: string,
+  sendTo?: string[],
+): Promise<FileNotification | null> {
+  try {
+    const notification = await this.createFileNotification({
+      fileId: fileId,
+      message: message,
+      senderId: senderId,
+    });
+
+
+    const receivers = [senderId].map((receiverId) => ({
+      isRead: false,
+      recieverId: receiverId,
+      notificationId: notification.id,
+    }));
+
+    const createdReceivers = await this.createNotificationReceivers(receivers);
+    notification.recievers = createdReceivers;
+
+    return notification;
+  } catch (error: any) {
+    console.error(`Error creating request notification with recievers: ${error.message}`);
+    return null;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// request item 
+
+async createRequestItemNotificationWithReceivers(
+  requestItemId: string,
+  senderId: string,
+  message: string,
+  sendTo?: string[],
+): Promise<RequestItemNotification | null> {
+  try {
+    const notification = await this.createRequestItemNotification({
+      requestItemId: requestItemId,
+      message: message,
+      senderId: senderId,
+    });
+
+
+    const receivers = [senderId].map((receiverId) => ({
+      isRead: false,
+      recieverId: receiverId,
+      notificationId: notification.id,
+    }));
+
+    const createdReceivers = await this.createNotificationReceivers(receivers);
+    notification.recievers = createdReceivers;
+
+    return notification;
+  } catch (error: any) {
+    console.error(`Error creating request notification with recievers: ${error.message}`);
+    return null;
+  }
+}
+
+
+
+
+
+
+
+
+
+//
+
+async createRequestNotificationWithReceivers(
+  requestId: string,
+  senderId: string,
+  message: string,
+  sendTo?: string[],
+): Promise<RequestNotification | null> {
+  try {
+    const notification = await this.createRequestNotification({
+      requestItemId: requestId,
+      message: message,
+      senderId: senderId,
+    });
+
+
+    const receivers = [senderId].map((receiverId) => ({
+      isRead: false,
+      recieverId: receiverId,
+      notificationId: notification.id,
+    }));
+
+    const createdReceivers = await this.createNotificationReceivers(receivers);
+    notification.recievers = createdReceivers;
+
+    return notification;
+  } catch (error: any) {
+    console.error(`Error creating request notification with recievers: ${error.message}`);
+    return null;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // roles Notifications
@@ -286,7 +526,7 @@ export class NotificationService {
     });
   }
 
-  async createRequesItemtNotification(input: Partial<RequestNotification>): Promise<RequestItemNotification | null> {
+  async createRequestItemNotification(input: Partial<RequestNotification>): Promise<RequestItemNotification | null> {
     const requestNotification = this.requestItemNotificationRepository.create(input);
     const createdRequestNotification = await this.requestItemNotificationRepository.save(requestNotification);
     return await this.requestItemNotificationRepository.findOne({
@@ -336,41 +576,7 @@ export class NotificationService {
 
 
 
-
-
-
-
-  //
-
-  async createRequestNotificationWithReceivers(
-    requestId: string,
-    senderId: string,
-    message: string,
-    sendTo?: string[],
-  ): Promise<RequestNotification | null> {
-    try {
-      const notification = await this.createRequestNotification({
-        requestId: requestId,
-        message: message,
-        senderId: senderId,
-      });
-
-
-      const receivers = [senderId].map((receiverId) => ({
-        isRead: false,
-        recieverId: receiverId,
-        notificationId: notification.id,
-      }));
-
-      const createdReceivers = await this.createNotificationReceivers(receivers);
-      notification.recievers = createdReceivers;
-
-      return notification;
-    } catch (error: any) {
-      console.error(`Error creating request notification with recievers: ${error.message}`);
-      return null;
-    }
-  }
+  
 
   // Notification Recievers
 
@@ -516,4 +722,20 @@ export class NotificationService {
     await this.requestNotificationRepository.softDelete(id);
     return requestNotification;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
