@@ -8,6 +8,7 @@ import { Role } from '../entities/role.entity';
 import { Request } from '../entities/request.entity';
 import { RequestPage } from '../entities/dto/request-page.dto';
 import { StoreItem } from '../entities/store-item.entity';
+import { RequestType } from '../entities/enum/requestType';
 
 @Resolver()
 export class ProcurementResolver {
@@ -405,12 +406,14 @@ export class ProcurementResolver {
   async getRequestsWithUser(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('requestType',{type: ()=> RequestType, nullable: true}) requestType?: RequestType|null,
   ): Promise<RequestPage> {
     try {
       const skip = (page - 1) * pageSize;
       const requests = await this.procurementService.getRequestsWithUser(
         skip,
         pageSize,
+        requestType,
       );
       const requestPage: RequestPage = {
         data: requests.data,

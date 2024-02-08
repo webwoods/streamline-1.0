@@ -40,8 +40,8 @@ query UserByUsernameOrEmail($username: String, $email: String) {
 `;
 
 export const REQUESTS_QUERY = gql`
-query GetRequests($page: Int, $pageSize: Int){
-  getRequestsWithUser(page: $page, pageSize: $pageSize) {
+query GetRequests($page: Int, $pageSize: Int, $requestType:RequestType){
+  getRequestsWithUser(page: $page, pageSize: $pageSize , requestType: $requestType) {
     data {
       id
       createdAt
@@ -80,6 +80,7 @@ query GetRequests($page: Int, $pageSize: Int){
         }
       }
       status
+      forwardTo
     }
     totalItems
   }
@@ -131,45 +132,3 @@ export const REQUEST_QUERY = gql`
 `;
 
 
-export const PURCHASE_ORDER_QUERY = gql`
-query GetPurchaseOrders($page: Int, $pageSize: Int){
-  getPurchaseOrders(page: $page, pageSize: $pageSize) {
-    data {
-      id
-      createdAt
-      updatedAt
-      requestType
-      description
-      file {
-        id
-        name
-      }
-      requestedUser {
-        id
-        name
-        email
-        role {
-          name
-          division
-        }
-      }
-      requestedUserId
-      requestItems {
-        id
-        name
-        price
-        quantity
-        sku
-        type
-        unit
-        properties {
-          key
-          value
-        }
-      }
-      status
-    }
-    totalItems
-  }
-}
-`;

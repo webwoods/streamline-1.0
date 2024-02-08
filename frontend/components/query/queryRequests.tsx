@@ -18,7 +18,7 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
 
     const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
-        variables: { page, pageSize },
+        variables: { page, pageSize,requestType:'REQUEST' },
     });
 
     // const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });

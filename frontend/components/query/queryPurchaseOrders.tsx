@@ -1,4 +1,4 @@
-import { REQUESTS_QUERY } from "@/gql/query";
+import { REQUESTS_QUERY, REQUEST_QUERY } from "@/gql/query";
 import { useQuery } from "@apollo/client";
 import client from '@/gql/client';
 import { useCallback } from "react";
@@ -15,7 +15,7 @@ interface Props {
 export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getActiveRecord }: Props){
     const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
-        variables: { page, pageSize },
+        variables: { page, pageSize, requestType:'PURCHASE_ORDER' },
     });
 
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
@@ -40,7 +40,7 @@ export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getAc
         const total = data.getRequestsWithUser.totalItems;
 
         if (renderTable) {
-            const headerColumns = ["date", "subject", "status", "actions"];
+            const headerColumns = ["date", "subject", "requested by", "Forwarded to" ,"status", "actions"];
             const tableData = extracted.map((item: any, index: number) => {
                 // table data needs to be mapped to the column header 
                 // accordingly in order to properly render as cells inside the table.
@@ -49,6 +49,8 @@ export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getAc
                     id: item.id,
                     date: new Date(item.updatedAt).toLocaleDateString('en-US'),
                     subject: item.subject,
+                    'requested by': item.requestedUser?.name,
+                    forwardTo: item.forwardTo,
                     status: item.status,
                 }
             });

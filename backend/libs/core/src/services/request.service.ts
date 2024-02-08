@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
 import { Request } from '../entities/request.entity';
 import { apolloClient } from '../apollo/client';
+import { RequestType } from '../entities/enum/requestType';
 
 @Injectable()
 export class RequestService {
@@ -11,11 +12,14 @@ export class RequestService {
     private readonly requestRepository: Repository<Request>,
   ) { }
 
-  async findAllRequests(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
+  async findAllRequests(skip?: number, take?: number, requestType?: RequestType): Promise<{ data: Request[]; count: number }> {
     const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
       relations: { file: true, requestItems: { storeItem: true } },
+      where: {
+        requestType: requestType
+      }
     });
     return { data, count };
   }
