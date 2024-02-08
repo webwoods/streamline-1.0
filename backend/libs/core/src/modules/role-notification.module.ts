@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestItemNotification } from '../entities/request-item-notification.entity';
-import { RequestNotification } from '../entities/request-notification.entity';
+import { RoleNotification } from '../entities/role-notification.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RequestNotification,  ])],
+  imports: [TypeOrmModule.forFeature([RoleNotification])],
 })
-export class RequestNotificationModule { }
+export class RoleNotificationModule {}

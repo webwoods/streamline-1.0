@@ -4,6 +4,7 @@ import { Entity, Column, ManyToMany, JoinTable, OneToMany, JoinColumn, OneToOne 
 import { Request } from './request.entity';
 import { Property } from './property.entity';
 import { StoreItem } from './store-item.entity';
+import { RequestNotification } from './request-notification.entity';
 
 @Entity()
 @ObjectType()
@@ -34,4 +35,8 @@ export class RequestItem extends StreamLineEntity {
 
   @Column({ name: 'request_id', nullable: true })
   requestId: string;
+
+  @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
+  @Field(() => [RequestNotification], { nullable: true })
+  notifications: RequestNotification[];
 }
