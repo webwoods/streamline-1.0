@@ -16,6 +16,7 @@ import { USER_QUERY } from '../apollo/query';
 import { StoreItem } from '../entities/store-item.entity';
 import { StoreItemsService } from './store-items.service';
 import { NotificationService } from './notifiation.service';
+import { RequestType } from '../entities/enum/requestType';
 
 @Injectable()
 export class ProcurementService {
@@ -432,9 +433,9 @@ export class ProcurementService {
     }
   }
 
-  async getRequestsWithUser(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
+  async getRequestsWithUser(skip?: number, take?: number, requestType?: RequestType): Promise<{ data: Request[]; count: number }> {
     try {
-      const requests = await this.requestService.findAllRequests(skip, take);
+      const requests = await this.requestService.findAllRequests(skip, take, requestType);
       const requestsWithUsers = await Promise.all(requests.data.map(async (request: Request) => {
         if (request.requestedUserId) {
           request.requestedUser = await this.getUserByIdFromAuth(request.requestedUserId);
