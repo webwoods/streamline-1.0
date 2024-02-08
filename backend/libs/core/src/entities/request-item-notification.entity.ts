@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Notification } from './notification.entity';
 import { Request } from './request.entity';
+import { RequestItem } from './request-items.entity';
 
 @Entity()
 @ObjectType()
@@ -16,12 +17,12 @@ export class RequestItemNotification extends Notification {
     requestItemId?: string;
 
 
-    @ManyToOne(() => Request, (entity: Request) => entity.notifications, {
+    @ManyToOne(() => RequestItem, (entity: RequestItem) => entity.notifications, {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'request_item_id', referencedColumnName: 'id' })
-    request: Request;
+    request: RequestItem;
 
 
 }
