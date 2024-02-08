@@ -25,21 +25,19 @@ import { UserNotificationModule } from './user-notification.module';
       RequestNotification, 
       NotificationReciever,
       FileNotification,
-      PropertyNotification, 
+      // PropertyNotification, 
       RequestItemNotification,
-      RoleNotification,
-      UserNotification
+      // RoleNotification,
+      // UserNotification
     ]),
 
     NotificationRecieverModule,
     RequestNotificationModule,
     FileNotificationModule,
-    PropertyNotificationModule,
+    // PropertyNotificationModule,
     RequestItemNotificationModule,
-    RoleNotificationModule,
-    UserNotificationModule
-
-
+    // RoleNotificationModule,
+    // UserNotificationModule
   ],
   providers: [NotificationResolver, NotificationService],
   exports: [NotificationService],

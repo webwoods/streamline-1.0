@@ -10,6 +10,8 @@ import { ApolloDriver, ApolloDriverConfig, ApolloFederationDriver, ApolloFederat
 import { join } from 'path';
 import { AuthModule } from '@libs/core/modules/auth.module';
 import * as dotenv from 'dotenv';
+import { UserNotification } from '@libs/core/entities/user-notification.entity';
+import { RoleNotification } from '@libs/core/entities/role-notification.entity';
 
 dotenv.config();
 

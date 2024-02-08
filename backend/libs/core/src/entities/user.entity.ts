@@ -57,7 +57,7 @@ export class User extends StreamLineEntity {
   @Field((type) => [VerificationCode], { nullable: true })
   verificationCodes?: VerificationCode[];
 
-  @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
-  @Field(() => [RequestNotification], { nullable: true })
-  notifications: RequestNotification[];
+  // @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
+  // @Field(() => [RequestNotification], { nullable: true })
+  // notifications: RequestNotification[];
 }

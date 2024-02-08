@@ -20,7 +20,7 @@ export class Role extends StreamLineEntity {
   @OneToMany(type => User, user => user.role)
   users?: User[];
 
-  @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
-  @Field(() => [RequestNotification], { nullable: true })
-  notifications: RequestNotification[];
+  // @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
+  // @Field(() => [RequestNotification], { nullable: true })
+  // notifications: RequestNotification[];
 }

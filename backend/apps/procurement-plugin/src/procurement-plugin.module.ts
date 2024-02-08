@@ -71,11 +71,11 @@ dotenv.config();
         Notification,
         NotificationReciever,
         RequestNotification,
-        FileNotification,
-        PropertyNotification, 
-        RequestItemNotification,
-        RoleNotification,
-        UserNotification
+        // FileNotification,
+        // PropertyNotification, 
+        // RequestItemNotification,
+        // RoleNotification,
+        // UserNotification
         // Vendor,
       ],
       synchronize: true,

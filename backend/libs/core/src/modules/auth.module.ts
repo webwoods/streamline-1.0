@@ -8,6 +8,7 @@ import { jwtConstants } from '../constants/constants';
 import { RoleModule } from '../modules/role.module';
 import { PassportModule } from '@nestjs/passport';
 import { MailModule } from './mail.module';
+import { NotificationModule } from './notification.module';
 
 @Module({
   imports: [
