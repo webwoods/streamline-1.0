@@ -15,12 +15,28 @@ import { RequestNotification } from '../entities/request-notification.entity';
 import { RequestNotificationPage } from '../entities/dto/request-notification-page.dto';
 import { CreateRequestNotificationInput } from '../entities/dto/create.request-notification';
 import { UpdateRequestNotificationInput } from '../entities/dto/update.request-notification';
+import { NotificationPage } from '../entities/dto/notification-page.dto';
 
 @Resolver()
 export class NotificationResolver {
   constructor(
     private readonly notificationService: NotificationService
   ) { }
+
+  @Query(() => NotificationPage, { name: 'notifications' })
+  async getNotifications(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+  ): Promise<NotificationPage> {
+    try {
+      const skip = (page - 1) * pageSize;
+      const notifications = await this.notificationService.findAllRequestNotifications(skip, pageSize);
+      const notificationPage: NotificationPage = { data: notifications, totalItems: notifications.length };
+      return notificationPage;
+    } catch (error: any) {
+      throw new Error(`Error fetching notifications: ${error.message}`);
+    }
+  }
 
   @Query(() => RequestNotification, { name: 'requestNotification' })
   async getRequestNotificationById(@Args('id') id: string): Promise<RequestNotification> {
@@ -36,7 +52,7 @@ export class NotificationResolver {
   }
 
   @Query(() => RequestNotificationPage, { name: 'requestNotifications' })
-  async getUsers(
+  async getRequestNotifications(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
   ): Promise<RequestNotificationPage> {

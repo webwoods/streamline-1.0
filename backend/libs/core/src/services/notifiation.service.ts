@@ -16,12 +16,25 @@ export class NotificationService {
     private readonly notificationRecieverRepository: Repository<NotificationReciever>
   ) { }
 
+  // Notificaitions
+
+  async findAllNotifications(skip: number, take: number): Promise<Notification[]> {
+    const data = await this.notificationRepository.find({
+      skip,
+      take,
+      relations: { recievers: true },
+    });
+    return data;
+  }
+
+  // Linked
+
   async createRequestNotificationWithReceivers(
     requestId: string,
     senderId: string,
     message: string,
     sendTo?: string[],
-  ): Promise<RequestNotification| null> {
+  ): Promise<RequestNotification | null> {
     try {
       const notification = await this.createRequestNotification({
         requestId: requestId,
@@ -34,7 +47,7 @@ export class NotificationService {
         recieverId: receiverId,
         notificationId: notification.id,
       }));
-      
+
       const createdReceivers = await this.createNotificationReceivers(receivers);
       notification.recievers = createdReceivers;
 
