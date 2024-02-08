@@ -16,13 +16,11 @@ export class RequestItemNotification extends Notification {
     @Field({ nullable: true })
     requestItemId?: string;
 
-
     @ManyToOne(() => RequestItem, (entity: RequestItem) => entity.notifications, {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'request_item_id', referencedColumnName: 'id' })
-    request: RequestItem;
-
+    requestItem: RequestItem;
 
 }

@@ -9,7 +9,7 @@ export class RequestNotification extends Notification {
 
     @Column({ name: 'request_id', nullable: true })
     @Field({ nullable: true })
-    requestItemId?: string;
+    requestId?: string;
 
     @ManyToOne(() => Request, (entity: Request) => entity.notifications, {
         onDelete: 'SET NULL',

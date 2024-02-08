@@ -6,7 +6,6 @@ import {
     JoinColumn,
 } from 'typeorm';
 import { Notification } from './notification.entity';
-import { Request } from './request.entity';
 import { User } from './user.entity';
 
 @Entity()
@@ -21,6 +20,6 @@ export class UserNotification extends Notification {
         onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-    request: User;
+    user: User;
 
 }

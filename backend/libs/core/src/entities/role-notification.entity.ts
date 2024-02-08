@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import {
     Entity,
     Column,
@@ -6,7 +6,6 @@ import {
     JoinColumn,
 } from 'typeorm';
 import { Notification } from './notification.entity';
-import { Request } from './request.entity';
 import { Role } from './role.entity';
 
 @Entity()
@@ -22,5 +21,5 @@ export class RoleNotification extends Notification {
         onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
-    request: Role;
+    role: Role;
 }

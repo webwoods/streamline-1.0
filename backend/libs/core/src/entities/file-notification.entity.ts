@@ -21,5 +21,5 @@ export class FileNotification extends Notification {
         onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'file_id', referencedColumnName: 'id' })
-    request: File;
+    file: File;
 }
