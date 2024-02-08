@@ -19,6 +19,11 @@ import { Vendor } from '@libs/core/entities/vendor.entity';
 import { Notification } from '@libs/core/entities/notification.entity';
 import { NotificationReciever } from '@libs/core/entities/notification-reciever.entity';
 import { RequestNotification } from '@libs/core/entities/request-notification.entity';
+import { FileNotification } from '@libs/core/entities/file-notification.entity';
+import { PropertyNotification } from '@libs/core/entities/property-notification.entity';
+import { RequestItemNotification } from '@libs/core/entities/request-item-notification.entity';
+import { RoleNotification } from '@libs/core/entities/role-notification.entity';
+import { UserNotification } from '@libs/core/entities/user-notification.entity';
 
 dotenv.config();
 
@@ -35,6 +40,7 @@ dotenv.config();
     //   path: '/graphql',
     //   context: ({ req, res }) => ({ request: req, response: res }),
     // }),
+    
 
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
@@ -65,6 +71,11 @@ dotenv.config();
         Notification,
         NotificationReciever,
         RequestNotification,
+        FileNotification,
+        PropertyNotification, 
+        RequestItemNotification,
+        RoleNotification,
+        UserNotification
         // Vendor,
       ],
       synchronize: true,
