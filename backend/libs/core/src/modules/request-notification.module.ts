@@ -4,7 +4,5 @@ import { RequestItemNotification } from '../entities/request-item-notification.e
 
 @Module({
   imports: [TypeOrmModule.forFeature([RequestItemNotification])],
-  // providers: [RequestResolver, RequestService],
-  // exports: [RequestService],
 })
 export class RequestNotificationModule {}
