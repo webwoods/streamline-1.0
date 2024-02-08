@@ -15,6 +15,16 @@ export class NotificationService {
     @InjectRepository(NotificationReciever)
     private readonly notificationRecieverRepository: Repository<NotificationReciever>
   ) { }
+  
+//Notification
+  async findAllNotifications(skip: number, take: number): Promise<Notification[]> {
+    const data = await this.notificationRepository.find({
+      skip,
+      take,
+      relations: {recievers:true},
+    });
+    return data;
+  }
 
   async createRequestNotificationWithReceivers(
     requestId: string,
