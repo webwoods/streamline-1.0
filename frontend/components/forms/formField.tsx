@@ -1,7 +1,7 @@
 import { faCircleXmark, faPenAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Input, Tooltip } from "@nextui-org/react";
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { formInputStyles } from "./styles";
 
 
@@ -9,6 +9,7 @@ interface FormFieldProps {
     label?: string
     placeholder?: string
     type?: string
+    allIsReadOnly?: boolean
 }
 
 
@@ -18,6 +19,14 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, re
     const handleReadOnly = () => {
         setIsReadOnly(!isReadOnly);
     }
+    useEffect(()=>{
+        if(props.allIsReadOnly){
+            console.log("formFieldIsReadOnly", props.allIsReadOnly);
+            setIsReadOnly(props.allIsReadOnly);
+        }
+
+    },[props.allIsReadOnly])
+
     return (
         <div className='flex flex-col'>
             <div className='flex items-center justify-between'>

@@ -19,7 +19,7 @@ import { PrivacyComponent } from './privacyComponent';
 
 
 
-
+  
 
 
 function ProfileComponent() {
@@ -27,8 +27,13 @@ function ProfileComponent() {
     const [currentUserId, setCurrentUserId] = useState<string>();
     const [getCurrentUser, { loading, error, data }] = useLazyQuery(USER_QUERY, { client });
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
-    const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [selected, setSelected] = useState<string>("bio");
+    const [allIsReadOnly, setAllIsReadOnly] = useState<boolean>(false);
+
+    const handleAllIsReadOnly = () =>{
+        console.log("ParentISReadOnly button clicked");
+        setAllIsReadOnly((prevAllIsReadOnly)=>!prevAllIsReadOnly)
+    }
 
     // useLazyQuery is better than useQuery because we do not want to fetch the user data 
     // from the db just when a user visits the page. Instead, when ever a user is logged in,
@@ -58,9 +63,7 @@ function ProfileComponent() {
         console.log('clicked cancel!!');
     }
 
-    const handleEditProfile = () => {
-        setIsEditMode((prevEditMode) => !prevEditMode);
-    }
+
     const getDataFromBio= (data:any)=> {
         console.log(data);
     }
@@ -96,9 +99,18 @@ function ProfileComponent() {
 
     return (
         < div className='flex  flex-col p-10 gap-3 w-full bg-white h-max rounded-2xl' >
-            <div className='flex flex-col'>
-                <span>Profile</span>
-                <span>Edit Profile</span>
+            <div>
+                <span className='font-semibold text-lg'>Profile</span>
+                <div className='text-xs text-slate-500 flex  items-center'>
+                    <span>{allIsReadOnly ? "cancel" : "edit"}</span>
+                    <Button isIconOnly onClick={handleAllIsReadOnly} className='bg-transparent'>
+                        {allIsReadOnly ?
+                            <FontAwesomeIcon icon={faCircleXmark} />
+                            :
+                            <FontAwesomeIcon size='sm' icon={faPen} />
+                        }
+                    </Button>
+                </div>
             </div>
 
             <div className='grid grid-cols-4'>
@@ -113,6 +125,11 @@ function ProfileComponent() {
                         aria-label="Options"
                         selectedKey={selected}
                         onSelectionChange={(key) => setSelected(key as string)}
+                        variant='light'
+                        classNames={{
+                            tabList:'flex flex-col',
+                            tab:'flex justify-start'
+                        }}
                     >
                         <Tab key="bio" title="Bio" />
                         <Tab key="privacy" title="Privacy" />
@@ -123,8 +140,8 @@ function ProfileComponent() {
                 </div>
 
                 <div className='col-span-3 flex flex-col item-center gap-2'>
-                        {selected==='bio' && <BasicProfileInfo  getBioInfoData={getDataFromBio} isLoggedIn={loggedIn}/>}
-                        {selected==='privacy' && <PrivacyComponent/>}
+                        {selected==='bio' && <BasicProfileInfo allIsReadOnly={allIsReadOnly} getBioInfoData={getDataFromBio} isLoggedIn={loggedIn}/>}
+                        {/* {selected==='privacy' && <PrivacyComponent/>} */}
                         {/* {selected==='bio' && <BasicProfileInfo/>} */}
 
                 </div>
