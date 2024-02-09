@@ -78,7 +78,7 @@ dotenv.config();
         StoreItemNotification,
         // RoleNotification,
         // UserNotification
-        // Vendor,
+        Vendor,
       ],
       synchronize: true,
     }),

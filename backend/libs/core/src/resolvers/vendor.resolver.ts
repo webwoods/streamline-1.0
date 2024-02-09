@@ -3,46 +3,34 @@ import {
   Query,
   Mutation,
   Args,
-  ResolveField,
-  Parent,
   Int,
   ResolveReference,
 } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
-import { User } from '../entities/user.entity';
-import { UserService } from '../services/user.service';
-import { CreateUserInput, CreateUsersInput } from '../entities/dto/create.user';
-import { UpdateUserInput } from '../entities/dto/update.user';
-import { Role } from '../entities/role.entity';
-import { UserPage as VendorPage } from '../entities/dto/user-page.dto';
-import { AuthGuard } from '../guards/auth.guard';
 import { VendorService } from '../services/vendor.service';
 import { Vendor } from '../entities/vendor.entity';
+import { VendorPage } from '../entities/dto/vendor-page.dto';
+import { UpdateVendorInput } from '../entities/dto/update.vendor';
+import { CreateVendorInput } from '../entities/dto/create.vendor';
 
 @Resolver(() => Vendor)
 export class VendorResolver {
   constructor(private readonly vendorService: VendorService) {}
 
-  @ResolveField(() => Role, { nullable: true })
-  async role(@Parent() user: User): Promise<Role | null> {
-    return user.role ?? null;
-  }
-
   @Query(() => Vendor, { name: 'vendor' })
-  async getUserById(@Args('id') id: string): Promise<Vendor> {
+  async getVendorById(@Args('id') id: string): Promise<Vendor> {
     try {
       const vendor = await this.vendorService.findVendorById(id);
       if (!vendor) {
-        throw new Error(`User with ID ${id} not found`);
+        throw new Error(`Vendor with ID ${id} not found`);
       }
       return vendor;
     } catch (error: any) {
-      throw new Error(`Error fetching user: ${error.message}`);
+      throw new Error(`Error fetching vendor: ${error.message}`);
     }
   }
 
-  @Query(() => Vendor, { name: 'userByNameOrEmail' })
-  async getUserByUsername(
+  @Query(() => Vendor, { name: 'vendorByNameOrEmail' })
+  async getVendorBynameOrEmail(
     @Args('name', { nullable: true }) name: string,
     @Args('email', { nullable: true }) email: string,
   ): Promise<Vendor> {
@@ -52,19 +40,19 @@ export class VendorResolver {
         : await this.vendorService.findVendorByEmail(email);
       if (!vendor) {
         if (name) {
-          throw new Error(`User with username ${name} not found`);
+          throw new Error(`Vendor with name ${name} not found`);
         } else {
-          throw new Error(`User with email ${email} not found`);
+          throw new Error(`Vendor with email ${email} not found`);
         }
       }
       return vendor;
     } catch (error: any) {
-      throw new Error(`Error fetching user: ${error.message}`);
+      throw new Error(`Error fetching vendor: ${error.message}`);
     }
   }
 
-  @Query(() => VendorPage, { name: 'vendor' })
-  async getUsers(
+  @Query(() => VendorPage, { name: 'vendors' })
+  async getVendors(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
   ): Promise<VendorPage> {
@@ -74,28 +62,38 @@ export class VendorResolver {
       const vendorPage: VendorPage = { data: vendors, totalItems: vendors.length };
       return vendorPage;
     } catch (error: any) {
-      throw new Error(`Error fetching users: ${error.message}`);
+      throw new Error(`Error fetching vendors: ${error.message}`);
     }
   }
 
+  @Mutation(() => Vendor, { name: 'createVendor' })
+  async createVendor(@Args('input') input: CreateVendorInput): Promise<Vendor | null> {
+    try {
+      return await this.vendorService.createVendor(input);
+    } catch (error: any) {
+      throw new Error(`Error creating vendor: ${error.message}`);
+    }
+  }
+
+
   @Mutation(() => Vendor, { name: 'updateVendor' })
-  async updateUser(
+  async updateVendor(
     @Args('id') id: string,
-    @Args('input') input: UpdateUserInput,
+    @Args('input') input: UpdateVendorInput,
   ): Promise<Vendor | null> {
     try {
       return await this.vendorService.updateVendor(id, input);
     } catch (error: any) {
-      throw new Error(`Error updating user: ${error.message}`);
+      throw new Error(`Error updating vendor: ${error.message}`);
     }
   }
 
   @Mutation(() => Vendor, { name: 'deleteVendor' })
-  async deleteUser(@Args('id') id: string): Promise<Vendor | null> {
+  async deleteVendor(@Args('id') id: string): Promise<Vendor | null> {
     try {
       return await this.vendorService.deleteVendor(id);
     } catch (error: any) {
-      throw new Error(`Error deleting user: ${error.message}`);
+      throw new Error(`Error deleting vendor: ${error.message}`);
     }
   }
 

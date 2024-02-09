@@ -7,6 +7,7 @@ import { RequestModule } from '../modules/request.module';
 import { PropertiesModule } from '../modules/property.module';
 import { StoreItemModule } from './store-item.module';
 import { NotificationModule } from './notification.module';
+import { VendorModule } from './vendor.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { NotificationModule } from './notification.module';
     PropertiesModule,
     StoreItemModule,
     NotificationModule,
+    VendorModule,
   ],
   exports: [ProcurementService],
   providers: [ProcurementService, ProcurementResolver],
