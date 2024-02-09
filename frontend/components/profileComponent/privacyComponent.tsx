@@ -1,9 +1,14 @@
-import { forwardRef, useEffect, useState, ChangeEvent } from "react";
+import { forwardRef, useEffect, useState, ChangeEvent, useRef } from "react";
 import { FormField } from "../forms/formField";
 import { Button } from "@nextui-org/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { formButtonStyles } from "../forms/styles";
+
 interface Props {
-    currentPassword: string;
+    //currentPassword: string;
     onPasswordChange?: (newPassword: string) => void;
+    
 }
 
 export const PrivacyComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -12,9 +17,14 @@ export const PrivacyComponent = forwardRef<HTMLInputElement, Props>((props, ref)
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [passwordMatch, setPasswordMatch] = useState<boolean>(true);
 
+    const currentPasswordRef = useRef<HTMLInputElement>(null);
+    const newPasswordRef = useRef<HTMLInputElement>(null);
+    const confirmNewPasswordRef = useRef<HTMLInputElement>(null);
+
+
+
     const handleCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEnteredCurrentPassword(e.target.value);
-        setPasswordMatch(true); // Reset the password match status on input change
     };
 
     const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,66 +35,87 @@ export const PrivacyComponent = forwardRef<HTMLInputElement, Props>((props, ref)
         setConfirmPassword(e.target.value);
     };
 
-    useEffect(() => {
-        const validatePassword = () => {
-            const isPasswordMatch = enteredCurrentPassword === props.currentPassword;
-            setPasswordMatch(isPasswordMatch);
-        };
+    const handleSave = () => {
+       const currentPasswordInput = currentPasswordRef && currentPasswordRef?.current?.value;
+       const newPasswordInput = newPasswordRef && newPasswordRef?.current?.value;
+       const confirmNewPasswordInput = confirmNewPasswordRef && confirmNewPasswordRef?.current?.value;
+        console.log({
+            currentPassword : currentPasswordInput,
+            newPassword : newPasswordInput,
+            confirmPassword : confirmNewPasswordInput
+        });
 
-        validatePassword();
-    }, [enteredCurrentPassword, props.currentPassword]);
+    };
+    // useEffect(() => {
+    //     const validatePassword = () => {
+    //         const isPasswordMatch = enteredCurrentPassword === props.currentPassword;
+    //         setPasswordMatch(isPasswordMatch);
+    //     };
 
-    useEffect(() => {
-        if (newPassword === confirmPassword) {
-            // Passwords match, pass the new password to the parent component
-            props.onPasswordChange && props.onPasswordChange(newPassword);
-        }
-    }, [newPassword, confirmPassword, props.onPasswordChange]);
+    //     validatePassword();
+    // }, [enteredCurrentPassword, props.currentPassword]);
+
+    // useEffect(() => {
+    //     if (newPassword === confirmPassword) {
+    //         // Passwords match, pass the new password to the parent component
+    //         props.onPasswordChange && props.onPasswordChange(newPassword);
+    //     }
+    // }, [newPassword, confirmPassword, props.onPasswordChange]);
 
     return (
-        <div>
-            <FormField
-                label='Current Password'
-                placeholder='Enter Your Current Password'
-                type='password'
-                ref={ref}
-               // onChange={handleCurrentPasswordChange}
-            />
-            {!passwordMatch && (
-                <div className='text-red-500 text-xs'>Entered current password does not match.</div>
-            )}
+        <div className="flex flex-col gap-5">
 
-            <FormField
-                label='New Password'
-                placeholder='Enter Your New Password'
-                type='password'
-                ref={ref}
-              //  onChange={handleNewPasswordChange}
-            />
+            <span className="text-2xl">
+                Change password
+            </span>
 
-            <FormField
-                label='Confirm Password'
-                placeholder='Re-Enter Your New Password'
-                type='password'
-                ref={ref}
+            <div className="flex flex-col gap-3">
+                <FormField
+                    label='Current Password'
+                    placeholder='Current Password'
+                    type='text'
+                    ref={currentPasswordRef}
+                    endContent={<FontAwesomeIcon icon={faEye} />}
+                    isPasswordField={true}
+                // onChange={handleCurrentPasswordChange}
+                />
+
+                {!passwordMatch && (
+                    <div className='text-red-500 text-xs'>Entered current password does not match.</div>
+                )}
+
+                <FormField
+                    label='New Password'
+                    placeholder='Enter Your New Password'
+                    type='text'
+                    ref={newPasswordRef}
+                    endContent={<FontAwesomeIcon icon={faEye} />}
+                    isPasswordField={true}
+                //  onChange={handleNewPasswordChange}
+                />
+
+                <FormField
+                    label='Confirm Password'
+                    placeholder='Re-Enter Your New Password'
+                    type='text'
+                    ref={confirmNewPasswordRef}
+                    endContent={<FontAwesomeIcon icon={faEye} />}
+                    isPasswordField={true}
                 //onChange={handleConfirmPasswordChange}
-            />
+                />
+            </div>
 
-            <div className='flex justify-between gap-3'>
-                <Button className='bg-red-500' 
-                //onClick={props.onCancel}
+            <div className='flex justify-end'>
+
+                <Button className={formButtonStyles.primary}
+                onClick={handleSave}
                 >
-                    Cancel
-                </Button>
-                <Button className='bg-green-500'
-                // onClick={handleSaveButton}
-                 > 
                     Save
                 </Button>
             </div>
-        
 
-    </div>
-       
+
+        </div>
+
     );
 });

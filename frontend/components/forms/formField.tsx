@@ -10,6 +10,8 @@ interface FormFieldProps {
     placeholder?: string
     type?: string
     allIsReadOnly?: boolean
+    endContent?: any
+    isPasswordField?: any
 }
 
 
@@ -34,7 +36,9 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, re
         <div className='flex flex-col'>
             <div className='flex items-center justify-between'>
                 <span className='text-xs text-slate-500'>{props.label}</span>
-                <Tooltip content='edit' className='text-xs'>
+                {
+                    !props.isPasswordField ? 
+                    <Tooltip content='edit' className='text-xs'>
                     <Button
                         isIconOnly
                         size='sm'
@@ -43,16 +47,19 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, re
                         onClick={handleReadOnly}
                     />
                 </Tooltip>
+                : <></>
+                }
             </div>
             <Input
                 classNames={{
                     ...formInputStyles,
                     inputWrapper:`${isReadOnly ? 'bg-slate-50' : 'bg-blue-50'} rounded-[0.25rem]`
                 }}
-                isReadOnly={isReadOnly}
+                isReadOnly={props.isPasswordField ? false : isReadOnly}
                 type={props.type}
                 placeholder={props.placeholder}
                 ref={ref}
+                endContent={props.isPasswordField ? props.endContent : null}
             />
         </div>
     )

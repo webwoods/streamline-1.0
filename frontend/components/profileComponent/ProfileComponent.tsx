@@ -104,7 +104,7 @@ function ProfileComponent() {
 
                 <div className='col-span-3 flex flex-col item-center gap-2'>
                     {selected === 'bio' && <BasicProfileInfo allIsReadOnly={allIsReadOnly} getBioInfoData={getDataFromBio} isLoggedIn={loggedIn} />}
-                    {/* {selected==='privacy' && <PrivacyComponent/>} */}
+                    {selected === 'privacy' && <PrivacyComponent />}
                     {/* {selected==='bio' && <BasicProfileInfo/>} */}
 
                 </div>
