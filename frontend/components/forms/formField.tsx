@@ -14,18 +14,21 @@ interface FormFieldProps {
 
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, ref) => {
-    const [isReadOnly, setIsReadOnly] = useState<boolean>(true);
+    const [isReadOnly, setIsReadOnly] = useState<boolean>(props.allIsReadOnly || true);
 
     const handleReadOnly = () => {
         setIsReadOnly(!isReadOnly);
     }
-    useEffect(()=>{
-        if(props.allIsReadOnly){
-            console.log("formFieldIsReadOnly", props.allIsReadOnly);
+
+    useEffect(() => {
+        if (props.allIsReadOnly !== undefined) {
             setIsReadOnly(props.allIsReadOnly);
         }
+    }, [props.allIsReadOnly]);
 
-    },[props.allIsReadOnly])
+    useEffect(() => {
+        console.log('child component received new allIsReadOnly value', isReadOnly);
+    }, [isReadOnly]);
 
     return (
         <div className='flex flex-col'>

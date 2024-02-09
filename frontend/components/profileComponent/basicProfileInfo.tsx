@@ -14,15 +14,12 @@ interface Props {
 export const BasicProfileInfo = forwardRef<any, Props>((props, ref) => {
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [allIsReadOnly, setAllIsReadOnly] = useState<boolean>(false);
+    const [allIsReadOnly, setAllIsReadOnly] = useState<boolean>(props.allIsReadOnly || true);
     const firstName = useRef<HTMLInputElement>(null);
     const lastName = useRef<HTMLInputElement>(null);
     const email = useRef<HTMLInputElement>(null);
     const RoleName = useRef<HTMLInputElement>(null);
     const division = useRef<HTMLInputElement>(null);
-    const password = useRef<HTMLInputElement>(null);
- 
-
 
     const handleEditProfile = () => {
         setIsEditMode((prevEditMode) => !prevEditMode);
@@ -50,36 +47,23 @@ export const BasicProfileInfo = forwardRef<any, Props>((props, ref) => {
 
         })
     }
+
     useEffect(() => {
         props.isLoggedIn && setIsLoggedIn(props.isLoggedIn)
     }, [props?.isLoggedIn])
 
-    
     useEffect(() => {
-        //console.log('Allisreadonly button clicked',props?.allIsReadOnly);
-        props?.allIsReadOnly && setAllIsReadOnly(props?.allIsReadOnly);
-    }, [props?.allIsReadOnly])
-    
-    useEffect(()=>{
-        console.log('ff',allIsReadOnly);
-    },[allIsReadOnly])
-    
+        if (props.allIsReadOnly !== undefined) {
+            setAllIsReadOnly(props.allIsReadOnly);
+        }
+    }, [props.allIsReadOnly]);
+
+    useEffect(() => {
+        console.log('child component received new allIsReadOnly value', allIsReadOnly);
+    }, [allIsReadOnly]);
+
     return (
         <>
-            {/* <div>
-                <span className='font-semibold text-lg'>Profile</span>
-                <div className='text-xs text-slate-500 flex gap-1 items-center'>
-                    <span>{isEditMode ? "Cancel Edit" : "Save Edit"}</span>
-                    <Button isIconOnly onClick={handleEditProfile} className='bg-transparent'>
-                        {isEditMode ?
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                            :
-                            <FontAwesomeIcon icon={faPen} />
-                        }
-                    </Button>
-                </div>
-            </div> */}
-
             {
                 isLoggedIn ?
                     <>
