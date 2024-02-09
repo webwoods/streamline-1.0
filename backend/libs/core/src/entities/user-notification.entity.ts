@@ -15,11 +15,11 @@ export class UserNotification extends Notification {
     @Field({ nullable: true })
     userId?: string;
 
-    @ManyToOne(() => User, (entity: User) => entity.notifications, {
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
-    })
-    @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-    user: User;
+    // @ManyToOne(() => User, (entity: User) => entity.notifications, {
+    //     onDelete: 'SET NULL',
+    //     onUpdate: 'CASCADE',
+    // })
+    // @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+    // user: User;
 
 }

@@ -24,6 +24,7 @@ import { PropertyNotification } from '@libs/core/entities/property-notification.
 import { RequestItemNotification } from '@libs/core/entities/request-item-notification.entity';
 import { RoleNotification } from '@libs/core/entities/role-notification.entity';
 import { UserNotification } from '@libs/core/entities/user-notification.entity';
+import { StoreItemNotification } from '@libs/core/entities/store-item-notification.entity';
 
 dotenv.config();
 
@@ -74,8 +75,9 @@ dotenv.config();
         FileNotification,
         PropertyNotification, 
         RequestItemNotification,
-        RoleNotification,
-        UserNotification
+        StoreItemNotification,
+        // RoleNotification,
+        // UserNotification
         // Vendor,
       ],
       synchronize: true,

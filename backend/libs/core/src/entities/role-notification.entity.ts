@@ -16,10 +16,10 @@ export class RoleNotification extends Notification {
     roleId?: string;
 
 
-    @ManyToOne(() => Role, (entity: Role) => entity.notifications, {
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
-    })
-    @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
-    role: Role;
+    // @ManyToOne(() => Role, (entity: Role) => entity.notifications, {
+    //     onDelete: 'SET NULL',
+    //     onUpdate: 'CASCADE',
+    // })
+    // @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
+    // role: Role;
 }

@@ -10,6 +10,8 @@ import { ApolloDriver, ApolloDriverConfig, ApolloFederationDriver, ApolloFederat
 import { join } from 'path';
 import { AuthModule } from '@libs/core/modules/auth.module';
 import * as dotenv from 'dotenv';
+import { UserNotification } from '@libs/core/entities/user-notification.entity';
+import { RoleNotification } from '@libs/core/entities/role-notification.entity';
 
 dotenv.config();
 
@@ -43,7 +45,11 @@ dotenv.config();
       username: process.env.AUTH_DB_USERNAME,
       password: process.env.AUTH_DB_PASSWORD,
       database: process.env.AUTH_DB_NAME,
-      entities: [User, Role, VerificationCode],
+      entities: [
+        User, 
+        Role, 
+        VerificationCode
+      ],
       synchronize: true,
     }),
   ],

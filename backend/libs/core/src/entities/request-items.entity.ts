@@ -2,9 +2,8 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { StreamLineEntity } from './streamline.entity';
 import { Entity, Column, ManyToMany, JoinTable, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 import { Request } from './request.entity';
-import { Property } from './property.entity';
 import { StoreItem } from './store-item.entity';
-import { RequestNotification } from './request-notification.entity';
+import { RequestItemNotification } from './request-item-notification.entity';
 
 @Entity()
 @ObjectType()
@@ -36,7 +35,7 @@ export class RequestItem extends StreamLineEntity {
   @Column({ name: 'request_id', nullable: true })
   requestId: string;
 
-  @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
-  @Field(() => [RequestNotification], { nullable: true })
-  notifications: RequestNotification[];
+  @OneToMany(() => RequestItemNotification, (entity: RequestItemNotification) => entity.requestItem)
+  @Field(() => [RequestItemNotification], { nullable: true })
+  notifications: RequestItemNotification[];
 }

@@ -12,23 +12,28 @@ import { FileNotification } from '../entities/file-notification.entity';
 import { PropertyNotificationModule } from './property-notification.module';
 import { PropertyNotification } from '../entities/property-notification.entity';
 import { RequestItemNotification } from '../entities/request-item-notification.entity';
-import { RequestItemNotificationModule } from './reuest-item-notification.module';
+import { RequestItemNotificationModule } from './request-item-notification.module';
 import { RoleNotificationModule } from './role-notification.module';
 import { RoleNotification } from '../entities/role-notification.entity';
 import { UserNotification } from '../entities/user-notification.entity';
 import { UserNotificationModule } from './user-notification.module';
+import { StoreItemNotification } from '../entities/store-item-notification.entity';
+import { StoreItemNotificationModule } from './store-item-notification.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Notification, 
-      RequestNotification, 
       NotificationReciever,
+
+      RequestNotification, 
       FileNotification,
       PropertyNotification, 
       RequestItemNotification,
-      RoleNotification,
-      UserNotification
+      StoreItemNotification
+      
+      // RoleNotification,
+      // UserNotification
     ]),
 
     NotificationRecieverModule,
@@ -36,10 +41,10 @@ import { UserNotificationModule } from './user-notification.module';
     FileNotificationModule,
     PropertyNotificationModule,
     RequestItemNotificationModule,
-    RoleNotificationModule,
-    UserNotificationModule
-
-
+    StoreItemNotificationModule,
+    
+    // RoleNotificationModule,
+    // UserNotificationModule
   ],
   providers: [NotificationResolver, NotificationService],
   exports: [NotificationService],

@@ -8,25 +8,38 @@ import { RequestItemNotification } from '../entities/request-item-notification.e
 import { UserNotification } from '../entities/user-notification.entity';
 import { RoleNotification } from '../entities/role-notification.entity';
 import { FileNotification } from '../entities/file-notification.entity';
+import { PropertyNotification } from '../entities/property-notification.entity';
+import { StoreItemNotification } from '../entities/store-item-notification.entity';
 
 @Injectable()
 export class NotificationService {
   constructor(
     @InjectRepository(Notification)
     private readonly notificationRepository: Repository<Notification>,
+
     @InjectRepository(NotificationReciever)
     private readonly notificationRecieverRepository: Repository<NotificationReciever>,
 
     @InjectRepository(RequestNotification)
     private readonly requestNotificationRepository: Repository<RequestNotification>,
+
     @InjectRepository(RequestItemNotification)
     private readonly requestItemNotificationRepository: Repository<RequestItemNotification>,
+
+    @InjectRepository(StoreItemNotification)
+    private readonly storeItemNotificationRepository: Repository<StoreItemNotification>,
+
     @InjectRepository(FileNotification)
     private readonly fileNotificationRepository: Repository<FileNotification>,
-    @InjectRepository(UserNotification)
-    private readonly userNotificationRepository: Repository<UserNotification>,
-    @InjectRepository(RoleNotification)
-    private readonly roleNotificationRepository: Repository<RoleNotification>,
+
+    @InjectRepository(PropertyNotification)
+    private readonly propertyNotificationRepository: Repository<PropertyNotification>,
+
+    // @InjectRepository(UserNotification)
+    // private readonly userNotificationRepository: Repository<UserNotification>,
+
+    // @InjectRepository(RoleNotification)
+    // private readonly roleNotificationRepository: Repository<RoleNotification>,
   ) { }
 
   // Notificaitions
@@ -42,63 +55,63 @@ export class NotificationService {
 
   // Linked
 
-  async createRoleNotificationWithReceivers(
-    roleId: string,
-    senderId: string,
-    message: string,
-    sendTo?: string[],
-  ): Promise<RoleNotification | null> {
-    try {
-      const notification = await this.createRoleNotification({
-        roleId: roleId,
-        message: message,
-        senderId: senderId,
-      });
+  // async createRoleNotificationWithReceivers(
+  //   roleId: string,
+  //   senderId: string,
+  //   message: string,
+  //   sendTo?: string[],
+  // ): Promise<RoleNotification | null> {
+  //   try {
+  //     const notification = await this.createRoleNotification({
+  //       roleId: roleId,
+  //       message: message,
+  //       senderId: senderId,
+  //     });
 
-      const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
-        isRead: false,
-        recieverId: receiverId,
-        notificationId: notification.id,
-      }));
+  //     const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
+  //       isRead: false,
+  //       recieverId: receiverId,
+  //       notificationId: notification.id,
+  //     }));
 
-      const createdReceivers = await this.createNotificationReceivers(receivers);
-      notification.recievers = createdReceivers;
+  //     const createdReceivers = await this.createNotificationReceivers(receivers);
+  //     notification.recievers = createdReceivers;
 
-      return notification;
-    } catch (error: any) {
-      console.error(`Error creating role notification with recievers: ${error.message}`);
-      return null;
-    }
-  }
+  //     return notification;
+  //   } catch (error: any) {
+  //     console.error(`Error creating role notification with recievers: ${error.message}`);
+  //     return null;
+  //   }
+  // }
 
-  async createUserNotificationWithReceivers(
-    userId: string,
-    senderId: string,
-    message: string,
-    sendTo?: string[],
-  ): Promise<UserNotification | null> {
-    try {
-      const notification = await this.createUserNotification({
-        userId: userId,
-        message: message,
-        senderId: senderId,
-      });
+  // async createUserNotificationWithReceivers(
+  //   userId: string,
+  //   senderId: string,
+  //   message: string,
+  //   sendTo?: string[],
+  // ): Promise<UserNotification | null> {
+  //   try {
+  //     const notification = await this.createUserNotification({
+  //       userId: userId,
+  //       message: message,
+  //       senderId: senderId,
+  //     });
 
-      const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
-        isRead: false,
-        recieverId: receiverId,
-        notificationId: notification.id,
-      }));
+  //     const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
+  //       isRead: false,
+  //       recieverId: receiverId,
+  //       notificationId: notification.id,
+  //     }));
 
-      const createdReceivers = await this.createNotificationReceivers(receivers);
-      notification.recievers = createdReceivers;
+  //     const createdReceivers = await this.createNotificationReceivers(receivers);
+  //     notification.recievers = createdReceivers;
 
-      return notification;
-    } catch (error: any) {
-      console.error(`Error creating user notification with recievers: ${error.message}`);
-      return null;
-    }
-  }
+  //     return notification;
+  //   } catch (error: any) {
+  //     console.error(`Error creating user notification with recievers: ${error.message}`);
+  //     return null;
+  //   }
+  // }
 
   async createFileItemNotificationWithReceivers(
     fileId: string,
@@ -158,6 +171,35 @@ export class NotificationService {
     }
   }
 
+  async createStoreItemNotificationWithReceivers(
+    storeItemId: string,
+    senderId: string,
+    message: string,
+    sendTo?: string[],
+  ): Promise<StoreItemNotification | null> {
+    try {
+      const notification = await this.createStoreItemNotification({
+        storeItemId: storeItemId,
+        message: message,
+        senderId: senderId,
+      });
+
+      const receivers = [...(sendTo ?? []), senderId].map((receiverId) => ({
+        isRead: false,
+        recieverId: receiverId,
+        notificationId: notification.id,
+      }));
+
+      const createdReceivers = await this.createNotificationReceivers(receivers);
+      notification.recievers = createdReceivers;
+
+      return notification;
+    } catch (error: any) {
+      console.error(`Error creating store item notification with recievers: ${error.message}`);
+      return null;
+    }
+  }
+
   async createRequestNotificationWithReceivers(
     requestId: string,
     senderId: string,
@@ -185,130 +227,6 @@ export class NotificationService {
       console.error(`Error creating request notification with recievers: ${error.message}`);
       return null;
     }
-  }
-
-  // Role Notifications
-
-  async findAllRoleNotifications(skip: number, take: number): Promise<RoleNotification[]> {
-    const data = await this.roleNotificationRepository.find({
-      skip,
-      take,
-      relations: { recievers: true, role: true },
-    });
-    return data;
-  }
-
-  async findRoleNotificationById(id: string): Promise<RoleNotification | null> {
-    return await this.roleNotificationRepository.findOne({
-      relations: { recievers: true, role: true },
-      where: { id },
-    });
-  }
-
-  async createRoleNotification(input: Partial<RoleNotification>): Promise<RoleNotification | null> {
-    const roleNotification = this.roleNotificationRepository.create(input);
-    const createdRoleNotification = await this.roleNotificationRepository.save(roleNotification);
-    return await this.roleNotificationRepository.findOne({
-      relations: { recievers: true, role: true },
-      where: { id: createdRoleNotification.id },
-    });
-  }
-
-  async updateRoleNotification(id: string, input: Partial<RoleNotification>): Promise<RoleNotification | null> {
-    const roleNotification = await this.roleNotificationRepository.findOne({
-      relations: { recievers: true, role: true },
-      where: { id },
-    });
-
-    // If the request notification doesn't exist, throw NotFoundException
-    if (!roleNotification) {
-      throw new NotFoundException(`Role Notification with id ${id} not found`);
-    }
-
-    Object.assign(roleNotification, input);
-
-    await this.roleNotificationRepository.save(roleNotification);
-    return await this.findRoleNotificationById(id);
-  }
-
-  async deleteRoleNotification(id: string): Promise<RoleNotification | null> {
-    const roleNotification = await this.roleNotificationRepository.findOne({
-      relations: { recievers: true, role: true },
-      where: { id },
-    });
-    await this.roleNotificationRepository.delete(id);
-    return roleNotification;
-  }
-
-  async softDeleteRoleNotification(id: string): Promise<RoleNotification | null> {
-    const roleNotification = await this.roleNotificationRepository.findOne({
-      relations: { recievers: true, role: true },
-      where: { id },
-    });
-    await this.roleNotificationRepository.softDelete(id);
-    return roleNotification;
-  }
-
-  // User Notifications
-
-  async findAllUserNotifications(skip: number, take: number): Promise<UserNotification[]> {
-    const data = await this.userNotificationRepository.find({
-      skip,
-      take,
-      relations: { recievers: true, user: true },
-    });
-    return data;
-  }
-
-  async findUserNotificationById(id: string): Promise<UserNotification | null> {
-    return await this.userNotificationRepository.findOne({
-      relations: { recievers: true, user: true },
-      where: { id },
-    });
-  }
-
-  async createUserNotification(input: Partial<UserNotification>): Promise<UserNotification | null> {
-    const userNotification = this.userNotificationRepository.create(input);
-    const createdUserNotification = await this.userNotificationRepository.save(userNotification);
-    return await this.userNotificationRepository.findOne({
-      relations: { recievers: true, user: true },
-      where: { id: createdUserNotification.id },
-    });
-  }
-
-  async updateUserNotification(id: string, input: Partial<UserNotification>): Promise<UserNotification | null> {
-    const userNotification = await this.userNotificationRepository.findOne({
-      relations: { recievers: true, user: true },
-      where: { id },
-    });
-
-    // If the request notification doesn't exist, throw NotFoundException
-    if (!userNotification) {
-      throw new NotFoundException(`User Notification with id ${id} not found`);
-    }
-
-    Object.assign(userNotification, input);
-
-    await this.userNotificationRepository.save(userNotification);
-    return await this.findUserNotificationById(id);
-  }
-
-  async deleteUserNotification(id: string): Promise<UserNotification | null> {
-    const userNotification = await this.userNotificationRepository.findOne({
-      relations: { recievers: true, user: true },
-      where: { id },
-    });
-    await this.userNotificationRepository.delete(id);
-    return userNotification;
-  }
-
-  async softDeleteUserNotification(id: string): Promise<UserNotification | null> {
-    const userNotification = await this.userNotificationRepository.findOne({
-      relations: { recievers: true, user: true },
-      where: { id },
-    });
-    await this.userNotificationRepository.softDelete(id);
-    return userNotification;
   }
 
   // file Notifications
@@ -435,6 +353,68 @@ export class NotificationService {
     return requestItemNotification;
   }
 
+    // Store Item Notifications
+
+    async findAllStoreItemNotifications(skip: number, take: number): Promise<StoreItemNotification[]> {
+      const data = await this.storeItemNotificationRepository.find({
+        skip,
+        take,
+        relations: { recievers: true, storeItem: true },
+      });
+      return data;
+    }
+  
+    async findStoreItemNotificationById(id: string): Promise<StoreItemNotification | null> {
+      return await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+    }
+  
+    async createStoreItemNotification(input: Partial<StoreItemNotification>): Promise<StoreItemNotification | null> {
+      const storeItemNotification = this.storeItemNotificationRepository.create(input);
+      const createdStoreItemNotification = await this.storeItemNotificationRepository.save(storeItemNotification);
+      return await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id: createdStoreItemNotification.id },
+      });
+    }
+  
+    async updateStoreItemNotification(id: string, input: Partial<StoreItemNotification>): Promise<StoreItemNotification | null> {
+      const storeItemNotification = await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+  
+      // If the Store notification doesn't exist, throw NotFoundException
+      if (!storeItemNotification) {
+        throw new NotFoundException(`Store Item Notification with id ${id} not found`);
+      }
+  
+      Object.assign(storeItemNotification, input);
+  
+      await this.storeItemNotificationRepository.save(storeItemNotification);
+      return await this.findStoreItemNotificationById(id);
+    }
+  
+    async deleteStoreItemNotification(id: string): Promise<StoreItemNotification | null> {
+      const storeItemNotification = await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+      await this.storeItemNotificationRepository.delete(id);
+      return storeItemNotification;
+    }
+  
+    async softDeleteStoreItemNotification(id: string): Promise<StoreItemNotification | null> {
+      const storeItemNotification = await this.storeItemNotificationRepository.findOne({
+        relations: { recievers: true, storeItem: true },
+        where: { id },
+      });
+      await this.storeItemNotificationRepository.softDelete(id);
+      return storeItemNotification;
+    }
+
   // Request Notifications
 
   async findAllRequestNotifications(skip: number, take: number): Promise<RequestNotification[]> {
@@ -496,6 +476,192 @@ export class NotificationService {
     await this.requestNotificationRepository.softDelete(id);
     return requestNotification;
   }
+
+  // Property Notifications
+
+  async findAllPropertyNotifications(skip: number, take: number): Promise<PropertyNotification[]> {
+    const data = await this.propertyNotificationRepository.find({
+      skip,
+      take,
+      relations: { recievers: true, property: true },
+    });
+    return data;
+  }
+
+  async findPropertyNotificationById(id: string): Promise<PropertyNotification | null> {
+    return await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+  }
+
+  async createPropertyNotification(input: Partial<PropertyNotification>): Promise<PropertyNotification | null> {
+    const propertyNotification = this.propertyNotificationRepository.create(input);
+    const createdPropertyNotification = await this.propertyNotificationRepository.save(propertyNotification);
+    return await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id: createdPropertyNotification.id },
+    });
+  }
+
+  async updatePropertyNotification(id: string, input: Partial<PropertyNotification>): Promise<PropertyNotification | null> {
+    const propertyNotification = await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+
+    // If the request notification doesn't exist, throw NotFoundException
+    if (!propertyNotification) {
+      throw new NotFoundException(`Property Notification with id ${id} not found`);
+    }
+
+    Object.assign(propertyNotification, input);
+
+    await this.propertyNotificationRepository.save(propertyNotification);
+    return await this.findPropertyNotificationById(id);
+  }
+
+  async deletePropertyNotification(id: string): Promise<PropertyNotification | null> {
+    const propertyNotification = await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+    await this.propertyNotificationRepository.delete(id);
+    return propertyNotification;
+  }
+
+  async softDeletePropertyNotification(id: string): Promise<PropertyNotification | null> {
+    const propertyNotification = await this.propertyNotificationRepository.findOne({
+      relations: { recievers: true, property: true },
+      where: { id },
+    });
+    await this.propertyNotificationRepository.softDelete(id);
+    return propertyNotification;
+  }
+
+  // Role Notifications
+
+  // async findAllRoleNotifications(skip: number, take: number): Promise<RoleNotification[]> {
+  //   const data = await this.roleNotificationRepository.find({
+  //     skip,
+  //     take,
+  //     relations: { recievers: true, role: true },
+  //   });
+  //   return data;
+  // }
+
+  // async findRoleNotificationById(id: string): Promise<RoleNotification | null> {
+  //   return await this.roleNotificationRepository.findOne({
+  //     relations: { recievers: true, role: true },
+  //     where: { id },
+  //   });
+  // }
+
+  // async createRoleNotification(input: Partial<RoleNotification>): Promise<RoleNotification | null> {
+  //   const roleNotification = this.roleNotificationRepository.create(input);
+  //   const createdRoleNotification = await this.roleNotificationRepository.save(roleNotification);
+  //   return await this.roleNotificationRepository.findOne({
+  //     relations: { recievers: true, role: true },
+  //     where: { id: createdRoleNotification.id },
+  //   });
+  // }
+
+  // async updateRoleNotification(id: string, input: Partial<RoleNotification>): Promise<RoleNotification | null> {
+  //   const roleNotification = await this.roleNotificationRepository.findOne({
+  //     relations: { recievers: true, role: true },
+  //     where: { id },
+  //   });
+
+  //   // If the request notification doesn't exist, throw NotFoundException
+  //   if (!roleNotification) {
+  //     throw new NotFoundException(`Role Notification with id ${id} not found`);
+  //   }
+
+  //   Object.assign(roleNotification, input);
+
+  //   await this.roleNotificationRepository.save(roleNotification);
+  //   return await this.findRoleNotificationById(id);
+  // }
+
+  // async deleteRoleNotification(id: string): Promise<RoleNotification | null> {
+  //   const roleNotification = await this.roleNotificationRepository.findOne({
+  //     relations: { recievers: true, role: true },
+  //     where: { id },
+  //   });
+  //   await this.roleNotificationRepository.delete(id);
+  //   return roleNotification;
+  // }
+
+  // async softDeleteRoleNotification(id: string): Promise<RoleNotification | null> {
+  //   const roleNotification = await this.roleNotificationRepository.findOne({
+  //     relations: { recievers: true, role: true },
+  //     where: { id },
+  //   });
+  //   await this.roleNotificationRepository.softDelete(id);
+  //   return roleNotification;
+  // }
+
+  // User Notifications
+
+  // async findAllUserNotifications(skip: number, take: number): Promise<UserNotification[]> {
+  //   const data = await this.userNotificationRepository.find({
+  //     skip,
+  //     take,
+  //     relations: { recievers: true, user: true },
+  //   });
+  //   return data;
+  // }
+
+  // async findUserNotificationById(id: string): Promise<UserNotification | null> {
+  //   return await this.userNotificationRepository.findOne({
+  //     relations: { recievers: true, user: true },
+  //     where: { id },
+  //   });
+  // }
+
+  // async createUserNotification(input: Partial<UserNotification>): Promise<UserNotification | null> {
+  //   const userNotification = this.userNotificationRepository.create(input);
+  //   const createdUserNotification = await this.userNotificationRepository.save(userNotification);
+  //   return await this.userNotificationRepository.findOne({
+  //     relations: { recievers: true, user: true },
+  //     where: { id: createdUserNotification.id },
+  //   });
+  // }
+
+  // async updateUserNotification(id: string, input: Partial<UserNotification>): Promise<UserNotification | null> {
+  //   const userNotification = await this.userNotificationRepository.findOne({
+  //     relations: { recievers: true, user: true },
+  //     where: { id },
+  //   });
+
+  //   // If the request notification doesn't exist, throw NotFoundException
+  //   if (!userNotification) {
+  //     throw new NotFoundException(`User Notification with id ${id} not found`);
+  //   }
+
+  //   Object.assign(userNotification, input);
+
+  //   await this.userNotificationRepository.save(userNotification);
+  //   return await this.findUserNotificationById(id);
+  // }
+
+  // async deleteUserNotification(id: string): Promise<UserNotification | null> {
+  //   const userNotification = await this.userNotificationRepository.findOne({
+  //     relations: { recievers: true, user: true },
+  //     where: { id },
+  //   });
+  //   await this.userNotificationRepository.delete(id);
+  //   return userNotification;
+  // }
+
+  // async softDeleteUserNotification(id: string): Promise<UserNotification | null> {
+  //   const userNotification = await this.userNotificationRepository.findOne({
+  //     relations: { recievers: true, user: true },
+  //     where: { id },
+  //   });
+  //   await this.userNotificationRepository.softDelete(id);
+  //   return userNotification;
+  // }
 
   // Notification Recievers
 
