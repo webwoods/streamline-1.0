@@ -2,10 +2,13 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 import { StreamLineEntity } from './streamline.entity';
 import { Address } from './embedded/address.embedded';
 import { Region } from './enum/region';
+import { StoreItem } from './store-item.entity';
 
 @Entity()
 @ObjectType()
@@ -35,4 +38,16 @@ export class Vendor extends StreamLineEntity {
   @Field(() => Region)
   region!: Region;
 
+  @ManyToMany(() => StoreItem, (storeItem) => storeItem.vendors,
+  {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinTable({
+    name: 'vendor_store_items',
+    joinColumn: { name: 'vendor_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'store_item_id', referencedColumnName: 'id' }
+  })
+  @Field(() => [StoreItem], { nullable: true })
+  storeItems: StoreItem[];
 }
