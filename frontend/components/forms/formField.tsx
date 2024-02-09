@@ -45,7 +45,10 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>((props, re
                 </Tooltip>
             </div>
             <Input
-                classNames={formInputStyles}
+                classNames={{
+                    ...formInputStyles,
+                    inputWrapper:`${isReadOnly ? 'bg-slate-50' : 'bg-blue-50'} rounded-[0.25rem]`
+                }}
                 isReadOnly={isReadOnly}
                 type={props.type}
                 placeholder={props.placeholder}
