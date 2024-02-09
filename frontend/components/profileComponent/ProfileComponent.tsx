@@ -17,12 +17,17 @@ function ProfileComponent() {
 
     const [currentUserId, setCurrentUserId] = useState<string>();
     const [getCurrentUser, { loading, error, data }] = useLazyQuery(USER_QUERY, { client });
+    const [currentUserName, setCurrentUserName] = useState<string>();
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const [selected, setSelected] = useState<string>("bio");
     const [allIsReadOnly, setAllIsReadOnly] = useState<boolean>(true);
 
     const handleAllIsReadOnly = () => {
         setAllIsReadOnly((prevAllIsReadOnly) => !prevAllIsReadOnly)
+    }
+
+    const handleChangePassword = (data : any)=> {
+        console.log('profile component received changed password', data);
     }
 
     const handleSaveButton = () => {
@@ -54,6 +59,12 @@ function ProfileComponent() {
             getCurrentUser({ variables: { id: currentUserId } });
         }
     }, [currentUserId]);
+
+    useEffect(()=>{
+        if(data){
+            console.log(data)
+        }
+    },[data])
 
     if (loading) { return <Loading />; }
     if (error) { return <div className='p-10'>error: {JSON.stringify(error)}</div> }
@@ -104,7 +115,7 @@ function ProfileComponent() {
 
                 <div className='col-span-3 flex flex-col item-center gap-2'>
                     {selected === 'bio' && <BasicProfileInfo allIsReadOnly={allIsReadOnly} getBioInfoData={getDataFromBio} isLoggedIn={loggedIn} />}
-                    {selected === 'privacy' && <PrivacyComponent />}
+                    {selected === 'privacy' && <PrivacyComponent onPasswordChange={handleChangePassword} username={data?.user?.username}/>}
                     {/* {selected==='bio' && <BasicProfileInfo/>} */}
 
                 </div>

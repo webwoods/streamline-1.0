@@ -4,11 +4,16 @@ import { Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { formButtonStyles } from "../forms/styles";
+import NewPassword from '../auth/NewPassword';
+import { useMutation } from "@apollo/client";
+import { VERIFY_PASSWORD_MUTATION } from "@/gql/mutation";
+import client from "@/gql/client";
+import { ifError } from "assert";
 
 interface Props {
-    //currentPassword: string;
-    onPasswordChange?: (newPassword: string) => void;
-    
+    username?: string;
+    onPasswordChange?: (data: any) => void;
+
 }
 
 export const PrivacyComponent = forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -20,48 +25,64 @@ export const PrivacyComponent = forwardRef<HTMLInputElement, Props>((props, ref)
     const currentPasswordRef = useRef<HTMLInputElement>(null);
     const newPasswordRef = useRef<HTMLInputElement>(null);
     const confirmNewPasswordRef = useRef<HTMLInputElement>(null);
+    const [verfyPasswordMutation, { loading, data, error }] = useMutation(VERIFY_PASSWORD_MUTATION, { client })
 
 
+    const validatePassword = (currentPassword: string) => {
+        verfyPasswordMutation({
+            variables: {
+                password: currentPassword,
+                username: props?.username
+            }
+        })
 
-    const handleCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setEnteredCurrentPassword(e.target.value);
     };
+    const validateNewPassword = (newPassword: string, confirmNewPassword: string) => {
 
-    const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewPassword(e.target.value);
+        const isConfirmPasswordMatch = newPassword === confirmNewPassword;
+        if (isConfirmPasswordMatch === false) {
+            setPasswordMatch(false);
+            return;
+        }
+
     };
-
-    const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setConfirmPassword(e.target.value);
-    };
-
     const handleSave = () => {
-       const currentPasswordInput = currentPasswordRef && currentPasswordRef?.current?.value;
-       const newPasswordInput = newPasswordRef && newPasswordRef?.current?.value;
-       const confirmNewPasswordInput = confirmNewPasswordRef && confirmNewPasswordRef?.current?.value;
-        console.log({
-            currentPassword : currentPasswordInput,
-            newPassword : newPasswordInput,
-            confirmPassword : confirmNewPasswordInput
-        });
-
+        const currentPasswordInput = currentPasswordRef && currentPasswordRef?.current?.value;
+        const newPasswordInput = newPasswordRef && newPasswordRef?.current?.value;
+        const confirmNewPasswordInput = confirmNewPasswordRef && confirmNewPasswordRef?.current?.value;
+        
+        currentPasswordInput && validatePassword(currentPasswordInput)
     };
-    // useEffect(() => {
-    //     const validatePassword = () => {
-    //         const isPasswordMatch = enteredCurrentPassword === props.currentPassword;
-    //         setPasswordMatch(isPasswordMatch);
-    //     };
 
-    //     validatePassword();
-    // }, [enteredCurrentPassword, props.currentPassword]);
+    useEffect(() => {
+        if (data) {
+            const newPasswordInput = newPasswordRef && newPasswordRef?.current?.value;
+            const confirmNewPasswordInput = confirmNewPasswordRef && confirmNewPasswordRef?.current?.value;
+            newPasswordInput && confirmNewPasswordInput && validateNewPassword(newPasswordInput, confirmNewPasswordInput)
+        }
+        if(error){
+            alert(`Password mismatch error :${error}`)
+            
+        }
+    }, [data,error]);
 
-    // useEffect(() => {
-    //     if (newPassword === confirmPassword) {
-    //         // Passwords match, pass the new password to the parent component
-    //         props.onPasswordChange && props.onPasswordChange(newPassword);
-    //     }
-    // }, [newPassword, confirmPassword, props.onPasswordChange]);
+    useEffect(()=>{
+        const currentPasswordInput = currentPasswordRef && currentPasswordRef?.current?.value;
+        const newPasswordInput = newPasswordRef && newPasswordRef?.current?.value;
+        const confirmNewPasswordInput = confirmNewPasswordRef && confirmNewPasswordRef?.current?.value;
+        
+        if(passwordMatch===true){
+            props.onPasswordChange && props.onPasswordChange({
+            currentPassword: currentPasswordInput,
+            newPassword: newPasswordInput,
+            confirmPassword: confirmNewPasswordInput
+        });
+        }
+    },[passwordMatch])
 
+    useEffect(()=>{
+        console.log(props.username);
+    },[])
     return (
         <div className="flex flex-col gap-5">
 
@@ -108,7 +129,7 @@ export const PrivacyComponent = forwardRef<HTMLInputElement, Props>((props, ref)
             <div className='flex justify-end'>
 
                 <Button className={formButtonStyles.primary}
-                onClick={handleSave}
+                    onClick={handleSave}
                 >
                     Save
                 </Button>

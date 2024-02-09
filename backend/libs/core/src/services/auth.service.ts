@@ -8,7 +8,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginInput } from '../entities/dto/login.input';
-import { VerifyUserInput } from '../entities/dto/verify-user.input';
+import {
+  VerifyPasswordInput,
+  VerifyUserInput,
+} from '../entities/dto/verify-user.input';
 import { UserService } from '@libs/core/services/user.service';
 import { VerificationCodesService } from '@libs/core/services/verification-codes.service';
 import { CreateUserInput } from '@libs/core/entities/dto/create.user';
@@ -164,5 +167,40 @@ export class AuthService {
     const verifiedUser = await this.userService.updateUser(user.id, user);
     const { password, ...result } = verifiedUser;
     return result;
+  }
+
+  async verifyPassword(input: VerifyPasswordInput): Promise<boolean> {
+    if (!input) {
+      throw new NotFoundException('Invalid input data');
+    }
+
+    // check if the current user data exists in the database
+    let user: Partial<User>;
+
+    if (input.username) {
+      user = await this.userService.findUserByUsername(input.username);
+    }
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    // check if the user's password are matching
+    const match = bcrypt.compare(input.password, user.password);
+    if (!match) {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    // remove the password from the return user object
+    // to prevent it being exposed to public
+    // const {
+    //   password,
+    //   verificationCodes,
+    //   createdAt,
+    //   updatedAt,
+    //   roleId,
+    //   ...userWithoutPassword
+    // } = user;
+
+    return true;
   }
 }
