@@ -14,14 +14,17 @@ const Dropzone: React.FC<{ className?: string }> = ({ className }) => {
     const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
         // Handle accepted files
         if (acceptedFiles.length) {
+            // Filter out files that are already in the list
+            const newFiles = acceptedFiles.filter(file => !files.find(existingFile => existingFile.name === file.name));
+    
             setFiles(previousFiles => [
                 ...previousFiles,
-                ...acceptedFiles.map(file =>
+                ...newFiles.map(file =>
                     Object.assign(file, { preview: URL.createObjectURL(file) })
                 ) as FileWithPreview[]
             ]);
         }
-
+    
         // Handle rejected files
         if (fileRejections.length) {
             setRejected(previousFiles => [
@@ -29,7 +32,8 @@ const Dropzone: React.FC<{ className?: string }> = ({ className }) => {
                 ...fileRejections.map(({ file, errors }) => ({ file, errors }))
             ]);
         }
-    }, []);
+    }, [files]);
+    
 
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -78,28 +82,12 @@ const Dropzone: React.FC<{ className?: string }> = ({ className }) => {
         console.log(data);
     };
 
-    return (<div className='h-screen'> 
-        <form onSubmit={handleSubmit}>
-            <div
-                {...getRootProps({
-                    className: className
-                })}
-            >
-                <input {...getInputProps() as DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>} />
-                <div className='flex flex-col items-center justify-center gap-4'>
-                    <ArrowUpTrayIcon className='w-5 h-5 fill-current' />
-                    {isDragActive ? (
-                        <p>Drop the files here ...</p>
-                    ) : (
-                        <p>Drag & drop files here, or click to select files</p>
-                    )}
-                </div>
-            </div>
+    return (<div className='h-screen'>
 
-            {/* Preview */}
+        <form onSubmit={handleSubmit}>
             <section className='mt-10'>
-                <div className='flex gap-4'>
-                    <h2 className='title text-3xl font-semibold'>Preview</h2>
+                <div className='flex gap-4 text-neutral-600 mt-10 border-b pb-3'>
+                    <h2 className='title text-3xl font-semibold '>Upload Files</h2>
                     <button
                         type='button'
                         onClick={removeAll}
@@ -114,7 +102,21 @@ const Dropzone: React.FC<{ className?: string }> = ({ className }) => {
                         Upload to Cloudinary
                     </button>
                 </div>
-
+                <div
+                    {...getRootProps({
+                        className: className
+                    })}
+                >
+                    <input {...getInputProps() as DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>} />
+                    <div className='flex flex-col items-center justify-center gap-4'>
+                        <ArrowUpTrayIcon className='w-5 h-5 fill-current' />
+                        {isDragActive ? (
+                            <p>Drop the files here ...</p>
+                        ) : (
+                            <p>Drag & drop files here, or click to select files</p>
+                        )}
+                    </div>
+                </div>
                 {/* Accepted files */}
                 <h3 className='title text-lg font-semibold text-neutral-600 mt-10 border-b pb-3'>
                     Accepted Files
