@@ -7,10 +7,10 @@ export const menuItems = [
     //     label: "Insights",
     //     href: "/insights",
     // },
-    {
-        label: "Employees",
-        href: "/employees",
-    },
+    // {
+    //     label: "Employees",
+    //     href: "/employees",
+    // },
     {
         label: "Vendors",
         href: "/vendors",

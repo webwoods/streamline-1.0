@@ -65,26 +65,17 @@ const recentsData = [
 ];
 
 export default function DashboardPage() {
-  // create a table in the databse to store custom messages for tips
-  const customMessage =
-    "Check vendor ratings before finalizing orders. Prioritize suppliers with high performance scores for better service quality";
+
   return (
-    <div className="flex flex-col justify-center">
-      <div className="bg-[#197dfd] w-full">
+    <div className="flex flex-col min-h-screen">
+
+      <div className="bg-gradient-to-r from-[#197dfd] via-[#197dfd] to-slate-900 w-full">
         <SummaryStatWidget />
       </div>
-      <Tips message={customMessage} />
-      {/* <div>F
-				<TableTabs />
-			</div>
-			<div className="flex content-center p-8 sm:px-28 gap-2">
-				<StatusModal />
-				<UpdatePurchase />
-				<UpdateQuotation />
-				<UpdateRequest />
-			</div> */}
-      {/* <WidgetCollection /> */}
-      {/* <div className="container mx-auto max-w-screen-lg py-5">
+
+      <Tips />
+
+      <div className="w-full px-10 py-5">
         <p className="text-3xl font-bold text-gray-800 py-5 dark:text-white">Recent Activity</p>
         {recentsData.map((data) => (
           <Recents
@@ -95,9 +86,11 @@ export default function DashboardPage() {
             viewDetailsLinkText={data.linkText}
           />
         ))}
-      </div> */}
+      </div>
       <QueryNotification/>
-      <SpendingTrendsChart/>
+
+      {/* <SpendingTrendsChart/> */}
+
     </div>
   );
 }
