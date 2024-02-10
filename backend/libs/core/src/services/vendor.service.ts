@@ -1,16 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
 import { Vendor } from '../entities/vendor.entity';
-
 @Injectable()
 export class VendorService {
 
   constructor(
-    @InjectRepository(User)
+    @InjectRepository(Vendor)
     private readonly vendorRepository: Repository<Vendor>,
-  ) {}
+  ) { }
 
   async findAllVendors(skip: number, take: number): Promise<Vendor[]> {
     const data = await this.vendorRepository.find({
@@ -51,9 +49,9 @@ export class VendorService {
       where: { id },
     });
 
-     // If the user doesn't exist, throw NotFoundException
-     if (!vendor) {
-      throw new NotFoundException(`User with id ${id} not found`);
+    // If the vendor doesn't exist, throw NotFoundException
+    if (!vendor) {
+      throw new NotFoundException(`Vendor with id ${id} not found`);
     }
 
     Object.assign(vendor, input);
@@ -64,11 +62,11 @@ export class VendorService {
   }
 
   async deleteVendor(id: string): Promise<Vendor | null> {
-    const user = await this.vendorRepository.findOne({
-    
+    const vendor = await this.vendorRepository.findOne({
+
       where: { id },
     });
     await this.vendorRepository.delete(id);
-    return user;
+    return vendor;
   }
 }
