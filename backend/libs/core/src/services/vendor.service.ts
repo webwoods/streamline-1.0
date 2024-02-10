@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vendor } from '../entities/vendor.entity';
+import { Region } from '../entities/enum/region';
 @Injectable()
 export class VendorService {
 
@@ -10,10 +11,13 @@ export class VendorService {
     private readonly vendorRepository: Repository<Vendor>,
   ) { }
 
-  async findAllVendors(skip: number, take: number): Promise<Vendor[]> {
+  async findAllVendors(skip: number, take: number, region?: Region): Promise<Vendor[]> {
     const data = await this.vendorRepository.find({
       skip,
       take,
+      where: {
+        region: region
+      }
     });
     return data;
   }

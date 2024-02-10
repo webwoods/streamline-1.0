@@ -51,18 +51,7 @@ export class NotificationService {
     });
     return data;
   }
-
-  // Notificaitions
-
-  async findAllNotifications(skip: number, take: number): Promise<Notification[]> {
-    const data = await this.notificationRepository.find({
-      skip,
-      take,
-      relations: { recievers: true },
-    });
-    return data;
-  }
-
+  
   // Linked
 
   // async createRoleNotificationWithReceivers(

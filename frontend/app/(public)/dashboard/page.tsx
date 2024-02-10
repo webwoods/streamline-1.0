@@ -2,6 +2,7 @@
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import Tips from "@/components/tips/tips";
 import QueryNotification from "@/components/query/queryNotification";
+import SpendingTrendsChart from "@/components/statCharts/spendingLine";
 
 /**
  * Dashboard Components visible to the Procurement Staff

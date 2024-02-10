@@ -6,7 +6,7 @@ export default function StatCollection() {
     { title: 'Awaiting Approval', icon: 'awaiting-approval', value: 3 },
     { title: 'Pending Requisitions', icon: 'pending-request', value: 12 },
     { title: 'Purchase Orders', icon: 'purchase-order', value: 114 },
-    { title: 'Vendor Responses', icon: 'vendor-responses', value: 20 }
+    { title: 'Vendor Responses', icon: 'vendor-responses', value: 0 }
   ]
 
   return (

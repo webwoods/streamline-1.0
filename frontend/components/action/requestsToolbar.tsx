@@ -17,8 +17,9 @@ function Tool({ onClick, title, icon }: ToolProps) {
 			{/* web */}
 			<Tooltip content={title}>
 				<Button
-					radius="full"
-					className="flex justify-start bg-white"
+					radius="sm"
+					size="md"
+					className="flex justify-start bg-white shadow-sm hover:bg-slate-200"
 					onClick={() => onClick && onClick('/')}
 					startContent={<FontAwesomeIcon size="lg" icon={icon} />}
 				>
@@ -44,17 +45,13 @@ export default function RequestsToolBar() {
 
 	const router = useRouter();
 
-	const testRouter = (href?: string) => {
-		console.log(href);
-	}
-
 	return (
-		<div className="flex lg:flex-col py-10 gap-3 text-xs">
+		<div className="flex lg:flex-col py-10 gap-3 text-xs w-40">
 
 			<Tool
 				title="View All"
 				icon={faTableList}
-				onClick={() => testRouter('/requests')}
+				onClick={() => router.push('/requests')}
 			/>
 
 			<Tool

@@ -21,22 +21,18 @@ export default function Requests() {
     }, []);
 
     return (
-        <ThreeColumnLayout
-            startContent={<RequestsToolBar />}
-            middleContent={
-                <>
-                    <TableTabs getActiveTabActiveRecord={getDataFromMiddle} />
-                    {action === 'edit' && <UpdateRequest data={dataFromMiddle} />}
-                    {action === 'delete' && <DeleteRequest data={dataFromMiddle} />}
-                </>}
-            endContent={
-                <SecondaryPanel>
-                    {(dataFromMiddle) ?
-                        <Details header="Details" cta="Edit" data={dataFromMiddle} /> :
-                        <EmptyContent msg={"Click the 'eye' icon for a request from the table to view the data."} />
-                    }
-                </SecondaryPanel>
-            }
-        />
+        <>
+            <>
+                <TableTabs getActiveTabActiveRecord={getDataFromMiddle} />
+                {action === 'edit' && <UpdateRequest data={dataFromMiddle} />}
+                {action === 'delete' && <DeleteRequest data={dataFromMiddle} />}
+            </>
+            <SecondaryPanel>
+                {(dataFromMiddle) ?
+                    <Details header="Details" cta="Edit" data={dataFromMiddle} /> :
+                    <EmptyContent msg={"Click the 'eye' icon for a request from the table to view the data."} />
+                }
+            </SecondaryPanel>
+        </>
     );
 }

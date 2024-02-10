@@ -27,7 +27,7 @@ const SummaryStatWidget = () => {
     }, [data]);
 
     return (
-        <div className="py-10 px-10 grid grid-cols-1 sm:grid-cols-2 gap-4 drop-shadow-md max-w-screen-lg">
+        <div className="py-10 px-10 grid grid-cols-1 sm:grid-cols-2 gap-4 drop-shadow-md w-full max-w-screen-2xl">
             {loading ? (
                 <div className='flex justify-center w-full col-span-2'>
                     <PartialLoading color="light" />

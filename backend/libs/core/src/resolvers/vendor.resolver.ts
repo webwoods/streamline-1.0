@@ -11,10 +11,11 @@ import { Vendor } from '../entities/vendor.entity';
 import { VendorPage } from '../entities/dto/vendor-page.dto';
 import { UpdateVendorInput } from '../entities/dto/update.vendor';
 import { CreateVendorInput } from '../entities/dto/create.vendor';
+import { Region } from '../entities/enum/region';
 
 @Resolver(() => Vendor)
 export class VendorResolver {
-  constructor(private readonly vendorService: VendorService) {}
+  constructor(private readonly vendorService: VendorService) { }
 
   @Query(() => Vendor, { name: 'vendor' })
   async getVendorById(@Args('id') id: string): Promise<Vendor> {
@@ -55,10 +56,11 @@ export class VendorResolver {
   async getVendors(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('region', { type: () => Region, nullable: true }) region?: Region,
   ): Promise<VendorPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const vendors = await this.vendorService.findAllVendors(skip, pageSize);
+      const vendors = await this.vendorService.findAllVendors(skip, pageSize, region);
       const vendorPage: VendorPage = { data: vendors, totalItems: vendors.length };
       return vendorPage;
     } catch (error: any) {

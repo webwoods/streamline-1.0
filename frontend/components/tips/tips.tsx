@@ -25,7 +25,7 @@ export default function Tips() {
   }, []);
 
   return (
-    <div className="py-10 px-10 w-full max-w-screen-lg">
+    <div className="py-10 px-10 w-full max-w-screen-2xl">
       <div className="p-4 border-dashed border-1 border-[#197dfd] rounded-2xl bg-gradient-to-r from-white to-sky-50">
         <div className="flex items-center gap-2 text-slate-900">
           <p className="font-semibold hover:text-[#197dfd]">Tips and Reminders</p>

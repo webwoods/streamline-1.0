@@ -153,8 +153,8 @@ export const NOTIFICATION_QUERY = gql`
 
 
 export const VENDORS_QUERY = gql`
-query Vendors($page: Int!, $pageSize: Int!) {
-  vendors(page: $page, pageSize: $pageSize) {
+query Vendors($page: Int!, $pageSize: Int!, $region: Region) {
+  vendors(page: $page, pageSize: $pageSize, region: $region) {
     data {
       id
       createdAt

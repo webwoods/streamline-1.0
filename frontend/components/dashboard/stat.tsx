@@ -35,7 +35,7 @@ export default function Stat({ props }: StatProps) {
           {getIcon(props.icon)}
         </div>
       </div>
-      {/* <span className='text-3xl font-semibold'>{props.value}</span> */}
+      <span className='text-3xl font-semibold'>{props.value}</span>
     </div>
   );
 }
