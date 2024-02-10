@@ -11,3 +11,12 @@ export class VerifyUserInput {
   @Field()
   verificationToken: string;
 }
+
+@InputType()
+export class VerifyPasswordInput {
+  @Field({ nullable: true })
+  username?: string;
+
+  @Field({ nullable: true })
+  password?: string;
+}
