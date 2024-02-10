@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { Request } from '../entities/request.entity';
 import { apolloClient } from '../apollo/client';
+import { RequestType } from '../entities/enum/requestType';
 
 @Injectable()
 export class RequestService {
@@ -11,11 +12,27 @@ export class RequestService {
     private readonly requestRepository: Repository<Request>,
   ) { }
 
-  async findAllRequests(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
+  async findAllRequests(skip?: number, take?: number, requestType?: RequestType): Promise<{ data: Request[]; count: number }> {
     const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true } },
+      where: {
+        requestType: requestType
+      }
+    });
+    return { data, count };
+  }
+
+  async findAllSoftDeletedRequests(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
+    const [data, count] = await this.requestRepository.findAndCount({
+      skip,
+      take,
+      relations: { file: true, requestItems: { storeItem: true } },
+      withDeleted: true,
+      where: {
+        deletedAt: Not(IsNull())
+      }
     });
     return { data, count };
   }
@@ -28,7 +45,7 @@ export class RequestService {
     const data = await this.requestRepository.find({
       skip,
       take,
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
       where: {
         requestedUserId: userId,
       },
@@ -40,7 +57,10 @@ export class RequestService {
     return await this.requestRepository.findOne({
       relations: {
         file: true,
-        requestItems: true,
+        requestItems: {
+          storeItem: true
+        },
+        notifications: true
       },
       where: { id },
     });
@@ -50,7 +70,7 @@ export class RequestService {
     const request = this.requestRepository.create(input);
     const createdRequest = await this.requestRepository.save(request);
     return await this.requestRepository.findOne({
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
       where: { id: createdRequest.id },
     });
   }
@@ -60,7 +80,7 @@ export class RequestService {
     input: Partial<Request>,
   ): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
       where: { id },
     });
 
@@ -78,10 +98,19 @@ export class RequestService {
 
   async deleteRequest(id: string): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
       where: { id },
     });
     await this.requestRepository.delete(id);
+    return request;
+  }
+
+  async softDeleteRequest(id: string): Promise<Request | null> {
+    const request = await this.requestRepository.findOne({
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      where: { id },
+    });
+    await this.requestRepository.softDelete(id);
     return request;
   }
 }

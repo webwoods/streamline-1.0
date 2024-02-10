@@ -122,7 +122,7 @@ function LoginForm() {
           {/* Display welcome message if not a successful login */}
           {!loginSuccess && (
             <>
-              <h2 className='mt-5 text-2xl font-semibold'>Welcome back!</h2>
+              <h2 className='mt-5 text-2xl font-semibold'>Sign in</h2>
               <p className='text-sm text-gray-400 font-normal text-center'>
                 Not a member? <Link href='/auth/signup' className='text-sm font-semibold text-[#197dfd]'>Create your account now!</Link>
               </p>

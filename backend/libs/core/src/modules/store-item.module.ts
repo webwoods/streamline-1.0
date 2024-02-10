@@ -1,8 +1,12 @@
 import { Module } from '@nestjs/common';
-import { StoreItemService } from '../services/store-item.service';
-import { StoreItemResolver } from '../resolvers/store-item.resolver';
+import { StoreItemsService } from '../services/store-items.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { StoreItem } from '../entities/store-item.entity';
+import { StoreItemsResolver } from '../resolvers/store-items.resolver';
 
 @Module({
-  providers: [StoreItemService, StoreItemResolver]
+  imports: [TypeOrmModule.forFeature([StoreItem])],
+  providers: [StoreItemsService, StoreItemsResolver],
+  exports: [StoreItemsService],
 })
 export class StoreItemModule {}

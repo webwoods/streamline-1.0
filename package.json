@@ -20,6 +20,8 @@
     "test:e2e": "jest --config ./apps/streamline/test/jest-e2e.json"
   },
   "dependencies": {
+    "react-file-uploader": "^1.0.0",
+    "react-uploader": "^3.43.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

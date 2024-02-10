@@ -13,37 +13,52 @@ import { Request } from '../entities/request.entity';
 import { RequestStatus } from '../entities/enum/requestStatus';
 import { UserRoles } from '../entities/enum/role';
 import { USER_QUERY } from '../apollo/query';
+import { StoreItem } from '../entities/store-item.entity';
+import { StoreItemsService } from './store-items.service';
+import { NotificationService } from './notifiation.service';
+import { RequestType } from '../entities/enum/requestType';
 
 @Injectable()
 export class ProcurementService {
   constructor(
     private readonly requestService: RequestService,
     private readonly requestItemService: RequestItemsService,
+    private readonly storeItemService: StoreItemsService,
     private readonly propertyService: PropertyService,
     private readonly fileService: FileService,
+    private readonly notificationService: NotificationService,
   ) { }
 
   /**
-   * This function lets the procurement user to add request items to
-   * a request
-   * @returns
-   */
+ * This function lets the procurement user to add request items to
+ * a request
+ * @returns
+ */
   async addRequestItemsToRequest(
     requestId: string,
     requestItemIds: string[],
   ): Promise<Request> {
     try {
       const request = await this.requestService.findRequestById(requestId);
-      requestItemIds.forEach(async (requestItemId: string) => {
+
+      // Map the array of request item IDs to an array of promises
+      const updatePromises = requestItemIds.map(async (requestItemId) => {
         const requestItem = await this.requestItemService.findRequestItemById(
           requestItemId,
         );
+
+        // console.log(requestItem); // here store item is queried along with the request item. this is correct.
+
         requestItem.requests.push(request);
         await this.requestItemService.updateRequestItem(
           requestItemId,
           requestItem,
         );
       });
+
+      // Use Promise.all to wait for all promises to resolve
+      await Promise.all(updatePromises);
+
       return await this.requestService.findRequestById(requestId);
     } catch (error) {
       throw new Error(error);
@@ -119,22 +134,22 @@ export class ProcurementService {
 
   /**
    * Lets the user to attach an existing property from the database,
-   * to a request item
+   * to a store item
    * @returns
    */
-  async addPropertyToRequestItem(
+  async addPropertyToStoreItem(
     propertyId: string,
-    requestItemId: string,
-  ): Promise<RequestItem> {
+    storeItemId: string,
+  ): Promise<StoreItem> {
     try {
       const property = await this.propertyService.findPropertyById(propertyId);
-      const requestItem = await this.requestItemService.findRequestItemById(
-        requestItemId,
+      const storeItem = await this.storeItemService.findStoreItemById(
+        storeItemId,
       );
-      requestItem.properties.push(property);
-      return await this.requestItemService.updateRequestItem(
-        requestItemId,
-        requestItem,
+      storeItem.properties.push(property);
+      return await this.storeItemService.updateStoreItem(
+        storeItemId,
+        storeItem,
       );
     } catch (error) {
       throw new Error(error);
@@ -143,28 +158,28 @@ export class ProcurementService {
 
   /**
    * Lets the user to attach a set of existing properties
-   * from the database, to a request item
+   * from the database, to a store item
    * @returns
    */
-  async addPropertiesToRequestItem(
+  async addPropertiesToStoreItem(
     propertyIds: string[],
-    requestItemId: string,
-  ): Promise<RequestItem> {
+    storeItemId: string,
+  ): Promise<StoreItem> {
     try {
       const properties = await this.propertyService.findPropertiesByIds(
         propertyIds,
       );
-      const requestItem = await this.requestItemService.findRequestItemById(
-        requestItemId,
+      const storeItem = await this.storeItemService.findStoreItemById(
+        storeItemId,
       );
 
       properties.forEach((property: Property) => {
-        requestItem.properties.push(property);
+        storeItem.properties.push(property);
       });
 
-      return await this.requestItemService.updateRequestItem(
-        requestItemId,
-        requestItem,
+      return await this.storeItemService.updateStoreItem(
+        storeItemId,
+        storeItem,
       );
     } catch (error) {
       throw new Error(error);
@@ -173,22 +188,22 @@ export class ProcurementService {
 
   /**
    * Lets the user to define a new property and
-   * add to a request item
+   * add to a store item
    * @returns
    */
-  async addNewPropertyToRequestItem(
+  async addNewPropertyToStoreItem(
     input: Partial<Property>,
-    requestItemId: string,
-  ): Promise<RequestItem> {
+    storeItemId: string,
+  ): Promise<StoreItem> {
     try {
       const property = await this.propertyService.createProperty(input);
-      const requestItem = await this.requestItemService.findRequestItemById(
-        requestItemId,
+      const storeItem = await this.storeItemService.findStoreItemById(
+        storeItemId,
       );
-      requestItem.properties.push(property);
-      return await this.requestItemService.updateRequestItem(
-        requestItemId,
-        requestItem,
+      storeItem.properties.push(property);
+      return await this.storeItemService.updateStoreItem(
+        storeItemId,
+        storeItem,
       );
     } catch (error) {
       throw new Error(error);
@@ -197,27 +212,27 @@ export class ProcurementService {
 
   /**
    * Lets the user to define new set of properties and
-   * add to a request item
+   * add to a store item
    * @returns
    */
-  async addNewPropertiesToRequestItem(
+  async addNewPropertiesToStoreItem(
     input: Partial<Property>[],
-    requestItemId: string,
+    storeItemId: string,
   ): Promise<any> {
     try {
-      const requestItem = await this.requestItemService.findRequestItemById(
-        requestItemId,
+      const storeItem = await this.storeItemService.findStoreItemById(
+        storeItemId,
       );
 
       input.forEach(async (property: Partial<Property>) => {
-        requestItem.properties.push(
+        storeItem.properties.push(
           await this.propertyService.createProperty(property),
         );
       });
 
-      return await this.requestItemService.updateRequestItem(
-        requestItemId,
-        requestItem,
+      return await this.storeItemService.updateStoreItem(
+        storeItemId,
+        storeItem,
       );
     } catch (error) {
       throw new Error(error);
@@ -226,52 +241,52 @@ export class ProcurementService {
 
   /**
    * Lets the user to remove a property
-   * from a request item
+   * from a store item
    * @returns
    */
-  async removePropertyFromRequestItem(
+  async removePropertyFromStoreItem(
     propertyId: string,
-    requestItemId: string,
-  ): Promise<RequestItem> {
-    const requestItem = await this.requestItemService.findRequestItemById(
-      requestItemId,
+    storeItemId: string,
+  ): Promise<StoreItem> {
+    const storeItem = await this.storeItemService.findStoreItemById(
+      storeItemId,
     );
 
-    const propertyToRemove = requestItem.properties.find(
+    const propertyToRemove = storeItem.properties.find(
       (property: Property) => property.id === propertyId,
     );
 
     if (!propertyToRemove) {
-      throw new NotFoundException('Property not found in the request item.');
+      throw new NotFoundException('Property not found in the store item.');
     }
 
     // Remove the property from the array
-    requestItem.properties = requestItem.properties.filter(
+    storeItem.properties = storeItem.properties.filter(
       (property: Property) => property.id !== propertyId,
     );
 
-    return await this.requestItemService.updateRequestItem(
-      requestItemId,
-      requestItem,
+    return await this.storeItemService.updateStoreItem(
+      storeItemId,
+      storeItem,
     );
   }
 
   /**
    * Lets the user to remove a set of properties
-   * from a request item
+   * from a store item
    * @returns
    */
-  async removePropertiesFromRequestItem(
+  async removePropertiesFromStoreItem(
     propertyIds: string[],
-    requestItemId: string,
-  ): Promise<RequestItem> {
-    const requestItem = await this.requestItemService.findRequestItemById(
-      requestItemId,
+    storeItemId: string,
+  ): Promise<StoreItem> {
+    const storeItem = await this.storeItemService.findStoreItemById(
+      storeItemId,
     );
 
     const propertiesToRemove = await Promise.all(
       propertyIds.map(async (propertyId: string) => {
-        return requestItem.properties.find(
+        return storeItem.properties.find(
           (property: Property) => property.id === propertyId,
         );
       }),
@@ -279,18 +294,18 @@ export class ProcurementService {
 
     if (!propertiesToRemove) {
       throw new NotFoundException(
-        'One or pore properties not found in the request item.',
+        'One or pore properties not found in the store item.',
       );
     }
 
     // Remove the properties from the array
-    requestItem.properties = requestItem.properties.filter(
+    storeItem.properties = storeItem.properties.filter(
       (property) => !propertiesToRemove.includes(property),
     );
 
-    return await this.requestItemService.updateRequestItem(
-      requestItemId,
-      requestItem,
+    return await this.storeItemService.updateStoreItem(
+      storeItemId,
+      storeItem,
     );
   }
 
@@ -418,9 +433,9 @@ export class ProcurementService {
     }
   }
 
-  async getRequestsWithUser(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
+  async getRequestsWithUser(skip?: number, take?: number, requestType?: RequestType): Promise<{ data: Request[]; count: number }> {
     try {
-      const requests = await this.requestService.findAllRequests(skip, take);
+      const requests = await this.requestService.findAllRequests(skip, take, requestType);
       const requestsWithUsers = await Promise.all(requests.data.map(async (request: Request) => {
         if (request.requestedUserId) {
           request.requestedUser = await this.getUserByIdFromAuth(request.requestedUserId);

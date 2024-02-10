@@ -24,24 +24,24 @@ export function UserProfileButton() {
   const router = useRouter();
 
   const handleLogin = () => {
-    console.log("log in clicked!");
-    // router.push('/auth/login')
+    // console.log("log in clicked!");
+    router.push('/auth/login')
   };
 
   const handleProfile = () => {
-    console.log("profile clicked!!");
-    // router.push('/profile')
+    // console.log("profile clicked!!");
+    router.push('/profile')
   }
 
   useEffect(() => {
     const cookies = parseCookies();
-    const loggedInUser: CurrentUser = JSON.parse(cookies['currentUser']);
+    const loggedInUser: CurrentUser | string = cookies['currentUser'] ? JSON.parse(cookies['currentUser']) : 'Log in';
     loggedInUser && setCurrentUser(loggedInUser);
   }, [])
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser])
+  // useEffect(() => {
+  //   console.log(currentUser);
+  // }, [currentUser])
 
   return (
     <Tooltip content="click the profile photo to expand/collapse">

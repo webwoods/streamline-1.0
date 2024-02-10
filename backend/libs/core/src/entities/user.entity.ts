@@ -11,6 +11,8 @@ import {
 import * as bcrypt from 'bcrypt';
 import { StreamLineEntity } from './streamline.entity';
 import { VerificationCode } from './verification-codes.entity';
+import { RequestNotification } from './request-notification.entity';
+import { Feedback } from './feedback.entity';
 
 @Entity()
 @ObjectType()
@@ -55,4 +57,12 @@ export class User extends StreamLineEntity {
   )
   @Field((type) => [VerificationCode], { nullable: true })
   verificationCodes?: VerificationCode[];
+
+  // @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
+  // @Field(() => [RequestNotification], { nullable: true })
+  // notifications: RequestNotification[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.submittedUser)
+  @Field(() => [Feedback], {nullable: true})
+  feedbacks: Feedback[];
 }

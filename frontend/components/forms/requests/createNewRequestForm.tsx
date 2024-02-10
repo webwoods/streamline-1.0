@@ -1,32 +1,60 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
-import { parseCookies } from 'nookies';
+import React, { useCallback, useEffect, useState } from 'react';
 import CreateBlock from './createBlock';
 import AddItemsBlock from './addItemsBlock';
 import VerifyBlock from './verifyBlock';
-
-const formInputStyles = {
-  base: "w-full",
-  inputWrapper: "rounded-[0.25rem]"
-}
+import { formInputStyles } from '../styles';
 
 export default function CreateNewRequestForm() {
 
-  const [currentUser, setCurrentUser] = useState("");
-  const [activeBlock, setActiveBlock] = useState(2);
+  const [activeBlock, setActiveBlock] = useState(0);
+  const [formData, setFormData] = useState<any>();
 
-  const blocks = [
-    <CreateBlock formInputStyles={formInputStyles} user={currentUser} key={0} onNext={() => setActiveBlock(1)} />,
-    <AddItemsBlock formInputStyles={formInputStyles} key={1} onNext={() => setActiveBlock(2)} onBack={() => setActiveBlock(0)} />,
-    <VerifyBlock key={2} onVerify={() => {}} onBack={() => setActiveBlock(1)} />
-  ];
+  const onDataSubmit = useCallback((data: any) => {
+    setFormData((prevData: any) => ({
+      ...prevData,
+      ...data,
+    }));
+  }, []);
 
   useEffect(() => {
-    const parsedCookie = parseCookies()['currentUser'];
-    setCurrentUser(parsedCookie);
-    console.log(parsedCookie);
-  }, []);
+    if (formData === null) {
+      setActiveBlock(0);
+    }
+  }, [formData]);
+
+  const blocks = [
+    <CreateBlock
+      formInputStyles={formInputStyles}
+      key={0}
+      onNext={() => {
+        alert('data successfully saved!');
+        setActiveBlock(1);
+      }}
+      onDataSubmit={onDataSubmit}
+      savedData={formData}
+    />,
+    <AddItemsBlock
+      formInputStyles={formInputStyles}
+      key={1}
+      onNext={() => {
+        alert('data successfully saved!');
+        setActiveBlock(2);
+      }}
+      onBack={() => setActiveBlock(0)}
+      onDataSubmit={onDataSubmit}
+      savedData={formData}
+    />,
+    <VerifyBlock
+      key={2}
+      onVerify={() => {
+        setFormData(null);
+      }}
+      onBack={() => setActiveBlock(1)}
+      data={formData}
+    />
+  ];
 
   return (
     <div className='w-full flex flex-col items-center'>

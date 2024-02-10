@@ -12,19 +12,18 @@ import { PropertyService } from '../services/property.service';
 import { Property } from '../entities/property.entity';
 import { CreatePropertyInput } from '../entities/dto/create.property';
 import { UpdatePropertyInput } from '../entities/dto/update.property';
-import { PropertyPage } from '../entities/dto/propertyPage.dto';
-import { RequestItem } from '../entities/request-items.entity';
+import { PropertyPage } from '../entities/dto/property-page.dto';
 
 @Resolver(() => Property)
 export class PropertyResolver {
   constructor(private readonly propertyService: PropertyService) {}
 
-  @ResolveField(() => RequestItem, { nullable: true })
-  async requestItems(
-    @Parent() property: Property,
-  ): Promise<RequestItem[] | null> {
-    return property.requestItems ?? null;
-  }
+  // @ResolveField(() => RequestItem, { nullable: true })
+  // async requestItems(
+  //   @Parent() property: Property,
+  // ): Promise<RequestItem[] | null> {
+  //   return property.requestItems ?? null;
+  // }
 
   @Query(() => Property, { name: 'property' })
   async getPropertyById(@Args('id') id: string): Promise<Property> {

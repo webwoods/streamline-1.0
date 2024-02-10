@@ -6,7 +6,9 @@ import { CreatePropertyInput } from '../entities/dto/create.property';
 import { User } from '../entities/user.entity';
 import { Role } from '../entities/role.entity';
 import { Request } from '../entities/request.entity';
-import { RequestPage } from '../entities/dto/requestPage.dto';
+import { RequestPage } from '../entities/dto/request-page.dto';
+import { StoreItem } from '../entities/store-item.entity';
+import { RequestType } from '../entities/enum/requestType';
 
 @Resolver()
 export class ProcurementResolver {
@@ -114,200 +116,200 @@ export class ProcurementResolver {
 
   /**
    * Lets the user to attach an existing property from teh database,
-   * to a request item
+   * to a store item
    * @returns
    */
-  @Mutation(() => RequestItem)
-  async addPropertyToRequestItem(
+  @Mutation(() => StoreItem)
+  async addPropertyToStoreItem(
     @Args('propertyId') propertyId: string,
-    @Args('requestItemId') requestItemId: string,
-  ): Promise<RequestItem> {
+    @Args('storeItemId') storeItemId: string,
+  ): Promise<StoreItem> {
     try {
-      if (!requestItemId) {
-        throw new NotFoundException('Request Item not found.');
+      if (!storeItemId) {
+        throw new NotFoundException('Store Item not found.');
       }
 
       if (!propertyId) {
         throw new NotFoundException('Property not found.');
       }
 
-      return await this.procurementService.addPropertyToRequestItem(
+      return await this.procurementService.addPropertyToStoreItem(
         propertyId,
-        requestItemId,
+        storeItemId,
       );
     } catch (error) {
-      console.error('Error adding property to request item:', error.message);
+      console.error('Error adding property to store item:', error.message);
       throw new Error(
-        'Failed to add property to request item. Please try again.',
+        'Failed to add property to store item. Please try again.',
       );
     }
   }
 
   /**
    * Lets the user to attach a set of existing properties
-   * from the database, to a request item
+   * from the database, to a store item
    * @returns
    */
-  @Mutation(() => RequestItem)
-  async addPropertiesToRequestItem(
+  @Mutation(() => StoreItem)
+  async addPropertiesToStoreItem(
     @Args('propertyIds', { type: () => [String] }) propertyIds: string[],
-    @Args('requestItemId') requestItemId: string,
-  ): Promise<RequestItem> {
+    @Args('storeItemId') storeItemId: string,
+  ): Promise<StoreItem> {
     try {
-      if (!requestItemId) {
-        throw new NotFoundException('Request Item not found.');
+      if (!storeItemId) {
+        throw new NotFoundException('Store Item not found.');
       }
 
       if (!propertyIds) {
         throw new NotFoundException('Properties not found.');
       }
 
-      return await this.procurementService.addPropertiesToRequestItem(
+      return await this.procurementService.addPropertiesToStoreItem(
         propertyIds,
-        requestItemId,
+        storeItemId,
       );
     } catch (error) {
-      console.error('Error adding properties to request item:', error.message);
+      console.error('Error adding properties to store item:', error.message);
       throw new Error(
-        'Failed to add properties to request item. Please try again.',
+        'Failed to add properties to store item. Please try again.',
       );
     }
   }
 
   /**
    * Lets the user to define a new property and
-   * add to a request item
+   * add to a store item
    * @returns
    */
-  @Mutation(() => RequestItem)
-  async addNewPropertyToRequestItem(
+  @Mutation(() => StoreItem)
+  async addNewPropertyToStoreItem(
     @Args('property') property: CreatePropertyInput,
-    @Args('requestItemId') requestItemId: string,
-  ): Promise<RequestItem> {
+    @Args('storeItemId') storeItemId: string,
+  ): Promise<StoreItem> {
     try {
-      if (!requestItemId) {
-        throw new NotFoundException('Request Item not found.');
+      if (!storeItemId) {
+        throw new NotFoundException('Store Item not found.');
       }
 
       if (!property) {
         throw new NotFoundException('Property not found.');
       }
 
-      return await this.procurementService.addNewPropertyToRequestItem(
+      return await this.procurementService.addNewPropertyToStoreItem(
         property,
-        requestItemId,
+        storeItemId,
       );
     } catch (error) {
       console.error(
-        'Error adding new property to request item:',
+        'Error adding new property to store item:',
         error.message,
       );
       throw new Error(
-        'Failed to add new property to request item. Please try again.',
+        'Failed to add new property to store item. Please try again.',
       );
     }
   }
 
   /**
    * Lets the user to define new set of properties and
-   * add to a request item
+   * add to a store item
    * @returns
    */
-  @Mutation(() => RequestItem)
-  async addNewPropertiesToRequestItem(
+  @Mutation(() => StoreItem)
+  async addNewPropertiesToStoreItem(
     @Args('properties', { type: () => [CreatePropertyInput] })
     properties: CreatePropertyInput[],
-    @Args('requestItemId') requestItemId: string,
-  ): Promise<RequestItem> {
+    @Args('storeItemId') storeItemId: string,
+  ): Promise<StoreItem> {
     try {
-      if (!requestItemId) {
-        throw new NotFoundException('Request Item not found.');
+      if (!storeItemId) {
+        throw new NotFoundException('Store Item not found.');
       }
 
       if (!properties) {
         throw new NotFoundException('Property not found.');
       }
 
-      return await this.procurementService.addNewPropertiesToRequestItem(
+      return await this.procurementService.addNewPropertiesToStoreItem(
         properties,
-        requestItemId,
+        storeItemId,
       );
     } catch (error) {
       console.error(
-        'Error adding new properties to request item:',
+        'Error adding new properties to store item:',
         error.message,
       );
       throw new Error(
-        'Failed to add new properties to request item. Please try again.',
+        'Failed to add new properties to store item. Please try again.',
       );
     }
   }
 
   /**
    * Lets the user to remove a property
-   * from a request item
+   * from a store item
    * @returns
    */
-  @Mutation(() => RequestItem)
-  async removePropertyFromRequestItem(
+  @Mutation(() => StoreItem)
+  async removePropertyFromStoreItem(
     @Args('propertyId')
     propertyId: string,
-    @Args('requestItemId') requestItemId: string,
-  ): Promise<RequestItem> {
+    @Args('storeItemId') storeItemId: string,
+  ): Promise<StoreItem> {
     try {
-      if (!requestItemId) {
-        throw new NotFoundException('Request Item not found.');
+      if (!storeItemId) {
+        throw new NotFoundException('Store Item not found.');
       }
 
       if (!propertyId) {
         throw new NotFoundException('Property not found.');
       }
 
-      return await this.procurementService.removePropertyFromRequestItem(
+      return await this.procurementService.removePropertyFromStoreItem(
         propertyId,
-        requestItemId,
+        storeItemId,
       );
     } catch (error) {
       console.error(
-        'Error removing property from request item:',
+        'Error removing property from store item:',
         error.message,
       );
       throw new Error(
-        'Failed to remove property from request item. Please try again.',
+        'Failed to remove property from store item. Please try again.',
       );
     }
   }
   /**
    * Lets the user to remove a set of properties
-   * from a request item
+   * from a store item
    * @returns
    */
-  @Mutation(() => RequestItem)
-  async removePropertiesFromRequestItem(
+  @Mutation(() => StoreItem)
+  async removePropertiesFromStoreItem(
     @Args('propertyIds', { type: () => [String] })
     propertyIds: string[],
-    @Args('requestItemId') requestItemId: string,
-  ): Promise<RequestItem> {
+    @Args('storeItemId') storeItemId: string,
+  ): Promise<StoreItem> {
     try {
-      if (!requestItemId) {
-        throw new NotFoundException('Request Item not found.');
+      if (!storeItemId) {
+        throw new NotFoundException('Store Item not found.');
       }
 
       if (!propertyIds) {
         throw new NotFoundException('Properties not found.');
       }
 
-      return await this.procurementService.removePropertiesFromRequestItem(
+      return await this.procurementService.removePropertiesFromStoreItem(
         propertyIds,
-        requestItemId,
+        storeItemId,
       );
     } catch (error) {
       console.error(
-        'Error removing properties from request item:',
+        'Error removing properties from store item:',
         error.message,
       );
       throw new Error(
-        'Failed to remove properties from request item. Please try again.',
+        'Failed to remove properties from store item. Please try again.',
       );
     }
   }
@@ -404,12 +406,14 @@ export class ProcurementResolver {
   async getRequestsWithUser(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('requestType', {type: () => RequestType, nullable: true}) requestType: RequestType | null,
   ): Promise<RequestPage> {
     try {
       const skip = (page - 1) * pageSize;
       const requests = await this.procurementService.getRequestsWithUser(
         skip,
         pageSize,
+        requestType
       );
       const requestPage: RequestPage = {
         data: requests.data,

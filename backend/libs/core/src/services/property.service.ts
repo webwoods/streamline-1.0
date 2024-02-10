@@ -14,14 +14,14 @@ export class PropertyService {
     const data = await this.propertyRepository.find({
       skip,
       take,
-      relations: { requestItems: true },
+      relations: { storeItems: true },
     });
     return data;
   }
 
   async findPropertyById(id: string): Promise<Property | null> {
     return await this.propertyRepository.findOne({
-      relations: { requestItems: true },
+      relations: { storeItems: true },
       where: { id },
     });
   }
@@ -29,7 +29,7 @@ export class PropertyService {
   async findPropertiesByIds(ids: string[]): Promise<Property[] | null> {
     const foundProperties = ids.map(async (id: string) => {
       return await this.propertyRepository.findOne({
-        relations: { requestItems: true },
+        relations: { storeItems: true },
         where: { id },
       });
     });
@@ -41,7 +41,7 @@ export class PropertyService {
       const property = this.propertyRepository.create(input);
       const createdProperty = await this.propertyRepository.save(property);
       return await this.propertyRepository.findOne({
-        relations: { requestItems: true },
+        relations: { storeItems: true },
         where: { id: createdProperty.id },
       });
     } catch (error) {
@@ -54,7 +54,7 @@ export class PropertyService {
     input: Partial<Property>,
   ): Promise<Property | null> {
     const property = await this.propertyRepository.findOne({
-      relations: { requestItems: true },
+      relations: { storeItems: true },
       where: { id },
     });
 
@@ -71,7 +71,7 @@ export class PropertyService {
 
   async deleteProperty(id: string): Promise<Property | null> {
     const property = await this.propertyRepository.findOne({
-      relations: { requestItems: true },
+      relations: { storeItems: true },
       where: { id },
     });
     await this.propertyRepository.delete(id);

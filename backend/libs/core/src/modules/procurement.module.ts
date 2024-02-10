@@ -5,6 +5,11 @@ import { FileModule } from '../modules/file.module';
 import { RequestItemsModule } from '../modules/request-items.module';
 import { RequestModule } from '../modules/request.module';
 import { PropertiesModule } from '../modules/property.module';
+import { StoreItemModule } from './store-item.module';
+import { NotificationModule } from './notification.module';
+import { VendorModule } from './vendor.module';
+import { InvoiceModule } from './invoice.module';
+import { FeedbackModule } from './feedback.module';
 
 @Module({
   imports: [
@@ -12,6 +17,11 @@ import { PropertiesModule } from '../modules/property.module';
     RequestItemsModule,
     RequestModule,
     PropertiesModule,
+    StoreItemModule,
+    NotificationModule,
+    VendorModule,
+    InvoiceModule,
+    FeedbackModule,
   ],
   exports: [ProcurementService],
   providers: [ProcurementService, ProcurementResolver],

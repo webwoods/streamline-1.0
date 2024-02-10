@@ -1,33 +1,79 @@
-import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { useState } from "react";
+import { Button, Divider, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { formButtonStyles, formSelectStyles, formTextAreaStyles, listBoxProps } from "../styles";
+import { useRouter } from "next/navigation";
+import SearchUserInput from "../searchUserInput";
 
-export default function CreateBlock({ user, onNext, formInputStyles }: { user: string; onNext: () => void; formInputStyles: any }) {
-    const currentDate = new Date();
-    const expectedDate = new Date();
-    expectedDate.setMonth(currentDate.getMonth() + 1);
+interface Props {
+    onNext: () => void
+    formInputStyles: any
+    onDataSubmit?: (data: any) => void
+    savedData?: any
+};
 
-    const [requestedUserName, setRequestedUserName] = useState<string>(user ? JSON.parse(user).name : "");
-    const [createdAt, setCreatedAt] = useState<string>(currentDate.toLocaleDateString('en-CA', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    }));
-    const [expectedAt, setExpectedAt] = useState<string>(expectedDate.toLocaleDateString('en-CA', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    }));
-    const [requestType, setRequestType] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [flag, setFlag] = useState(false);
+export default function CreateBlock({ savedData, onNext, formInputStyles, onDataSubmit }: Props) {
 
-    const handleCancel = () => { }
+    const subjectRef = useRef<HTMLInputElement>(null);
+    const expectedAtRef = useRef<HTMLInputElement>(null);
+    const requestTypeRef = useRef<HTMLSelectElement>(null);
+    const fileRef = useRef<HTMLInputElement>(null);
+    const descriptionRef = useRef<HTMLInputElement>(null);
+
+    const router = useRouter();
+
+    const [isSubjectValid, setIsSubjectValid] = useState<boolean>(true);
+    const [isExpectedDateValid, setIsExpectedDateValid] = useState<boolean>(true);
+
+    const [requestedUser, setRequestedUser] = useState<any>(null);
+
+    const handleCancel = () => {
+        router.push('/requests');
+    }
 
     const handleNext = () => {
-        setFlag(true);
-        console.log({ requestedUserName, createdAt, expectedAt, requestType, description });
+        const subject = subjectRef.current?.value || "";
+        const createdAt = new Date();
+        const expectedAt = expectedAtRef.current?.value ? new Date(expectedAtRef.current?.value) : null;
+        const requestType = requestTypeRef.current?.value || ""; // Assuming you want to add a ref for requestType as well
+        const description = descriptionRef.current?.value || ""; // Assuming you want to add a ref for description as well
+        const file = fileRef.current?.value || "";
+        const status = "awaiting_approval";
+
+        const formData = { 
+            requestedUser, 
+            createdAt, 
+            expectedAt, 
+            requestType, 
+            subject, 
+            description, 
+            file, 
+            status 
+        };
+        
+        if (requestedUser === null || !isExpectedDateValid || !isSubjectValid) {
+            alert('"Requested by", "Subject" and "Expect a response by" are required. Please check if any of them are empty.');
+            return;
+        }
+
+        onDataSubmit && onDataSubmit(formData);
         onNext();
     }
+
+    const handleUserNameChange = useCallback((user: any) => {
+        setRequestedUser(user);
+    }, []);
+
+    useEffect(() => {
+        // Set the state with the saved data when the component mounts
+        if (savedData) {
+            setRequestedUser(savedData?.requestedUser);
+            subjectRef.current && (subjectRef.current.value = savedData?.subject || "");
+            expectedAtRef.current && (expectedAtRef.current.value = savedData?.expectedAt ? new Date(savedData?.expectedAt).toISOString().split('T')[0] : "");
+            requestTypeRef.current && (requestTypeRef.current.value = savedData?.requestType || "");
+            fileRef.current && (fileRef.current.value = savedData?.file || "");
+            descriptionRef.current && (descriptionRef.current.value = savedData?.description || "");
+        }
+    }, [savedData]);
 
     return (
         <div className='w-96 max-w-3xl py-10'>
@@ -37,71 +83,85 @@ export default function CreateBlock({ user, onNext, formInputStyles }: { user: s
             </div>
 
             <div className='flex flex-col items-center pt-10 gap-3'>
+                <SearchUserInput
+                    formInputStyles={formInputStyles}
+                    onUserNameChange={handleUserNameChange}
+                    savedData={requestedUser}
+                />
                 <Input
-                    label="Requested by"
+                    ref={subjectRef}
+                    isRequired
+                    label="Subject"
                     labelPlacement='outside'
-                    placeholder='Enter Name'
+                    placeholder='Request for ...'
                     radius='none'
-                    value={requestedUserName}
-                    onChange={(e) => setRequestedUserName(e.target.value)}
-                    isInvalid={flag && requestedUserName === ""}
-                    errorMessage={flag && requestedUserName === "" ? "Please enter a valid username" : ""}
-                    classNames={{ ...formInputStyles }} />
-                <Input
-                    type='date'
-                    label="Created date"
-                    labelPlacement='outside'
-                    placeholder='Select date'
-                    radius='none'
-                    value={createdAt}
-                    onChange={(e) => setCreatedAt(e.target.value)}
-                    isInvalid={flag && createdAt === ""}
-                    errorMessage={flag && createdAt === "" ? "Please enter a valid username" : ""}
-                    classNames={{ ...formInputStyles }} />
-                <Input
-                    type='date'
-                    label="Expect response by"
-                    labelPlacement='outside'
-                    placeholder='Select date'
-                    radius='none'
-                    value={expectedAt}
-                    onChange={(e) => setExpectedAt(e.target.value)}
-                    classNames={{ ...formInputStyles }} />
-                <Select
-                    radius='none'
-                    label="Type"
-                    value={requestType}
-                    onChange={(e) => setRequestType(e.target.value)}
-                    labelPlacement='outside'
-                    placeholder='Select Request Type'
-                    classNames={{
-                        trigger: "rounded-[0.25rem]",
-                        popover: "rounded-sm",
-                    }}
-                    listboxProps={{
-                        itemClasses: {
-                            base: "rounded-[0.25rem]"
+                    classNames={{ ...formInputStyles }}
+                    isInvalid={!isSubjectValid}
+                    errorMessage={!isSubjectValid ? "Subject cannot be empty!" : ""}
+                    onBlur={() => {
+                        if (subjectRef.current?.value === "") {
+                            setIsSubjectValid(false);
                         }
                     }}
+                    onChange={() => setIsSubjectValid(true)}
+                />
+                <Input
+                    ref={expectedAtRef}
+                    type="date"
+                    label="Expect a response by"
+                    labelPlacement='outside'
+                    placeholder='Select date'
+                    radius='none'
+                    classNames={{ ...formInputStyles }}
+                    isInvalid={!isExpectedDateValid}
+                    errorMessage={!isExpectedDateValid ? "Enter a valid date!" : ""}
+                    onBlur={() => {
+                        if (expectedAtRef.current?.value === "") {
+                            setIsExpectedDateValid(false);
+                        }
+                    }}
+                    onChange={() => setIsExpectedDateValid(true)}
+                />
+                <Select
+                    ref={requestTypeRef}
+                    radius='none'
+                    label="Type"
+                    labelPlacement='outside'
+                    placeholder='Select Request Type'
+                    classNames={formSelectStyles}
+                    listboxProps={listBoxProps}
+                    defaultSelectedKeys={["request"]}
                 >
-                    <SelectItem key="Gas">Gas</SelectItem>
-                    <SelectItem key="Lab equipment">Lab equipment</SelectItem>
+                    <SelectItem key="request">Request</SelectItem>
+                    <SelectItem key="purchase_order">Purchase Order</SelectItem>
+                    <SelectItem key="quotation">Quotation Request</SelectItem>
                 </Select>
+
+                <Divider className="my-5" />
+
+                <Input
+                    ref={fileRef}
+                    label="Add to file"
+                    labelPlacement='outside'
+                    placeholder='Enter filename'
+                    radius='none'
+                    classNames={{ ...formInputStyles }} />
+
                 <Textarea
+                    ref={descriptionRef}
                     label="Remarks"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
                     labelPlacement='outside'
                     radius='none'
-                    classNames={{
-                        inputWrapper: "rounded-[0.25rem]"
-                    }}
+                    classNames={formTextAreaStyles}
                 />
 
                 <div className='w-full flex gap-3 pt-5'>
-                    <Button className='w-full rounded-[0.25rem] bg-slate-200 hover:bg-slate-300'>Cancel</Button>
                     <Button
-                        className='w-full rounded-[0.25rem] text-slate-50 bg-slate-800 hover:text-accent-yellow hover:bg-slate-700'
+                        className={formButtonStyles.secondary}
+                        onClick={handleCancel}
+                    >Cancel</Button>
+                    <Button
+                        className={formButtonStyles.primary}
                         onClick={handleNext}>Next</Button>
                 </div>
 
