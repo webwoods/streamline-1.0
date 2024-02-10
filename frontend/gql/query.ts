@@ -208,3 +208,48 @@ export const VENDORS_STORE_ITEMS_QUERY = gql`
   }
 }
 `;
+
+export const STORE_ITEMS_QUERY = gql`
+query StoreItems($page: Int!, $pageSize: Int!) {
+  storeItems(page: $page, pageSize: $pageSize) {
+    data {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      name
+      sku
+      stock
+      type
+      unit
+      price
+      properties {
+        key
+        value
+        type
+      }
+      vendors {
+        id
+        createdAt
+        updatedAt
+        deletedAt
+        name
+        email
+        phone
+        group
+        address {
+          houseNumber
+          addressLine1
+          addressLine2
+          city
+          country
+          state
+          postalCode
+        }
+        region
+      } 
+    }
+    totalItems
+  }
+}
+`;

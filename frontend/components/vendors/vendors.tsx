@@ -14,10 +14,14 @@ export default function VendorCard({ size, data }: VendorCardProps) {
     const router = useRouter();
 
     return (
-        <Card className={`${size === 'long' ? 'w-full' :
-            size === 'mid' ? 'max-w-[400px]' :
-                size === 'short' ? 'max-w-[250px]' : 'max-w-[250px]'
-            } rounded-sm shadow-sm`}>
+        <Card
+            isHoverable
+            isPressable
+            className={`${size === 'long' ? 'w-full' :
+                size === 'mid' ? 'max-w-[400px]' :
+                    size === 'short' ? 'max-w-[250px]' : 'max-w-[250px]'
+                } rounded-md border-1 border-slate-300 shadow-none hover:bg-slate-100`}
+        >
             <CardBody>
                 <div className="flex justify-between">
                     <div className="flex gap-3">

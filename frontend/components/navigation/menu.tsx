@@ -3,10 +3,10 @@ export const menuItems = [
         label: "Dashboard",
         href: "/dashboard",
     },
-    {
-        label: "Insights",
-        href: "/insights",
-    },
+    // {
+    //     label: "Insights",
+    //     href: "/insights",
+    // },
     {
         label: "Employees",
         href: "/employees",
@@ -14,6 +14,10 @@ export const menuItems = [
     {
         label: "Vendors",
         href: "/vendors",
+    },
+    {
+        label: "Store",
+        href: "/store",
     },
     {
         label: "Activity",

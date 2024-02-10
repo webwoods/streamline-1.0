@@ -5,7 +5,6 @@ import client from "@/gql/client";
 import { VENDORS_QUERY } from "@/gql/query";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-import Title from "../title/title";
 import VendorCard from "../vendors/vendors";
 import { Pagination } from "@nextui-org/react";
 
@@ -59,9 +58,8 @@ export default function QueryVendors({
     }, [error, data]);
 
     return (
-        <div className="grid grid-cols-4 w-screen h-screen">
-            <div className="col-span-3 p-10 flex flex-col gap-5">
-                <Title title="Vendors" />
+        <div className="grid grid-cols-4 w-full">
+            <div className="col-span-3 flex flex-col gap-5 bg-white p-5 rounded-lg">
                 {isEmptyPage ? (
                     <EmptyPage />
                 ) : (
@@ -79,7 +77,7 @@ export default function QueryVendors({
                         }
                     </div>
                 )}
-                <div className="flex w-full justify-center">
+                <div className="flex w-full justify-center my-3">
                     <Pagination
                         classNames={{
                             item: 'rounded-sm',
