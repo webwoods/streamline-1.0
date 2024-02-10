@@ -5,32 +5,13 @@ import { IconDefinition, faEye, faPenToSquare, faTrashCan } from "@fortawesome/f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { color } from "framer-motion";
 import UpdateRequest from "../forms/requests/updateRequest";
-
-interface ToolTipButtonProps {
-    id?: string
-    content: string
-    icon?: IconDefinition
-    onClick: (value: any) => void
-    color?: any
-}
+import ToolTipButton from "../common/tooltipButton";
 
 interface ActionsWithIconsProps {
     id: string
     onViewClick: (row: any) => void
     onEditClick: (row: any) => void
     onDeleteClick: (row: any) => void
-}
-
-function ToolTipButton({ id, content, icon, onClick, color = "default" }: ToolTipButtonProps) {
-    return (
-        <Tooltip content={content}>
-            <Button isIconOnly color={color} size="sm" variant="light" aria-label={content} onClick={() => {onClick(id)}}>
-                <span className="text-default-400 cursor-pointer active:opacity-50">
-                    <FontAwesomeIcon color={color === "danger" ? "red" : "gray"} icon={icon || faEye} />
-                </span>
-            </Button>
-        </Tooltip>
-    );
 }
 
 export default function Actions() {

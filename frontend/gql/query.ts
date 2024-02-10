@@ -132,3 +132,79 @@ export const REQUEST_QUERY = gql`
 `;
 
 
+export const VENDORS_QUERY = gql`
+query Vendors($page: Int!, $pageSize: Int!) {
+  vendors(page: $page, pageSize: $pageSize) {
+    data {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      name
+      email
+      phone
+      group
+      address {
+        houseNumber
+        addressLine1
+        addressLine2
+        city
+        country
+        state
+        postalCode
+      } 
+      region
+    }
+    totalItems
+  }
+}
+`;
+
+export const VENDORS_STORE_ITEMS_QUERY = gql`
+{
+  vendors(page: 1, pageSize: 10) {
+    data {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      name
+      email
+      phone
+      group
+      address {
+        houseNumber
+        addressLine1
+        addressLine2
+        city
+        country
+        state
+        postalCode
+      } 
+      region
+      storeItems {
+        id
+        createdAt
+        updatedAt
+        deletedAt
+        name
+        sku
+        stock
+        type
+        unit
+        price
+        properties {
+          id
+          createdAt
+          updatedAt
+          deletedAt
+          key
+          value
+          type
+        }
+      } 
+    }
+    totalItems
+  }
+}
+`;

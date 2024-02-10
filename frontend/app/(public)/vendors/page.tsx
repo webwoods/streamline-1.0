@@ -1,6 +1,7 @@
+import QueryVendors from "@/components/query/queryVendors";
+
 export default function VendorsPage() {
 	return (
-		<div>
-		</div>
+		<QueryVendors page={1} pageSize={10} />
 	);
 }
