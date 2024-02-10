@@ -12,6 +12,7 @@ import { AuthModule } from '@libs/core/modules/auth.module';
 import * as dotenv from 'dotenv';
 import { UserNotification } from '@libs/core/entities/user-notification.entity';
 import { RoleNotification } from '@libs/core/entities/role-notification.entity';
+import { Feedback } from '@libs/core/entities/feedback.entity';
 
 dotenv.config();
 
@@ -48,7 +49,8 @@ dotenv.config();
       entities: [
         User, 
         Role, 
-        VerificationCode
+        VerificationCode,
+        Feedback
       ],
       synchronize: true,
     }),

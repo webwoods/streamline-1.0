@@ -4,11 +4,13 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
 import { StreamLineEntity } from './streamline.entity';
 import { Address } from './embedded/address.embedded';
 import { Region } from './enum/region';
 import { StoreItem } from './store-item.entity';
+import { Request } from './request.entity';
 
 @Entity()
 @ObjectType()
@@ -39,10 +41,10 @@ export class Vendor extends StreamLineEntity {
   region!: Region;
 
   @ManyToMany(() => StoreItem, (storeItem) => storeItem.vendors,
-  {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
+    {
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
+    })
   @JoinTable({
     name: 'vendor_store_items',
     joinColumn: { name: 'vendor_id', referencedColumnName: 'id' },
@@ -50,4 +52,8 @@ export class Vendor extends StreamLineEntity {
   })
   @Field(() => [StoreItem], { nullable: true })
   storeItems: StoreItem[];
+
+  @OneToMany(() => Request, (request) => request.vendor)
+  @Field(() => [Request], { nullable: true })
+  requests: Request[];
 }

@@ -25,6 +25,13 @@ import { RequestItemNotification } from '@libs/core/entities/request-item-notifi
 import { RoleNotification } from '@libs/core/entities/role-notification.entity';
 import { UserNotification } from '@libs/core/entities/user-notification.entity';
 import { StoreItemNotification } from '@libs/core/entities/store-item-notification.entity';
+import { Invoice } from '@libs/core/entities/invoice.entity';
+import { ProformaInvoice } from '@libs/core/entities/proforma-invoice.entity';
+import { RecurringInvoice } from '@libs/core/entities/recurring-invoice.entity';
+import { CreditMemo } from '@libs/core/entities/credit-memo.entity';
+import { DebitMemo } from '@libs/core/entities/debit-memo.entity';
+import { OverdueMemo } from '@libs/core/entities/overdue-memo.entity';
+import { Feedback } from '@libs/core/entities/feedback.entity';
 
 dotenv.config();
 
@@ -76,9 +83,16 @@ dotenv.config();
         PropertyNotification, 
         RequestItemNotification,
         StoreItemNotification,
+        Feedback,
         // RoleNotification,
         // UserNotification
         Vendor,
+        Invoice,
+        ProformaInvoice,
+        RecurringInvoice,
+        CreditMemo,
+        DebitMemo,
+        OverdueMemo,
       ],
       synchronize: true,
     }),

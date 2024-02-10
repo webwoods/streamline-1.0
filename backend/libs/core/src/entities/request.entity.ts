@@ -8,6 +8,7 @@ import { User } from './user.entity';
 import { RequestType } from './enum/requestType';
 import { RequestNotification } from './request-notification.entity';
 import { StringArrayTransformer } from '../transformers/string-array.transformer';
+import { Vendor } from './vendor.entity';
 
 @Entity()
 @ObjectType()
@@ -30,6 +31,7 @@ export class Request extends StreamLineEntity {
   file?: File;
 
   @Column({ name: 'file_id', nullable: true })
+  @Field({ nullable: true })
   fileId: string;
 
   @Field({ nullable: true })
@@ -88,4 +90,12 @@ export class Request extends StreamLineEntity {
   @OneToMany(() => RequestNotification, (entity: RequestNotification) => entity.request)
   @Field(() => [RequestNotification], { nullable: true })
   notifications: RequestNotification[];
+
+  @ManyToOne(() => Vendor, (vendor) => vendor.requests, { nullable: true })
+  @JoinColumn({ name: 'vendor_id', referencedColumnName: 'id' })
+  vendor: Vendor;
+
+  @Column({ name: 'vendor_id', nullable: true })
+  @Field({ nullable: true })
+  vendorId: String;
 }

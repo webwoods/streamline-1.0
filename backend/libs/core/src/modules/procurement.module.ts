@@ -8,6 +8,8 @@ import { PropertiesModule } from '../modules/property.module';
 import { StoreItemModule } from './store-item.module';
 import { NotificationModule } from './notification.module';
 import { VendorModule } from './vendor.module';
+import { InvoiceModule } from './invoice.module';
+import { FeedbackModule } from './feedback.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { VendorModule } from './vendor.module';
     StoreItemModule,
     NotificationModule,
     VendorModule,
+    InvoiceModule,
+    FeedbackModule,
   ],
   exports: [ProcurementService],
   providers: [ProcurementService, ProcurementResolver],
