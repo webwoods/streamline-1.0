@@ -8,6 +8,7 @@ import Recents from "@/components/recentActivity/recent";
 import SpendingTrendsChart from "@/components/statCharts/spendingLine";
 import TableTabs from "@/components/tableTab/tab";
 import Tips from "@/components/tips/tips";
+import QueryNotification from "@/components/query/queryNotification";
 
 /**
  * Dashboard Components visible to the Procurement Staff
@@ -85,7 +86,8 @@ export default function DashboardPage() {
             viewDetailsLinkText={data.linkText}
           />
         ))}
-      </div>
+      </div> */}
+      <QueryNotification/>
 
       {/* <SpendingTrendsChart/> */}
 

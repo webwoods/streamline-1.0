@@ -300,3 +300,12 @@ mutation softDeleteRequest($id: String!) {
     deletedAt
   }
 }`;
+
+export const VERIFY_PASSWORD_MUTATION = gql`
+mutation  VerifyPassword($password: String , $username: String) {
+  verifyPassword(input: {
+    password: $password,
+    username: $username  
+  }) 
+}
+`;

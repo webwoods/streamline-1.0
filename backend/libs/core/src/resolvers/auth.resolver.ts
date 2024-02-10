@@ -14,7 +14,10 @@ import {
   RegisterNewUserSuccess,
   VerificationSuccess,
 } from '../entities/union/success';
-import { VerifyUserInput } from '../entities/dto/verify-user.input';
+import {
+  VerifyPasswordInput,
+  VerifyUserInput,
+} from '../entities/dto/verify-user.input';
 import { CreateUserInput } from '../entities/dto/create.user';
 
 @Resolver()
@@ -75,4 +78,14 @@ export class AuthResolver {
   // implement a method to issue refresh tokens
 
   // implement a method to issue session tokens
+  @Mutation(() => Boolean)
+  async verifyPassword(
+    @Args('input') input: VerifyPasswordInput,
+  ): Promise<boolean> {
+    try {
+      return await this.authService.verifyPassword(input);
+    } catch (error) {
+      throw new Error(`error verifying password: ${error}`);
+    }
+  }
 }
