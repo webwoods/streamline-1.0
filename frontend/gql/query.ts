@@ -131,6 +131,26 @@ export const REQUEST_QUERY = gql`
 }
 `;
 
+export const NOTIFICATION_QUERY = gql`
+{
+  notifications(page: 1, pageSize: 5) {
+    data {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      message
+      senderId
+      recievers{
+         id     
+      }
+      type
+    }
+    totalItems
+  }
+}
+`;
+
 
 export const VENDORS_QUERY = gql`
 query Vendors($page: Int!, $pageSize: Int!) {
