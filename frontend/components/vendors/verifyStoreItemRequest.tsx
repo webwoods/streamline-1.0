@@ -13,7 +13,7 @@ interface Props {
     data?: any
 }
 
-export default function VerifyBlock({ onVerify, onBack, data }: Props) {
+export default function VerifyStoreItemRequest({ onVerify, onBack, data }: Props) {
 
     const [requestData, setRequestData] = useState<any>(null);
 
@@ -71,11 +71,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                 expectedAt: new Date(requestData?.expectedAt)
             }
         });
-
-        if (createRequestError) {
-            alert(createRequestError);
-            return;
-        }
     }
 
     const calculateTotals = useMemo(() => {
@@ -117,11 +112,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
             createRequestItemsMutation({ variables: { input: { requestItems: newRequestItemsArray } } });
         }
-
-        if (createRequestItemError) {
-            alert(createRequestItemError);
-            return;
-        }
     }, [createRequestData])
 
     useEffect(() => {
@@ -132,13 +122,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                     requestItemIds: createRequestItemData?.createRequestItems?.map((item: any) => (item.id))
                 }
             })
-        }
-
-        if (addRequestItemsError) {
-            alert(addRequestItemsError);
-            deleteRequestMutation({ variables: { id: createRequestData?.createRequest?.id } });
-            deleteRequestItemsMutation({ variables: { ids: createRequestItemData?.createRequestItems?.map((item: any) => (item.id)) } });
-            return;
         }
     }, [createRequestItemData])
 
@@ -165,12 +148,34 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
     }, [addRequestItemsData])
 
     useEffect(() => {
-        alert("Successfully Created the Request!");
-        onVerify && onVerify();
+        console.log(updateRequestData);
+        if (updateRequestData !== null && updateRequestData !== undefined) {
+            alert("Successfully Created the Request!");
+            onVerify && onVerify();
+        }
     }, [updateRequestData]);
 
+    if (createRequestError) {
+        alert(createRequestError);
+    }
+
+    if (createRequestItemError) {
+        alert(createRequestItemError);
+    }
+
+    if (addRequestItemsError) {
+        alert(addRequestItemsError);
+        deleteRequestMutation({ variables: { id: createRequestData?.createRequest?.id } });
+        deleteRequestItemsMutation({ variables: { ids: createRequestItemData?.createRequestItems?.map((item: any) => (item.id)) } });
+    }
+
+    if (updateRequestError) {
+        alert(updateRequestError);
+        return;
+    }
+
     return (
-        <div className='w-96 max-w-3xl py-10'>
+        <div className='w-full max-w-3xl'>
             <div className="flex items-center justify-center flex-col">
                 <h1 className="leading-5 font-semibold text-lg">Verify</h1>
                 <h2 className="text-slate-400 text-sm">GR112</h2>

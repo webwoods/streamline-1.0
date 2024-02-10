@@ -10,9 +10,10 @@ interface Props {
   onClick: (data: any) => void
   getAddedItemData?: (data: any) => void
   savedQty?: number
+  isRemoveDisabled?: boolean
 }
 
-export default function AddedItem({ data, onClick, getAddedItemData, savedQty }: Props) {
+export default function AddedItem({ data, onClick, getAddedItemData, savedQty, isRemoveDisabled }: Props) {
 
   const qtyInputRef = useRef<HTMLInputElement>(null);
 
@@ -69,7 +70,7 @@ export default function AddedItem({ data, onClick, getAddedItemData, savedQty }:
       <div className="col-span-2 flex justify-end items-center">
         <span>{data.price} LKR</span>
         <Tooltip className="text-xs" content="remove item">
-          <Button isIconOnly onClick={() => onClick(data)} className="text-red-500 bg-transparent">
+          <Button isDisabled={isRemoveDisabled} isIconOnly onClick={() => onClick(data)} className="text-red-500 bg-transparent">
             <FontAwesomeIcon icon={faTrash} size='sm' />
           </Button>
         </Tooltip>
