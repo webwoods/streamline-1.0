@@ -1,4 +1,4 @@
-
+// import WidgetCollection from "@/components/budgetSummary/widgetCollection";
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
 import Tips from "@/components/tips/tips";
 import QueryNotification from "@/components/query/queryNotification";
@@ -24,13 +24,12 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col min-h-screen">
 
-      <div className="bg-gradient-to-r from-[#197dfd] via-[#197dfd] to-slate-900 w-full">
+      <div className="bg-gradient-to-r from-[#197dfd] via-[#197dfd] to-slate-900 w-full flex justify-center">
         <SummaryStatWidget />
       </div>
 
-      <Tips />
-      
-      <div className="w-full px-10">
+      <div className="w-full flex flex-col items-center">
+        <Tips />
         <QueryNotification />
       </div>
 

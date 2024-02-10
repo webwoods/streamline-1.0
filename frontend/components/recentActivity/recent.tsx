@@ -15,7 +15,7 @@ export default function Recents({
   viewDetailsLinkText,
 }: RecentsProps) {
   return (
-    <div className="text-sm py-2 px-3 my-2 shadow-sm rounded-md bg-white">
+    <div className="w-full text-sm py-2 px-3 my-2 shadow-sm rounded-md bg-white">
       <div className="grid grid-cols-4 gap-4">
         <p className="col-start-1 col-end-2 text-[#8E96A3]">{date}</p>
         <p className="col-start-2 col-end-5 text-slate-900">{description}</p>

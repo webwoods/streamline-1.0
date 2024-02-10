@@ -16,7 +16,7 @@ const QueryNotification: React.FC = () => {
   const notificatins = data.notifications.data;
 
   return (
-    <div className="container mx-auto max-w-screen-lg">
+    <div className="w-full max-w-screen-lg px-10">
       <p className="text-3xl font-bold text-gray-800 pb-5 dark:text-white">
         Recent Activity
       </p>
