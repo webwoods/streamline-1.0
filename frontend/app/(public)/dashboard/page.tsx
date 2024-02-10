@@ -1,12 +1,5 @@
-// import WidgetCollection from "@/components/budgetSummary/widgetCollection";
+
 import SummaryStatWidget from "@/components/donutchart/summaryStatWidget";
-import StatusModal from "@/components/formStatusModal/statusModal";
-import UpdatePurchase from "@/components/formsModal/updatePurchase";
-import UpdateQuotation from "@/components/formsModal/updateQuotation";
-import UpdateRequest from "@/components/forms/requests/updateRequest";
-import Recents from "@/components/recentActivity/recent";
-import SpendingTrendsChart from "@/components/statCharts/spendingLine";
-import TableTabs from "@/components/tableTab/tab";
 import Tips from "@/components/tips/tips";
 import QueryNotification from "@/components/query/queryNotification";
 
@@ -26,44 +19,6 @@ import QueryNotification from "@/components/query/queryNotification";
  * personalized widgets
  */
 
-const recentsData = [
-  {
-    id: 1,
-    date: "Oct 15, 2023 - 09:45 AM",
-    description: "John Doe submitted a new requisition for office supplies",
-    link: "/requisition-details",
-    linkText: "View Requisition Details",
-  },
-  {
-    id: 2,
-    date: "Oct 16, 2023 - 10:30 AM",
-    description: "Jane Smith completed a project milestone",
-    link: "/project-details",
-    linkText: "View Project Details",
-  },
-  {
-    id: 3,
-    date: "Oct 17, 2023 - 02:15 PM",
-    description: "Bob Johnson received employee of the month award",
-    link: "/employee-award-details",
-    linkText: "View Award Details",
-  },
-  {
-    id: 4,
-    date: "Oct 18, 2023 - 04:45 PM",
-    description: "Alice Williams started a new training program",
-    link: "/training-program-details",
-    linkText: "View Details",
-  },
-  {
-    id: 5,
-    date: "Oct 19, 2023 - 11:00 AM",
-    description: "Charlie Brown participated in a team-building event",
-    link: "/team-building-details",
-    linkText: "View Details",
-  },
-];
-
 export default function DashboardPage() {
 
   return (
@@ -75,7 +30,7 @@ export default function DashboardPage() {
 
       <Tips />
       
-      <div className="w-full px-10 py-5">
+      <div className="w-full px-10">
         <QueryNotification />
       </div>
 
