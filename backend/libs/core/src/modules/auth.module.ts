@@ -18,7 +18,7 @@ import { FeedbackModule } from './feedback.module';
     VerificationCodesModule,
     MailModule,
     FeedbackModule,
-
+    
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),

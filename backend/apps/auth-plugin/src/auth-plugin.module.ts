@@ -50,7 +50,7 @@ dotenv.config();
         User, 
         Role, 
         VerificationCode,
-        Feedback
+        Feedback,
       ],
       synchronize: true,
     }),
