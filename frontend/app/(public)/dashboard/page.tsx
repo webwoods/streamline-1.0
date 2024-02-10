@@ -86,7 +86,7 @@ export default function DashboardPage() {
             viewDetailsLinkText={data.linkText}
           />
         ))}
-      </div> */}
+      </div>
       <QueryNotification/>
 
       {/* <SpendingTrendsChart/> */}
