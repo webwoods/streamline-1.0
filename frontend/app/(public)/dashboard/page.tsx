@@ -74,20 +74,10 @@ export default function DashboardPage() {
       </div>
 
       <Tips />
-
+      
       <div className="w-full px-10 py-5">
-        <p className="text-3xl font-bold text-gray-800 py-5 dark:text-white">Recent Activity</p>
-        {recentsData.map((data) => (
-          <Recents
-            key={data.id}
-            date={data.date}
-            description={data.description}
-            viewDetailsLink={data.link}
-            viewDetailsLinkText={data.linkText}
-          />
-        ))}
+        <QueryNotification />
       </div>
-      <QueryNotification/>
 
       {/* <SpendingTrendsChart/> */}
 
