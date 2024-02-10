@@ -12,11 +12,11 @@ export const tabs = [
   //   href: "/insights",
   //   icon: <FontAwesomeIcon icon={faChartLine} />,
   // },
-  {
-    label: "Employees",
-    href: "/employees",
-    icon: <FontAwesomeIcon icon={faUsers} />,
-  },
+  // {
+  //   label: "Employees",
+  //   href: "/employees",
+  //   icon: <FontAwesomeIcon icon={faUsers} />,
+  // },
   {
     label: "Vendors",
     href: "/vendors",
