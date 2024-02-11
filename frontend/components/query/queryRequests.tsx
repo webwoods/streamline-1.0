@@ -62,10 +62,6 @@ export function QueryRequests({ page, pageSize, filter, renderTable = false, get
         })
     }, [selectedDate, selectedStatus]);
 
-    useEffect(() => {
-        console.log(data);
-    }, [data])
-
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
         // Fetch data with the new page and pageSize
         // This function is used as callback from the DynamicTable component

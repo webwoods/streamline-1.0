@@ -1,23 +1,60 @@
 import { REQUESTS_QUERY, REQUEST_QUERY } from "@/gql/query";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import client from '@/gql/client';
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import DynamicTable from "../table/table";
 
 interface Props {
     page: number
     pageSize: number
+    filter?: any
     renderTable?: boolean
     getActiveRecord?: (record: any) => typeof record
 }
 
-export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getActiveRecord }: Props){
-    const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
-        client,
-        variables: { page, pageSize, requestType:'PURCHASE_ORDER' },
-    });
+export function QueryPurchaseOrders({ page, pageSize, filter, renderTable = false, getActiveRecord }: Props){
+    
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+    
+    // const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
+    //     client,
+    //     variables: { page, pageSize, requestType:'PURCHASE_ORDER' },
+    // });
 
+    const [getRequests, { loading, error, data, refetch }] = useLazyQuery(REQUESTS_QUERY, { client });
+
+    useEffect(() => {
+        getRequests({
+            variables: {
+                page,
+                pageSize,
+                requestType: filter?.requestType,
+                status: selectedStatus,
+                updatedAt: selectedDate,
+            },
+        })
+    }, [])
+
+    useEffect(() => {
+        setSelectedDate(filter?.updatedAt);
+        setSelectedStatus(filter?.status);
+    }, [filter])
+
+    useEffect(() => {
+        console.log({ selectedDate, selectedStatus });
+        getRequests({
+            variables: {
+                page,
+                pageSize,
+                requestType: filter?.requestType,
+                status: selectedStatus,
+                updatedAt: selectedDate,
+            },
+        })
+    }, [selectedDate, selectedStatus]);
+    
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
         refetch({ page: newPage, pageSize: newPageSize });
     }, []);
