@@ -9,6 +9,7 @@ import { QueryPurchaseOrders } from "../query/queryPurchaseOrders";
 import PartialLoading from "../common/partialLoading";
 import DatePicker from "../common/datePicker";
 import { formButtonStyles } from "../forms/styles";
+import { QueryQuotation } from "../query/queryQuotations";
 
 interface Props {
 	getActiveTabActiveRecord?: (record: any) => typeof record;
