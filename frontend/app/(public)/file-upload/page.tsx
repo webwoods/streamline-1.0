@@ -1,4 +1,4 @@
-import UploadButton from '@/components/fileUpload/UploadButton'
+import UploadButton from '@/components/fileUpload/DropZoneComponent'
 import React from 'react'
 
 function page() {

@@ -7,7 +7,7 @@ interface FileWithPreview extends File {
     preview: string;
 }
 
-const Dropzone: React.FC<{ className?: string }> = ({ className }) => {
+const DropzoneCompoenent: React.FC<{ className?: string }> = ({ className }) => {
     const [files, setFiles] = useState<FileWithPreview[]>([]);
     const [rejected, setRejected] = useState<{ file: File; errors: any[] }[]>([]);
 
@@ -150,4 +150,4 @@ const Dropzone: React.FC<{ className?: string }> = ({ className }) => {
     );
 };
 
-export default Dropzone;
+export default DropzoneCompoenent;
