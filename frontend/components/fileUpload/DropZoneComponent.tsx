@@ -1,7 +1,9 @@
 'use client'
+import { faArrowUp, faCircle, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { DetailedHTMLProps, InputHTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { ArrowUpTrayIcon, XMarkIcon } from '@heroicons/react/24/solid';
+// import { ArrowUpTrayIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 interface FileWithPreview extends File {
     preview: string;
@@ -107,7 +109,8 @@ const DropzoneCompoenent: React.FC<{ className?: string }> = ({ className }) => 
                     >
                         <input {...getInputProps() as DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>} />
                         <div className='flex flex-col items-center justify-center gap-4'>
-                            <ArrowUpTrayIcon className='w-5 h-5 fill-current' />
+                            {/* <ArrowUpTrayIcon className='w-5 h-5 fill-current' /> */}
+                            <FontAwesomeIcon icon={faArrowUp} />
                             {isDragActive ? (
                                 <p>Drop the files here ...</p>
                             ) : (
@@ -136,7 +139,8 @@ const DropzoneCompoenent: React.FC<{ className?: string }> = ({ className }) => 
                                     className='w-7 h-7 border border-secondary-400 bg-secondary-400 rounded-full flex justify-center items-center absolute -top-3 -right-3 hover:bg-white transition-colors'
                                     onClick={() => removeFile(file.name)}
                                 >
-                                    <XMarkIcon className='w-5 h-5 fill-white hover:fill-secondary-400 transition-colors' />
+                                    {/* <XMarkIcon className='w-5 h-5 fill-white hover:fill-secondary-400 transition-colors' /> */}
+                                    <FontAwesomeIcon icon={faCircleXmark} />
                                 </button>
                                 <p className='mt-2 text-neutral-500 text-[12px] font-medium'>
                                     {file.name}

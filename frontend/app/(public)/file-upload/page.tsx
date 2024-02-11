@@ -3,7 +3,11 @@ import React from 'react'
 
 function page() {
   return (
-    <div><UploadButton className={''}/></div>
+    <div className='w-screen h-screen flex justify-center'>
+      <div className="max-w-screen-2xl w-full p-10">
+        <UploadButton className={''} />
+      </div>
+    </div>
   )
 }
 
