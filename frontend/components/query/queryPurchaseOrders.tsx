@@ -15,7 +15,7 @@ interface Props {
 export function QueryPurchaseOrders({ page, pageSize, renderTable = false, getActiveRecord }: Props){
     const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
         client,
-        variables: { page, pageSize, requestType:'PURCHASE_ORDER' },
+        variables: { page, pageSize, requestType:'PURCHASE_ORDER'},
     });
 
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
