@@ -151,6 +151,36 @@ export const NOTIFICATION_QUERY = gql`
 }
 `;
 
+export const NOTIFICATIONS_WITH_USERS_QUERY = gql`
+query GetNotificationsWithUser($page: Int!, $pageSize: Int!, $type: String){
+  getNotificationsWithUser(page: $page, pageSize: $pageSize, type: $type) {
+    data {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      message
+      senderId
+      sender {
+        id
+        name
+        email
+        role {
+          name
+          division
+        }
+        username
+        verified
+      }
+      recievers {
+        id
+      }
+      type
+    }
+    totalItems
+  }
+}
+`;
 
 export const VENDORS_QUERY = gql`
 query Vendors($page: Int!, $pageSize: Int!, $region: Region) {
