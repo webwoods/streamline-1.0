@@ -28,7 +28,7 @@ export class RequestService {
     const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
-      relations: { file: true, requestItems: { storeItem: true } },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       withDeleted: true,
       where: {
         deletedAt: Not(IsNull())
@@ -45,7 +45,7 @@ export class RequestService {
     const data = await this.requestRepository.find({
       skip,
       take,
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: {
         requestedUserId: userId,
       },
@@ -55,13 +55,7 @@ export class RequestService {
 
   async findRequestById(id: string): Promise<Request | null> {
     return await this.requestRepository.findOne({
-      relations: {
-        file: true,
-        requestItems: {
-          storeItem: true
-        },
-        notifications: true
-      },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
   }
@@ -70,7 +64,7 @@ export class RequestService {
     const request = this.requestRepository.create(input);
     const createdRequest = await this.requestRepository.save(request);
     return await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id: createdRequest.id },
     });
   }
@@ -80,7 +74,7 @@ export class RequestService {
     input: Partial<Request>,
   ): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
 
@@ -98,7 +92,7 @@ export class RequestService {
 
   async deleteRequest(id: string): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
     await this.requestRepository.delete(id);
@@ -107,7 +101,7 @@ export class RequestService {
 
   async softDeleteRequest(id: string): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
     await this.requestRepository.softDelete(id);

@@ -4,6 +4,15 @@ import { Repository } from 'typeorm';
 import { Invoice } from '../entities/invoice.entity';
 import { ProformaInvoice } from '../entities/proforma-invoice.entity';
 import { RecurringInvoice } from '../entities/recurring-invoice.entity';
+import { CreateProformaInvoiceInput, CreateRecurringInvoiceInput } from '../entities/dto/create.invoice';
+
+function isCreateProformaInvoice(input: any): input is CreateProformaInvoiceInput {
+  return input.validityPeriod !== undefined;
+}
+
+function isCreateRecurringInvoice(input: any): input is CreateRecurringInvoiceInput {
+  return input.recurrencePattern !== undefined;
+}
 
 @Injectable()
 export class InvoiceService {
@@ -40,19 +49,20 @@ export class InvoiceService {
     });
   }
 
+  
   async createInvoice(input: Partial<Invoice> | Partial<ProformaInvoice> | Partial<RecurringInvoice>): Promise<Invoice | ProformaInvoice | RecurringInvoice | null> {
     try {
       let createdInvoice: Invoice | ProformaInvoice | RecurringInvoice | null = null;
 
-      if (input instanceof Invoice) {
-        const invoice = this.invoiceRepository.create(input);
-        createdInvoice = await this.invoiceRepository.save(invoice);
-      } else if (input instanceof ProformaInvoice) {
-        const proformaInvoice = this.proformaRepository.create(input);
-        createdInvoice = await this.proformaRepository.save(proformaInvoice);
-      } else if (input instanceof RecurringInvoice) {
+      if (isCreateRecurringInvoice(input)) {
         const recurringInvoice = this.recurringRepository.create(input);
         createdInvoice = await this.recurringRepository.save(recurringInvoice);
+      } else if (isCreateProformaInvoice(input)) {
+        const proformaInvoice = this.proformaRepository.create(input);
+        createdInvoice = await this.proformaRepository.save(proformaInvoice);
+      } else if (input !== null) {
+        const invoice = this.invoiceRepository.create(input);
+        createdInvoice = await this.invoiceRepository.save(invoice);
       }
 
       if (createdInvoice) {
