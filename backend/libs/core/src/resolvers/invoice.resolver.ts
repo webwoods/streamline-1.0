@@ -78,15 +78,17 @@ export class InvoiceResolver {
     @Args('reccuringInvoiceInput', { type: () => UpdateRecurringInvoiceInput, nullable: true }) recurringInvoiceInput?: CreateRecurringInvoiceInput,
   ): Promise<Invoice | ProformaInvoice | RecurringInvoice | null> {
     try {
+      let updated: any = null;
       if (invoiceInput) {
-        return await this.invoiceService.updateInvoice(id, invoiceInput);
+        updated = await this.invoiceService.updateInvoice(id, invoiceInput);
       }
       if (proformaInvoiceInput) {
-        return await this.invoiceService.updateInvoice(id, proformaInvoiceInput);
+        updated = await this.invoiceService.updateInvoice(id, proformaInvoiceInput);
       }
       if (recurringInvoiceInput) {
-        return await this.invoiceService.updateInvoice(id, recurringInvoiceInput);
+        updated = await this.invoiceService.updateInvoice(id, recurringInvoiceInput);
       }
+      return updated;
     } catch (error: any) {
       throw new Error(`Error updating invoice: ${error.message}`);
     }

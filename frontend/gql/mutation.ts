@@ -309,3 +309,288 @@ mutation  VerifyPassword($password: String , $username: String) {
   }) 
 }
 `;
+
+// export const CREATE_INVOICE = gql`
+// mutation {
+//   createInvoice(
+//     # invoiceInput: {
+//     #   requestId: "4a0aa05f-8a6a-4afd-9db8-e6d5b87c375c"
+//     #   amount: 2000
+//     #   isPaid: false
+//     #   dueDate: "2024-02-10T00:00:00.000Z"
+//     # }
+//     # proformaInvoiceInput: {
+//     #   requestId: "4a0aa05f-8a6a-4afd-9db8-e6d5b87c375c"
+//     #   amount: 150
+//     #   isPaid: false
+//     #   dueDate: "2024-02-10T00:00:00.000Z"
+//     #   validityPeriod: "quarterly"
+//     # }
+//     # reccuringInvoiceInput: {
+//     #   requestId: "84dea6d0-b12f-4707-9b2f-b552249abaa0"
+//     #   amount: 1000
+//     #   isPaid: false
+//     #   dueDate: "2024-01-10T00:00:00.000Z"
+//     #   recurrencePattern: "monthly"
+//     # }
+//   ) {
+//     __typename
+//     ... on Invoice {
+//       request {
+//         id
+//         createdAt
+//         updatedAt
+//         deletedAt
+//         requestType
+//         description
+//         file {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           name
+//         }
+//         fileId
+//         requestedUserId
+//         requestItems {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           storeItem {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             name
+//             sku
+//             stock
+//             type
+//             unit
+//             price
+//             properties {
+//               key
+//               value
+//               type
+//             }
+//           }
+//           qty
+//         }
+//         status
+//         subject
+//         subtotal
+//         tax
+//         total
+//         expectedAt
+//         forwardTo
+//         vendorId
+//         invoices {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           dueDate
+//           amount
+//           isPaid
+//           creditMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             reason
+//           }
+//           debitMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             reason
+//           }
+//           overdueMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             lateFee
+//           }
+//           type
+//         }
+//       } 
+//     }
+//     ... on ProformaInvoice {
+//       request {
+//         id
+//         createdAt
+//         updatedAt
+//         deletedAt
+//         requestType
+//         description
+//         file {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           name
+//         }
+//         fileId
+//         requestedUserId
+//         requestItems {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           storeItem {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             name
+//             sku
+//             stock
+//             type
+//             unit
+//             price
+//             properties {
+//               key
+//               value
+//               type
+//             }
+//           }
+//           qty
+//         }
+//         status
+//         subject
+//         subtotal
+//         tax
+//         total
+//         expectedAt
+//         forwardTo
+//         vendorId
+//         invoices {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           dueDate
+//           amount
+//           isPaid
+          
+//           creditMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             reason
+//           }
+//           debitMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             reason
+//           }
+//           overdueMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             lateFee
+//           }
+//           type
+//         }
+//       } 
+//     }
+//     ... on RecurringInvoice {
+//       request {
+//         id
+//         createdAt
+//         updatedAt
+//         deletedAt
+//         requestType
+//         description
+//         file {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           name
+//         }
+//         fileId
+//         requestedUserId
+//         requestItems {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           storeItem {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             name
+//             sku
+//             stock
+//             type
+//             unit
+//             price
+//             properties {
+//               key
+//               value
+//               type
+//             }
+//           }
+//           qty
+//         }
+//         status
+//         subject
+//         subtotal
+//         tax
+//         total
+//         expectedAt
+//         forwardTo
+//         vendorId
+//         invoices {
+//           id
+//           createdAt
+//           updatedAt
+//           deletedAt
+//           dueDate
+//           amount
+//           isPaid
+          
+//           creditMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             reason
+//           }
+//           debitMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             reason
+//           }
+//           overdueMemos {
+//             id
+//             createdAt
+//             updatedAt
+//             deletedAt
+//             invoiceId
+//             lateFee
+//           }
+//           type
+//         }
+//       } 
+//     }
+//   }
+// }`;
