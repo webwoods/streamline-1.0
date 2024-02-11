@@ -61,11 +61,18 @@ export function UserProfileButton() {
           {/* collapsed view */}
           {!isExpanded && (
             <>
-              <Button
-                radius="full"
-                className={buttonTextStyle}
-                onClick={typeof currentUser === 'string' ? handleLogin : handleProfile}
-              >{typeof currentUser === 'string' ? currentUser : currentUser.name}</Button>
+              {
+                (
+                  typeof currentUser === 'string' ?
+                    currentUser !== null :
+                    currentUser.name !== null
+                ) &&
+                <Button
+                  radius="full"
+                  className={buttonTextStyle}
+                  onClick={typeof currentUser === 'string' ? handleLogin : handleProfile}
+                >{typeof currentUser === 'string' ? currentUser : currentUser.name}</Button>
+              }
               <Image src={logo} alt='logo' width={60} height={60} />
             </>
           )}
