@@ -310,6 +310,72 @@ mutation  VerifyPassword($password: String , $username: String) {
 }
 `;
 
+export const UPDATE_USER_MUTATION = gql`
+mutation  UpdateUser($id: String! , $input: UpdateUserInput!){
+  updateUser(
+    id: $id, 
+    input: $input ) {
+    id
+    createdAt
+    updatedAt
+    deletedAt
+    username
+    email
+    password
+    name
+    role {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      name
+      division
+      users{
+        id
+      }
+    }
+    verified
+    verificationCodes {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      userId
+      code
+      expirationDate
+    }
+    notifications {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      message
+      senderId
+      sender{
+        id
+      }
+      recievers{
+        id
+      }
+      type
+    }
+    feedbacks {
+      id
+      createdAt
+      updatedAt
+      deletedAt
+      comment
+      rating
+      submittedUser{
+       id 
+      }
+      submittedUserId
+    }
+  }
+}
+
+`;
+
 // export const CREATE_INVOICE = gql`
 // mutation {
 //   createInvoice(

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { Ref, RefObject, forwardRef, useEffect, useRef, useState } from 'react';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faCircleXmark, faClose, faFloppyDisk, faPen, faPenAlt, faPenSquare, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { USER_QUERY } from '@/gql/query';
@@ -12,6 +12,7 @@ import { Button } from '@nextui-org/react';
 import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { BasicProfileInfo } from './basicProfileInfo';
 import { PrivacyComponent } from './privacyComponent';
+import { UPDATE_USER_MUTATION, VERIFY_PASSWORD_MUTATION } from '@/gql/mutation';
 
 function ProfileComponent() {
 
@@ -20,7 +21,9 @@ function ProfileComponent() {
     const [currentUserName, setCurrentUserName] = useState<string>();
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const [selected, setSelected] = useState<string>("bio");
+    const [formData, setFormData] = useState<any>();
     const [allIsReadOnly, setAllIsReadOnly] = useState<boolean>(true);
+    const [UpdateUserMutation, { loading:updateUserLoading, data:updateUserData, error:UpdateUserError }] = useMutation(UPDATE_USER_MUTATION, { client })
 
     const handleAllIsReadOnly = () => {
         setAllIsReadOnly((prevAllIsReadOnly) => !prevAllIsReadOnly)
@@ -38,7 +41,24 @@ function ProfileComponent() {
         console.log('clicked cancel!!');
     }
 
-    const getDataFromBio = (data: any) => { console.log(data) };
+    const getDataFromBio = (data: any) => { 
+        setFormData(data) };
+
+    useEffect(()=>{
+        if(formData!==null || formData!==undefined){
+            UpdateUserMutation({
+                variables: {
+                    id:currentUserId,
+                    input: {
+                        name: formData?.name!== '' ? formData?.name : data?.user?.name,
+                        email: formData?.email!=='' ? formData?.email : data?.user?.email,
+                        username : formData?.username !== '' ? formData?.username : data?.username.email
+                    }
+                }
+            })
+    
+        }
+    },[formData])
 
     useEffect(() => {
         // when the component initially loads, fetch the current user cookie
@@ -65,10 +85,16 @@ function ProfileComponent() {
             console.log(data)
         }
     },[data])
+    
+    useEffect(()=>{
+        if(updateUserData){
+            alert('Successfully Created User');
+        }
+    },[updateUserData])
 
     if (loading) { return <Loading />; }
     if (error) { return <div className='p-10'>error: {JSON.stringify(error)}</div> }
-
+    
     return (
         < div className='flex  flex-col p-10 gap-3 w-full bg-white h-max rounded-2xl' >
             <div>
