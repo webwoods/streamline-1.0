@@ -88,12 +88,16 @@ import { useState } from 'react';
 //     }
 // };
 
-export default function DatePicker() {
+interface Props {
+    onDateChange?: (date: Date) => void
+}
+
+export default function DatePicker({ onDateChange }: Props) {
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toLocaleDateString());
 
     const handleDatePickerChange = (date: Date) => {
         setSelectedDate(date.toLocaleDateString());
-        console.log(date);
+        onDateChange && onDateChange(date);
     };
 
 

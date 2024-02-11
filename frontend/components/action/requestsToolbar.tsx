@@ -26,17 +26,6 @@ function Tool({ onClick, title, icon }: ToolProps) {
 					{title}
 				</Button>
 			</Tooltip>
-
-			{/* mobile
-			<Tooltip content={title}>
-				<Button
-					radius="full"
-					className="bg-white lg:hidden block"
-					isIconOnly
-					onClick={() => onClick && onClick('/')}
-					startContent={<FontAwesomeIcon size="lg" icon={icon} />}
-				/>
-			</Tooltip> */}
 		</>
 	);
 }
@@ -46,7 +35,7 @@ export default function RequestsToolBar() {
 	const router = useRouter();
 
 	return (
-		<div className="flex lg:flex-col py-10 gap-3 text-xs w-40">
+		<div className="flex md:flex-col py-10 gap-3 text-xs w-40 pr-5">
 
 			<Tool
 				title="View All"
