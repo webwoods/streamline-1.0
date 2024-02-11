@@ -101,6 +101,6 @@ export class Request extends StreamLineEntity {
   vendorId: String;
 
   @OneToMany(() => Invoice, (invoice) => invoice.request)
-  @Field(() => [Invoice], {nullable: true})
+  @Field(() => [Invoice], { nullable: true })
   invoices: Invoice[];
 }

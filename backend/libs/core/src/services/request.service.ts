@@ -16,11 +16,12 @@ export class RequestService {
     const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
-      relations: { file: true, requestItems: { storeItem: true } },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: {
         requestType: requestType
       }
     });
+
     return { data, count };
   }
 
