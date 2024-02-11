@@ -17,7 +17,7 @@ export class VerificationCode extends StreamLineEntity {
     this.code = code;
   }
 
-  @Column({ name: 'user_id' })
+  @Column({ name: 'user_id', nullable: true })
   @Field()
   userId: string;
 

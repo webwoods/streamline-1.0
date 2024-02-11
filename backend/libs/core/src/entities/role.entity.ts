@@ -9,9 +9,9 @@ import { RequestNotification } from './request-notification.entity';
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class Role extends StreamLineEntity {
-  @Column({ type: 'text', unique: true })
+  @Column({ type: 'varchar', unique: true, length: 255, nullable: true })
   @Field(type => UserRoles)
-  name!: UserRoles;
+  name: UserRoles;
 
   @Column({ nullable: true })
   @Field({ nullable: true })

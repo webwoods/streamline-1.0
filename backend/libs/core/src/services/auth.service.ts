@@ -111,7 +111,7 @@ export class AuthService {
     // Send the verification code to the user via email
     const subject = 'Verification Code';
     const text = `Your verification code is: ${verificationCode}`;
-    // await this.mailService.sendMail(newUser.email, subject, text);
+    await this.mailService.sendMail(newUser.email, subject, text);
 
     // Remove the password from the return new user object
     const savedUser = await this.userService.findUserById(newUser.id);
