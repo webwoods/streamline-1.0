@@ -26,6 +26,7 @@ const QueryNotification: React.FC = () => {
           id={data.id}
           date={new Date(data.createdAt).toLocaleString()}
           description={data.message}
+          type={data.type}
         />
       ))}
     </div>
