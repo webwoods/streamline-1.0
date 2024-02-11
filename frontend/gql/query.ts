@@ -159,8 +159,18 @@ export const REQUEST_QUERY = gql`
 `;
 
 export const NOTIFICATION_QUERY = gql`
-{
-  notifications(page: 1, pageSize: 5) {
+query Notifications(
+  $page: Int!, 
+  $pageSize: Int!,
+  $type: String,
+  $recieverId: String,
+) {
+  notifications(
+    page: $page, 
+    pageSize: $pageSize,
+    type: $type,
+    recieverId: $recieverId,
+) {
     data {
       id
       createdAt
@@ -169,7 +179,9 @@ export const NOTIFICATION_QUERY = gql`
       message
       senderId
       recievers{
-         id     
+        id
+        isRead
+        recieverId
       }
       type
     }

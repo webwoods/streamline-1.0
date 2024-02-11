@@ -46,10 +46,12 @@ export class NotificationResolver {
   async getNotifications(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('recieverId', { type: () => String, nullable: true }) recieverId?: string,
+    @Args('type', { type: () => String, nullable: true }) type?: string,
   ): Promise<NotificationPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const notifiations = await this.notificationService.findAllNotifications(skip, pageSize);
+      const notifiations = await this.notificationService.findAllNotifications(skip, pageSize, type, recieverId);
       const notificationPage: NotificationPage = { data: notifiations, totalItems: notifiations.length };
       return notificationPage;
     } catch (error: any) {

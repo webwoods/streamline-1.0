@@ -22,7 +22,7 @@ export class Notification extends StreamLineEntity {
     sender: User;
 
     @OneToMany(() => NotificationReciever, (entity: NotificationReciever) => entity.notification)
-    @Field(() => [Notification], { nullable: true })
+    @Field(() => [NotificationReciever], { nullable: true })
     recievers?: NotificationReciever[];
 
     @Column({ name: 'type' })

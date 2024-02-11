@@ -1,34 +1,38 @@
 'use client'
 
 import { NOTIFICATION_QUERY } from "@/gql/query";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import Loading from "@/app/loading";
 import Recents from "../recentActivity/recent";
 import client from "@/gql/client";
+import { useEffect } from "react";
 
 const QueryNotification: React.FC = () => {
 
-  const { loading, error, data } = useQuery(NOTIFICATION_QUERY, { client });
+  const [getNotifications, { loading, error, data }] = useLazyQuery(NOTIFICATION_QUERY, { client });
+
+  useEffect(() => {
+    getNotifications({
+      variables: {
+        page: 1,
+        pageSize: 5,
+      }
+    })
+  }, [])
 
   if (loading) return <Loading />;
   if (error) return `Error! ${error}`;
 
-  const notificatins = data.notifications.data;
+  const notifications = data?.notifications?.data;
 
   return (
     <div className="w-full max-w-screen-2xl px-10">
       <p className="text-3xl font-bold text-gray-800 pb-5 dark:text-white">
         Recent Activity
       </p>
-      {notificatins.map((data: any) => (
         <Recents
-          key={data.id}
-          id={data.id}
-          date={new Date(data.createdAt).toLocaleString()}
-          description={data.message}
-          type={data.type}
+          data={notifications}
         />
-      ))}
     </div>
   );
 };

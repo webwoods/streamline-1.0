@@ -43,12 +43,16 @@ export class NotificationService {
   ) { }
 
   //Notification
-  async findAllNotifications(skip: number, take: number, type?: string): Promise<Notification[]> {
+  async findAllNotifications(skip: number, take: number, type?: string, recieverId?: string): Promise<Notification[]> {
     const data = await this.notificationRepository.find({
       skip,
       take,
       relations: { recievers: true },
-      where: { type },
+      where: {
+        type, recievers: {
+          id: recieverId
+        }
+      },
       order: { updatedAt: 'DESC' }
     });
     return data;
