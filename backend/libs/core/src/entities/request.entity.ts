@@ -9,6 +9,7 @@ import { RequestType } from './enum/requestType';
 import { RequestNotification } from './request-notification.entity';
 import { StringArrayTransformer } from '../transformers/string-array.transformer';
 import { Vendor } from './vendor.entity';
+import { Invoice } from './invoice.entity';
 
 @Entity()
 @ObjectType()
@@ -98,4 +99,8 @@ export class Request extends StreamLineEntity {
   @Column({ name: 'vendor_id', nullable: true })
   @Field({ nullable: true })
   vendorId: String;
+
+  @OneToMany(() => Invoice, (invoice) => invoice.request)
+  @Field(() => [Invoice], {nullable: true})
+  invoices: Invoice[];
 }

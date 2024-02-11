@@ -6,6 +6,8 @@ import { RecurringInvoice } from '../entities/recurring-invoice.entity';
 import { CreditMemo } from '../entities/credit-memo.entity';
 import { DebitMemo } from '../entities/debit-memo.entity';
 import { OverdueMemo } from '../entities/overdue-memo.entity';
+import { InvoiceService } from '../services/invoice.service';
+import { InvoiceResolver } from '../resolvers/invoice.resolver';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { OverdueMemo } from '../entities/overdue-memo.entity';
         OverdueMemo,
     ]),
   ],
-  providers: [],
-  exports: [],
+  providers: [InvoiceResolver, InvoiceService],
+  exports: [InvoiceService],
 })
 export class InvoiceModule {}
