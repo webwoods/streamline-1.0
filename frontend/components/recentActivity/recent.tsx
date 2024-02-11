@@ -20,8 +20,8 @@ export default function Recents({
   viewDetailsLinkText,
 }: RecentsProps) {
   return (
-    <Accordion className="px-20">
-      <AccordionItem key={id} aria-label={description} title={type}>
+    <Accordion variant="splitted" className="px-20">
+      <AccordionItem key={id} aria-label={description} title={type} className="mb-2">
       <div className="w-full text-sm py-2 px-3 my-2 bg-transparent">
       <div className="grid grid-cols-4 gap-4">
         <p className="col-start-1 col-end-2 text-[#8E96A3]">{date}</p>
