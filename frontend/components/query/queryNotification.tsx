@@ -23,6 +23,7 @@ const QueryNotification: React.FC = () => {
       {notificatins.map((data: any) => (
         <Recents
           key={data.id}
+          id={data.id}
           date={new Date(data.createdAt).toLocaleString()}
           description={data.message}
         />

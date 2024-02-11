@@ -1,7 +1,9 @@
+import { Accordion, AccordionItem } from "@nextui-org/react";
 import Link from "next/link";
 import React from "react";
 
 interface RecentsProps {
+  id:string
   date: string;
   description: string;
   viewDetailsLink?: string;
@@ -9,13 +11,16 @@ interface RecentsProps {
 }
 
 export default function Recents({
+  id,
   date,
   description,
   viewDetailsLink,
   viewDetailsLinkText,
 }: RecentsProps) {
   return (
-    <div className="w-full text-sm py-2 px-3 my-2 shadow-sm rounded-md bg-white">
+    <Accordion className="px-20">
+      <AccordionItem key={id} aria-label={description} title={description}>
+      <div className="w-full text-sm py-2 px-3 my-2 bg-transparent">
       <div className="grid grid-cols-4 gap-4">
         <p className="col-start-1 col-end-2 text-[#8E96A3]">{date}</p>
         <p className="col-start-2 col-end-5 text-slate-900">{description}</p>
@@ -30,5 +35,8 @@ export default function Recents({
         ) : (<></>)}
       </div>
     </div>
+      </AccordionItem>
+    </Accordion>
+
   );
 }
