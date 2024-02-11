@@ -6,6 +6,7 @@ import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { QueryRequests } from "../query/queryRequests";
 import { QueryPurchaseOrders } from "../query/queryPurchaseOrders";
+import { QueryQuotation } from "../query/queryQuotations";
 
 interface Props {
   getActiveTabActiveRecord?: (record: any) => typeof record;
@@ -84,7 +85,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
           />
         )}
         {activeTab === "Quotations" && (
-          <QueryPurchaseOrders
+          <QueryQuotation
             page={1}
             pageSize={2}
             renderTable={true}
