@@ -434,9 +434,9 @@ export class ProcurementService {
     }
   }
 
-  async getRequestsWithUser(skip?: number, take?: number, requestType?: RequestType): Promise<{ data: Request[]; count: number }> {
+  async getRequestsWithUser(skip?: number, take?: number, requestType?: RequestType, status?: RequestStatus, updatedAt?: Date): Promise<{ data: Request[]; count: number }> {
     try {
-      const requests = await this.requestService.findAllRequests(skip, take, requestType);
+      const requests = await this.requestService.findAllRequests(skip, take, requestType, status, updatedAt);
       const requestsWithUsers = await Promise.all(requests.data.map(async (request: Request) => {
         if (request.requestedUserId) {
           request.requestedUser = await this.getUserByIdFromAuth(request.requestedUserId);

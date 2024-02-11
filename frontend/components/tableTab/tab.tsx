@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useCallback, useMemo, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Tabs, Tab, Chip } from "@nextui-org/react";
 import { faCalendarWeek, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,8 @@ interface Props {
 
 export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 	const [activeTab, setActiveTab] = useState(" ");
-	const [selectedDate, setSelectedDate] = useState<string>(new Date().toLocaleDateString());
+	const [selectedDate, setSelectedDate] = useState<string | null>();
+	const [selectedStatus, setSelectedStatus] = useState<string | null>();
 
 	const handleTabChange = (tabKey: any) => {
 		setActiveTab(tabKey);
@@ -32,6 +33,11 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 	const getActiveRecord = useCallback((record: any) => {
 		getActiveTabActiveRecord && getActiveTabActiveRecord(record);
 	}, []);
+
+	useEffect(() => {
+		setSelectedDate(null)
+		setSelectedStatus(null)
+	}, [])
 
 	return (
 		<>
@@ -74,7 +80,12 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 					{activeTab === "Requests" && (
 						<QueryRequests
 							page={1}
-							pageSize={2}
+							pageSize={10}
+							filter={{
+								requestType: 'REQUEST',
+								status: selectedStatus,
+								updatedAt: selectedDate && new Date(selectedDate),
+							}}
 							renderTable={true}
 							getActiveRecord={getActiveRecord}
 						/>
@@ -84,7 +95,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 					{activeTab === "Purchase Orders" && (
 						<QueryPurchaseOrders
 							page={1}
-							pageSize={2}
+							pageSize={10}
 							renderTable={true}
 							getActiveRecord={getActiveRecord}
 						// Props for Purchase Orders component
@@ -95,7 +106,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 					{activeTab === "Quotations" && (
 						<QueryPurchaseOrders
 							page={1}
-							pageSize={2}
+							pageSize={10}
 							renderTable={true}
 							getActiveRecord={getActiveRecord}
 						// Props for Purchase Orders component

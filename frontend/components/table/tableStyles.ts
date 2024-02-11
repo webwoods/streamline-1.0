@@ -7,7 +7,7 @@ export const checkboxProps = {
   };
   
   export const tableClassNames = {
-    wrapper: ["max-h-[382px]", "border-1"],
+    wrapper: ["max-h-[1000px]", "border-1"],
     th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
     td: [
       // changing the rows border radius

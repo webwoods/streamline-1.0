@@ -40,8 +40,20 @@ query UserByUsernameOrEmail($username: String, $email: String) {
 `;
 
 export const REQUESTS_QUERY = gql`
-query GetRequests($page: Int, $pageSize: Int, $requestType:RequestType){
-  getRequestsWithUser(page: $page, pageSize: $pageSize , requestType: $requestType) {
+query GetRequests(
+  $page: Int, 
+  $pageSize: Int, 
+  $requestType: RequestType,
+  $status: RequestStatus,
+  $updatedAt: DateTime,
+){
+  getRequestsWithUser(
+    page: $page, 
+    pageSize: $pageSize, 
+    requestType: $requestType,
+    status: $status,
+    updatedAt: $updatedAt
+  ) {
     data {
       id
       createdAt

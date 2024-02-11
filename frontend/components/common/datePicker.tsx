@@ -100,7 +100,6 @@ export default function DatePicker({ onDateChange }: Props) {
         onDateChange && onDateChange(date);
     };
 
-
     return (
         <Datepicker
             value={selectedDate}

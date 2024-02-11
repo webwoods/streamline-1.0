@@ -10,6 +10,7 @@ import { RequestPage } from '../entities/dto/request-page.dto';
 import { StoreItem } from '../entities/store-item.entity';
 import { RequestType } from '../entities/enum/requestType';
 import { NotificationPage } from '../entities/dto/notification-page.dto';
+import { RequestStatus } from '../entities/enum/requestStatus';
 
 @Resolver()
 export class ProcurementResolver {
@@ -407,14 +408,18 @@ export class ProcurementResolver {
   async getRequestsWithUser(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
-    @Args('requestType', { type: () => RequestType, nullable: true }) requestType: RequestType | null,
+    @Args('requestType', { type: () => RequestType, nullable: true }) requestType?: RequestType | null,
+    @Args('status', { type: () => RequestStatus, nullable: true }) status?: RequestStatus | null,
+    @Args('updatedAt', { type: () => Date, nullable: true }) updatedAt?: Date | null,
   ): Promise<RequestPage> {
     try {
       const skip = (page - 1) * pageSize;
       const requests = await this.procurementService.getRequestsWithUser(
         skip,
         pageSize,
-        requestType
+        requestType,
+        status,
+        updatedAt
       );
       const requestPage: RequestPage = {
         data: requests.data,
