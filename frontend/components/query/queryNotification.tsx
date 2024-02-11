@@ -16,7 +16,8 @@ const QueryNotification: React.FC = () => {
       variables: {
         page: 1,
         pageSize: 5,
-      }
+      },
+      pollInterval: 30000,
     })
   }, [])
 
