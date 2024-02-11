@@ -61,6 +61,22 @@ export class RequestResolver {
     }
   }
 
+  @Query(() => Int, { name: 'countRequests' })
+  async countRequests(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('requestType', { type: () => RequestType, nullable: true }) requestType?: RequestType | null,
+    @Args('status', { type: () => RequestStatus, nullable: true }) status?: RequestStatus | null,
+    @Args('updatedAt', { type: () => Date, nullable: true }) updatedAt?: Date | null,
+  ): Promise<number> {
+    try {
+      const skip = (page - 1) * pageSize;
+      return await this.requestService.countAllRequests(skip, pageSize, requestType, status, updatedAt);
+    } catch (error: any) {
+      throw new Error(`Error counting requests: ${error.message}`);
+    }
+  }
+
   @Query(() => RequestPage, { name: 'softDeletedRequests' })
   async getSoftDeletedRequests(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,

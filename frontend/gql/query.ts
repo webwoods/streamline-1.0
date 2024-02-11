@@ -39,6 +39,21 @@ query UserByUsernameOrEmail($username: String, $email: String) {
 }
 `;
 
+export const COUNT_SUMMARY_STATS = gql`
+query CountRequests(
+  $page: Int!,
+  $pageSize: Int!,
+  $requestType: RequestType,
+  $status: RequestStatus
+) {
+  countRequests(
+    page: $page
+    pageSize: $pageSize
+    requestType: $requestType
+    status: $status
+  )
+}`;
+
 export const REQUESTS_QUERY = gql`
 query GetRequests(
   $page: Int, 

@@ -6,7 +6,7 @@ import SearchUserInput from "../searchUserInput";
 
 interface Props {
     onNext: () => void
-    formInputStyles: any
+    formInputStyles?: any
     onDataSubmit?: (data: any) => void
     savedData?: any
 };

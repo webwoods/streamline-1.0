@@ -42,6 +42,35 @@ export class RequestService {
     return { data, count };
   }
 
+  async countAllRequests(skip?: number, take?: number, requestType?: RequestType, status?: RequestStatus, updatedAt?: Date): Promise<number> {
+    const whereClause: Record<string, any> = {};
+
+    if (requestType) {
+      whereClause.requestType = requestType;
+    }
+  
+    if (status) {
+      whereClause.status = status;
+    }
+  
+    if (updatedAt) {
+      // Adjust the updatedAt date to cover the entire day
+      const startOfDay = new Date(updatedAt.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(updatedAt.setHours(23, 59, 59, 999));
+  
+      whereClause.updatedAt = Between(startOfDay, endOfDay);
+    }
+    
+    const count = await this.requestRepository.count({
+      skip,
+      take,
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
+      where: whereClause
+    });
+
+    return count;
+  }
+
   async findAllSoftDeletedRequests(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
     const [data, count] = await this.requestRepository.findAndCount({
       skip,

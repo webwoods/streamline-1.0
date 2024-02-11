@@ -7,6 +7,8 @@ import client from '@/gql/client';
 import { useLazyQuery } from '@apollo/client';
 import PartialLoading from '../common/partialLoading';
 import PartialError from '../common/partialError';
+import Image from 'next/image';
+import SVGImage from '../common/image';
 
 const SummaryStatWidget = () => {
     const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });
@@ -44,6 +46,11 @@ const SummaryStatWidget = () => {
                                 <p className='font-semibold'>All Time Requests</p>
                                 <p className='text-xs text-slate-500'>Gas, Lab Euipment and Equipment Maintanance</p>
                                 <p className='text-3xl font-semibold py-2'>{count}</p>
+                                <SVGImage
+                                    src="undraw_delivery_truck_vt6p.svg"
+                                    width={200}
+                                    height={100}
+                                />
                             </div>
                         </div>
                         <div className='w-full'>
