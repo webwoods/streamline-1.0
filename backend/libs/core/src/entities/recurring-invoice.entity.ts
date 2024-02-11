@@ -1,10 +1,13 @@
-import { ObjectType } from '@nestjs/graphql';
-import { Entity } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { ChildEntity, Column, Entity, TableInheritance } from 'typeorm';
 import { Invoice } from './invoice.entity';
 
-@Entity()
+@ChildEntity()
 @ObjectType()
 export class RecurringInvoice extends Invoice {
 
-  // shipment : one to one
+  @Column({ name: 'reccurence_pattern', nullable: true })
+  @Field({ nullable: true })
+  recurrencePattern: string;
+
 }

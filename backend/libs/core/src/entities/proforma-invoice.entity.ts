@@ -1,10 +1,13 @@
-import { ObjectType } from '@nestjs/graphql';
-import { Entity } from 'typeorm';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { ChildEntity, Column, Entity, TableInheritance } from 'typeorm';
 import { Invoice } from './invoice.entity';
 
-@Entity()
+@ChildEntity()
 @ObjectType()
 export class ProformaInvoice extends Invoice {
 
-  // shipment : one to one
+  @Column({ name: 'validity_period', nullable: true })
+  @Field({ nullable: true })
+  validityPeriod?: string;
+
 }
