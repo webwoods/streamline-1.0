@@ -89,6 +89,9 @@ export default function DynamicTable({ headerColumns, data, pageNumber, pageSize
         // this function is rendering cells of the table
         // each column can be styled under the switch case
         const cellValue = getKeyValue(row, columnKey);
+        if (columnKey === 'date') {
+            console.log(cellValue);
+        }
         switch (columnKey) {
             case "status": // don't edit
                 return <Status value={cellValue} status={row.status} />;

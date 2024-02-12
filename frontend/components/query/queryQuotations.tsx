@@ -50,6 +50,7 @@ export function QueryQuotation ({ page, pageSize,filter, renderTable = false, ge
                 requestType: filter?.requestType,
                 status: selectedStatus,
                 updatedAt: selectedDate,
+
             },
         })
     }, [selectedDate, selectedStatus]);
@@ -83,7 +84,7 @@ export function QueryQuotation ({ page, pageSize,filter, renderTable = false, ge
                 return {
                     ...item,
                     id: item.id,
-                    date: new Date(item.expectedAt).toLocaleDateString('en-US'),
+                    'expected date': item.expectedAt,
                     subject: item.subject,
                     'requested by': item.requestedUser.name,
                     status: item.status,
