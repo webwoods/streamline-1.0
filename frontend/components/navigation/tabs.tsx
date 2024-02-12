@@ -1,4 +1,4 @@
-import { faHome, faChartLine, faUsers, faStore, faClipboard, faClipboardCheck, faDollarSign, faWarehouse, faBoxes } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faChartLine, faUsers, faStore, faClipboard, faClipboardCheck, faDollarSign, faWarehouse, faBoxes, faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const tabs = [
@@ -36,6 +36,11 @@ export const tabs = [
     label: "Requests",
     href: "/requests",
     icon: <FontAwesomeIcon icon={faClipboardCheck} />,
+  },
+  {
+    label: "Files",
+    href: "/file-upload",
+    icon: <FontAwesomeIcon icon={faFileArrowUp} />,
   },
   // {
   //   label: "Bills",
