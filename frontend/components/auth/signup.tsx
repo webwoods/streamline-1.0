@@ -1,7 +1,7 @@
 'use client'
 
 // Import necessary libraries and modules
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { REGISTER_NEW_USER } from "@/gql/mutation";
 import { useMutation } from '@apollo/client';
@@ -102,7 +102,14 @@ function SignupForm() {
     if (storedEmail) {
       setEmail(storedEmail);
       setRememberMe(true);
+    } else {
+      setRememberMe(false);
     }
+    setIsVisible(false);
+    setIsEmailInvalid(false);
+    setIsPasswordInvalid(false);
+    setIsConfirmPasswordInvalid(false);
+    setRegistrationSuccess(false);
   }, []);
 
   // Effect hook to redirect to the verification after a successful registration
@@ -134,16 +141,16 @@ function SignupForm() {
           {!registrationSuccess && (
             <>
               <h2 className='mt-5 text-2xl font-semibold'>Join with us!</h2>
-              <p className='text-sm text-gray-400 font-normal'>
+              <span className='text-sm text-gray-400 font-normal'>
                 Already a member? <Link href='/auth/login' className='text-sm font-semibold text-[#197dfd]'>Sign in</Link>
-              </p>
+              </span>
             </>
           )}
         </div>
         {/* Display login form or loading spinner based on login success */}
         {!registrationSuccess ? (
           <>
-            <form className='flex flex-col gap-3'>
+            <div className='flex flex-col gap-3'>
               {/* Email input */}
               <Input
                 label='Email'
@@ -175,7 +182,6 @@ function SignupForm() {
                 errorMessage={isPasswordInvalid ? "Please enter the correct password" : ''}
                 endContent={
                   <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                    {/* Toggle password visibility icon */}
                     {isVisible ? (
                       <FontAwesomeIcon icon={faEyeSlash} />
                     ) : (
@@ -200,7 +206,6 @@ function SignupForm() {
                 errorMessage={isConfirmPasswordInvalid ? "Please enter the correct password" : ''}
                 endContent={
                   <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                    {/* Toggle password visibility icon */}
                     {isVisible ? (
                       <FontAwesomeIcon icon={faEyeSlash} />
                     ) : (
@@ -213,7 +218,6 @@ function SignupForm() {
               {/* Keep me signed in checkbox and Forgot Password link */}
               <div className='flex justify-between'>
                 <div className='flex items-center'>
-                  {/* Keep me signed in checkbox */}
                   <Checkbox
                     checked={rememberMe}
                     onChange={handleRememberMeChange}
@@ -221,7 +225,7 @@ function SignupForm() {
                   <label className='text-sm'>Keep me signed in</label>
                 </div>
               </div>
-            </form>
+            </div>
             {/* Sign Up button */}
             <Button
               className='w-full bg-ctertiary text-white text-md mt-10 hover:bg-accent-yellow hover:text-cprimary'

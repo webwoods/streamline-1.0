@@ -37,9 +37,9 @@ export const tabs = [
     href: "/requests",
     icon: <FontAwesomeIcon icon={faClipboardCheck} />,
   },
-  {
-    label: "Bills",
-    href: "/bills",
-    icon: <FontAwesomeIcon icon={faDollarSign} />,
-  },
+  // {
+  //   label: "Bills",
+  //   href: "/bills",
+  //   icon: <FontAwesomeIcon icon={faDollarSign} />,
+  // },
 ];

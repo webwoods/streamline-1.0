@@ -27,10 +27,10 @@ export const menuItems = [
         label: "Requests",
         href: "/requests",
     },
-    {
-        label: "Bills",
-        href: "/bills",
-    },
+    // {
+    //     label: "Bills",
+    //     href: "/bills",
+    // },
     {
         label: "Profile",
         href: "/profile",
