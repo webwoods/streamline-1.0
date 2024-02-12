@@ -8,8 +8,8 @@ import { Button, Divider } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 
 interface Props {
-    onVerify: () => void
-    onBack: () => void
+    onVerify?: () => void
+    onBack?: () => void
     data?: any
 }
 
@@ -166,7 +166,7 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
     useEffect(() => {
         alert("Successfully Created the Request!");
-        onVerify();
+        onVerify && onVerify();
     }, [updateRequestData]);
 
     return (

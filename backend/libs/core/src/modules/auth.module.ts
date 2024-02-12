@@ -9,6 +9,7 @@ import { RoleModule } from '../modules/role.module';
 import { PassportModule } from '@nestjs/passport';
 import { MailModule } from './mail.module';
 import { NotificationModule } from './notification.module';
+import { FeedbackModule } from './feedback.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { NotificationModule } from './notification.module';
     RoleModule,
     VerificationCodesModule,
     MailModule,
-
+    FeedbackModule,
+    
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),

@@ -3,17 +3,21 @@ export const menuItems = [
         label: "Dashboard",
         href: "/dashboard",
     },
-    {
-        label: "Insights",
-        href: "/insights",
-    },
-    {
-        label: "Employees",
-        href: "/employees",
-    },
+    // {
+    //     label: "Insights",
+    //     href: "/insights",
+    // },
+    // {
+    //     label: "Employees",
+    //     href: "/employees",
+    // },
     {
         label: "Vendors",
         href: "/vendors",
+    },
+    {
+        label: "Store",
+        href: "/store",
     },
     {
         label: "Activity",

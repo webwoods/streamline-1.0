@@ -41,24 +41,23 @@ export class NotificationResolver {
     private readonly notificationService: NotificationService
   ) { }
 
-  // All
-
+  //Notification
   @Query(() => NotificationPage, { name: 'notifications' })
   async getNotifications(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('recieverId', { type: () => String, nullable: true }) recieverId?: string,
+    @Args('type', { type: () => String, nullable: true }) type?: string,
   ): Promise<NotificationPage> {
     try {
       const skip = (page - 1) * pageSize;
-      const notifications = await this.notificationService.findAllRequestNotifications(skip, pageSize);
-      const notificationPage: NotificationPage = { data: notifications, totalItems: notifications.length };
+      const notifiations = await this.notificationService.findAllNotifications(skip, pageSize, type, recieverId);
+      const notificationPage: NotificationPage = { data: notifiations, totalItems: notifiations.length };
       return notificationPage;
     } catch (error: any) {
       throw new Error(`Error fetching notifications: ${error.message}`);
     }
   }
-
-  // Request Notification
 
   @Query(() => RequestNotification, { name: 'requestNotification' })
   async getRequestNotificationById(@Args('id') id: string): Promise<RequestNotification> {

@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Not, Repository } from 'typeorm';
+import { Between, IsNull, Not, Repository } from 'typeorm';
 import { Request } from '../entities/request.entity';
 import { apolloClient } from '../apollo/client';
 import { RequestType } from '../entities/enum/requestType';
+import { RequestStatus } from '../entities/enum/requestStatus';
 
 @Injectable()
 export class RequestService {
@@ -12,23 +13,69 @@ export class RequestService {
     private readonly requestRepository: Repository<Request>,
   ) { }
 
-  async findAllRequests(skip?: number, take?: number, requestType?: RequestType): Promise<{ data: Request[]; count: number }> {
+  async findAllRequests(skip?: number, take?: number, requestType?: RequestType, status?: RequestStatus, updatedAt?: Date): Promise<{ data: Request[]; count: number }> {
+    const whereClause: Record<string, any> = {};
+
+    if (requestType) {
+      whereClause.requestType = requestType;
+    }
+  
+    if (status) {
+      whereClause.status = status;
+    }
+  
+    if (updatedAt) {
+      // Adjust the updatedAt date to cover the entire day
+      const startOfDay = new Date(updatedAt.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(updatedAt.setHours(23, 59, 59, 999));
+  
+      whereClause.updatedAt = Between(startOfDay, endOfDay);
+    }
+    
     const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
-      relations: { file: true, requestItems: { storeItem: true } },
-      where: {
-        requestType: requestType
-      }
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
+      where: whereClause
     });
+
     return { data, count };
+  }
+
+  async countAllRequests(skip?: number, take?: number, requestType?: RequestType, status?: RequestStatus, updatedAt?: Date): Promise<number> {
+    const whereClause: Record<string, any> = {};
+
+    if (requestType) {
+      whereClause.requestType = requestType;
+    }
+  
+    if (status) {
+      whereClause.status = status;
+    }
+  
+    if (updatedAt) {
+      // Adjust the updatedAt date to cover the entire day
+      const startOfDay = new Date(updatedAt.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(updatedAt.setHours(23, 59, 59, 999));
+  
+      whereClause.updatedAt = Between(startOfDay, endOfDay);
+    }
+    
+    const count = await this.requestRepository.count({
+      skip,
+      take,
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
+      where: whereClause
+    });
+
+    return count;
   }
 
   async findAllSoftDeletedRequests(skip?: number, take?: number): Promise<{ data: Request[]; count: number }> {
     const [data, count] = await this.requestRepository.findAndCount({
       skip,
       take,
-      relations: { file: true, requestItems: { storeItem: true } },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       withDeleted: true,
       where: {
         deletedAt: Not(IsNull())
@@ -45,7 +92,7 @@ export class RequestService {
     const data = await this.requestRepository.find({
       skip,
       take,
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: {
         requestedUserId: userId,
       },
@@ -55,13 +102,7 @@ export class RequestService {
 
   async findRequestById(id: string): Promise<Request | null> {
     return await this.requestRepository.findOne({
-      relations: {
-        file: true,
-        requestItems: {
-          storeItem: true
-        },
-        notifications: true
-      },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
   }
@@ -70,7 +111,7 @@ export class RequestService {
     const request = this.requestRepository.create(input);
     const createdRequest = await this.requestRepository.save(request);
     return await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id: createdRequest.id },
     });
   }
@@ -80,7 +121,7 @@ export class RequestService {
     input: Partial<Request>,
   ): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
 
@@ -98,7 +139,7 @@ export class RequestService {
 
   async deleteRequest(id: string): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
     await this.requestRepository.delete(id);
@@ -107,7 +148,7 @@ export class RequestService {
 
   async softDeleteRequest(id: string): Promise<Request | null> {
     const request = await this.requestRepository.findOne({
-      relations: { file: true, requestItems: { storeItem: true }, notifications: true },
+      relations: { file: true, requestItems: { storeItem: true }, notifications: true, invoices: true, vendor: true },
       where: { id },
     });
     await this.requestRepository.softDelete(id);

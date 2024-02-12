@@ -1,4 +1,4 @@
-import { faHome, faChartLine, faUsers, faStore, faClipboard, faClipboardCheck, faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faChartLine, faUsers, faStore, faClipboard, faClipboardCheck, faDollarSign, faWarehouse, faBoxes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const tabs = [
@@ -7,20 +7,25 @@ export const tabs = [
     href: "/dashboard",
     icon: <FontAwesomeIcon icon={faHome} />,
   },
-  {
-    label: "Insights",
-    href: "/insights",
-    icon: <FontAwesomeIcon icon={faChartLine} />,
-  },
-  {
-    label: "Employees",
-    href: "/employees",
-    icon: <FontAwesomeIcon icon={faUsers} />,
-  },
+  // {
+  //   label: "Insights",
+  //   href: "/insights",
+  //   icon: <FontAwesomeIcon icon={faChartLine} />,
+  // },
+  // {
+  //   label: "Employees",
+  //   href: "/employees",
+  //   icon: <FontAwesomeIcon icon={faUsers} />,
+  // },
   {
     label: "Vendors",
     href: "/vendors",
     icon: <FontAwesomeIcon icon={faStore} />,
+  },
+  {
+    label: "Store",
+    href: "/store",
+    icon: <FontAwesomeIcon icon={faBoxes} />,
   },
   {
     label: "Activity",

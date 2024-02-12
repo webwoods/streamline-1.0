@@ -9,10 +9,12 @@ import { Request } from '../entities/request.entity';
 import { RequestPage } from '../entities/dto/request-page.dto';
 import { StoreItem } from '../entities/store-item.entity';
 import { RequestType } from '../entities/enum/requestType';
+import { NotificationPage } from '../entities/dto/notification-page.dto';
+import { RequestStatus } from '../entities/enum/requestStatus';
 
 @Resolver()
 export class ProcurementResolver {
-  constructor(private readonly procurementService: ProcurementService) {}
+  constructor(private readonly procurementService: ProcurementService) { }
   @Mutation(() => Request)
   async addRequestItemsToRequest(
     @Args('requestId') requestId: string,
@@ -406,20 +408,47 @@ export class ProcurementResolver {
   async getRequestsWithUser(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
-    @Args('requestType', {type: () => RequestType, nullable: true}) requestType: RequestType | null,
+    @Args('requestType', { type: () => RequestType, nullable: true }) requestType?: RequestType | null,
+    @Args('status', { type: () => RequestStatus, nullable: true }) status?: RequestStatus | null,
+    @Args('updatedAt', { type: () => Date, nullable: true }) updatedAt?: Date | null,
   ): Promise<RequestPage> {
     try {
       const skip = (page - 1) * pageSize;
       const requests = await this.procurementService.getRequestsWithUser(
         skip,
         pageSize,
-        requestType
+        requestType,
+        status,
+        updatedAt
       );
       const requestPage: RequestPage = {
         data: requests.data,
         totalItems: requests.count,
       };
       return requestPage;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  @Query(() => NotificationPage)
+  async getNotificationsWithUser(
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
+    @Args('pageSize', { type: () => Int, defaultValue: 10 }) pageSize: number,
+    @Args('type', { type: () => String, nullable: true }) type: string | null,
+  ): Promise<NotificationPage> {
+    try {
+      const skip = (page - 1) * pageSize;
+      const notifications = await this.procurementService.getNotificationsWithUsers(
+        skip,
+        pageSize,
+        type
+      );
+      const notificationPage: NotificationPage = {
+        data: notifications.data,
+        totalItems: notifications.count,
+      };
+      return notificationPage;
     } catch (error) {
       throw new Error(error);
     }

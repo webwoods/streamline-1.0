@@ -9,20 +9,59 @@ import UpdateRequest from '../forms/requests/updateRequest';
 interface Props {
     page: number
     pageSize: number
-    filter?: string
+    filter?: any
     renderTable?: boolean
     getActiveRecord?: (record: any) => typeof record
 }
 
 export function QueryRequests({ page, pageSize, filter, renderTable = false, getActiveRecord }: Props) {
 
-    const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
-        client,
-        variables: { page, pageSize,requestType:'REQUEST' },
-    });
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
 
-    // const [getRequests, { loading, error, data }] = useLazyQuery(REQUESTS_QUERY, { client });
-    
+    // const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
+    //     client,
+    // variables: { 
+    //     page, 
+    //     pageSize, 
+    //     requestType: filter?.requestType,
+    //     status: selectedStatus,
+    //     updatedAt: selectedDate,
+    // },
+    // });
+
+    const [getRequests, { loading, error, data, refetch }] = useLazyQuery(REQUESTS_QUERY, { client });
+
+    useEffect(() => {
+        getRequests({
+            variables: {
+                page,
+                pageSize,
+                requestType: filter?.requestType,
+                status: selectedStatus,
+                updatedAt: selectedDate,
+            },
+        })
+    }, [])
+
+    useEffect(() => {
+        setSelectedDate(filter?.updatedAt);
+        setSelectedStatus(filter?.status);
+    }, [filter])
+
+    useEffect(() => {
+        console.log({ selectedDate, selectedStatus });
+        getRequests({
+            variables: {
+                page,
+                pageSize,
+                requestType: filter?.requestType,
+                status: selectedStatus,
+                updatedAt: selectedDate,
+            },
+        })
+    }, [selectedDate, selectedStatus]);
+
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
         // Fetch data with the new page and pageSize
         // This function is used as callback from the DynamicTable component

@@ -19,9 +19,9 @@ export class VerificationCode extends StreamLineEntity {
     this.expirationDate = date;
   }
 
-  @Column({ name: 'user_id' })
+  @Column({ name: 'user_id', nullable: true })
   @Field()
-  userId!: string;
+  userId: string;
 
   @ManyToOne(() => User, (user: User) => user.verificationCodes, {
     onDelete: 'SET NULL',

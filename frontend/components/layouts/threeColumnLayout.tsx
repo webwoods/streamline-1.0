@@ -2,9 +2,9 @@
 
 import React, { ReactNode } from 'react';
 interface Props {
-  startContent: ReactNode;
-  middleContent: ReactNode;
-  endContent: ReactNode;
+  startContent?: ReactNode;
+  middleContent?: ReactNode;
+  endContent?: ReactNode;
 }
 
 export function ThreeColumnLayout({ startContent, middleContent, endContent }: Readonly<Props>) {

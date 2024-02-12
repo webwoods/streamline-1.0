@@ -37,10 +37,16 @@ export const BasicProfileInfo = forwardRef<any, Props>((props, ref) => {
         console.log(email?.current?.value);
         console.log(RoleName?.current?.value);
         console.log(division?.current?.value);
+        
+        const fName = firstName?.current?.value;
+        const lName = lastName?.current?.value;
+        let name : string = "";
+        if(fName && lName){
+            name= `${fName} ${lName}`
+        }
 
         props.getBioInfoData && props.getBioInfoData({
-            firstName: firstName?.current?.value,
-            lastName: lastName?.current?.value,
+            name:name,
             email: email?.current?.value,
             role: RoleName?.current?.value,
             division: division?.current?.value

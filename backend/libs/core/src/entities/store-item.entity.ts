@@ -4,6 +4,7 @@ import { Entity, Column, ManyToMany, JoinTable, OneToOne, OneToMany } from 'type
 import { Property } from './property.entity';
 import { RequestItem } from './request-items.entity';
 import { StoreItemNotification } from './store-item-notification.entity';
+import { Vendor } from './vendor.entity';
 
 @Entity()
 @ObjectType()
@@ -38,8 +39,8 @@ export class StoreItem extends StreamLineEntity {
     onUpdate: 'CASCADE',
   })
   @JoinTable({
-    name: 'request_item_properties',
-    joinColumn: { name: 'request_item_id', referencedColumnName: 'id' },
+    name: 'store_item_properties',
+    joinColumn: { name: 'store_item_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'property_id', referencedColumnName: 'id' },
   })
   @Field(() => [Property], { nullable: true })
@@ -51,4 +52,12 @@ export class StoreItem extends StreamLineEntity {
   @OneToMany(() => StoreItemNotification, (entity: StoreItemNotification) => entity.storeItem)
   @Field(() => [StoreItemNotification], { nullable: true })
   notifications: StoreItemNotification[];
+
+  @ManyToMany(() => Vendor, (vendor) => vendor.storeItems,
+  {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @Field(() => [Vendor], { nullable: true })
+  vendors: Vendor[];
 }

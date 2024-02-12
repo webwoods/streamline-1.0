@@ -17,6 +17,7 @@ import { StoreItem } from '../entities/store-item.entity';
 import { StoreItemsService } from './store-items.service';
 import { NotificationService } from './notifiation.service';
 import { RequestType } from '../entities/enum/requestType';
+import { Notification } from '../entities/notification.entity';
 
 @Injectable()
 export class ProcurementService {
@@ -433,9 +434,9 @@ export class ProcurementService {
     }
   }
 
-  async getRequestsWithUser(skip?: number, take?: number, requestType?: RequestType): Promise<{ data: Request[]; count: number }> {
+  async getRequestsWithUser(skip?: number, take?: number, requestType?: RequestType, status?: RequestStatus, updatedAt?: Date): Promise<{ data: Request[]; count: number }> {
     try {
-      const requests = await this.requestService.findAllRequests(skip, take, requestType);
+      const requests = await this.requestService.findAllRequests(skip, take, requestType, status, updatedAt);
       const requestsWithUsers = await Promise.all(requests.data.map(async (request: Request) => {
         if (request.requestedUserId) {
           request.requestedUser = await this.getUserByIdFromAuth(request.requestedUserId);
@@ -443,6 +444,23 @@ export class ProcurementService {
         return request;
       }));
       return { data: requestsWithUsers, count: requests.count };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getNotificationsWithUsers(skip?: number, take?: number, type?: string): Promise<{ data: Notification[]; count: number }> {
+    try {
+      const notifications = await this.notificationService.findAllNotifications(skip, take, type);
+      const notificationsWithUsers = await Promise.all(
+        notifications.map(async (notification: Notification) => {
+          if (notification.senderId) {
+            notification.sender = await this.getUserByIdFromAuth(notification.senderId);
+          }
+          return notification;
+        })
+      );
+      return { data: notificationsWithUsers, count: notifications.length };
     } catch (error) {
       throw new Error(error);
     }
