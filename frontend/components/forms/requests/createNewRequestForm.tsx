@@ -5,11 +5,14 @@ import CreateBlock from './createBlock';
 import AddItemsBlock from './addItemsBlock';
 import VerifyBlock from './verifyBlock';
 import { formInputStyles } from '../styles';
+import { useRouter } from 'next/navigation';
 
 export default function CreateNewRequestForm() {
 
   const [activeBlock, setActiveBlock] = useState(0);
   const [formData, setFormData] = useState<any>();
+
+  const router = useRouter();
 
   const onDataSubmit = useCallback((data: any) => {
     setFormData((prevData: any) => ({
@@ -50,6 +53,7 @@ export default function CreateNewRequestForm() {
       key={2}
       onVerify={() => {
         setFormData(null);
+        router.push('/requests');
       }}
       onBack={() => setActiveBlock(1)}
       data={formData}

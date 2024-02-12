@@ -92,7 +92,12 @@ export function MainNavbar() {
           <UserProfileButton />
         </NavbarItem>
         <NavbarItem >
-          <ModalNotification />
+          {/* <ModalNotification /> */}
+          <Button
+            className="bg-transparent text-white"
+            onClick={() => { router.push('/docs') }}
+            radius="full"
+          >Docs</Button>
         </NavbarItem>
       </NavbarContent>
 

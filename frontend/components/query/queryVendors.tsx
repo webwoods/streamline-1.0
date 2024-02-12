@@ -11,7 +11,7 @@ import { Pagination } from "@nextui-org/react";
 interface Props {
     page: number
     pageSize: number
-    filter?: string
+    region?: string
     renderTable?: boolean
     getActiveRecord?: (record: any) => typeof record
 }
@@ -19,12 +19,13 @@ interface Props {
 export default function QueryVendors({
     page,
     pageSize,
-    filter,
+    region,
     renderTable,
 }: Props) {
     const [isEmptyPage, setIsEmptyPage] = useState<boolean>(true); // Fix: Set initial state to true
     const [visiblePageSize, setVisiblePageSize] = useState<number>(10);
     const [visiblePage, setVisiblePage] = useState<number>(1);
+    const [visibleRegion, setVisibleRegion] = useState<string>('all');
 
     const [getVendors, { loading, error, data }] = useLazyQuery(VENDORS_QUERY, { client });
 
@@ -37,13 +38,25 @@ export default function QueryVendors({
     useEffect(() => {
         setVisiblePage(page);
         setVisiblePageSize(pageSize);
-        getVendors({ variables: { page, pageSize } });
+        setVisibleRegion(region || 'all');
+        getVendors({
+            variables: {
+                page,
+                pageSize,
+                region: visibleRegion !== 'all' ? visibleRegion?.toUpperCase() : null
+            }
+        });
     }, []);
 
     useEffect(() => {
-        console.log('visible page size changed');
-        getVendors({ variables: { page: visiblePage, pageSize: visiblePageSize } });
-    }, [visiblePage, visiblePageSize]);
+        getVendors({
+            variables: {
+                page: visiblePage,
+                pageSize: visiblePageSize,
+                region: visibleRegion !== 'all' ? visibleRegion?.toUpperCase() : null
+            }
+        });
+    }, [visiblePage, visiblePageSize, visibleRegion]);
 
     useEffect(() => {
         if (error) {
@@ -57,6 +70,11 @@ export default function QueryVendors({
         }
     }, [error, data]);
 
+    useEffect(() => {
+        console.log('child recieved ', region);
+        region && setVisibleRegion(region);
+    }, [region]);
+    
     return (
         <div className="grid grid-cols-4 w-full">
             <div className="col-span-3 flex flex-col gap-5 bg-white p-5 rounded-lg">

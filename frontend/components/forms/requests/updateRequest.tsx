@@ -67,7 +67,9 @@ export default function UpdateRequest({ data }: Props) {
       })
 
     }
+  }, [formData]);
 
+  useEffect(() => {
     if (updateRequestError) {
       alert('Update Request Failed!')
     }
@@ -75,8 +77,9 @@ export default function UpdateRequest({ data }: Props) {
     if (updateRequestData) {
       alert('Request Successfully Updated!');
       // console.log('form update!', formData);
+      onOpenChange();
     }
-  }, [formData]);
+  }, [updateRequestData]);
 
   return (
     <>

@@ -28,9 +28,13 @@ export const menuItems = [
         href: "/requests",
     },
     {
-        label: "Bills",
-        href: "/bills",
+        label: "Files",
+        href: "/file-upload",
     },
+    // {
+    //     label: "Bills",
+    //     href: "/bills",
+    // },
     {
         label: "Profile",
         href: "/profile",

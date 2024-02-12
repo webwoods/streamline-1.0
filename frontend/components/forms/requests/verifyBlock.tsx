@@ -71,11 +71,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                 expectedAt: new Date(requestData?.expectedAt)
             }
         });
-
-        if (createRequestError) {
-            alert(createRequestError);
-            return;
-        }
     }
 
     const calculateTotals = useMemo(() => {
@@ -117,11 +112,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
 
             createRequestItemsMutation({ variables: { input: { requestItems: newRequestItemsArray } } });
         }
-
-        if (createRequestItemError) {
-            alert(createRequestItemError);
-            return;
-        }
     }, [createRequestData])
 
     useEffect(() => {
@@ -132,13 +122,6 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                     requestItemIds: createRequestItemData?.createRequestItems?.map((item: any) => (item.id))
                 }
             })
-        }
-
-        if (addRequestItemsError) {
-            alert(addRequestItemsError);
-            deleteRequestMutation({ variables: { id: createRequestData?.createRequest?.id } });
-            deleteRequestItemsMutation({ variables: { ids: createRequestItemData?.createRequestItems?.map((item: any) => (item.id)) } });
-            return;
         }
     }, [createRequestItemData])
 
@@ -157,17 +140,32 @@ export default function VerifyBlock({ onVerify, onBack, data }: Props) {
                 }
             })
         }
-
-        if (updateRequestError) {
-            alert(updateRequestError);
-            return;
-        }
     }, [addRequestItemsData])
 
     useEffect(() => {
-        alert("Successfully Created the Request!");
-        onVerify && onVerify();
+        if (createRequestData && createRequestItemData && addRequestItemsData && updateRequestData) {
+            alert("Successfully Created the Request!");
+            onVerify && onVerify();
+        }
     }, [updateRequestData]);
+
+    if (createRequestError) {
+        alert(createRequestError);
+    }
+
+    if (createRequestItemError) {
+        alert(createRequestItemError);
+    }
+
+    if (addRequestItemsError) {
+        alert(addRequestItemsError);
+        deleteRequestMutation({ variables: { id: createRequestData?.createRequest?.id } });
+        deleteRequestItemsMutation({ variables: { ids: createRequestItemData?.createRequestItems?.map((item: any) => (item.id)) } });
+    }
+
+    if (updateRequestError) {
+        alert(updateRequestError);
+    }
 
     return (
         <div className='w-96 max-w-3xl py-10'>

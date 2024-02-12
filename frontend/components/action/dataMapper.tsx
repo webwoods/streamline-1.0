@@ -199,27 +199,27 @@ export const EditableSubjectMapper = forwardRef((
     }), [inputRef]);
 
     return (
-        <Input
-            ref={inputRef}
-            label={
-                <div className="flex items-center">
-                    <span>Subject: </span>
-                    <ToolTipIconOnlyButton
-                        content={isReadOnly ? 'edit' : 'save'}
-                        onClick={handleIsReadOnly}
-                        isReadOnly={isReadOnly}
-                    />
-                </div>
-            }
-            labelPlacement="outside"
-            isReadOnly={isReadOnly}
-            classNames={{
-                ...style,
-                mainWrapper: 'w-full'
-            }}
-            placeholder={content}
-            defaultValue={content}
-        />
+        <div>
+            <div className="flex items-center">
+                <span className="font-semibold">Subject: </span>
+                <ToolTipIconOnlyButton
+                    content={isReadOnly ? 'edit' : 'save'}
+                    onClick={handleIsReadOnly}
+                    isReadOnly={isReadOnly}
+                />
+            </div>
+            <Input
+                ref={inputRef}
+                labelPlacement="outside"
+                isReadOnly={isReadOnly}
+                classNames={{
+                    ...style,
+                    mainWrapper: 'w-full'
+                }}
+                placeholder={content}
+                defaultValue={content}
+            />
+        </div>
     );
 });
 
