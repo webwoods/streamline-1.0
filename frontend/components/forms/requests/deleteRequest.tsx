@@ -93,18 +93,16 @@ export default function DeleteRequest({ data }: Props) {
 	};
 
 	useEffect(() => {
-		useEffect(() => {
-			if (deleteRequestError) {
-				alert('delete Request Failed!')
-			}
+		if (deleteRequestError) {
+			alert('delete Request Failed!')
+		}
 
-			if (deleteRequestData) {
-				alert('Request Successfully Deleted!');
-				// console.log('form delete!', formData);
-				onOpenChange();
-			}
-		}, [deleteRequestData]);
-	}, [deleteRequestData])
+		if (deleteRequestData) {
+			alert('Request Successfully Deleted!');
+			// console.log('form delete!', formData);
+			onOpenChange();
+		}
+	}, [deleteRequestData]);
 
 	return (
 		<>

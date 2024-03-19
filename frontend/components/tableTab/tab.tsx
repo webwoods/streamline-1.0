@@ -182,7 +182,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 				</Suspense>
 				<Suspense fallback={<PartialLoading />}>
 					{activeTab === "Quotations" && (
-						<QueryPurchaseOrders
+						<QueryQuotation
 							page={1}
 							pageSize={10}
 							filter={{

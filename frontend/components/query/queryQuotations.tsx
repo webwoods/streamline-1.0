@@ -1,22 +1,59 @@
 import { REQUESTS_QUERY } from "@/gql/query";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import client from '@/gql/client';
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import DynamicTable from "../table/table";
 
 interface Props {
     page: number
     pageSize: number
+    filter?: any
     renderTable?: boolean
     getActiveRecord?: (record: any) => typeof record
 }
 
-export function QueryQuotation ({ page, pageSize, renderTable = false, getActiveRecord }: Props){
-    const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
-        client,
-        variables: { page, pageSize , requestType:'QUOTATION' },
-    });
+export function QueryQuotation ({ page, pageSize,filter, renderTable = false, getActiveRecord }: Props){
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+    
+    // const { loading, error, data, refetch } = useQuery(REQUESTS_QUERY, {
+    //     client,
+    //     variables: { page, pageSize , requestType:'QUOTATION' },
+    // });
+
+    const [getRequests, { loading, error, data, refetch }] = useLazyQuery(REQUESTS_QUERY, { client });
+
+    useEffect(() => {
+        getRequests({
+            variables: {
+                page,
+                pageSize,
+                requestType: filter?.requestType,
+                status: selectedStatus,
+                updatedAt: selectedDate,
+            },
+        })
+    }, [])
+
+    useEffect(() => {
+        setSelectedDate(filter?.updatedAt);
+        setSelectedStatus(filter?.status);
+    }, [filter])
+
+    useEffect(() => {
+        console.log({ selectedDate, selectedStatus });
+        getRequests({
+            variables: {
+                page,
+                pageSize,
+                requestType: filter?.requestType,
+                status: selectedStatus,
+                updatedAt: selectedDate,
+
+            },
+        })
+    }, [selectedDate, selectedStatus]);
 
     const handlePaginationChange = useCallback((newPage: number, newPageSize: number) => {
         refetch({ page: newPage, pageSize: newPageSize });
@@ -40,14 +77,14 @@ export function QueryQuotation ({ page, pageSize, renderTable = false, getActive
         const total = data.getRequestsWithUser.totalItems;
 
         if (renderTable) {
-            const headerColumns = ["date", "subject", "requested by", "status", "actions"];
+            const headerColumns = ["expected date", "subject", "status", "actions"];
             const tableData = extracted.map((item: any, index: number) => {
                 // table data needs to be mapped to the column header 
                 // accordingly in order to properly render as cells inside the table.
                 return {
                     ...item,
                     id: item.id,
-                    date: new Date(item.updatedAt).toLocaleDateString('en-US'),
+                    'expected date': item.expectedAt,
                     subject: item.subject,
                     'requested by': item.requestedUser.name,
                     status: item.status,

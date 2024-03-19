@@ -107,6 +107,7 @@ query GetRequests(
         }
       }
       status
+      expectedAt
       forwardTo
     }
     totalItems
@@ -231,6 +232,9 @@ query Vendors($page: Int!, $pageSize: Int!, $region: Region) {
       deletedAt
       name
       email
+      requests {
+        id
+      }
       phone
       group
       address {
