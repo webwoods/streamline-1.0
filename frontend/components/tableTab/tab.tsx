@@ -153,7 +153,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 					{activeTab === "Requests" && (
 						<QueryRequests
 							page={1}
-							pageSize={10}
+							pageSize={5}
 							filter={{
 								requestType: 'REQUEST',
 								status: selectedStatus,
@@ -168,7 +168,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 					{activeTab === "Purchase Orders" && (
 						<QueryPurchaseOrders
 							page={1}
-							pageSize={10}
+							pageSize={5}
 							filter={{
 								requestType: 'PURCHASE_ORDER',
 								status: selectedStatus,
@@ -184,7 +184,7 @@ export default function TableTabs({ getActiveTabActiveRecord }: Props) {
 					{activeTab === "Quotations" && (
 						<QueryQuotation
 							page={1}
-							pageSize={10}
+							pageSize={5}
 							filter={{
 								requestType: 'QUOTATION',
 								status: selectedStatus,

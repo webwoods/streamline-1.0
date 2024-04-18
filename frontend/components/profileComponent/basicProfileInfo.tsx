@@ -95,7 +95,7 @@ export const BasicProfileInfo = forwardRef<any, Props>((props, ref) => {
                             placeholder='billy@jeans.com'
                             type='email'
                             ref={email}
-                            allIsReadOnly={allIsReadOnly}
+                            allIsReadOnly={!allIsReadOnly}
                         />
 
                         <FormField

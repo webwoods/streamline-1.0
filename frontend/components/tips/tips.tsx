@@ -19,7 +19,7 @@ export default function Tips() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % tipMessages.length);
-    }, 15000);
+    }, 100000);
 
     return () => clearInterval(intervalId);
   }, []);

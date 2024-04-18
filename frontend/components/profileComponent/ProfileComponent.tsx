@@ -17,19 +17,22 @@ import { UPDATE_USER_MUTATION, VERIFY_PASSWORD_MUTATION } from '@/gql/mutation';
 function ProfileComponent() {
 
     const [currentUserId, setCurrentUserId] = useState<string>();
+
     const [getCurrentUser, { loading, error, data }] = useLazyQuery(USER_QUERY, { client });
+    
     const [currentUserName, setCurrentUserName] = useState<string>();
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     const [selected, setSelected] = useState<string>("bio");
-    const [formData, setFormData] = useState<any>();
+    const [formData, setFormData] = useState<any>(null);
     const [allIsReadOnly, setAllIsReadOnly] = useState<boolean>(true);
-    const [UpdateUserMutation, { loading:updateUserLoading, data:updateUserData, error:UpdateUserError }] = useMutation(UPDATE_USER_MUTATION, { client })
+
+    const [UpdateUserMutation, { loading: updateUserLoading, data: updateUserData, error: UpdateUserError }] = useMutation(UPDATE_USER_MUTATION, { client });
 
     const handleAllIsReadOnly = () => {
         setAllIsReadOnly((prevAllIsReadOnly) => !prevAllIsReadOnly)
     }
 
-    const handleChangePassword = (data : any)=> {
+    const handleChangePassword = (data: any) => {
         console.log('profile component received changed password', data);
     }
 
@@ -41,24 +44,30 @@ function ProfileComponent() {
         console.log('clicked cancel!!');
     }
 
-    const getDataFromBio = (data: any) => { 
-        setFormData(data) };
+    const getDataFromBio = (data: any) => {
+        setFormData(data)
+    };
 
-    useEffect(()=>{
-        if(formData!==null || formData!==undefined){
+    useEffect(() => {
+        setFormData(null);
+    }, [])
+
+    useEffect(() => {
+        console.log('form data ', formData);
+        if (currentUserId !== null && (formData !== null || formData !== undefined) ) {
             UpdateUserMutation({
                 variables: {
-                    id:currentUserId,
+                    id: currentUserId,
                     input: {
-                        name: formData?.name!== '' ? formData?.name : data?.user?.name,
-                        email: formData?.email!=='' ? formData?.email : data?.user?.email,
-                        username : formData?.username !== '' ? formData?.username : data?.username.email
+                        name: formData?.name !== '' ? formData?.name : data?.user?.name,
+                        email: formData?.email !== '' ? formData?.email : data?.user?.email,
+                        username: formData?.username !== '' ? formData?.username : data?.username.email
                     }
                 }
             })
-    
+
         }
-    },[formData])
+    }, [formData])
 
     useEffect(() => {
         // when the component initially loads, fetch the current user cookie
@@ -75,26 +84,26 @@ function ProfileComponent() {
     useEffect(() => {
         // when the currentUserId is set, then check if it is valid.
         // if yes, fetch the user data from db using lazy query.
-        if (currentUserId) {
+        if (currentUserId !== null) {
             getCurrentUser({ variables: { id: currentUserId } });
         }
     }, [currentUserId]);
 
-    useEffect(()=>{
-        if(data){
+    useEffect(() => {
+        if (data) {
             console.log(data)
         }
-    },[data])
-    
-    useEffect(()=>{
-        if(updateUserData){
+    }, [data])
+
+    useEffect(() => {
+        if (updateUserData) {
             alert('Successfully Created User');
         }
-    },[updateUserData])
+    }, [updateUserData])
 
     if (loading) { return <Loading />; }
     if (error) { return <div className='p-10'>error: {JSON.stringify(error)}</div> }
-    
+
     return (
         < div className='flex  flex-col p-10 gap-3 w-full bg-white h-max rounded-2xl' >
             <div>
@@ -140,8 +149,17 @@ function ProfileComponent() {
                 </div>
 
                 <div className='col-span-3 flex flex-col item-center gap-2'>
-                    {selected === 'bio' && <BasicProfileInfo allIsReadOnly={allIsReadOnly} getBioInfoData={getDataFromBio} isLoggedIn={loggedIn} />}
-                    {selected === 'privacy' && <PrivacyComponent onPasswordChange={handleChangePassword} username={data?.user?.username}/>}
+                    {selected === 'bio' &&
+                        <BasicProfileInfo
+                            allIsReadOnly={allIsReadOnly}
+                            getBioInfoData={getDataFromBio}
+                            isLoggedIn={loggedIn}
+                        />}
+                    {selected === 'privacy' &&
+                        <PrivacyComponent
+                            onPasswordChange={handleChangePassword}
+                            username={data?.user?.username}
+                        />}
                     {/* {selected==='bio' && <BasicProfileInfo/>} */}
 
                 </div>
